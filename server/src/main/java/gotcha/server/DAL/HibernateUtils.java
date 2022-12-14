@@ -4,11 +4,10 @@ package gotcha.server.DAL;
 //import net.bytebuddy.asm.Advice;
 //
 //import javax.persistence.*;
+import gotcha.server.Domain.QuestionsModule.Question;
+
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class HibernateUtils {
@@ -16,6 +15,74 @@ public class HibernateUtils {
     }
 
     public static void set_normal_use() {
+    }
+
+    public static Map<Integer, Question> get_questions() {
+        return new Map<Integer, Question>() {
+            @Override
+            public int size() {
+                return 0;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public boolean containsKey(Object o) {
+                return false;
+            }
+
+            @Override
+            public boolean containsValue(Object o) {
+                return false;
+            }
+
+            @Override
+            public Question get(Object o) {
+                return null;
+            }
+
+            @Override
+            public Question put(Integer integer, Question question) {
+                return null;
+            }
+
+            @Override
+            public Question remove(Object o) {
+                return null;
+            }
+
+            @Override
+            public void putAll(Map<? extends Integer, ? extends Question> map) {
+
+            }
+
+            @Override
+            public void clear() {
+
+            }
+
+            @Override
+            public Set<Integer> keySet() {
+                return null;
+            }
+
+            @Override
+            public Collection<Question> values() {
+                return null;
+            }
+
+            @Override
+            public Set<Entry<Integer, Question>> entrySet() {
+                return null;
+            }
+        };
+    }
+
+    public static int get_max_question_id() {
+        return 1;
     }
 
 //    private static EntityManagerFactory emf;

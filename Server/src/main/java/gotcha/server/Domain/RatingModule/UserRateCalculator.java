@@ -1,5 +1,8 @@
 package gotcha.server.Domain.RatingModule;
 
+import gotcha.server.Domain.RidesModule.Ride;
+import gotcha.server.Domain.UserModule.User;
+
 import java.util.Dictionary;
 import java.util.List;
 
@@ -16,9 +19,9 @@ public class UserRateCalculator {
      * @param user - rider who just finish ride.
      * @param ride - the last ride.
      */
-//    public void update_user_rating(User user, Ride ride){
-//
-//    }
+    public void update_user_rating(User user, Ride ride){
+
+    }
 
     /**
      * this method should get an EXCEL file and covert him to map of 5 tables.

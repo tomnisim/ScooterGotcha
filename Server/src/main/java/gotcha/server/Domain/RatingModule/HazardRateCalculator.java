@@ -22,7 +22,7 @@ public class HazardRateCalculator {
      */
     public double rate_hazard(StationaryHazard hazard){
         Formula formula = formulas.get(hazard.getType());
-        double answer = formula.calculate(hazard.getSize());
+        double answer = formula.evaluate(hazard.getSize());
         return answer;
     }
 

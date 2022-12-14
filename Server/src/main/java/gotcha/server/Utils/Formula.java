@@ -1,7 +1,9 @@
 package gotcha.server.Utils;
 
 public class Formula {
-    public double calculate(double size) {
+    private String form;
+
+    public double evaluate(double size) {
         return 15;
     }
 }
