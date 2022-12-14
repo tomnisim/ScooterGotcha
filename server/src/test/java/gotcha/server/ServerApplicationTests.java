@@ -1,10 +1,10 @@
-package aTeam.demo;
+package gotcha.server;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GotchaApplicationTests {
+class ServerApplicationTests {
 
 	@Test
 	void contextLoads() {

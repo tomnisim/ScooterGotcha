@@ -1,13 +1,13 @@
-package aTeam.demo;
+package gotcha.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GotchaApplication {
+public class ServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GotchaApplication.class, args);
+		SpringApplication.run(ServerApplication.class, args);
 	}
 
 }
