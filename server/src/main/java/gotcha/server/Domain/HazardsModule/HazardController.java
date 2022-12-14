@@ -1,6 +1,7 @@
 package gotcha.server.Domain.HazardsModule;
 
 import gotcha.server.Utils.Location;
+import gotcha.server.Utils.Logger.SystemLogger;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,12 +13,22 @@ public class HazardController {
     private Map<Integer, StationaryHazard> stationaryHazardsList;
     private AtomicInteger id_counter;
 
+
+    private static class SingletonHolder {
+        private static HazardController instance = new HazardController();
+    }
+    public static HazardController get_instance() {
+        return HazardController.SingletonHolder.instance;
+    }
+
     public HazardController() {
         this.stationaryHazardsList = new ConcurrentHashMap<>();
         this.id_counter = new AtomicInteger(1);
     }
 
     public void load(){
+
+        SystemLogger.getInstance().add_log("Hazard controller loaded successfully");
 
     }
 
