@@ -12,6 +12,7 @@ protocol:TCP
 Scooter: private
 
 Alert: voice/vocal/verbal/vibration
+MinimumDistanceToAlert:2
 duration:5
 voice:men
 verbal:"tik-tok"
