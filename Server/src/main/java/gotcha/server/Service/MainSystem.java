@@ -38,7 +38,7 @@ public class MainSystem {
      * @return the 2 config instructions, 1) external services 2) database
      * @throws ExitException if the format file is unmatched.
      */
-    public String[] read_config_file(String config_path) throws ExitException {
+    private String[] read_config_file(String config_path) throws ExitException {
         String[] to_return = new String[2];
         int counter = 0;
         try {
@@ -65,7 +65,7 @@ public class MainSystem {
      * @param config - "external_services:demo" or "external_services:real"
      * @throws ExitException if the input is illegal.
      */
-    public void set_external_services(String config) throws ExitException {
+    private void set_external_services(String config) throws ExitException {
         if (config.equals("external_services:tests")){
             SystemLogger.getInstance().add_log("Set Tests External Services");
             this.maps_adapter = new MapsAdapterTests();

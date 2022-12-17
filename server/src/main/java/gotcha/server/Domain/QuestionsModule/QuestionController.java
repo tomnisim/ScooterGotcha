@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class QuestionController  {
+public class QuestionController implements iQuestionController {
 
     private Map<Integer, Question> open_questions;
     private Map<String, List<Question>> users_questions;
@@ -44,6 +44,7 @@ public class QuestionController  {
      * @param message
      * @param sender
      */
+    @Override
     public void add_user_question(String message, User sender){
         int question_id = this.question_ids_counter.getAndIncrement();
         Question question_to_add = new Question(question_id, message, sender);
@@ -70,6 +71,7 @@ public class QuestionController  {
      * @param admin
      * @throws Exception
      */
+    @Override
     public void answer_user_question(int question_id, String answer, Admin admin) throws Exception {
         if (!this.open_questions.containsKey(question_id))
         {
@@ -89,6 +91,7 @@ public class QuestionController  {
      * @param user_email
      * @return open & close questions of the user
      */
+    @Override
     public List<String> get_all_user_questions(String user_email) {
         ArrayList<String> answer = new ArrayList<>();
         List<Question> user_questions = this.users_questions.get(user_email);
@@ -102,6 +105,7 @@ public class QuestionController  {
      * this method is for an admin who want to see all the open questions.
      * @return all the open questions.
      */
+    @Override
     public List<String> get_all_open_questions(){
         ArrayList<String> answer = new ArrayList<>();
         for (Question question : this.open_questions.values()){
