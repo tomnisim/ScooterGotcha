@@ -1,11 +1,18 @@
 from AlertModule.Alert import Alert
+from AlertModule.Verbal import Verbal
+from AlertModule.Vibration import Vibration
+from AlertModule.Visual import Visual
+from AlertModule.Vocal import Vocal
 from CameraModule.CameraController import CameraController
 from GPSModule.GPSController import GPSController
 from VideoProccessorModule.EventDetector import EventDetector
 from VideoProccessorModule.HazardDetector import HazardDetector
 from VideoProccessorModule.RoadDetector import RoadDetector
 
-def finish_ride(road_type, hazards, start_location, destination_location):
+def finish_ride(road_type, hazards, events, start_location, destination_location):
+    # ride = Ride()
+    # here we should send to the server user's & ride's data.
+
     print("summary")
 
 def start_ride():
@@ -13,11 +20,11 @@ def start_ride():
     road_detector = RoadDetector()
     hazards_detector = HazardDetector()
     GPS_controller = GPSController()
-    alerter = Alert()
+    alerter = Alert() # have to be specific - chose one of the classes by config.
     hazards = []
+    events = [] # speed changes, sharp turns
 
 
-    # ride = Ride()
 
     x = 3
 
@@ -42,11 +49,22 @@ def start_ride():
 
 
     destination_location = GPS_controller.get_GPS_location()
-    finish_ride(road_type, hazards, start_location, destination_location)
+    finish_ride(road_type, hazards, events, start_location, destination_location)
 
 
 
 if __name__ == '__main__':
     start_ride()
+    vocal = Vocal()
+    visual = Visual()
+    verbal = Verbal()
+    vib = Vibration()
+
+    vocal.alert("hazard")
+    visual.alert("hazard")
+    verbal.alert("hazard")
+    vib.alert("hazard")
+
+
 
 
