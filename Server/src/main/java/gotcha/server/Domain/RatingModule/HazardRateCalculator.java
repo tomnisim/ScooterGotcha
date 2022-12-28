@@ -19,9 +19,6 @@ public class HazardRateCalculator {
     private Dictionary<HazardType, Formula> formulas;
     private final String formulas_txt_file_path = "C:\\Users\\Amit\\Desktop\\ScooterGotcha\\server\\src\\main\\java\\gotcha\\server\\Domain\\RatingModule\\hazard_rate_formulas.txt";
 
-
-
-
     private static class SingletonHolder {
         private static HazardRateCalculator instance = new HazardRateCalculator();
     }
