@@ -1,18 +1,22 @@
 package gotcha.server.Service;
 
+import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Response;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 public interface UserAPI {
 
     // SMARTPHONE API
 
-    Response register();
-    Response login();
+    Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender);
+    Response login(String email, String password);
     Response logout();
-    Response change_password();
+    Response change_password(String old_password, String password);
 
     Response view_user_rides_history();
 
@@ -21,6 +25,7 @@ public interface UserAPI {
 
     // RP API - ?
 
-    Response start_ride(Location begin, Location dest, User user);
-    Response finish_ride(Ride ride);
+    Response start_ride(Location origin, Location destination, User user);
+    Response finish_ride(Location origin, Location destination, String city, LocalDateTime start_time,
+                         LocalDateTime end_time, List<StationaryHazard> hazards);
 }

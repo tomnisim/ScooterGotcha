@@ -7,7 +7,7 @@ public interface AdminAPI {
 
     Response view_all_open_questions();
     Response answer_user_question(int question_id, String answer, Admin admin);
-    Response send_message_to_all_users();
+    Response send_message_to_all_users(String message);
 
     Response view_rides();
 

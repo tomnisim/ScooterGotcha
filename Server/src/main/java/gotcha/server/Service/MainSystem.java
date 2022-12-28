@@ -7,7 +7,6 @@ import gotcha.server.Domain.RidesModule.RidesController;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.ExternalService.MapsAdapter;
 import gotcha.server.ExternalService.MapsAdapterImpl;
-import gotcha.server.ExternalService.MapsAdapterTests;
 import gotcha.server.Utils.Exceptions.ExitException;
 import gotcha.server.Utils.Logger.SystemLogger;
 
@@ -35,7 +34,7 @@ public class MainSystem {
     /**
      * reading the data from the configuration file.
      * @param config_path the path of the configuration file.
-     * @return the 2 config instructions, 1) external services 2) database
+     * @return the 2 config instructions:    1) external services 2) database
      * @throws ExitException if the format file is unmatched.
      */
     private String[] read_config_file(String config_path) throws ExitException {
@@ -68,7 +67,8 @@ public class MainSystem {
     private void set_external_services(String config) throws ExitException {
         if (config.equals("external_services:tests")){
             SystemLogger.getInstance().add_log("Set Tests External Services");
-            this.maps_adapter = new MapsAdapterTests();
+            // TODO: 28/12/2022 : implement here new maps adapter implementation
+            this.maps_adapter = new MapsAdapterImpl();
         }
         else if (config.equals("external_services:real")){
             SystemLogger.getInstance().add_log("Set Real External Services");
