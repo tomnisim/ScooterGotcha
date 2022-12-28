@@ -21,7 +21,7 @@ public class Utils {
         return formatter.format(d);
     }
 //
-//    public static Response CreateResponse(Exception e) {
+    public static Response createResponse(Exception e) {
 //        if (e instanceof DatabaseConnectionException){
 //            return new Response<>("The System is not available right now, please try again later.", e);
 //        }
@@ -66,8 +66,8 @@ public class Utils {
 ////        if (e instanceof WrongPermterException)
 ////            return new Response<>("wrong parameter entered. ", e);
 ////        return new Response<>("the action didnt worked,try again", e);
-//        return new Response<>(e.getMessage(),e);
-//    }
+        return new Response<>(e.getMessage(),e);
+    }
 
     public static Date StringToDate(String s) {
         Date output = null;
