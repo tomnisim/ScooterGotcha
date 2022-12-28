@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class QuestionController implements iQuestionController {
+public class QuestionController implements IQuestionController {
 
     private Map<Integer, Question> open_questions;
     private Map<String, List<Question>> users_questions;
