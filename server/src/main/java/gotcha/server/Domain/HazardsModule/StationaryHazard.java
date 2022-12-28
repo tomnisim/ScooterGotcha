@@ -19,6 +19,9 @@ public class StationaryHazard {
         this.size = size;
     }
 
+
+    // TODO: 28/12/2022 : input checks - ranges and implement tests after.
+
     public int getId() {
         return id;
     }

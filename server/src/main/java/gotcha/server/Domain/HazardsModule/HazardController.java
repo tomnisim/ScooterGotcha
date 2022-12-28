@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class HazardController {
+public class HazardController implements IHazardController {
     private Map<Integer, StationaryHazard> stationaryHazardsList;
     private AtomicInteger id_counter;
 
@@ -26,6 +26,7 @@ public class HazardController {
         this.id_counter = new AtomicInteger(1);
     }
 
+    @Override
     public void load(){
 
         SystemLogger.getInstance().add_log("Hazard controller loaded successfully");
@@ -69,7 +70,7 @@ public class HazardController {
 
     }
 
-    // this private method will called from add_hazard / update_hazard and will update hazard type and size
+    // this private method will called from add_hazard / update_hazard and will update hazard type and size - will use Rating Module
     private void rate_hazard(){}
 
     private List<StationaryHazard> get_hazards(HazardType type){
