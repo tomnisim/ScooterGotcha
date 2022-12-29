@@ -14,7 +14,7 @@ import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class HazardRateCalculator {
+public class HazardRateCalculator implements IHazardRateCalculator {
 
     private Dictionary<HazardType, Formula> formulas;
     private final String formulas_txt_file_path = "C:\\Users\\Amit\\Desktop\\ScooterGotcha\\server\\src\\main\\java\\gotcha\\server\\Domain\\RatingModule\\hazard_rate_formulas.txt";
@@ -37,6 +37,7 @@ public class HazardRateCalculator {
      * @param hazard
      * @return double between 0-20
      */
+    @Override
     public double rate_hazard(StationaryHazard hazard){
         Formula formula = formulas.get(hazard.getType());
         double answer = formula.evaluate(hazard.getSize());
@@ -47,6 +48,7 @@ public class HazardRateCalculator {
      * this method reads a txt file and config formulas.
      */
 
+    @Override
     public void set_formulas() {
         try {
             File file = new File(formulas_txt_file_path);
@@ -65,6 +67,7 @@ public class HazardRateCalculator {
     }
 
 
+    @Override
     public void update_hazard_formula(HazardType type, Formula formula){
 
     }

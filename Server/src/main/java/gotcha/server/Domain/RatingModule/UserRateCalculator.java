@@ -11,7 +11,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Scanner;
 
-public class UserRateCalculator {
+public class UserRateCalculator implements IUserRateCalculator {
     private final String tables_txt_file_path = "C:\\Users\\Amit\\Desktop\\ScooterGotcha\\server\\src\\main\\java\\gotcha\\server\\Domain\\RatingModule\\user_rate_tables.txt";
     private Dictionary<Integer, Integer> speed_changes_per_minute;
     private Dictionary<Integer, Integer> brakes_per_minute;
@@ -42,6 +42,7 @@ public class UserRateCalculator {
      * @param user - rider who just finish ride.
      * @param ride - the last ride.
      */
+    @Override
     public void update_user_rating(User user, Ride ride){
 
     }
@@ -51,7 +52,8 @@ public class UserRateCalculator {
      * @Precondition - legal tables.
      * @param tables - map of 5 tables.
      */
-    public void update_tables(Dictionary<String,Dictionary<Integer, Integer>> tables){
+    @Override
+    public void update_tables(Dictionary<String, Dictionary<Integer, Integer>> tables){
 
         this.speed_changes_per_minute = tables.get("speed_changes_per_minute");
         this.brakes_per_minute = tables.get("brakes_per_minute");
@@ -61,6 +63,7 @@ public class UserRateCalculator {
     }
 
 
+    @Override
     public void set_tables() {
         try {
             File file = new File(tables_txt_file_path);

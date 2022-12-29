@@ -252,7 +252,7 @@ public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
     public Response finish_ride(Location origin, Location destination, String city, LocalDateTime start_time,
                                 LocalDateTime end_time, List<StationaryHazard> hazards) {
 
-        int ride_id;
+        int ride_id = 0;
         this.ridesController.finish_ride(ride_id, origin, destination, city, start_time, end_time, hazards);
     }
 }
