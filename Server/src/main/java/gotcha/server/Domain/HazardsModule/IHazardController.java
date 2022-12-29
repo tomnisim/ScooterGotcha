@@ -8,7 +8,8 @@ public interface IHazardController {
     void load();
     void add_hazard(int ride_id, Location location, String city, HazardType type, double size);
     void remove_hazard(int hazard_id);
-    List<StationaryHazard> get_hazards_in_route(Route route);
+    // TODO: 30/12/2022 : remove // after open class "Route"
+//    List<StationaryHazard> get_hazards_in_route(Route route);
 
 
 //    void update_hazard(StationaryHazard hazard, double size);

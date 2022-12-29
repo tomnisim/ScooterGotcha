@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static gotcha.server.Service.MainSystem.MAXIMUM_PASSWORD_LENGTH;
+import static gotcha.server.Service.MainSystem.MINIMUM_PASSWORD_LENGTH;
+
 public class Utils {
 
     public Utils() {
@@ -125,12 +128,11 @@ public class Utils {
     }
 
     public static void passwordValidCheck(String pw) throws Exception {
-        final int MinPasswordLength = 6;
-        final int MaxPasswordLength = 12;
+
         boolean containsNum = false;
         boolean containsUpper = false;
         boolean containsLower = false;
-        if (pw.length() < MinPasswordLength || pw.length() > MaxPasswordLength)
+        if (pw.length() < MINIMUM_PASSWORD_LENGTH  || pw.length() > MAXIMUM_PASSWORD_LENGTH)
             throw new Exception("password length should be in range of 6-12");
         char[] pwArray = pw.toCharArray();
         for (char c : pwArray) {
@@ -194,6 +196,6 @@ public class Utils {
      */
     public static boolean string_to_boolean(String str) {
         return str.equals("t") || str.equals("T") || str.equals("true") || str.equals("TRUE") ||
-                str.equals("True") || str.equals("OK");
+                str.equals("True") || str.equals("OK") || str.equals("yes") || str.equals("YES") || str.equals("Yes");
     }
 }

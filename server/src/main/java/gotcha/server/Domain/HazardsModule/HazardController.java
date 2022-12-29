@@ -82,10 +82,10 @@ public class HazardController implements IHazardController {
     private List<StationaryHazard> get_hazards(Location location, double radios){
         return new LinkedList<>();
     }
-	
-	
+
+    // TODO: 30/12/2022 : remove // after open class "Route"
     // TODO: 28/12/2022 : implement
-    public List<StationaryHazard> get_hazards_in_route(Route route) {
-        return null;
-    }
+//    public List<StationaryHazard> get_hazards_in_route(Route route) {
+//        return null;
+//    }
 }

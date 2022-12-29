@@ -7,7 +7,6 @@ import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Domain.RidesModule.RidesController;
 import gotcha.server.Domain.UserModule.Admin;
 import gotcha.server.Domain.UserModule.User;
-import gotcha.server.SafeRouteCalculatorModule.RoutesRetriever;
 import gotcha.server.Utils.Formula;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.ErrorLogger;
@@ -19,23 +18,27 @@ import java.time.LocalDateTime;
 import java.util.Dictionary;
 import java.util.List;
 
-public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
+// TODO: 30/12/2022 : implements AdminAPI, ProgrammerAPI, UserAPI
+public class Facade {
     private ErrorLogger error_logger;
     private ServerLogger serverLogger;
     private QuestionController questionController;
     private RidesController ridesController;
-    private RoutesRetriever routes_retriever;
+    // TODO: 30/12/2022 : remove // after open class "Route"
+//    private RoutesRetriever routes_retriever;
 
     public Facade() {
         this.error_logger = new ErrorLogger();
         this.serverLogger = new ServerLogger();
         this.questionController = new QuestionController();
         this.ridesController = new RidesController();
-        this.routes_retriever = new RoutesRetriever();
+        // TODO: 30/12/2022 : remove // after open class "Route"
+
+//        this.routes_retriever = new RoutesRetriever();
     }
 
 
-    @Override
+//     @Override
     public Response view_all_open_questions() {
         Response response = null;
         try{
@@ -53,7 +56,7 @@ public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
     }
 
 
-    @Override
+//     @Override
     public Response answer_user_question(int question_id, String answer, Admin admin) {
         Response response = null;
         try{
@@ -70,137 +73,137 @@ public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
         return response;
     }
 
-    @Override
+//     @Override
     public Response send_message_to_all_users(String message) {
         return null;
     }
 
-    @Override
+//     @Override
     public Response view_rides() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response view_statistics() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response view_awards() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response add_award() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response delete_award() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response view_admins() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response add_admin() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response delete_admin() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response view_users() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response edit_user() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response delete_user() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response set_server_config() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response set_rp_config() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response view_error_logger() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response view_system_logger() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response view_server_logger() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response reset() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response shout_down() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response update_user_rate_tables(Dictionary<String, Dictionary<Integer, Integer>> tables) {
         return null;
     }
 
-    @Override
+//     @Override
     public Response update_hazard_formula(HazardType type, Formula formula) {
         return null;
     }
 
-    @Override
+//     @Override
     public Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender) {
         return null;
     }
 
-    @Override
+//     @Override
     public Response login(String email, String password) {
         return null;
     }
 
-    @Override
+//     @Override
     public Response logout() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response change_password(String old_password, String password) {
         return null;
     }
 
-    @Override
+//     @Override
     public Response view_user_rides_history() {
         return null;
     }
 
-    @Override
+//     @Override
     public Response add_user_question(String message, User sender) {
         Response response = null;
         try{
@@ -217,7 +220,7 @@ public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
         return response;
     }
 
-    @Override
+//     @Override
     public Response view_all_user_questions(String user_email) {
         Response response = null;
         try{
@@ -242,17 +245,17 @@ public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
      * @param user
      * @return sorted & suggested routes & ride id
      */
-    @Override
-    public Response start_ride(Location origin, Location destination, User user) {
-        this.routes_retriever.fetch_safe_routes(origin, destination);
-        int ride_id = this.ridesController.start_ride(user);
-    }
-
-    @Override
-    public Response finish_ride(Location origin, Location destination, String city, LocalDateTime start_time,
-                                LocalDateTime end_time, List<StationaryHazard> hazards) {
-
-        int ride_id = 0;
-        this.ridesController.finish_ride(ride_id, origin, destination, city, start_time, end_time, hazards);
-    }
+////     @Override
+//    public Response start_ride(Location origin, Location destination, User user) {
+//        this.routes_retriever.fetch_safe_routes(origin, destination);
+//        int ride_id = this.ridesController.start_ride(user);
+//    }
+//
+////     @Override
+//    public Response finish_ride(Location origin, Location destination, String city, LocalDateTime start_time,
+//                                LocalDateTime end_time, List<StationaryHazard> hazards) {
+//
+//        int ride_id = 0;
+//        this.ridesController.finish_ride(ride_id, origin, destination, city, start_time, end_time, hazards);
+//    }
 }
