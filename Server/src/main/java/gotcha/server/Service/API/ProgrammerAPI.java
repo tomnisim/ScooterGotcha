@@ -1,4 +1,4 @@
-package gotcha.server.Service;
+package gotcha.server.Service.API;
 
 import gotcha.server.Domain.HazardsModule.HazardType;
 import gotcha.server.Utils.Formula;

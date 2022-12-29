@@ -1,4 +1,4 @@
-package gotcha.server.Service;
+package gotcha.server.Service.API;
 
 import gotcha.server.Domain.UserModule.Admin;
 import gotcha.server.Utils.Response;
