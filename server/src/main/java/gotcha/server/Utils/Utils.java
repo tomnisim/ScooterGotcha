@@ -3,6 +3,7 @@ import gotcha.server.Utils.Logger.SystemLogger;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -159,6 +160,54 @@ public class Utils {
         for (char c : arrayName) {
             if (c < 'a' || c > 'z')
                 throw new Exception("The name must contain letters only");
+        }
+    }
+
+    public static void validate_license_issue_date(LocalDate licenceIssueDate) throws Exception {
+        if (licenceIssueDate.isAfter(LocalDate.now())) {
+            throw new Exception("license issue date must be before current date\n");
+        }
+    }
+
+    public static void validate_scooter_type(String scooterType) throws Exception {
+        if (scooterType == null) {
+            throw new Exception("scooter type can't be null");
+        }
+        if (scooterType.isBlank()) {
+            throw new Exception("scooter type can't be empty");
+        }
+    }
+
+    public static void validate_gender(String gender) throws Exception {
+
+        if (gender == null) {
+            throw new Exception("gender can't be null");
+        }
+        if (gender.isBlank()) {
+            throw new Exception("gender can't be empty");
+        }
+    }
+
+    public static void validate_birth_date(LocalDate birthDay) throws Exception {
+        Period p = Period.between(birthDay, LocalDate.now());
+        if (p.getYears() < 16) {
+            throw new Exception("Rider must be at least 16 years old");
+        }
+    }
+
+    public static void validate_phone_number(String phoneNumber) throws Exception {
+        if (phoneNumber==null) {
+            throw new Exception("phone number can't be null");
+        }
+        if (phoneNumber.isBlank()) {
+            throw new Exception("phone number can't be blank\n");
+        }
+        if (phoneNumber.length() != 10) {
+            throw new Exception("phone number must be of length 10\n");
+        }
+        if (phoneNumber.matches(".*[a-zA-Z].*"))
+        {
+            throw new Exception("phone number can't contain letters\n");
         }
     }
 

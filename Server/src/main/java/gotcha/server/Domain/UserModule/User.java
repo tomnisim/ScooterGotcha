@@ -1,24 +1,31 @@
 package gotcha.server.Domain.UserModule;
 
-import java.time.LocalDate;
+import gotcha.server.Domain.QuestionsModule.Question;
+import gotcha.server.Utils.Observer;
 
-public abstract class User{
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+
+public abstract class User implements Observer {
 
     private String userEmail;
-    private String userPassword;
+    private String userPasswordToken;
     private String phoneNumber;
     private String gender;
     private LocalDate birthDay;
+    private Map<Integer, Question> userQuestions;
 
     private boolean loggedIn;
 
-    public User(String userEmail, String userPassword, String phoneNumber, LocalDate birthDay, String gender) {
+    public User(String userEmail, String userPasswordToken, String phoneNumber, LocalDate birthDay, String gender) {
         this.userEmail = userEmail;
-        this.userPassword = userPassword;
+        this.userPasswordToken = userPasswordToken;
         this.phoneNumber = phoneNumber;
         this.birthDay = birthDay;
         this.gender = gender;
         this.loggedIn = false;
+        this.userQuestions = new HashMap<>();
     }
 
     // Empty constructor for DB
@@ -41,7 +48,7 @@ public abstract class User{
         return this.birthDay;
     }
 
-    public String get_password() {return  this.userPassword;}
+    public String get_password_token() {return  this.userPasswordToken;}
 
     public boolean is_logged_in() {
         return this.loggedIn;
@@ -56,6 +63,7 @@ public abstract class User{
     }
 
     public void add_notification(String your_question_got_answered) {
+
     }
 
     public User get_appointed_by() throws Exception {
