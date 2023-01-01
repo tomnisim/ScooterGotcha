@@ -1,4 +1,4 @@
-package gotcha.server.Exceptions;
+package gotcha.server.Utils.Exceptions.UserExceptions;
 
 public class UserNotFoundException extends Exception{
     public UserNotFoundException(String message) {

@@ -38,8 +38,8 @@ public class ErrorLogger {
 
     /*-------------------------------------------------- CLASS FUNCTIONS --------------------------------------------------*/
 
-    public void add_log(Exception e){
-        this.logger.severe(e.getMessage());
+    public void add_log(String message){
+        this.logger.severe(message);
     }
 
 }
