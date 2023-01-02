@@ -14,7 +14,7 @@ public abstract class User implements Observer {
     private String phoneNumber;
     private String gender;
     private LocalDate birthDay;
-    private Map<Integer, Question> userQuestions;
+    private Map<Integer, Notification> userNotifications;
 
     private boolean loggedIn;
 
@@ -25,7 +25,7 @@ public abstract class User implements Observer {
         this.birthDay = birthDay;
         this.gender = gender;
         this.loggedIn = false;
-        this.userQuestions = new HashMap<>();
+        this.userNotifications = new HashMap<>();
     }
 
     // Empty constructor for DB
@@ -62,16 +62,31 @@ public abstract class User implements Observer {
         this.loggedIn = false;
     }
 
-    public void add_notification(String your_question_got_answered) {
+    /**
+     * adds the notification to the list of notification and tries to notify the user
+     * @param notification
+     * @return
+     */
+    public boolean notify_user(Notification notification) {
+        boolean wasAdded = userNotifications.putIfAbsent(notification.get_id(), notification) == null;
+        if (!wasAdded) {
+            return false;
+        }
+        // TODO: try to show the user the notification through publisher
+        return true;
 
     }
 
-    public User get_appointed_by() throws Exception {
-        throw new Exception("User is not appointed by no one");
-    }
-
-    public LocalDate get_appointment_date() throws Exception {
-        throw new Exception("User is not appointed by no one");
+    /**
+     * function that will be called when user log in to show him all of his not seen notifications
+     * @throws Exception
+     */
+    public void notify_user() throws Exception {
+        for(var notification : userNotifications.values()) {
+            if (!notification.is_seen()) {
+                notify_user(notification);
+            }
+        }
     }
 
     public Boolean is_admin() {

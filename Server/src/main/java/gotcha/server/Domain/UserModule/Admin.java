@@ -21,12 +21,10 @@ public class Admin extends User{
         return true;
     }
 
-    @Override
     public User get_appointed_by() {
         return this.appintedBy;
     }
 
-    @Override
     public LocalDate get_appointment_date() {
         return this.appointmentDate;
     }

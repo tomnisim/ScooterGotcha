@@ -1,6 +1,8 @@
 package gotcha.server.Utils;
 
 
+import gotcha.server.Domain.UserModule.Notification;
+
 public interface Observer {
-    void add_notification(String notification);
+    boolean notify_user(Notification notification);
 }

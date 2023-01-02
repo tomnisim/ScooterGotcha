@@ -1,26 +1,27 @@
 package gotcha.server.Domain.UserModule;
 
-import gotcha.server.Utils.Exceptions.UserExceptions.InvalidUserInformationException;
+import gotcha.server.Domain.QuestionsModule.Question;
+import gotcha.server.Domain.QuestionsModule.QuestionController;
+import gotcha.server.Domain.QuestionsModule.iQuestionController;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserAlreadyExistsException;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserException;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
-import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Observable;
-import gotcha.server.Utils.Observer;
 import gotcha.server.Utils.Password.PasswordManagerImpl;
 import gotcha.server.Utils.Password.iPasswordManager;
 import gotcha.server.Utils.Utils;
+import org.springframework.cglib.core.internal.Function;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 
-public class UserController implements IUserController, Observable {
-    private AtomicInteger id_counter;
-    private ErrorLogger logger;
+public class UserController implements IUserController {
     private Map<String, User> allUsers;
     private iPasswordManager passwordManager;
+
+    private iQuestionController questionController;
 
 
     private static class SingletonHolder {
@@ -32,10 +33,9 @@ public class UserController implements IUserController, Observable {
     }
 
     public UserController() {
-        this.id_counter = new AtomicInteger(1);
-        this.logger = ErrorLogger.getInstance();
         this.allUsers = new HashMap<>();
         this.passwordManager = new PasswordManagerImpl();
+        this.questionController = new QuestionController();
     }
 
     public void load() {
@@ -50,7 +50,6 @@ public class UserController implements IUserController, Observable {
     public User get_user_by_id(String userEmail) throws UserNotFoundException {
         User toReturn = allUsers.get(userEmail);
         if (toReturn == null) {
-            logger.add_log("User with user name of: " + userEmail + " is not found");
             throw new UserNotFoundException("User with user name of: " + userEmail + " is not found");
         }
         return toReturn;
@@ -79,8 +78,7 @@ public class UserController implements IUserController, Observable {
     public Boolean register(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate) throws Exception {
         if (allUsers.containsKey(userEmail))
         {
-            logger.add_log("user with email: "+ userEmail + " already exists");
-            throw new UserAlreadyExistsException();
+            throw new UserAlreadyExistsException("User with email :"+ userEmail + " alerady exists");
         }
 
         verify_user_information(userEmail, password, phoneNumber, birthDay, gender, scooterType, licenceIssueDate);
@@ -100,13 +98,11 @@ public class UserController implements IUserController, Observable {
     public void login(String userEmail, String password) throws Exception {
         if (!allUsers.containsKey(userEmail))
         {
-            logger.add_log("invalid login: user with email"+ userEmail + " not found");
             throw new UserNotFoundException("invalid login: user with email"+ userEmail + " not found");
         }
         User user = allUsers.get(userEmail);
         if (!passwordManager.authenticate(password, user.get_password_token()))
         {
-            logger.add_log("user with email: "+ userEmail+ " tried to login with incorrect password");
             throw new Exception("password is incorrect");
         }
         user.login();
@@ -120,7 +116,6 @@ public class UserController implements IUserController, Observable {
     public void logout(String userEmail) throws UserNotFoundException {
         if (!allUsers.containsKey(userEmail))
         {
-            logger.add_log("invalid login: user with email"+ userEmail + " not found");
             throw new UserNotFoundException("invalid login: user with email"+ userEmail + " not found");
         }
         allUsers.get(userEmail).logout();
@@ -134,12 +129,10 @@ public class UserController implements IUserController, Observable {
      */
     public void appoint_new_admin(String newAdminEmail, String appointingAdminEmail) throws Exception {
         if (!allUsers.containsKey(appointingAdminEmail) || !allUsers.containsKey(newAdminEmail)) {
-            logger.add_log("invalid appointing/appointed user email");
             throw new UserNotFoundException();
         }
         User appointingAdmin = allUsers.get(appointingAdminEmail);
         if (!appointingAdmin.is_admin()) {
-            logger.add_log("appointing user is not an admin");
             throw new Exception();
         }
         User newAdmin = new Admin(allUsers.get(newAdminEmail), (Admin) appointingAdmin);
@@ -166,4 +159,52 @@ public class UserController implements IUserController, Observable {
         Utils.validate_scooter_type(scooterType);
         Utils.validate_license_issue_date(licenceIssueDate);
     }
+
+    /**
+     * adds an answer to the question and notifies the user about the reply
+     * @param adminEmail
+     * @param reply
+     * @param question_id
+     * @throws Exception
+     */
+    public void reply_to_user_question(String adminEmail, String reply, int question_id) throws Exception {
+        if (!allUsers.containsKey(adminEmail))
+            throw new UserNotFoundException("Invalid admin email :" + adminEmail);
+
+        var admin = allUsers.get(adminEmail);
+        if (!admin.is_admin())
+            throw new Exception("Email : " + adminEmail + " is Not related to an admin account");
+
+        var sendingUserEmail = questionController.answer_user_question(question_id, reply, adminEmail);
+        var sendingUser = allUsers.get(sendingUserEmail);
+        sendingUser.notify_user(new Notification(admin.get_email(), question_id));
+    }
+
+    private BiConsumer<String, Integer> create_notify_all_admins_callback(){
+        BiConsumer<String, Integer> callback = (senderEmail, questionId) -> {
+            for (var user : allUsers.values()) {
+                var newNotification = new Notification(senderEmail, questionId);
+                if (user.is_admin()) {
+                    user.notify_user(newNotification);
+                }
+            }
+        };
+        return callback;
+    }
+
+    /**
+     * this method will send to all admins a question for the user
+     * @param userEmail
+     * @param message
+     * @throws Exception
+     */
+    public void send_question_to_admin(String userEmail, String message) throws Exception {
+        if (!allUsers.containsKey(userEmail))
+            throw new UserNotFoundException("Invalid user email :" + userEmail);
+
+        var sender = allUsers.get(userEmail);
+        questionController.add_user_question(message, sender.get_email(),create_notify_all_admins_callback());
+    }
+
+
 }
