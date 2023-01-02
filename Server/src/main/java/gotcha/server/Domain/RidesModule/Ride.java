@@ -34,7 +34,7 @@ public class Ride {
 
     private List<RidingAction> create_riding_actions(List<RidingAction> actions) {
         // TODO - check how the riding action accepted from RP
-        for (action : actions)
+        for (RidingAction action : actions)
         {
             RidingAction ridingAction;
             // crete RidingAction from RP riding action
