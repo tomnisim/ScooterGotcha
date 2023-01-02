@@ -1,6 +1,6 @@
 package gotcha.server.Domain.UserModule;
 
-import gotcha.server.Domain.QuestionsModule.Question;
+import gotcha.server.Domain.Notifications.Notification;
 import gotcha.server.Utils.Observer;
 
 import java.time.LocalDate;

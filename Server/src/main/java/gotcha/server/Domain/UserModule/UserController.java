@@ -1,20 +1,17 @@
 package gotcha.server.Domain.UserModule;
 
-import gotcha.server.Domain.QuestionsModule.Question;
+import gotcha.server.Domain.Notifications.Notification;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
 import gotcha.server.Domain.QuestionsModule.iQuestionController;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserAlreadyExistsException;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserException;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
-import gotcha.server.Utils.Observable;
 import gotcha.server.Utils.Password.PasswordManagerImpl;
 import gotcha.server.Utils.Password.iPasswordManager;
 import gotcha.server.Utils.Utils;
-import org.springframework.cglib.core.internal.Function;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 
 public class UserController implements IUserController {

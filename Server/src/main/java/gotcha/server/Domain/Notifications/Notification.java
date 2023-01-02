@@ -1,4 +1,4 @@
-package gotcha.server.Domain.UserModule;
+package gotcha.server.Domain.Notifications;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
