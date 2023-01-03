@@ -19,7 +19,8 @@ public class RidesController {
         return RidesController.SingletonHolder.instance;
     }
 
-    public RidesController() {
+    public RidesController()
+    {
         this.id_counter = new AtomicInteger(1);
     }
 
@@ -38,7 +39,6 @@ public class RidesController {
         Ride ride = new Ride(); // TODO - extract the information from the JSON
         this.rides.put(ride_id, ride);
 
-
     }
 
     public void remove_ride(int ride_id) throws RideNotFoundException {
@@ -52,7 +52,7 @@ public class RidesController {
 
     public List<Ride> get_rides(int rider_id)
     {
-        List<Ride> rides_by_rider_id = new ArrayList<Ride>();
+        List<Ride> rides_by_rider_id = new ArrayList<>();
         for (Ride ride : this.rides.values())
         {
             if (ride.getRider_id() == rider_id)
@@ -91,6 +91,10 @@ public class RidesController {
         }
         return rides_by_city;
 
+    }
+    public List<Ride> get_all_rides()
+    {
+        return new ArrayList<>(this.rides.values());
     }
 
 }

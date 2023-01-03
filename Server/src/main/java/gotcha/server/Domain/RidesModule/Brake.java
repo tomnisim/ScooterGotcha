@@ -4,10 +4,16 @@ public class Brake extends RidingAction{
     private Double start_speed;
     private Double final_speed;
 
+    public Brake() {
+
+    }
+
     public Brake(Double start_speed, Double final_speed) {
         this.start_speed = start_speed;
         this.final_speed = final_speed;
     }
+
+
 
     public Double getStart_speed() {
         return start_speed;

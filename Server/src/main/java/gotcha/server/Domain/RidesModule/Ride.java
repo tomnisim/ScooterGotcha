@@ -4,13 +4,14 @@ import gotcha.server.Utils.Location;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Ride {
     private int ride_id;
     private int rider_id;
-    private LocalDate date; //TODO - check the date type
+    private LocalDate date;
     private String city;
     private LocalDateTime start_time;
     private LocalDateTime end_time;
@@ -18,8 +19,11 @@ public class Ride {
     private Location destination;
     private List<RidingAction> actions;
 
+    public Ride()
+    {
 
-    public Ride(int ride_id, int rider_id, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, List<RidingAction> actions) {
+    }
+    public Ride(int ride_id, int rider_id, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, String actions) {
         this.ride_id = ride_id;
         this.rider_id = rider_id;
         this.date = LocalDate.now();
@@ -29,19 +33,23 @@ public class Ride {
         this.origin = origin;
         this.destination = destination;
 
-        this.actions = this.create_riding_actions(actions);
+        this.create_riding_actions(actions);
     }
 
-    private List<RidingAction> create_riding_actions(List<RidingAction> actions) {
+    private void create_riding_actions(String riding_actions_rp) {
         // TODO - check how the riding action accepted from RP
-        for (RidingAction action : actions)
+        this.actions = new ArrayList<>();
+        String[] separated_riding_actions_rp = riding_actions_rp.split(""); // TODO: 03/01/2023 add the separator
+        for (String riding_action_rp : separated_riding_actions_rp)
         {
-            RidingAction ridingAction;
+            // TODO: 03/01/2023 check for the type - brake/sharpTurn
             // crete RidingAction from RP riding action
+            RidingAction ridingAction = new Brake(12.0, 6.0);
             this.actions.add(ridingAction);
-
         }
     }
+
+    // ------------------------------------------ Getters & Setters ----------------------------------------------------------
 
     public int getRide_id() {
         return ride_id;
