@@ -40,7 +40,7 @@ public class RoutesRetriever {
         {
             Double rate = 0.0;
             List<StationaryHazard> hazards_in_route = this.hazard_controller.get_hazards_in_route(route);
-            rate = 0.0; // TODO - add sum function to the formula, and apply it on the hazrd ratong list
+            rate = 0.0;
             for (StationaryHazard hazard :hazards_in_route )
             {
                 rate += hazard.getRate();
