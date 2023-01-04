@@ -17,7 +17,7 @@ public class ErrorLogger {
         private static ErrorLogger instance = new ErrorLogger();
     }
 
-    public static ErrorLogger getInstance(){
+    public static ErrorLogger get_instance(){
         return ErrorLogger.SingletonHolder.instance;
     }
 
@@ -38,8 +38,8 @@ public class ErrorLogger {
 
     /*-------------------------------------------------- CLASS FUNCTIONS --------------------------------------------------*/
 
-    public void add_log(Exception e){
-        this.logger.severe(e.getMessage());
+    public void add_log(String message){
+        this.logger.severe(message);
     }
 
 }

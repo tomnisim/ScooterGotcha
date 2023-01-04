@@ -16,7 +16,7 @@ public class ServerLogger {
         private static ServerLogger instance = new ServerLogger();
     }
 
-    public static ServerLogger getInstance(){
+    public static ServerLogger get_instance(){
         return ServerLogger.SingletonHolder.instance;
     }
 

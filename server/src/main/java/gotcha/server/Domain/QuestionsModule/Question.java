@@ -5,17 +5,21 @@ import gotcha.server.Domain.UserModule.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Question {
+
+    private static AtomicInteger idCounter = new AtomicInteger();
 
     protected int question_id;
     protected String message_date;
     protected String answer_date;
+
     protected String message;
     protected String answer;
     protected boolean has_answer;
-    protected User sender;
-    protected Admin responder;
+    protected String senderEmail;
+    protected String responderEmail;
 
     // ---------------------- Constructor ---------------------------------------
     public Question() {
@@ -23,15 +27,14 @@ public class Question {
 
     /**
      * constructor for new question
-     * @param question_id
      * @param message
-     * @param sender
+     * @param senderEmail
      */
-    public Question(int question_id, String message, User sender) {
-        this.question_id = question_id;
-        this.sender = sender;
+    public Question(String message, String senderEmail) {
+        this.question_id = idCounter.getAndIncrement();
         this.message = message;
         this.has_answer = false;
+        this.senderEmail = senderEmail;
         this.message_date = LocalDate.now().toString();
     }
 
@@ -43,25 +46,25 @@ public class Question {
      * @param message
      * @param answer
      * @param has_answer
-     * @param sender
-     * @param responder
+     * @param senderEmail
+     * @param responderEmail
      */
-    public Question(int question_id, String message_date, String answer_date, String message, String answer, boolean has_answer, User sender, Admin responder) {
+    public Question(int question_id, String message_date, String answer_date, String message, String answer, boolean has_answer, String senderEmail, String responderEmail) {
         this.question_id = question_id;
         this.message_date = message_date;
         this.answer_date = answer_date;
         this.message = message;
         this.answer = answer;
         this.has_answer = has_answer;
-        this.sender = sender;
-        this.responder = responder;
+        this.senderEmail = senderEmail;
+        this.responderEmail = responderEmail;
     }
 
 
 
-    public void set_answer(String answer, Admin responder){
+    public void set_answer(String answer, String responderEmail){
         this.has_answer = true;
-        this.responder = responder;
+        this.responderEmail = responderEmail;
         this.answer = answer;
         this.answer_date = LocalDate.now().toString();
     }
@@ -140,19 +143,19 @@ public class Question {
         this.has_answer = has_answer;
     }
 
-    public User getSender() {
-        return sender;
+    public String getSenderEmail() {
+        return senderEmail;
     }
 
-    public void setSender(User sender) {
-        this.sender = sender;
+    public void setSender(String senderEmail) {
+        this.senderEmail = senderEmail;
     }
 
-    public Admin getResponder() {
-        return responder;
+    public String getResponderEmail() {
+        return responderEmail;
     }
 
-    public void setResponder(Admin responder) {
-        this.responder = responder;
+    public void setResponder(String responderEmail) {
+        this.responderEmail = responderEmail;
     }
 }
