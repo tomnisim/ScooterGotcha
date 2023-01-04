@@ -3,12 +3,16 @@ import gotcha.server.Utils.Logger.SystemLogger;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import static gotcha.server.Service.MainSystem.MAXIMUM_PASSWORD_LENGTH;
+import static gotcha.server.Service.MainSystem.MINIMUM_PASSWORD_LENGTH;
 
 public class Utils {
 
@@ -21,7 +25,7 @@ public class Utils {
         return formatter.format(d);
     }
 //
-//    public static Response CreateResponse(Exception e) {
+    public static Response createResponse(Exception e) {
 //        if (e instanceof DatabaseConnectionException){
 //            return new Response<>("The System is not available right now, please try again later.", e);
 //        }
@@ -66,8 +70,8 @@ public class Utils {
 ////        if (e instanceof WrongPermterException)
 ////            return new Response<>("wrong parameter entered. ", e);
 ////        return new Response<>("the action didnt worked,try again", e);
-//        return new Response<>(e.getMessage(),e);
-//    }
+        return new Response<>(e.getMessage(),e);
+    }
 
     public static Date StringToDate(String s) {
         Date output = null;
@@ -125,12 +129,11 @@ public class Utils {
     }
 
     public static void passwordValidCheck(String pw) throws Exception {
-        final int MinPasswordLength = 6;
-        final int MaxPasswordLength = 12;
+
         boolean containsNum = false;
         boolean containsUpper = false;
         boolean containsLower = false;
-        if (pw.length() < MinPasswordLength || pw.length() > MaxPasswordLength)
+        if (pw.length() < MINIMUM_PASSWORD_LENGTH  || pw.length() > MAXIMUM_PASSWORD_LENGTH)
             throw new Exception("password length should be in range of 6-12");
         char[] pwArray = pw.toCharArray();
         for (char c : pwArray) {
@@ -159,6 +162,54 @@ public class Utils {
         for (char c : arrayName) {
             if (c < 'a' || c > 'z')
                 throw new Exception("The name must contain letters only");
+        }
+    }
+
+    public static void validate_license_issue_date(LocalDate licenceIssueDate) throws Exception {
+        if (licenceIssueDate.isAfter(LocalDate.now())) {
+            throw new Exception("license issue date must be before current date\n");
+        }
+    }
+
+    public static void validate_scooter_type(String scooterType) throws Exception {
+        if (scooterType == null) {
+            throw new Exception("scooter type can't be null");
+        }
+        if (scooterType.isBlank()) {
+            throw new Exception("scooter type can't be empty");
+        }
+    }
+
+    public static void validate_gender(String gender) throws Exception {
+
+        if (gender == null) {
+            throw new Exception("gender can't be null");
+        }
+        if (gender.isBlank()) {
+            throw new Exception("gender can't be empty");
+        }
+    }
+
+    public static void validate_birth_date(LocalDate birthDay) throws Exception {
+        Period p = Period.between(birthDay, LocalDate.now());
+        if (p.getYears() < 16) {
+            throw new Exception("Rider must be at least 16 years old");
+        }
+    }
+
+    public static void validate_phone_number(String phoneNumber) throws Exception {
+        if (phoneNumber==null) {
+            throw new Exception("phone number can't be null");
+        }
+        if (phoneNumber.isBlank()) {
+            throw new Exception("phone number can't be blank\n");
+        }
+        if (phoneNumber.length() != 10) {
+            throw new Exception("phone number must be of length 10\n");
+        }
+        if (phoneNumber.matches(".*[a-zA-Z].*"))
+        {
+            throw new Exception("phone number can't contain letters\n");
         }
     }
 
@@ -194,6 +245,6 @@ public class Utils {
      */
     public static boolean string_to_boolean(String str) {
         return str.equals("t") || str.equals("T") || str.equals("true") || str.equals("TRUE") ||
-                str.equals("True") || str.equals("OK");
+                str.equals("True") || str.equals("OK") || str.equals("yes") || str.equals("YES") || str.equals("Yes");
     }
 }

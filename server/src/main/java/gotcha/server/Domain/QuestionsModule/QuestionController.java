@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 
 public class QuestionController implements IQuestionController {
 
@@ -21,7 +22,7 @@ public class QuestionController implements IQuestionController {
     private static class SingletonHolder{
         private static QuestionController instance = new QuestionController();
     }
-    public static QuestionController getInstance(){
+    public static QuestionController get_instance(){
         return QuestionController.SingletonHolder.instance;
     }
 
@@ -42,48 +43,48 @@ public class QuestionController implements IQuestionController {
      * this method for a user who add question to admins, the method notify admins and added the question to the
      * open questions.
      * @param message
-     * @param sender
+     * @param senderEmail
      */
     @Override
-    public void add_user_question(String message, User sender){
-        int question_id = this.question_ids_counter.getAndIncrement();
-        Question question_to_add = new Question(question_id, message, sender);
-        String sender_email = sender.get_email();
+    public void add_user_question(String message, String senderEmail, BiConsumer<String, Integer> notify_all_admins){
+        Question question_to_add = new Question(message, senderEmail);
+        int question_id = question_to_add.getQuestion_id();
 
-        this.open_questions.put(question_id, question_to_add);
-        if (this.users_questions.containsKey(sender_email))
-            this.users_questions.get(sender_email).add(question_to_add);
-        else{
-            ArrayList<Question> list = new ArrayList<>();
-            list.add(question_to_add);
-            this.users_questions.put(sender_email, list);
-        }
-        this.notify_admins("there is a new question");
+        this.open_questions.putIfAbsent(question_id, question_to_add);
+        this.users_questions.computeIfAbsent(senderEmail, k -> new ArrayList<>()).add(question_to_add);
+        notify_all_admins.accept(senderEmail, question_id);
     }
 
 
 
     /**
      * this method for an admin who answer user question
-     * the method will notify user, and remove the question from the open questions.
+     * the method will set the answer on the question and will return the sending user email
      * @param question_id
      * @param answer
-     * @param admin
+     * @param adminEmail
      * @throws Exception
      */
     @Override
-    public void answer_user_question(int question_id, String answer, Admin admin) throws Exception {
+    public String answer_user_question(int question_id, String answer, String adminEmail) throws Exception {
         if (!this.open_questions.containsKey(question_id))
         {
             throw new Exception("Question does not exist");
         }
         Question question = this.open_questions.get(question_id);
-        question.set_answer(answer, admin);
-        question.getSender().add_notification("Your question got answered");
+        question.set_answer(answer, adminEmail);
         this.open_questions.remove(question_id);
-
+        return question.getSenderEmail();
     }
 
+    @Override
+    public Question get_question(int question_id) throws Exception {
+        if (!this.open_questions.containsKey(question_id))
+        {
+            throw new Exception("Question does not exist");
+        }
+        return this.open_questions.get(question_id);
+    }
 
 
     /**

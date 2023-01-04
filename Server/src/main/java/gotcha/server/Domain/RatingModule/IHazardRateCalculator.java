@@ -8,4 +8,5 @@ public interface IHazardRateCalculator {
 
     double rate_hazard(StationaryHazard hazard);
     void update_hazard_formula(HazardType hazardType, Formula formula);
+
 }
