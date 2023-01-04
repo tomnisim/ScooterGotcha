@@ -17,7 +17,7 @@ public class ErrorLogger {
         private static ErrorLogger instance = new ErrorLogger();
     }
 
-    public static ErrorLogger getInstance(){
+    public static ErrorLogger get_instance(){
         return ErrorLogger.SingletonHolder.instance;
     }
 

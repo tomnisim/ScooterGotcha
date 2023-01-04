@@ -21,7 +21,7 @@ public class QuestionController implements iQuestionController {
     private static class SingletonHolder{
         private static QuestionController instance = new QuestionController();
     }
-    public static QuestionController getInstance(){
+    public static QuestionController get_instance(){
         return QuestionController.SingletonHolder.instance;
     }
 
