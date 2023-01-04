@@ -22,7 +22,7 @@ public class HazardController {
     }
 
     public HazardController() {
-        this.stationaryHazardsList = new ConcurrentHashMap<>();
+        this.stationaryHazardsList = new ConcurrentHashMap();
         this.id_counter = new AtomicInteger(1);
     }
 
@@ -73,12 +73,12 @@ public class HazardController {
     private void rate_hazard(){}
 
     private List<StationaryHazard> get_hazards(HazardType type){
-        return new LinkedList<>();
+        return new LinkedList();
     }
     private List<StationaryHazard> get_hazards(String city){
-        return new LinkedList<>();
+        return new LinkedList();
     }
     private List<StationaryHazard> get_hazards(Location location, double radios){
-        return new LinkedList<>();
+        return new LinkedList();
     }
 }

@@ -60,4 +60,6 @@ public class StationaryHazard {
     public void setSize(double size) {
         this.size = size;
     }
+
+
 }

@@ -26,8 +26,8 @@ public class QuestionController implements iQuestionController {
     }
 
     public QuestionController() {
-        this.open_questions = new ConcurrentHashMap<>();
-        this.users_questions = new ConcurrentHashMap<>();
+        this.open_questions = new ConcurrentHashMap();
+        this.users_questions = new ConcurrentHashMap();
         this.question_ids_counter = new AtomicInteger(1);
     }
 
@@ -54,7 +54,7 @@ public class QuestionController implements iQuestionController {
         if (this.users_questions.containsKey(sender_email))
             this.users_questions.get(sender_email).add(question_to_add);
         else{
-            ArrayList<Question> list = new ArrayList<>();
+            ArrayList<Question> list = new ArrayList();
             list.add(question_to_add);
             this.users_questions.put(sender_email, list);
         }
@@ -93,7 +93,7 @@ public class QuestionController implements iQuestionController {
      */
     @Override
     public List<String> get_all_user_questions(String user_email) {
-        ArrayList<String> answer = new ArrayList<>();
+        ArrayList<String> answer = new ArrayList();
         List<Question> user_questions = this.users_questions.get(user_email);
         for (Question question : user_questions){
             answer.add(question.toString_for_user());
@@ -107,7 +107,7 @@ public class QuestionController implements iQuestionController {
      */
     @Override
     public List<String> get_all_open_questions(){
-        ArrayList<String> answer = new ArrayList<>();
+        ArrayList<String> answer = new ArrayList<String>();
         for (Question question : this.open_questions.values()){
             answer.add(question.toString_for_admin());
         }
