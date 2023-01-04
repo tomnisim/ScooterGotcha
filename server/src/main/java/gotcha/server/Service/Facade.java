@@ -54,7 +54,7 @@ public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
         }
         catch (Exception e){
             response = Utils.createResponse(e);
-            error_logger.add_log(e);
+error_logger.add_log(e.getMessage());
         }
         return response;
     }
@@ -64,7 +64,7 @@ public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
     public Response answer_user_question(int question_id, String answer, Admin admin) {
         Response response = null;
         try{
-            question_controller.answer_user_question(question_id, answer, admin);
+//            question_controller.answer_user_question(question_id, answer, admin);
             String logger_message = "admin answer question : " + question_id;
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);
@@ -72,7 +72,7 @@ public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
         }
         catch (Exception e){
             response = Utils.createResponse(e);
-            error_logger.add_log(e);
+            error_logger.add_log(e.getMessage());
         }
         return response;
     }
@@ -209,7 +209,7 @@ public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
 
         catch (Exception e){
             response = Utils.createResponse(e);
-            error_logger.add_log(e);
+            error_logger.add_log(e.getMessage());
         }
         return response;
     }
@@ -223,7 +223,7 @@ public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
     public Response add_user_question(String message, User sender) {
         Response response = null;
         try{
-            question_controller.add_user_question(message, sender);
+//            question_controller.add_user_question(message, sender);
             String logger_message = sender.get_email() + " add user question";
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);
@@ -231,7 +231,7 @@ public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
         }
         catch (Exception e){
             response = Utils.createResponse(e);
-            error_logger.add_log(e);
+            error_logger.add_log(e.getMessage());
         }
         return response;
     }
@@ -248,7 +248,7 @@ public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
         }
         catch (Exception e){
             response = Utils.createResponse(e);
-            error_logger.add_log(e);
+            error_logger.add_log(e.getMessage());
         }
         return response;
     }
@@ -271,10 +271,9 @@ public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
      @Override
     public Response finish_ride(Location origin, Location destination, String city, LocalDateTime start_time,
                                 LocalDateTime end_time, List<StationaryHazard> hazards) {
+        return null;
 
 //        int ride_id = 0;
 //        this.ridesController.finish_ride(ride_id, origin, destination, city, start_time, end_time, hazards);
-         return null;
-
-     }
+    }
 }
