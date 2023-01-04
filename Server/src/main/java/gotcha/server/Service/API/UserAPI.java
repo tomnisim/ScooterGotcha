@@ -11,21 +11,25 @@ import java.util.List;
 
 public interface UserAPI {
 
+
+    Response login(String email, String password);
+    Response logout(int user_id);
+    Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender);
+
     // SMARTPHONE API
 
-    Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender);
-    Response login(String email, String password);
-    Response logout();
-    Response change_password(String old_password, String password);
+    Response change_password(String old_password, String password, int user_id);
+    Response view_user_rides_history(int user_id);
+    Response add_user_question(String message, User sender, int user_id);
+    Response view_all_user_questions(String user_email, int user_id);
+    Response get_safe_routes(Location origin, Location destination, User user, int user_id);
 
-    Response view_user_rides_history();
 
-    Response add_user_question(String message, User sender);
-    Response view_all_user_questions(String user_email);
+    // RP API - this methods should not check if the user is logged in.
 
-    // RP API - ?
-
-    Response start_ride(Location origin, Location destination, User user);
-    Response finish_ride(Location origin, Location destination, String city, LocalDateTime start_time,
+    Response finish_ride(int user_id, Location origin, Location destination, String city, LocalDateTime start_time,
                          LocalDateTime end_time, List<StationaryHazard> hazards);
+
+    /* maybe extend to get as input all the history rides from rp who doesn't send to the server. */
+    Response get_rp_config_file();
 }
