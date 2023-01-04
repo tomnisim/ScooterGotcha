@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserRateCalculator implements IUserRateCalculator {
+
     private final String tables_txt_file_path = "C:\\Users\\Amit\\Desktop\\ScooterGotcha\\server\\src\\main\\java\\gotcha\\server\\Domain\\RatingModule\\user_rate_tables.txt";
     private Dictionary<Integer, Integer> speed_changes_per_minute;
     private Dictionary<Integer, Integer> brakes_per_minute;
@@ -37,8 +38,8 @@ public class UserRateCalculator implements IUserRateCalculator {
 
 
     /**
-     * this method will calculate the new rate of a user, this method will consider the previous rate of user with weight
-     * of user's number of rides.
+     * the method calculate the new rate of a user,
+     * the method will consider the previous rate of user with weight of user's number of rides.
      * @param user - rider who just finish ride.
      * @param ride - the last ride.
      */

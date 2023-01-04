@@ -7,6 +7,6 @@ import gotcha.server.Utils.Formula;
 public interface IHazardRateCalculator {
 
     double rate_hazard(StationaryHazard hazard);
-    void set_formulas();
-    void update_hazard_formula(HazardType type, Formula formula);
+    void update_hazard_formula(HazardType hazardType, Formula formula);
+
 }

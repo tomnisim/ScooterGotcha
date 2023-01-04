@@ -35,6 +35,8 @@ public class HazardRateCalculator implements IHazardRateCalculator {
     /**
      *
      * @param hazard
+     * this method diagnose the hazard's type, select the fit formula
+     * and rate according the size of the hazard.
      * @return double between 0-20
      */
     @Override
@@ -68,7 +70,8 @@ public class HazardRateCalculator implements IHazardRateCalculator {
 
 
     @Override
-    public void update_hazard_formula(HazardType type, Formula formula){
+    public void update_hazard_formula(HazardType hazardType, Formula formula){
+
 
     }
 }
