@@ -60,7 +60,6 @@ public class MainSystem {
                     case "FIRST_TIME_RUNNING":
                         FIRST_TIME_RUNNING = Utils.string_to_boolean(instruction_parts[1]);
                         break;
-
                     case "MINIMUM_PASSWORD_LENGTH":
                         MINIMUM_PASSWORD_LENGTH = Utils.string_to_int(instruction_parts[1]);
                         break;
@@ -172,6 +171,7 @@ public class MainSystem {
             throw new ExitException("System Config File - Illegal Database Mode.");
         }
     }
+
     private void load_database() {
         // TODO: 29/12/2022 : load all controllers & set admins in the system.
         UserController.get_instance().load();
