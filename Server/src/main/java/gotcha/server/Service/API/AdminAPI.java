@@ -1,4 +1,4 @@
-package gotcha.server.Service;
+package gotcha.server.Service.API;
 
 import gotcha.server.Domain.UserModule.Admin;
 import gotcha.server.Utils.Response;
@@ -7,7 +7,7 @@ public interface AdminAPI {
 
     Response view_all_open_questions();
     Response answer_user_question(int question_id, String answer, Admin admin);
-    Response send_message_to_all_users();
+    Response send_message_to_all_users(String message);
 
     Response view_rides();
 

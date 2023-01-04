@@ -1,5 +1,6 @@
 package gotcha.server.Domain.HazardsModule;
 
+import gotcha.server.Domain.RatingModule.HazardRateCalculator;
 import gotcha.server.Utils.Location;
 
 public class StationaryHazard {
@@ -9,6 +10,7 @@ public class StationaryHazard {
     private String city;
     private HazardType type;
     private double size;
+    private double rate;
 
     public StationaryHazard(int id, int ride_id, Location location, String city, HazardType type, double size) {
         this.id = id;
@@ -17,7 +19,10 @@ public class StationaryHazard {
         this.city = city;
         this.type = type;
         this.size = size;
+        this.setRate();
     }
+
+    // TODO: 28/12/2022 : input checks - ranges and implement tests after.
 
     public int getId() {
         return id;
@@ -59,5 +64,16 @@ public class StationaryHazard {
     }
     public void setSize(double size) {
         this.size = size;
+    }
+
+    public double getRate() {
+        return rate;
+    }
+
+
+    public void setRate() {
+        HazardRateCalculator hazardRateCalculator = HazardRateCalculator.get_instance();
+        this.rate = hazardRateCalculator.rate_hazard(this);
+
     }
 }

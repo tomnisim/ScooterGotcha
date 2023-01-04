@@ -274,7 +274,7 @@ public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
 
 //        int ride_id = 0;
 //        this.ridesController.finish_ride(ride_id, origin, destination, city, start_time, end_time, hazards);
-         return null;
+         return null;
 
-     }
+     }
 }
