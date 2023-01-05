@@ -2,7 +2,7 @@ package gotcha.server.Domain.UserModule;
 
 import gotcha.server.Domain.Notifications.Notification;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
-import gotcha.server.Domain.QuestionsModule.iQuestionController;
+import gotcha.server.Domain.QuestionsModule.IQuestionController;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserAlreadyExistsException;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserException;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
@@ -18,7 +18,7 @@ public class UserController implements IUserController {
     private Map<String, User> allUsers;
     private iPasswordManager passwordManager;
 
-    private iQuestionController questionController;
+    private IQuestionController questionController;
 
 
     private static class SingletonHolder {
@@ -103,6 +103,10 @@ public class UserController implements IUserController {
             throw new Exception("password is incorrect");
         }
         user.login();
+    }
+
+    public void change_password(String userEmail, String oldPassword, String newPassword) {
+
     }
 
     /**
