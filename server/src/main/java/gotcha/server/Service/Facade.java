@@ -2,6 +2,7 @@ package gotcha.server.Service;
 
 import gotcha.server.Domain.AdvertiseModule.Advertise;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
+import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.HazardType;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
@@ -35,6 +36,7 @@ public class Facade  {
     private RidesController rides_controller;
     private UserController user_controller;
     private AdvertiseController advertise_controller;
+    private HazardController hazard_controller;
     private User loggedUser;
     // TODO: 30/12/2022 : remove // after open class "Route"
 //    private RoutesRetriever routes_retriever;
@@ -46,6 +48,7 @@ public class Facade  {
         this.rides_controller = RidesController.get_instance();
         this.user_controller = UserController.get_instance();
         this.advertise_controller = AdvertiseController.get_instance();
+        this.hazard_controller = HazardController.get_instance();
         // TODO: 30/12/2022 : remove // after open class "Route"
 //        this.routes_retriever = RoutesRetriever.getInstance();
     }
@@ -271,10 +274,14 @@ public class Facade  {
 
         Response response = null;
         try{
+            String ride_info="";
+            String hazard_info ="";
             // TODO: 05/01/2023 : build the info objects
-            String ride_info="", hazard_info ="";
-            Ride ride = this.rides_controller.add_ride(ride_info, hazard_info);
-            user_controller.update_user_rate(user_id, ride);
+            int number_of_rides = this.rides_controller.get_number_of_rides(user_id);
+            Ride ride = this.rides_controller.add_ride(ride_info);
+            int ride_id = ride.getRide_id();
+            user_controller.update_user_rate(user_id, ride, number_of_rides);
+            hazard_controller.update_hazards(hazard_info, ride_id);
             String logger_message = "user added new ride";
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);

@@ -16,14 +16,10 @@ public interface IUserController extends Observable {
     void logout(String userEmail) throws UserNotFoundException;
     void appoint_new_admin(String newAdminEmail, String appointingAdminEmail) throws Exception;
     void reply_to_user_question(String adminEmail, String reply, int question_id) throws Exception;
-
     void send_question_to_admin(String userEmail, String message) throws Exception;
-
-
     List<String> view_admins();
     void remove_admin_appointment(String user_email, String admin_email);
     void delete_user(String user_email);
     String change_password(User loggedUser, String old_password, String password);
-
-    void update_user_rate(int user_id, Ride ride);
+    void update_user_rate(int user_id, Ride ride, int number_of_rides);
 }

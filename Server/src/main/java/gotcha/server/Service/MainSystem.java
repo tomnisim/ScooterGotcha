@@ -10,9 +10,11 @@ import gotcha.server.ExternalService.MapsAdapterImpl;
 import gotcha.server.Utils.Exceptions.ExitException;
 import gotcha.server.Utils.Logger.SystemLogger;
 import gotcha.server.Utils.Utils;
+import org.springframework.cglib.core.Local;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class MainSystem {
@@ -185,8 +187,7 @@ public class MainSystem {
         System.out.println(MINIMUM_DISTANCE_ALERT);
     }
     private void set_first_admin() {
-        // TODO: 30/12/2022 : sasha
-        System.out.println(ADMIN_USER_NAME);
-        System.out.println(ADMIN_PASSWORD);
+        LocalDate birth_date = LocalDate.now();
+        UserController.get_instance().add_first_admin(ADMIN_USER_NAME, ADMIN_PASSWORD, "0546794211",birth_date,"male")
     }
 }
