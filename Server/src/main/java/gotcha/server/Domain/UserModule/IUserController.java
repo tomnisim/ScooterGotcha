@@ -10,7 +10,7 @@ import java.util.List;
 public interface IUserController extends Observable {
     User get_user_by_id(String userEmail) throws UserNotFoundException;
     List<User> get_all_users();
-    Boolean register(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate) throws Exception;
+    Boolean register(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate, String raspberryPiSerialNumber) throws Exception;
     void login(String userEmail, String password) throws Exception;
     void logout(String userEmail) throws UserNotFoundException;
     void appoint_new_admin(String newAdminEmail, String appointingAdminEmail) throws Exception;
@@ -22,5 +22,5 @@ public interface IUserController extends Observable {
     List<String> view_admins();
     void remove_admin_appointment(String user_email, String admin_email);
     void delete_user(String user_email);
-    String change_password(User loggedUser, String old_password, String password);
+    void change_password(User loggedUser, String old_password, String password) throws Exception;
 }

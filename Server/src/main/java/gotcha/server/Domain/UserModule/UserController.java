@@ -12,10 +12,13 @@ import gotcha.server.Utils.Utils;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
 public class UserController implements IUserController {
     private Map<String, User> allUsers;
+
+    private Map<String, String> usersEmailByRaspberryPi;
     private iPasswordManager passwordManager;
 
     private IQuestionController questionController;
@@ -30,9 +33,10 @@ public class UserController implements IUserController {
     }
 
     public UserController() {
-        this.allUsers = new HashMap<>();
+        this.allUsers = new ConcurrentHashMap<>();
         this.passwordManager = new PasswordManagerImpl();
         this.questionController = new QuestionController();
+        this.usersEmailByRaspberryPi = new ConcurrentHashMap<>();
     }
 
     public void load() {
@@ -72,7 +76,7 @@ public class UserController implements IUserController {
      * @return
      * @throws UserException
      */
-    public Boolean register(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate) throws Exception {
+    public Boolean register(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate, String raspberryPiSerialNumber) throws Exception {
         if (allUsers.containsKey(userEmail))
         {
             throw new UserAlreadyExistsException("User with email :"+ userEmail + " alerady exists");
@@ -81,8 +85,9 @@ public class UserController implements IUserController {
         verify_user_information(userEmail, password, phoneNumber, birthDay, gender, scooterType, licenceIssueDate);
 
         String passwordToken = passwordManager.hash(password);
-        User newUser = new Rider(userEmail, passwordToken, phoneNumber, birthDay, gender, scooterType, licenceIssueDate);
+        User newUser = new Rider(userEmail, passwordToken, phoneNumber, birthDay, gender, scooterType, licenceIssueDate, raspberryPiSerialNumber);
         allUsers.put(userEmail, newUser);
+        usersEmailByRaspberryPi.put(raspberryPiSerialNumber, userEmail);
         return true;
     }
 
@@ -105,8 +110,19 @@ public class UserController implements IUserController {
         user.login();
     }
 
-    public void change_password(String userEmail, String oldPassword, String newPassword) {
+    public void change_password(String userEmail, String oldPassword, String newPassword) throws Exception {
+        if (!allUsers.containsKey(userEmail))
+            throw new UserNotFoundException("user email: " + userEmail + " not found");
 
+        var user = allUsers.get(userEmail);
+        if (passwordManager.authenticate(oldPassword, user.get_password_token()));
+        {
+            Utils.passwordValidCheck(oldPassword);
+            String passwordToken = passwordManager.hash(newPassword);
+            user.change_password_token(passwordToken);
+
+        }
+        throw new Exception("Invalid password");
     }
 
     /**
@@ -205,6 +221,21 @@ public class UserController implements IUserController {
 
         var sender = allUsers.get(userEmail);
         questionController.add_user_question(message, sender.get_email(),create_notify_all_admins_callback());
+    }
+
+    @Override
+    public List<String> view_admins() {
+        return null;
+    }
+
+    @Override
+    public void remove_admin_appointment(String user_email, String admin_email) {
+
+    }
+
+    @Override
+    public void delete_user(String user_email) {
+
     }
 
 

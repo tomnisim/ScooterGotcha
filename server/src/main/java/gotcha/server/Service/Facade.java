@@ -38,7 +38,6 @@ public class Facade  {
     private User loggedUser;
     // TODO: 30/12/2022 : remove // after open class "Route"
 //    private RoutesRetriever routes_retriever;
-
     public Facade() {
         this.error_logger = ErrorLogger.get_instance();
         this.serverLogger = ServerLogger.get_instance();
@@ -65,17 +64,6 @@ public class Facade  {
             throw new UserException("user is not an admin");
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 
     // PROGRAMMER
      
@@ -151,8 +139,8 @@ public class Facade  {
         Response response = null;
         try {
             check_user_is_logged_in();
-            String email = user_controller.change_password(loggedUser, old_password, password);
-            String logger_message = "User's (" + email + ")  password has been changed successfully.";
+            user_controller.change_password(loggedUser, old_password, password);
+            String logger_message = "User's (" + loggedUser.get_email() + ")  password has been changed successfully.";
             response = new Response<>(password, logger_message);
             serverLogger.add_log(logger_message);
         }

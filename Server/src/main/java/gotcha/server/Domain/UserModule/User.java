@@ -41,6 +41,9 @@ User implements Observer {
         return this.phoneNumber;
     }
 
+    public void change_password_token(String newToken){
+        this.userPasswordToken = newToken;
+    }
     public String get_gender() {
         return this.gender;
     }
