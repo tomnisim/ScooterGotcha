@@ -26,9 +26,9 @@ public class AdvertiseController implements IAdvertiseController {
 
 
     @Override
-    public void add_advertise(LocalDateTime final_date, String owner, String message, String photo){
+    public void add_advertise(LocalDateTime final_date, String owner, String message, String photo, String url){
         int advertise_id = this.id_counter.incrementAndGet();
-        Advertise advertise = new Advertise(advertise_id, final_date, owner, message, photo);
+        Advertise advertise = new Advertise(advertise_id, final_date, owner, message, photo, url);
         this.advertise_list.put(advertise_id, advertise);
     }
     @Override
@@ -37,25 +37,36 @@ public class AdvertiseController implements IAdvertiseController {
     }
 
     @Override
-    public void update_advertise(int advertise_id, LocalDateTime final_date, String owner, String message, String photo){
+    public void update_advertise(int advertise_id, LocalDateTime final_date, String owner, String message, String photo, String url){
         Advertise advertise = this.advertise_list.get(advertise_id);
         advertise.setFinal_date(final_date);
         advertise.setOwner(owner);
         advertise.setMessage(message);
         advertise.setPhoto(photo);
+        advertise.setUrl(url);
+
     }
 
 
 
     @Override
-    public List<Advertise> get_all_advertisements_for_admin(){
-        return new ArrayList<>(this.advertise_list.values());
+    public List<String> get_all_advertisements_for_admin(){
+        List<String> to_return = new LinkedList<>();
+        for (Advertise advertise : this.advertise_list.values())
+        {
+            to_return.add(advertise.toString_admin());
+        }
+        return to_return;
     }
 
     @Override
-    public List<Advertise> get_all_advertisements_for_user(){
-        // TODO: 04/01/2023 : filter.
-        return new ArrayList<>(this.advertise_list.values());
+    public List<String> get_all_advertisements_for_user(){
+        List<String> to_return = new LinkedList<>();
+        for (Advertise advertise : this.advertise_list.values())
+        {
+            to_return.add(advertise.toString_user());
+        }
+        return to_return;
     }
 
 }

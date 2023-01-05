@@ -3,6 +3,8 @@ package gotcha.server.Service.API;
 import gotcha.server.Domain.UserModule.Admin;
 import gotcha.server.Utils.Response;
 
+import java.time.LocalDateTime;
+
 public interface AdminAPI {
 
     Response view_all_open_questions(int admin_id);
@@ -14,7 +16,7 @@ public interface AdminAPI {
     Response view_statistics(int admin_id);
 
     Response view_advertisements(int admin_id);
-    Response add_advertisement(int admin_id);
+    Response add_advertisement(LocalDateTime final_date, String owner, String message, String photo, String url, int admin_id);
     Response delete_advertisement(int advertise_id, int admin_id);
 
     Response view_awards(int admin_id);

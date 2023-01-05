@@ -207,7 +207,7 @@ public class Facade  {
         Response response = null;
         try{
             check_user_is_logged_in();
-            List<Advertise> advs = advertise_controller.get_all_advertisements_for_user();
+            List<String> advs = advertise_controller.get_all_advertisements_for_user();
             String logger_message = "user( "+loggedUser.get_email()+ ") view all advertisements";
             response = new Response(advs, logger_message);
             serverLogger.add_log(logger_message);
@@ -256,20 +256,26 @@ public class Facade  {
      
     public Response finish_ride(int user_id, Location origin, Location destination, String city, LocalDateTime start_time,
                                 LocalDateTime end_time, List<StationaryHazard> hazards) {
-        return null;
 
-//        int ride_id = 0;
-//        this.ridesController.finish_ride(ride_id, origin, destination, city, start_time, end_time, hazards);
+        Response response = null;
+        try{
+            // TODO: 05/01/2023 : build the info objects
+            String ride_info="", hazard_info ="";
+            Ride ride = this.rides_controller.add_ride(ride_info, hazard_info);
+            user_controller.update_user_rate(user_id, ride);
+            String logger_message = "user added new ride";
+            response = new Response("", logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+
     }
 
-    /**
-     * don't check if the user is logged in - can perform without logged in.
-     * @return
-     */
-    
-    public Response get_rp_config_file() {
-        return null;
-    }
 
 
 
@@ -373,7 +379,7 @@ public class Facade  {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in();
-            List<Advertise> advs = advertise_controller.get_all_advertisements_for_admin();
+            List<String> advs = advertise_controller.get_all_advertisements_for_admin();
             String logger_message = "admin view all advertisements";
             response = new Response(advs, logger_message);
             serverLogger.add_log(logger_message);
@@ -504,6 +510,23 @@ public class Facade  {
             String admin_email = this.loggedUser.get_email();
             user_controller.delete_user(user_email);
             String logger_message = "admin (" + admin_email + ") delete the user (" + user_email + ")";
+            response = new Response("", logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response add_advertisement(LocalDateTime final_date, String owner, String message, String photo, String url) {
+        Response response = null;
+        try{
+            check_user_is_admin_and_logged_in();
+            this.advertise_controller.add_advertise(final_date, owner, message, photo, url);
+            String logger_message = "admin add new advertise (" + owner+ ")";
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);
 

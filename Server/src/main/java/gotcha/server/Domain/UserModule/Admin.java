@@ -12,10 +12,6 @@ public class Admin extends User{
         this.appointmentDate = LocalDate.now();
     }
 
-    public Admin(User user, Admin appointedBy) {
-        this(user.get_email(), user.get_password_token(), user.get_phone_number(), user.get_birth_day(), user.get_gender(), appointedBy);
-    }
-
     @Override
     public Boolean is_admin() {
         return true;
