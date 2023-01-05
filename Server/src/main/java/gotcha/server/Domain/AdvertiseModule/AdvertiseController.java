@@ -1,9 +1,6 @@
 package gotcha.server.Domain.AdvertiseModule;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class AdvertiseController implements IAdvertiseController {
@@ -47,6 +44,20 @@ public class AdvertiseController implements IAdvertiseController {
         advertise.setMessage(message);
         advertise.setPhoto(photo);
     }
+
+
+
+    @Override
+    public List<Advertise> get_all_advertisements_for_admin(){
+        return new ArrayList<>(this.advertise_list.values());
+    }
+
+    @Override
+    public List<Advertise> get_all_advertisements_for_user(){
+        // TODO: 04/01/2023 : filter.
+        return new ArrayList<>(this.advertise_list.values());
+    }
+
 }
 
 

@@ -1,10 +1,10 @@
-from picamera import PiCamera
 from time import sleep
 
 
 class CameraController:
     def __init__(self):
-        self.camera = PiCamera()
+        # self.camera = PiCamera()
+        self.camera= None
         print("camera controller build.")
 
     def init_camera(self):

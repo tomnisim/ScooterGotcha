@@ -7,7 +7,8 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class User implements Observer {
+public abstract class
+User implements Observer {
 
     private String userEmail;
     private String userPasswordToken;

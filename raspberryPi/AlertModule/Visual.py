@@ -1,6 +1,7 @@
+from signal import pause
+
 from AlertModule.Alert import Alert
 from gpiozero import LED
-from signal import pause
 
 class Visual(Alert):
     def __init__(self):

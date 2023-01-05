@@ -1,19 +1,35 @@
-import socket
 
-class TCPconnection:
+
+
+import requests
+
+from CommunicationModule.urls import finish_ride_url, get_rp_config_file_url
+from Utils.Response import Response
+
+
+class TCPconnection():
+    # Set the API endpoint URL
+
     def __init__(self):
-        self.s = 0
+        pass
 
-    def open_connection_with_server(self):
-        host = socket.gethostname()
-        port = 6666  # The same port as used by the server
-        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.s.connect((host, port))
 
-    def send_data_to_server_by_socket(self, data):
-        # data to bytes
-        data_bytes = (b'data')
-        self.s.sendall(data_bytes)
-        answer = self.s.recv(1024)
-        self.s.close()
-        print('Received', repr(answer))
+    def get_rp_config_file(self):
+        res = requests.post(get_rp_config_file_url, data="ffffffff")
+        response = Response(res)
+
+
+    def finish_ride(self):
+        res = requests.post(finish_ride_url, data="ffffffff")
+        response = Response(res)
+        config_file_txt = response.get_value()
+        f = open("config.txt", "a")
+        f.write("Now the file has more content!")
+        f.close()
+        # set config by response data
+
+
+
+
+
+
