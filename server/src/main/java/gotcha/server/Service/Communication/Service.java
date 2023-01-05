@@ -9,6 +9,7 @@ import gotcha.server.Service.API.UserAPI;
 import gotcha.server.Service.Facade;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Response;
+import gotcha.server.Utils.Utils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -174,7 +175,9 @@ public class Service implements AdminAPI, UserAPI  {
     @CrossOrigin
     @Override
     public Response get_rp_config_file() {
-        return null;
+        String config_file_data = Utils.get_rp_config_file_data();
+        Response response = new Response(config_file_data, "rp config file got successfully");
+        return response;
     }
 
 
@@ -241,8 +244,8 @@ public class Service implements AdminAPI, UserAPI  {
     @RequestMapping(value = "/add_advertisement")
     @CrossOrigin
     @Override
-    public Response add_advertisement(int admin_id) {
-        return null;
+    public Response add_advertisement(LocalDateTime final_date, String owner, String message, String photo, String url, int admin_id) {
+        return get_facade(admin_id).add_advertisement(final_date, owner, message, photo, url);
     }
 
     @RequestMapping(value = "/delete_advertisement")

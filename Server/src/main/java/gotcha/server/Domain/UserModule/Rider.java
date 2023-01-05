@@ -1,6 +1,7 @@
 package gotcha.server.Domain.UserModule;
 
 import gotcha.server.Domain.RatingModule.UserRateCalculator;
+import gotcha.server.Domain.RidesModule.Ride;
 
 import java.time.LocalDate;
 
@@ -18,9 +19,9 @@ public class Rider extends User{
 
     public Rider(){}
 
-    public void update_rating(double rideRating) {
+    public void update_rating(Ride ride, int number_of_rides) {
         UserRateCalculator userRateCalculator = new UserRateCalculator();
-        this.rating = rating * 0.8 + rideRating * 0.2; // TODO: just an example, need to change
+        userRateCalculator.update_user_rating(this, ride, number_of_rides);
     }
 
     public void update_scooter_type(String scooterType) {
@@ -31,4 +32,11 @@ public class Rider extends User{
         this.licenceIssueDate = licenceIssueDate;
     }
 
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
 }

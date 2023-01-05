@@ -33,11 +33,12 @@ public class RidesController {
      * @param ride_info - information about the ride from RP
      * @param hazard_info - information about the hazards during the ride from RP
      */
-    public void add_ride(String ride_info, String hazard_info)
+    public Ride add_ride(String ride_info, String hazard_info)
     {
         int ride_id = this.id_counter.incrementAndGet();
         Ride ride = new Ride(); // TODO - extract the information from the JSON
         this.rides.put(ride_id, ride);
+        return ride;
 
     }
 
