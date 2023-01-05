@@ -1,5 +1,7 @@
 package gotcha.server.Domain.UserModule;
 
+import gotcha.server.Domain.AdvertiseModule.Advertise;
+import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
 import gotcha.server.Utils.Observable;
 
@@ -18,4 +20,10 @@ public interface IUserController extends Observable {
     void send_question_to_admin(String userEmail, String message) throws Exception;
 
 
+    List<String> view_admins();
+    void remove_admin_appointment(String user_email, String admin_email);
+    void delete_user(String user_email);
+    String change_password(User loggedUser, String old_password, String password);
+
+    void update_user_rate(int user_id, Ride ride);
 }

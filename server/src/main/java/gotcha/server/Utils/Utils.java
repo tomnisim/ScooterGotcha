@@ -247,4 +247,9 @@ public class Utils {
         return str.equals("t") || str.equals("T") || str.equals("true") || str.equals("TRUE") ||
                 str.equals("True") || str.equals("OK") || str.equals("yes") || str.equals("YES") || str.equals("Yes");
     }
+
+    public static String get_rp_config_file_data() {
+        // TODO: 05/01/2023 : implement 
+        return "todo";
+    }
 }

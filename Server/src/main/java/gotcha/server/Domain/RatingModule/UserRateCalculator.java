@@ -2,6 +2,7 @@ package gotcha.server.Domain.RatingModule;
 
 import gotcha.server.Domain.HazardsModule.HazardType;
 import gotcha.server.Domain.RidesModule.Ride;
+import gotcha.server.Domain.UserModule.Rider;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Utils.Formula;
 
@@ -40,11 +41,18 @@ public class UserRateCalculator implements IUserRateCalculator {
     /**
      * the method calculate the new rate of a user,
      * the method will consider the previous rate of user with weight of user's number of rides.
-     * @param user - rider who just finish ride.
+     * @param rider - rider who just finish ride.
      * @param ride - the last ride.
      */
     @Override
-    public void update_user_rating(User user, Ride ride){
+    public void update_user_rating(Rider rider, Ride ride, int number_of_rides){
+        double new_rate;
+        double user_previous_rate = rider.getRating();
+        double current_ride_rate = this.calculate_rate_for_ride(ride);
+        new_rate = user_previous_rate * number_of_rides;
+        new_rate = new_rate + current_ride_rate;
+        new_rate = new_rate / number_of_rides;
+        rider.setRating(new_rate);
 
     }
 
@@ -78,5 +86,11 @@ public class UserRateCalculator implements IUserRateCalculator {
         catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public double calculate_rate_for_ride(Ride ride) {
+        // TODO: 05/01/2023 : implement
+        return 0;
     }
 }

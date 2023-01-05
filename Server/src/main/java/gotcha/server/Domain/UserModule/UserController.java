@@ -2,7 +2,8 @@ package gotcha.server.Domain.UserModule;
 
 import gotcha.server.Domain.Notifications.Notification;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
-import gotcha.server.Domain.QuestionsModule.iQuestionController;
+import gotcha.server.Domain.QuestionsModule.IQuestionController;
+import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserAlreadyExistsException;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserException;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
@@ -18,7 +19,7 @@ public class UserController implements IUserController {
     private Map<String, User> allUsers;
     private iPasswordManager passwordManager;
 
-    private iQuestionController questionController;
+    private IQuestionController questionController;
 
 
     private static class SingletonHolder {
@@ -201,6 +202,31 @@ public class UserController implements IUserController {
 
         var sender = allUsers.get(userEmail);
         questionController.add_user_question(message, sender.get_email(),create_notify_all_admins_callback());
+    }
+
+    @Override
+    public List<String> view_admins() {
+        return null;
+    }
+
+    @Override
+    public void remove_admin_appointment(String user_email, String admin_email) {
+
+    }
+
+    @Override
+    public void delete_user(String user_email) {
+
+    }
+
+    @Override
+    public String change_password(User loggedUser, String old_password, String password) {
+        return null;
+    }
+
+    @Override
+    public void update_user_rate(int user_id, Ride ride) {
+
     }
 
 
