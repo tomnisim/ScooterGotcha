@@ -1,6 +1,14 @@
 from AlertModule.Alert import Alert
 
 
+<<<<<<< HEAD
+=======
+from AlertModule.Verbal import Verbal
+from AlertModule.Vibration import Vibration
+from AlertModule.Visual import Visual
+from AlertModule.Vocal import Vocal
+from Service.Ride import Ride
+>>>>>>> 9372ea715b9a9846ae18107213402295d0801ac2
 from CameraModule.CameraController import CameraController
 from CommunicationModule.TCPconnection import TCPconnection
 from GPSModule.GPSController import GPSController

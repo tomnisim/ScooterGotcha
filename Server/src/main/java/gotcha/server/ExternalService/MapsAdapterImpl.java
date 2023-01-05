@@ -7,7 +7,7 @@ import java.util.List;
 public class MapsAdapterImpl implements MapsAdapter {
     @Override
     public boolean handshake() {
-        return false;
+        return true;
     }
 
     // TODO: 30/12/2022 : remove // after open class "Route"

@@ -1,8 +1,8 @@
 FIRST_TIME_RUNNING:yes
-EXTERNAL_SERVICE_MODE:tests/real
-database_mode:tests/real
-database_url:
-database_password:
+EXTERNAL_SERVICE_MODE:real
+DATABASE_MODE:real
+DATABASE_URL:www.amit.com
+DATABASE_PASSWORD:12345
 system_email:
 system_email_password:
 admin_user_name:
