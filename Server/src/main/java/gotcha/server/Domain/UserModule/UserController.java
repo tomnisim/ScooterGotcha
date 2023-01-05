@@ -24,7 +24,6 @@ public class UserController implements IUserController {
 
     private IQuestionController questionController;
 
-
     private static class SingletonHolder {
         private static UserController instance = new UserController();
     }
@@ -239,11 +238,6 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public List<String> view_admins() {
-        return null;
-    }
-
-    @Override
     public List<String> view_admins(){
 
         var adminsList = new ArrayList<String>();
@@ -259,7 +253,7 @@ public class UserController implements IUserController {
     public void remove_admin_appointment(String user_email, String admin_email) throws Exception {
         var user = allUsers.get(user_email);
         if (user == null || !user.is_admin()) {
-            throw new Exception("user email: " + user_email + " not found or is not admin")
+            throw new Exception("user email: " + user_email + " not found or is not admin");
         }
 
         // only master admin can remove an admin appointment

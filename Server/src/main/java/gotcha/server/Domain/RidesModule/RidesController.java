@@ -31,9 +31,8 @@ public class RidesController {
     /**
      *
      * @param ride_info - information about the ride from RP
-     * @param hazard_info - information about the hazards during the ride from RP
      */
-    public Ride add_ride(String ride_info, String hazard_info)
+    public Ride add_ride(String ride_info)
     {
         int ride_id = this.id_counter.incrementAndGet();
         Ride ride = new Ride(); // TODO - extract the information from the JSON
@@ -96,6 +95,12 @@ public class RidesController {
     public List<Ride> get_all_rides()
     {
         return new ArrayList<>(this.rides.values());
+    }
+    
+    public int get_number_of_rides(int rider_id){
+        // TODO: 05/01/2023 : tom - change fields, add field of <user_email, List<Ride>> 
+        return this.get_rides(rider_id).size();
+        
     }
 
 }
