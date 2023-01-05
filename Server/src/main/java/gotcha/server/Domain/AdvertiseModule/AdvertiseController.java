@@ -48,14 +48,23 @@ public class AdvertiseController implements IAdvertiseController {
 
 
     @Override
-    public List<Advertise> get_all_advertisements_for_admin(){
-        return new ArrayList<>(this.advertise_list.values());
+    public List<String> get_all_advertisements_for_admin(){
+        List<String> to_return = new LinkedList<>();
+        for (Advertise advertise : this.advertise_list.values())
+        {
+            to_return.add(advertise.toString_admin());
+        }
+        return to_return;
     }
 
     @Override
-    public List<Advertise> get_all_advertisements_for_user(){
-        // TODO: 04/01/2023 : filter.
-        return new ArrayList<>(this.advertise_list.values());
+    public List<String> get_all_advertisements_for_user(){
+        List<String> to_return = new LinkedList<>();
+        for (Advertise advertise : this.advertise_list.values())
+        {
+            to_return.add(advertise.toString_user());
+        }
+        return to_return;
     }
 
 }

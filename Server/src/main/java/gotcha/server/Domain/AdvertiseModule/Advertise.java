@@ -17,7 +17,6 @@ public class Advertise {
         this.owner = owner;
         this.message = message;
         this.photo = photo;
-
         this.start_date = LocalDateTime.now();
         this.users_clicks = 0;
     }
@@ -34,7 +33,7 @@ public class Advertise {
     }
 
 
-    // TODO: 28/12/2022 : check inputs and set ranges, test after it.
+// TODO: 28/12/2022 : check inputs and set ranges, test after it.
 
     public int getId() {
         return id;
@@ -90,5 +89,24 @@ public class Advertise {
 
     public void setUsers_clicks(int users_clicks) {
         this.users_clicks = users_clicks;
+    }
+
+    public String toString_admin() {
+        return "Advertise{" +
+                "id=" + id +
+                ", start_date=" + start_date +
+                ", final_date=" + final_date +
+                ", owner='" + owner + '\'' +
+                ", message='" + message + '\'' +
+                ", photo='" + photo + '\'' +
+                ", users_clicks=" + users_clicks +
+                '}';
+    }
+
+    public String toString_user() {
+        return "Advertise{" +
+                ", message='" + message + '\'' +
+                ", photo='" + photo + '\'' +
+                '}';
     }
 }
