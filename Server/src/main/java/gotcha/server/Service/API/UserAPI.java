@@ -20,10 +20,10 @@ public interface UserAPI {
 
     Response change_password(String old_password, String password, int user_id);
     Response view_user_rides_history(int user_id);
-    Response add_user_question(String message, User sender, int user_id);
-    Response view_all_user_questions(String user_email, int user_id);
-    Response get_safe_routes(Location origin, Location destination, User user, int user_id);
-
+    Response add_user_question(String message, int user_id);
+    Response view_all_user_questions(int user_id);
+    Response get_safe_routes(Location origin, Location destination, int user_id);
+    Response view_all_advertisement(int user_id);
 
     // RP API - this methods should not check if the user is logged in.
 
