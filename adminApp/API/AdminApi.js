@@ -1,5 +1,5 @@
 import { Response } from "./Response";
-
+import {CATCH, CONNECTION_ERROR} from "./AdvertismentsApi"
 const ADD_ADMIN_PATH = "http://localhost:8080/add_admin"
 const DELETE_ADMIN_PATH = "http://localhost:8080/delete_admin"
 const VIEW_ADMINS_PATH = "http://localhost:8080/view_admins"
