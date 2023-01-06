@@ -1,5 +1,5 @@
 import { Response } from "./Response";
-import {CATCH, CONNECTION_ERROR} from "./AdvertismentsApi"
+
 const EDIT_USER_PATH = "http://localhost:8080/edit_user"
 const DELETE_USER_PATH = "http://localhost:8080/delete_user"
 const VIEW_USER_PATH = "http://localhost:8080/view_users"

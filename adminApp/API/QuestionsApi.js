@@ -1,5 +1,4 @@
 import { Response } from "./Response";
-import {CATCH, CONNECTION_ERROR} from "./AdvertismentsApi"
 
 const VIEW_ALL_OPEN_QUESTIONS_PATH = "http://localhost:8080/view_all_open_questions"
 const ANSWER_USER_QUESTION_PATH = "http://localhost:8080/answer_user_question"

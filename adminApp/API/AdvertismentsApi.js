@@ -1,11 +1,5 @@
 import { Response } from "./Response";
 
-
-export const CONNECTION_ERROR = "The system is not available right now, come back later";
-export const CATCH = "CATCH";
-
-
-
 const ADD_ADVERTISE_PATH = "http://localhost:8080/add_advertisement"
 const DELETE_ADVERTISE_PATH = "http://localhost:8080/delete_advertisement"
 const VIEW_ADVERTISES_PATH = "http://localhost:8080/view_advertisements"
