@@ -10,11 +10,14 @@ public class Rider extends User{
     private String scooterType;
     private LocalDate licenceIssueDate;
 
-    public Rider(String userEmail, String userPassword, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate) {
+    private String raspberryPiSerialNumber;
+
+    public Rider(String userEmail, String userPassword, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate, String raspberryPiSerialNumber) {
         super(userEmail, userPassword, phoneNumber, birthDay, gender);
         this.licenceIssueDate = licenceIssueDate;
         this.scooterType = scooterType;
         this.rating = 0.0;
+        this.raspberryPiSerialNumber = raspberryPiSerialNumber;
     }
 
     public Rider(){}

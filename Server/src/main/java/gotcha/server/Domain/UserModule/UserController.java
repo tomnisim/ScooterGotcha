@@ -13,14 +13,16 @@ import gotcha.server.Utils.Utils;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
 public class UserController implements IUserController {
     private Map<String, User> allUsers;
+
+    private Map<String, String> usersEmailByRaspberryPi;
     private iPasswordManager passwordManager;
 
     private IQuestionController questionController;
-
 
     private static class SingletonHolder {
         private static UserController instance = new UserController();
@@ -31,12 +33,20 @@ public class UserController implements IUserController {
     }
 
     public UserController() {
-        this.allUsers = new HashMap<>();
+        this.allUsers = new ConcurrentHashMap<>();
         this.passwordManager = new PasswordManagerImpl();
         this.questionController = new QuestionController();
+        this.usersEmailByRaspberryPi = new ConcurrentHashMap<>();
+    }
+
+    public void add_first_admin(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender) throws Exception {
+        verify_user_information(userEmail, password, phoneNumber, birthDay, gender);
+        var passwordToken = passwordManager.hash(password);
+        var admin = new Admin(userEmail, passwordToken, phoneNumber, birthDay, gender, null );
     }
 
     public void load() {
+
     }
 
     /**
@@ -73,7 +83,7 @@ public class UserController implements IUserController {
      * @return
      * @throws UserException
      */
-    public Boolean register(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate) throws Exception {
+    public Boolean register(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate, String raspberryPiSerialNumber) throws Exception {
         if (allUsers.containsKey(userEmail))
         {
             throw new UserAlreadyExistsException("User with email :"+ userEmail + " alerady exists");
@@ -82,8 +92,9 @@ public class UserController implements IUserController {
         verify_user_information(userEmail, password, phoneNumber, birthDay, gender, scooterType, licenceIssueDate);
 
         String passwordToken = passwordManager.hash(password);
-        User newUser = new Rider(userEmail, passwordToken, phoneNumber, birthDay, gender, scooterType, licenceIssueDate);
+        User newUser = new Rider(userEmail, passwordToken, phoneNumber, birthDay, gender, scooterType, licenceIssueDate, raspberryPiSerialNumber);
         allUsers.put(userEmail, newUser);
+        usersEmailByRaspberryPi.put(raspberryPiSerialNumber, userEmail);
         return true;
     }
 
@@ -106,6 +117,21 @@ public class UserController implements IUserController {
         user.login();
     }
 
+    public void change_password(String userEmail, String oldPassword, String newPassword) throws Exception {
+        if (!allUsers.containsKey(userEmail))
+            throw new UserNotFoundException("user email: " + userEmail + " not found");
+
+        var user = allUsers.get(userEmail);
+        if (passwordManager.authenticate(oldPassword, user.get_password_token()));
+        {
+            Utils.passwordValidCheck(oldPassword);
+            String passwordToken = passwordManager.hash(newPassword);
+            user.change_password_token(passwordToken);
+
+        }
+        throw new Exception("Invalid password");
+    }
+
     /**
      * Logout user, throws exception if user not found
      * @param userEmail
@@ -120,22 +146,28 @@ public class UserController implements IUserController {
     }
 
     /**
-     * Appoints a new admin, throws exception if users not found or the appointing admin is not admin
+     * Appoints a new admin, throws exception if user eamil already exists or the appointing admin is not admin
+     * new admin needs to have an email that is not already registered in the system
      * @param newAdminEmail
      * @param appointingAdminEmail
      * @throws Exception
      */
-    public void appoint_new_admin(String newAdminEmail, String appointingAdminEmail) throws Exception {
-        if (!allUsers.containsKey(appointingAdminEmail) || !allUsers.containsKey(newAdminEmail)) {
-            throw new UserNotFoundException();
+    public void appoint_new_admin(String newAdminEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String appointingAdminEmail) throws Exception {
+        if (allUsers.containsKey(newAdminEmail)) {
+            throw new UserNotFoundException("appointed admin email: " + appointingAdminEmail + " already exists");
         }
-        User appointingAdmin = allUsers.get(appointingAdminEmail);
+
+        verify_user_information(newAdminEmail, password, phoneNumber, birthDay, gender);
+        var appointingAdmin = allUsers.get(appointingAdminEmail);
         if (!appointingAdmin.is_admin()) {
-            throw new Exception();
+            throw new Exception("appointing admin email is not of an admin");
         }
-        User newAdmin = new Admin(allUsers.get(newAdminEmail), (Admin) appointingAdmin);
+
+        var passwordToken = passwordManager.hash(password);
+        var newAdmin = new Admin(newAdminEmail, passwordToken, phoneNumber, birthDay, gender, (Admin)appointingAdmin);
         allUsers.put(newAdminEmail, newAdmin);
     }
+
 
     /**
      * Verifies the user information is valid
@@ -144,18 +176,19 @@ public class UserController implements IUserController {
      * @param phoneNumber
      * @param birthDay
      * @param gender
-     * @param scooterType
-     * @param licenceIssueDate
+     * @param extraParams
      * @return
      */
-    private void verify_user_information(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate) throws Exception {
+    private void verify_user_information(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, Object...extraParams) throws Exception {
         Utils.emailValidCheck(userEmail);
         Utils.validate_phone_number(phoneNumber);
         Utils.passwordValidCheck(password);
         Utils.validate_birth_date(birthDay);
         Utils.validate_gender(gender);
-        Utils.validate_scooter_type(scooterType);
-        Utils.validate_license_issue_date(licenceIssueDate);
+        if (extraParams[0] != null)
+            Utils.validate_scooter_type((String)extraParams[0]);
+        if (extraParams[1] != null)
+            Utils.validate_license_issue_date((LocalDate)extraParams[1]);
     }
 
     /**
@@ -205,28 +238,48 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public List<String> view_admins() {
-        return null;
+    public List<String> view_admins(){
+
+        var adminsList = new ArrayList<String>();
+        for (var user : allUsers.values()) {
+            if (user.is_admin()) {
+                adminsList.add(user.get_email());
+            }
+        }
+        return adminsList;
     }
 
     @Override
-    public void remove_admin_appointment(String user_email, String admin_email) {
+    public void remove_admin_appointment(String user_email, String admin_email) throws Exception {
+        var user = allUsers.get(user_email);
+        if (user == null || !user.is_admin()) {
+            throw new Exception("user email: " + user_email + " not found or is not admin");
+        }
 
+        // only master admin can remove an admin appointment
+        var admin = allUsers.get(admin_email);
+        if (((Admin)admin).get_appointed_by() != null) {
+            throw new Exception("only master admin can remove appointment");
+        }
+
+        allUsers.remove(user_email);
     }
 
     @Override
-    public void delete_user(String user_email) {
+    public void delete_user(String user_email) throws Exception {
+        if (!allUsers.containsKey(user_email))
+            throw new Exception("user with email:" + user_email + " not found");
 
+        allUsers.remove(user_email);
     }
 
     @Override
-    public String change_password(User loggedUser, String old_password, String password) {
-        return null;
-    }
+    public void update_user_rate(int user_id, Ride ride, int number_of_rides) throws Exception {
+        var user = allUsers.get(user_id);
+        if (user == null || !user.is_admin())
+            throw new Exception("user not found or is admin");
 
-    @Override
-    public void update_user_rate(int user_id, Ride ride) {
-
+        ((Rider)user).update_rating(ride, number_of_rides);
     }
 
 

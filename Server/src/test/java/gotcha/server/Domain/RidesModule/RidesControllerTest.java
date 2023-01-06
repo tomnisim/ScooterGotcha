@@ -31,13 +31,13 @@ class RidesControllerTest {
     @Test
     void add_ride() {
         int prev_size = this.ride_controller.get_all_rides().size();
-        ride_controller.add_ride("", "");
+        ride_controller.add_ride( "");
         assertEquals(prev_size+1, this.ride_controller.get_all_rides().size());
     }
 
     @Test
     void remove_ride() throws RideNotFoundException {
-        ride_controller.add_ride("", "");
+        ride_controller.add_ride("");
         List<Ride> rides = this.ride_controller.get_all_rides();
         int ride_id=1;
         for (Ride ride: rides)

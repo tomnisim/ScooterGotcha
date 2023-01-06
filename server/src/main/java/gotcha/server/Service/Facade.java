@@ -2,6 +2,7 @@ package gotcha.server.Service;
 
 import gotcha.server.Domain.AdvertiseModule.Advertise;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
+import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.HazardType;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
@@ -22,6 +23,7 @@ import gotcha.server.Utils.Logger.ServerLogger;
 import gotcha.server.Utils.Response;
 import gotcha.server.Utils.Utils;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Dictionary;
 import java.util.LinkedList;
@@ -35,10 +37,10 @@ public class Facade  {
     private RidesController rides_controller;
     private UserController user_controller;
     private AdvertiseController advertise_controller;
+    private HazardController hazard_controller;
     private User loggedUser;
     // TODO: 30/12/2022 : remove // after open class "Route"
 //    private RoutesRetriever routes_retriever;
-
     public Facade() {
         this.error_logger = ErrorLogger.get_instance();
         this.serverLogger = ServerLogger.get_instance();
@@ -46,6 +48,7 @@ public class Facade  {
         this.rides_controller = RidesController.get_instance();
         this.user_controller = UserController.get_instance();
         this.advertise_controller = AdvertiseController.get_instance();
+        this.hazard_controller = HazardController.get_instance();
         // TODO: 30/12/2022 : remove // after open class "Route"
 //        this.routes_retriever = RoutesRetriever.getInstance();
     }
@@ -65,17 +68,6 @@ public class Facade  {
             throw new UserException("user is not an admin");
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 
     // PROGRAMMER
      
@@ -151,8 +143,8 @@ public class Facade  {
         Response response = null;
         try {
             check_user_is_logged_in();
-            String email = user_controller.change_password(loggedUser, old_password, password);
-            String logger_message = "User's (" + email + ")  password has been changed successfully.";
+            user_controller.change_password(loggedUser.get_email(), old_password, password);
+            String logger_message = "User's (" + loggedUser.get_email() + ")  password has been changed successfully.";
             response = new Response<>(password, logger_message);
             serverLogger.add_log(logger_message);
         }
@@ -271,10 +263,14 @@ public class Facade  {
 
         Response response = null;
         try{
+            String ride_info="";
+            String hazard_info ="";
             // TODO: 05/01/2023 : build the info objects
-            String ride_info="", hazard_info ="";
-            Ride ride = this.rides_controller.add_ride(ride_info, hazard_info);
-            user_controller.update_user_rate(user_id, ride);
+            int number_of_rides = this.rides_controller.get_number_of_rides(user_id);
+            Ride ride = this.rides_controller.add_ride(ride_info);
+            int ride_id = ride.getRide_id();
+            user_controller.update_user_rate(user_id, ride, number_of_rides);
+            hazard_controller.update_hazards(hazard_info, ride_id);
             String logger_message = "user added new ride";
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);
@@ -459,12 +455,12 @@ public class Facade  {
         return response;
     }
 
-    public Response add_admin(String user_email, String user_password) {
+    public Response add_admin(String user_email, String user_password, String phoneNumber, LocalDate birthDay, String gender) {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in();
             String admin_email = this.loggedUser.get_email();
-            user_controller.appoint_new_admin(user_email, admin_email);
+            user_controller.appoint_new_admin(user_email, user_password, phoneNumber, birthDay, gender, admin_email);
             // TODO: 04/01/2023 : have to register a new user, and not change the state of existing one.
             String logger_message = "admin (" + admin_email + ")appoint new admin (" + user_email+ ")";
             response = new Response("", logger_message);

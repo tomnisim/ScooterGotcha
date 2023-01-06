@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -290,9 +291,9 @@ public class Service implements AdminAPI, UserAPI  {
     @RequestMapping(value = "/add_admin")
     @CrossOrigin
     @Override
-    public Response add_admin(String user_email, String user_password, int admin_id) {
+    public Response add_admin(String user_email, String user_password, int admin_id, String phoneNumber, LocalDate birthDay, String gender) {
         Facade facade = get_facade(admin_id);
-        return facade.add_admin(user_email, user_password);
+        return facade.add_admin(user_email, user_password, phoneNumber, birthDay, gender);
     }
 
     @RequestMapping(value = "/delete_admin")

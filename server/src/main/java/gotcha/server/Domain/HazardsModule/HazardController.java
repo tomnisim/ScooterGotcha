@@ -1,5 +1,6 @@
 package gotcha.server.Domain.HazardsModule;
 
+import ch.qos.logback.classic.pattern.ClassOfCallerConverter;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.SystemLogger;
 
@@ -67,6 +68,30 @@ public class HazardController implements IHazardController {
     }
 
     public void remove_hazard(int hazard_id){
+
+    }
+
+    /**
+     * this method should check for every hazard if he already exist -
+     * if yes, update him,
+     * else, add this hazard.
+     * @param hazard_info
+     */
+    @Override
+    public void update_hazards(String hazard_info, int ride_id) {
+        List<StationaryHazard> hazards = new LinkedList<>(); // TODO: 05/01/2023 : build from hazards info - change List<Hazard> to something else.
+        for (StationaryHazard hazard : hazards){
+            Location location = null;
+            String city = null;
+            HazardType type = null;
+            double size =  0;
+            StationaryHazard current = find_hazard_if_exist(location, city, type);
+            if (current == null){
+                add_hazard(ride_id, location, city, type, size);
+            }
+            else
+                update_hazard(current, size);
+        }
 
     }
 
