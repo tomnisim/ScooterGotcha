@@ -25,7 +25,7 @@ public interface AdminAPI {
     Response delete_award(int award_id, int admin_id);
 
     Response view_admins(int admin_id);
-    Response add_admin(String user_email, String user_password, int admin_id, String phoneNumber, LocalDate birthDay, String gender);
+    Response add_admin(String user_email, String user_password, int admin_id, String phoneNumber, String birthDay, String gender);
     Response delete_admin(String user_email, int admin_id);
 
     Response view_users(int admin_id);

@@ -1,7 +1,10 @@
 package gotcha.server.Service.Communication;
 
+import gotcha.server.Domain.AdvertiseModule.Advertise;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
+import gotcha.server.Domain.QuestionsModule.Question;
 import gotcha.server.Domain.UserModule.Admin;
+import gotcha.server.Domain.UserModule.Rider;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Service.API.AdminAPI;
 import gotcha.server.Service.API.ProgrammerAPI;
@@ -10,21 +13,27 @@ import gotcha.server.Service.Facade;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Response;
 import gotcha.server.Utils.Utils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
 public class Service implements AdminAPI, UserAPI  {
     private static HashMap<Integer,Facade> FacadeMap;
+    private LinkedList<Admin> admins_list;
+    private LinkedList<Question> questions_list;
 
     public Service(){
         this.FacadeMap = new HashMap<>();
+        admins_list = new LinkedList<>();
+        questions_list = new LinkedList<>();
+        questions_list.add(new Question("message1", "tom@gmail.com"));
+        questions_list.add(new Question("message2", "tom1@gmail.com"));
+        questions_list.add(new Question("message3", "tom@2gmail.com"));
 
     }
 
@@ -35,6 +44,22 @@ public class Service implements AdminAPI, UserAPI  {
         }
         return FacadeMap.get(user_id);
     }
+
+
+    @RequestMapping(value = "/test")
+    @CrossOrigin
+    public Response test(){
+        System.out.println("test");
+        return new Response();
+    }
+
+    @RequestMapping(value = "/test_params")
+    @CrossOrigin
+    public Response test_params(int user_id){
+        System.out.println("test params : " +user_id);
+        return new Response();
+    }
+
 
 
     /**
@@ -101,16 +126,16 @@ public class Service implements AdminAPI, UserAPI  {
     @CrossOrigin
     @Override
     public Response add_user_question(String message, int user_id) {
-        Facade facade = get_facade(user_id);
-        return facade.add_user_question(message);
+        String str = "" + user_id;
+        this.questions_list.add(new Question(message, str));
+        return null;
     }
 
     @RequestMapping(value = "/view_all_user_questions")
     @CrossOrigin
     @Override
     public Response view_all_user_questions(int user_id) {
-        Facade facade = get_facade(user_id);
-        return facade.view_all_user_questions();
+        return new Response(this.questions_list, "question list");
     }
 
     @RequestMapping(value = "/get_safe_routes")
@@ -197,8 +222,9 @@ public class Service implements AdminAPI, UserAPI  {
     @CrossOrigin
     @Override
     public Response view_all_open_questions(int admin_id) {
-        Facade facade = get_facade(admin_id);
-        return facade.view_all_open_questions();
+        int x = 5;
+        return new Response(this.questions_list, "question list");
+
     }
 
     @RequestMapping(value = "/answer_user_question")
@@ -238,8 +264,12 @@ public class Service implements AdminAPI, UserAPI  {
     @CrossOrigin
     @Override
     public Response view_advertisements(int admin_id) {
-        Facade facade = get_facade(admin_id);
-        return facade.view_advertisements();
+        System.out.println("view advs");
+        LinkedList<Advertise> list = new LinkedList<>();
+        list.add(new Advertise(5, LocalDateTime.now(), "owner good", "message nice", "photo", "url"));
+        return new Response(list, "");
+//        Facade facade = get_facade(admin_id);
+//        return facade.view_advertisements();
     }
 
     @RequestMapping(value = "/add_advertisement")
@@ -284,32 +314,42 @@ public class Service implements AdminAPI, UserAPI  {
     @CrossOrigin
     @Override
     public Response view_admins(int admin_id) {
-        Facade facade = get_facade(admin_id);
-        return facade.view_admins();
+        System.out.println("view admins");
+
+        return new Response(this.admins_list, "nice");
+//        Facade facade = get_facade(admin_id);
+//        return facade.view_admins()
     }
 
     @RequestMapping(value = "/add_admin")
     @CrossOrigin
     @Override
-    public Response add_admin(String user_email, String user_password, int admin_id, String phoneNumber, LocalDate birthDay, String gender) {
-        Facade facade = get_facade(admin_id);
-        return facade.add_admin(user_email, user_password, phoneNumber, birthDay, gender);
+    public Response add_admin(String user_email, String user_password, int admin_id, String phoneNumber, String birthDay, String gender) {
+        Admin admin = new Admin("hhh", "123", "054", LocalDate.now(), "male", null);
+        admins_list.add(admin);
+
+//        Facade facade = get_facade(admin_id);
+//        return facade.add_admin(user_email, user_password, phoneNumber, new LocalDate(birthDay), gender);
+        return new Response();
     }
 
     @RequestMapping(value = "/delete_admin")
     @CrossOrigin
     @Override
     public Response delete_admin(String user_email, int admin_id) {
-        Facade facade = get_facade(admin_id);
-        return facade.delete_admin(user_email);
+        this.admins_list.remove(0);
+        return new Response();
+//        Facade facade = get_facade(admin_id);
+//        return facade.delete_admin(user_email);
     }
 
     @RequestMapping(value = "/view_users")
     @CrossOrigin
     @Override
     public Response view_users(int admin_id) {
-        Facade facade = get_facade(admin_id);
-        return facade.view_users();
+        List<User> list = new LinkedList<>();
+        list.add(new Rider("email.com", "12345", "054", LocalDate.now(), "male", "type", LocalDate.now(), "serial number"));
+        return new Response(list,"");
     }
 
     @RequestMapping(value = "/edit_user")
