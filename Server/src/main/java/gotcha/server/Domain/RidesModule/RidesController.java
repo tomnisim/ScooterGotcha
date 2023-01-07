@@ -79,6 +79,7 @@ public class RidesController {
         return rides_in_date_ranges;
 
     }
+
     public List<Ride> get_rides(String city)
     {
         List<Ride> rides_by_city = new ArrayList<Ride>();
@@ -92,12 +93,13 @@ public class RidesController {
         return rides_by_city;
 
     }
+    
     public List<Ride> get_all_rides()
     {
         return new ArrayList<>(this.rides.values());
     }
     
-    public int get_number_of_rides(int rider_id){
+    public int get_number_of_rides(String rider_id){
         // TODO: 05/01/2023 : tom - change fields, add field of <user_email, List<Ride>> 
         return this.get_rides(rider_id).size();
         

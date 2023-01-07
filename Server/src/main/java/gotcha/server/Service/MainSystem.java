@@ -21,6 +21,9 @@ public class MainSystem {
     public static String EXTERNAL_SERVICE_MODE, DATABASE_MODE, DATABASE_URL, DATABASE_PASSWORD, SYSTEM_EMAIL, SYSTEM_EMAIL_PASSWORD, ADMIN_USER_NAME,
             ADMIN_PASSWORD;
     public static int MINIMUM_PASSWORD_LENGTH, MAXIMUM_PASSWORD_LENGTH, MINIMUM_DISTANCE_ALERT, NUMBER_OF_ROUTES;
+    private final String DEFAULT_ADMIN_NAME = "admin";
+    private final String DEFAULT_ADMIN_LASTNAME = "admin";
+
     public static boolean FIRST_TIME_RUNNING;
 
     private MapsAdapter maps_adapter;
@@ -186,8 +189,9 @@ public class MainSystem {
         System.out.println("Here we should create Config//rp_config.txt File.");
         System.out.println(MINIMUM_DISTANCE_ALERT);
     }
+
     private void set_first_admin() throws Exception {
         LocalDate birth_date = LocalDate.now();
-        UserController.get_instance().add_first_admin(ADMIN_USER_NAME, ADMIN_PASSWORD, "0546794211",birth_date,"male");
+        UserController.get_instance().add_first_admin(ADMIN_USER_NAME, ADMIN_PASSWORD, "0546794211",birth_date,"male", DEFAULT_ADMIN_NAME, DEFAULT_ADMIN_LASTNAME);
     }
 }

@@ -53,6 +53,9 @@ public class Facade  {
 //        this.routes_retriever = RoutesRetriever.getInstance();
     }
 
+    public Response reset_password() {
+        return null;
+    }
 
 
     private void check_user_is_logged_in() throws UserException {
@@ -131,7 +134,16 @@ public class Facade  {
     public Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender) {
         return null;
     }
-    public Response<Integer> login(String email, String password) {
+    public Response<String> login(String email, String password) {
+        Response response = null;
+        try {
+            if (loggedUser == null) {
+
+            }
+        }
+        catch (Exception e) {
+
+        }
         return null;
     }
     public Response logout() {
@@ -258,7 +270,7 @@ public class Facade  {
      * @return
      */
      
-    public Response finish_ride(int user_id, Location origin, Location destination, String city, LocalDateTime start_time,
+    public Response finish_ride(String user_id, Location origin, Location destination, String city, LocalDateTime start_time,
                                 LocalDateTime end_time, List<StationaryHazard> hazards) {
 
         Response response = null;
@@ -455,12 +467,12 @@ public class Facade  {
         return response;
     }
 
-    public Response add_admin(String user_email, String user_password, String phoneNumber, LocalDate birthDay, String gender) {
+    public Response add_admin(String user_email, String user_password, String phoneNumber, LocalDate birthDay, String gender, String firstName, String lastName) {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in();
             String admin_email = this.loggedUser.get_email();
-            user_controller.appoint_new_admin(user_email, user_password, phoneNumber, birthDay, gender, admin_email);
+            user_controller.appoint_new_admin(user_email, user_password, phoneNumber, birthDay, gender,firstName, lastName, admin_email);
             // TODO: 04/01/2023 : have to register a new user, and not change the state of existing one.
             String logger_message = "admin (" + admin_email + ")appoint new admin (" + user_email+ ")";
             response = new Response("", logger_message);

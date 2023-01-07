@@ -39,10 +39,10 @@ public class UserController implements IUserController {
         this.usersEmailByRaspberryPi = new ConcurrentHashMap<>();
     }
 
-    public void add_first_admin(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender) throws Exception {
-        verify_user_information(userEmail, password, phoneNumber, birthDay, gender);
+    public void add_first_admin(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String firstName, String lastName) throws Exception {
+        verify_user_information(userEmail, password, phoneNumber, birthDay, gender,firstName, lastName);
         var passwordToken = passwordManager.hash(password);
-        var admin = new Admin(userEmail, passwordToken, phoneNumber, birthDay, gender, null );
+        var admin = new Admin(userEmail, passwordToken, phoneNumber, birthDay, gender,firstName, lastName, null );
     }
 
     public void load() {
@@ -83,16 +83,16 @@ public class UserController implements IUserController {
      * @return
      * @throws UserException
      */
-    public Boolean register(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate, String raspberryPiSerialNumber) throws Exception {
+    public Boolean register(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate, String raspberryPiSerialNumber, String firstName, String lastName) throws Exception {
         if (allUsers.containsKey(userEmail))
         {
             throw new UserAlreadyExistsException("User with email :"+ userEmail + " alerady exists");
         }
 
-        verify_user_information(userEmail, password, phoneNumber, birthDay, gender, scooterType, licenceIssueDate);
+        verify_user_information(userEmail, password, phoneNumber, birthDay, gender, firstName, lastName, scooterType, licenceIssueDate);
 
         String passwordToken = passwordManager.hash(password);
-        User newUser = new Rider(userEmail, passwordToken, phoneNumber, birthDay, gender, scooterType, licenceIssueDate, raspberryPiSerialNumber);
+        User newUser = new Rider(userEmail, passwordToken, phoneNumber, birthDay, gender, scooterType, licenceIssueDate,firstName, lastName, raspberryPiSerialNumber);
         allUsers.put(userEmail, newUser);
         usersEmailByRaspberryPi.put(raspberryPiSerialNumber, userEmail);
         return true;
@@ -152,19 +152,19 @@ public class UserController implements IUserController {
      * @param appointingAdminEmail
      * @throws Exception
      */
-    public void appoint_new_admin(String newAdminEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String appointingAdminEmail) throws Exception {
+    public void appoint_new_admin(String newAdminEmail, String password, String phoneNumber, LocalDate birthDay, String gender,String firstName, String lastName, String appointingAdminEmail) throws Exception {
         if (allUsers.containsKey(newAdminEmail)) {
             throw new UserNotFoundException("appointed admin email: " + appointingAdminEmail + " already exists");
         }
 
-        verify_user_information(newAdminEmail, password, phoneNumber, birthDay, gender);
+        verify_user_information(newAdminEmail, password, phoneNumber, birthDay, gender, firstName, lastName);
         var appointingAdmin = allUsers.get(appointingAdminEmail);
         if (!appointingAdmin.is_admin()) {
             throw new Exception("appointing admin email is not of an admin");
         }
 
         var passwordToken = passwordManager.hash(password);
-        var newAdmin = new Admin(newAdminEmail, passwordToken, phoneNumber, birthDay, gender, (Admin)appointingAdmin);
+        var newAdmin = new Admin(newAdminEmail, passwordToken, phoneNumber, birthDay, gender, firstName, lastName,(Admin)appointingAdmin);
         allUsers.put(newAdminEmail, newAdmin);
     }
 
@@ -179,12 +179,14 @@ public class UserController implements IUserController {
      * @param extraParams
      * @return
      */
-    private void verify_user_information(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, Object...extraParams) throws Exception {
+    private void verify_user_information(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender,String firstName, String lastName, Object...extraParams) throws Exception {
         Utils.emailValidCheck(userEmail);
         Utils.validate_phone_number(phoneNumber);
         Utils.passwordValidCheck(password);
         Utils.validate_birth_date(birthDay);
         Utils.validate_gender(gender);
+        Utils.validate_name(firstName);
+        Utils.validate_name(lastName);
         if (extraParams[0] != null)
             Utils.validate_scooter_type((String)extraParams[0]);
         if (extraParams[1] != null)
@@ -274,7 +276,7 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public void update_user_rate(int user_id, Ride ride, int number_of_rides) throws Exception {
+    public void update_user_rate(String user_id, Ride ride, int number_of_rides) throws Exception {
         var user = allUsers.get(user_id);
         if (user == null || !user.is_admin())
             throw new Exception("user not found or is admin");

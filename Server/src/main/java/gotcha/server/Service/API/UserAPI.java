@@ -13,21 +13,23 @@ public interface UserAPI {
 
 
     Response login(String email, String password);
-    Response logout(int user_id);
+    Response logout(String user_id);
     Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender);
+
+    Response reset_password(String user_id);
 
     // SMARTPHONE API
 
-    Response change_password(String old_password, String password, int user_id);
-    Response view_user_rides_history(int user_id);
-    Response add_user_question(String message, int user_id);
-    Response view_all_user_questions(int user_id);
-    Response get_safe_routes(Location origin, Location destination, int user_id);
-    Response view_all_advertisement(int user_id);
+    Response change_password(String old_password, String password, String user_id);
+    Response view_user_rides_history(String user_id);
+    Response add_user_question(String message, String user_id);
+    Response view_all_user_questions(String user_id);
+    Response get_safe_routes(Location origin, Location destination, String user_id);
+    Response view_all_advertisement(String user_id);
 
     // RP API - this methods should not check if the user is logged in.
 
-    Response finish_ride(int user_id, Location origin, Location destination, String city, LocalDateTime start_time,
+    Response finish_ride(String user_id, Location origin, Location destination, String city, LocalDateTime start_time,
                          LocalDateTime end_time, List<StationaryHazard> hazards);
 
     /* maybe extend to get as input all the history rides from rp who doesn't send to the server. */

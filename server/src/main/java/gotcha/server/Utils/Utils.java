@@ -252,4 +252,10 @@ public class Utils {
         // TODO: 05/01/2023 : implement 
         return "todo";
     }
+
+    public static void validate_name(String name) throws Exception {
+        if (name == null) throw new Exception("name can't be null");
+        if (name.isBlank()) throw new Exception("name can't blank or contain only whitespaces");
+    }
+
 }
