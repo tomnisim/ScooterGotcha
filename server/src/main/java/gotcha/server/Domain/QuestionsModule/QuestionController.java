@@ -15,6 +15,8 @@ public class QuestionController implements IQuestionController {
 
     private Map<Integer, Question> open_questions;
     private Map<String, List<Question>> users_questions;
+
+    private List<Announcement> adminsAnnouncements;
     private AtomicInteger question_ids_counter;
 
 
@@ -46,13 +48,13 @@ public class QuestionController implements IQuestionController {
      * @param senderEmail
      */
     @Override
-    public void add_user_question(String message, String senderEmail, BiConsumer<String, Integer> notify_all_admins){
+    public int add_user_question(String message, String senderEmail){
         Question question_to_add = new Question(message, senderEmail);
         int question_id = question_to_add.getQuestion_id();
 
         this.open_questions.putIfAbsent(question_id, question_to_add);
         this.users_questions.computeIfAbsent(senderEmail, k -> new ArrayList<>()).add(question_to_add);
-        notify_all_admins.accept(senderEmail, question_id);
+        return question_id;
     }
 
 
@@ -115,12 +117,10 @@ public class QuestionController implements IQuestionController {
         return answer;
     }
 
-    public int getQuestion_ids_counter() {
-        return question_ids_counter.get();
-    }
-
-
-    private void notify_admins(String message) {
+    @Override
+    public void add_announcement(String message, String adminEmail) {
+        var newAnnouncement = new Announcement(message, adminEmail);
+        adminsAnnouncements.add(newAnnouncement);
     }
 }
 

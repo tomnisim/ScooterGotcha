@@ -38,7 +38,7 @@ public class Facade  {
     private UserController user_controller;
     private AdvertiseController advertise_controller;
     private HazardController hazard_controller;
-    private User loggedUser;
+    private String loggedUser;
     // TODO: 30/12/2022 : remove // after open class "Route"
 //    private RoutesRetriever routes_retriever;
     public Facade() {
@@ -61,15 +61,6 @@ public class Facade  {
     private void check_user_is_logged_in() throws UserException {
         if (this.loggedUser == null)
             throw new UserException("user is not logged in");
-    }
-
-
-    private void check_user_is_admin_and_logged_in() throws UserException {
-        if (this.loggedUser == null)
-            throw new UserException("user is not logged in");
-        if (!this.loggedUser.is_admin()){
-            throw new UserException("user is not an admin");
-        }
     }
 
     // PROGRAMMER
@@ -118,36 +109,48 @@ public class Facade  {
         return null;
     }
 
-
-
-
-
-
-
-
-
-
-
-
     // USER
 
-    public Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender) {
-        return null;
-    }
-    public Response<String> login(String email, String password) {
+    public Response register(String email, String password, String name, String last_name, LocalDate birth_date, String phone_number, String gender, String scooterType, LocalDate licenseIssueDate, String rpSerialNumber) {
         Response response = null;
         try {
             if (loggedUser == null) {
-
+                user_controller.register(email, password, phone_number, birth_date, gender, scooterType, licenseIssueDate,rpSerialNumber,name, last_name);
+                response = new Response(email,"registered successfully");
             }
         }
         catch (Exception e) {
-
+            response = new Response("failed to register",e);
         }
-        return null;
+        return response;
+    }
+    public Response login(String email, String password) {
+        Response response = null;
+        try {
+            if (loggedUser == null) {
+                user_controller.login(email, password);
+                loggedUser = email;
+                response = new Response(email,"logged in successfully");
+            }
+        }
+        catch (Exception e) {
+            response = new Response("failed to login",e);
+        }
+        return response;
     }
     public Response logout() {
-        return null;
+        Response response = null;
+        try {
+            if (loggedUser != null) {
+                user_controller.logout(loggedUser);
+                loggedUser = null;
+                response = new Response(loggedUser,"logged out successfully");
+            }
+        }
+        catch (Exception e) {
+            response = new Response("failed to logout",e);
+        }
+        return response;
     }
 
      
@@ -155,8 +158,8 @@ public class Facade  {
         Response response = null;
         try {
             check_user_is_logged_in();
-            user_controller.change_password(loggedUser.get_email(), old_password, password);
-            String logger_message = "User's (" + loggedUser.get_email() + ")  password has been changed successfully.";
+            user_controller.change_password(loggedUser, old_password, password);
+            String logger_message = "User's (" + loggedUser + ")  password has been changed successfully.";
             response = new Response<>(password, logger_message);
             serverLogger.add_log(logger_message);
         }
@@ -171,10 +174,9 @@ public class Facade  {
         Response response = null;
         try{
             check_user_is_logged_in();
-            String user_email = loggedUser.get_email();
             int user_id = 0; // TODO: 04/01/2023 : get id from logged user
             List<Ride> rides = this.rides_controller.get_rides(user_id);
-            String logger_message = user_email+ " view rides history";
+            String logger_message = loggedUser+ " view rides history";
             response = new Response(rides, logger_message);
             serverLogger.add_log(logger_message);
 
@@ -189,9 +191,9 @@ public class Facade  {
         Response response = null;
         try{
             check_user_is_logged_in();
-            String user_email = this.loggedUser.get_email();
+            String user_email = this.loggedUser;
             user_controller.send_question_to_admin(user_email, message);
-            String logger_message = loggedUser.get_email() + " add user question";
+            String logger_message = loggedUser + " add user question";
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);
 
@@ -206,7 +208,7 @@ public class Facade  {
         Response response = null;
         try{
             check_user_is_logged_in();
-            String user_email = loggedUser.get_email();
+            String user_email = loggedUser;
             List<String> questions = question_controller.get_all_user_questions(user_email);
             String logger_message = user_email+ " view all user questions";
             response = new Response(questions, logger_message);
@@ -224,7 +226,7 @@ public class Facade  {
         try{
             check_user_is_logged_in();
             List<String> advs = advertise_controller.get_all_advertisements_for_user();
-            String logger_message = "user( "+loggedUser.get_email()+ ") view all advertisements";
+            String logger_message = "user( "+loggedUser+ ") view all advertisements";
             response = new Response(advs, logger_message);
             serverLogger.add_log(logger_message);
 
@@ -311,7 +313,7 @@ public class Facade  {
     public Response view_all_open_questions() {
         Response response = null;
         try{
-            check_user_is_admin_and_logged_in();
+            check_user_is_logged_in();
             List<String> questions = question_controller.get_all_open_questions();
             String logger_message = "admin view all user questions";
             response = new Response(questions, logger_message);
@@ -328,8 +330,8 @@ public class Facade  {
     public Response answer_user_question(int question_id, String answer) {
         Response response = null;
         try{
-            check_user_is_admin_and_logged_in();
-            String admin_email = this.loggedUser.get_email();
+            check_user_is_logged_in();
+            String admin_email = this.loggedUser;
             question_controller.answer_user_question(question_id, answer, admin_email);
             String logger_message = "admin answer question : " + question_id;
             response = new Response("", logger_message);
@@ -346,9 +348,8 @@ public class Facade  {
     public Response send_message_to_all_users(String message) {
         Response response = null;
         try{
-            check_user_is_admin_and_logged_in();
-            String admin_email = this.loggedUser.get_email();
-//            question_controller.send_message_to_all_users(message, admin_email); // TODO: 04/01/2023 : SASHA
+            check_user_is_logged_in();
+            user_controller.send_message_to_all_users(message, loggedUser);
             String logger_message = "admin send message to all the users ";
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);
@@ -364,7 +365,7 @@ public class Facade  {
     public Response view_rides() {
         Response response = null;
         try{
-            check_user_is_admin_and_logged_in();
+            check_user_is_logged_in();
             List<Ride> rides = rides_controller.get_all_rides();
             String logger_message = "admin view all rides";
             response = new Response(rides, logger_message);
@@ -381,7 +382,7 @@ public class Facade  {
     public Response view_statistics() {
         Response response = null;
         try{
-            check_user_is_admin_and_logged_in();
+            check_user_is_logged_in();
             List<String> stats = new LinkedList<>(); // TODO: 04/01/2023 : implement statistic module
             String logger_message = "admin view statistics";
             response = new Response(stats, logger_message);
@@ -398,7 +399,7 @@ public class Facade  {
     public Response view_advertisements() {
         Response response = null;
         try{
-            check_user_is_admin_and_logged_in();
+            check_user_is_logged_in();
             List<String> advs = advertise_controller.get_all_advertisements_for_admin();
             String logger_message = "admin view all advertisements";
             response = new Response(advs, logger_message);
@@ -415,7 +416,7 @@ public class Facade  {
     public Response delete_advertisement(int advertise_id) {
         Response response = null;
         try{
-            check_user_is_admin_and_logged_in();
+            check_user_is_logged_in();
             advertise_controller.remove_advertise(advertise_id);
             String logger_message = "admin delete an advertisement with id : " + advertise_id;
             response = new Response("", logger_message);
@@ -432,7 +433,7 @@ public class Facade  {
     public Response view_awards() {
         Response response = null;
         try{
-            check_user_is_admin_and_logged_in();
+            check_user_is_logged_in();
             List<String> awards = new LinkedList<>(); // TODO: 04/01/2023 : implement awards module
             String logger_message = "admin view all awards";
             response = new Response(awards, logger_message);
@@ -453,8 +454,8 @@ public class Facade  {
     public Response view_admins() {
         Response response = null;
         try{
-            check_user_is_admin_and_logged_in();
-            List<String> admins_list = user_controller.view_admins();
+            check_user_is_logged_in();
+            List<String> admins_list = user_controller.view_admins(loggedUser);
             String logger_message = "admin view all admins list";
             response = new Response(admins_list, logger_message);
             serverLogger.add_log(logger_message);
@@ -470,10 +471,9 @@ public class Facade  {
     public Response add_admin(String user_email, String user_password, String phoneNumber, LocalDate birthDay, String gender, String firstName, String lastName) {
         Response response = null;
         try{
-            check_user_is_admin_and_logged_in();
-            String admin_email = this.loggedUser.get_email();
+            check_user_is_logged_in();
+            String admin_email = this.loggedUser;
             user_controller.appoint_new_admin(user_email, user_password, phoneNumber, birthDay, gender,firstName, lastName, admin_email);
-            // TODO: 04/01/2023 : have to register a new user, and not change the state of existing one.
             String logger_message = "admin (" + admin_email + ")appoint new admin (" + user_email+ ")";
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);
@@ -490,10 +490,9 @@ public class Facade  {
     public Response delete_admin(String user_email) {
         Response response = null;
         try{
-            check_user_is_admin_and_logged_in();
-            String admin_email = this.loggedUser.get_email();
+            check_user_is_logged_in();
+            String admin_email = this.loggedUser;
             user_controller.remove_admin_appointment(user_email, admin_email);
-            // TODO: 04/01/2023 : have to register a new user, and not change the state of existing one.
             String logger_message = "admin (" + admin_email + ")remove appoint of admin (" + user_email + ")";
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);
@@ -509,7 +508,7 @@ public class Facade  {
     public Response view_users() {
         Response response = null;
         try{
-            check_user_is_admin_and_logged_in();
+            check_user_is_logged_in();
             List<User> users_list = user_controller.get_all_users();
             String logger_message = "admin view all users list";
             response = new Response(users_list, logger_message);
@@ -526,9 +525,9 @@ public class Facade  {
     public Response delete_user(String user_email) {
         Response response = null;
         try{
-            check_user_is_admin_and_logged_in();
-            String admin_email = this.loggedUser.get_email();
-            user_controller.delete_user(user_email);
+            check_user_is_logged_in();
+            String admin_email = this.loggedUser;
+            user_controller.delete_user(user_email, admin_email);
             String logger_message = "admin (" + admin_email + ") delete the user (" + user_email + ")";
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);
@@ -544,7 +543,7 @@ public class Facade  {
     public Response add_advertisement(LocalDateTime final_date, String owner, String message, String photo, String url) {
         Response response = null;
         try{
-            check_user_is_admin_and_logged_in();
+            check_user_is_logged_in();
             this.advertise_controller.add_advertise(final_date, owner, message, photo, url);
             String logger_message = "admin add new advertise (" + owner+ ")";
             response = new Response("", logger_message);

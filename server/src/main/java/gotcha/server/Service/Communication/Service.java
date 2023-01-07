@@ -49,10 +49,9 @@ public class Service implements AdminAPI, UserAPI  {
     public Response login(String email, String password){
         System.out.println("login");
         Facade facade = new Facade();
-        Response<String> response = facade.login(email, password);
+        Response response = facade.login(email, password);
         if (!response.iswas_exception()) {
-            String user_id = response.getValue();
-            FacadeMap.put(user_id, facade);
+            FacadeMap.put(email, facade);
         }
         return response;
     }

@@ -7,6 +7,7 @@ public class Notification {
     private static AtomicInteger idCounter = new AtomicInteger();
     private Integer id;
 
+    // if question_id = -1 its an announcement
     private Integer question_id;
 
     private String senderEmail;

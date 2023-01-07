@@ -158,10 +158,8 @@ public class UserController implements IUserController {
         }
 
         verify_user_information(newAdminEmail, password, phoneNumber, birthDay, gender, firstName, lastName);
+        verify_user_is_admin(appointingAdminEmail);
         var appointingAdmin = allUsers.get(appointingAdminEmail);
-        if (!appointingAdmin.is_admin()) {
-            throw new Exception("appointing admin email is not of an admin");
-        }
 
         var passwordToken = passwordManager.hash(password);
         var newAdmin = new Admin(newAdminEmail, passwordToken, phoneNumber, birthDay, gender, firstName, lastName,(Admin)appointingAdmin);
@@ -204,25 +202,28 @@ public class UserController implements IUserController {
         if (!allUsers.containsKey(adminEmail))
             throw new UserNotFoundException("Invalid admin email :" + adminEmail);
 
-        var admin = allUsers.get(adminEmail);
-        if (!admin.is_admin())
-            throw new Exception("Email : " + adminEmail + " is Not related to an admin account");
+        verify_user_is_admin(adminEmail);
 
         var sendingUserEmail = questionController.answer_user_question(question_id, reply, adminEmail);
         var sendingUser = allUsers.get(sendingUserEmail);
-        sendingUser.notify_user(new Notification(admin.get_email(), question_id));
+        sendingUser.notify_user(new Notification(adminEmail, question_id));
     }
 
-    private BiConsumer<String, Integer> create_notify_all_admins_callback(){
-        BiConsumer<String, Integer> callback = (senderEmail, questionId) -> {
-            for (var user : allUsers.values()) {
-                var newNotification = new Notification(senderEmail, questionId);
+    private void notify_all(String senderEmail, int questionId, boolean notifyAdmins){
+        var newNotification = new Notification(senderEmail, questionId);
+        for (var user : allUsers.values()) {
+            if (notifyAdmins) {
                 if (user.is_admin()) {
                     user.notify_user(newNotification);
                 }
             }
-        };
-        return callback;
+            else {
+                if (!user.is_admin())
+                {
+                    user.notify_user(newNotification);
+                }
+            }
+        }
     }
 
     /**
@@ -236,11 +237,13 @@ public class UserController implements IUserController {
             throw new UserNotFoundException("Invalid user email :" + userEmail);
 
         var sender = allUsers.get(userEmail);
-        questionController.add_user_question(message, sender.get_email(),create_notify_all_admins_callback());
+        var questionId = questionController.add_user_question(message, userEmail);
+        notify_all(userEmail, questionId, true);
     }
 
     @Override
-    public List<String> view_admins(){
+    public List<String> view_admins(String requestingAdminEmail) throws Exception {
+        verify_user_is_admin(requestingAdminEmail);
 
         var adminsList = new ArrayList<String>();
         for (var user : allUsers.values()) {
@@ -268,11 +271,12 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public void delete_user(String user_email) throws Exception {
-        if (!allUsers.containsKey(user_email))
-            throw new Exception("user with email:" + user_email + " not found");
+    public void delete_user(String userEmail, String adminEmail) throws Exception {
+        if (!allUsers.containsKey(userEmail))
+            throw new Exception("user with email:" + userEmail + " not found");
 
-        allUsers.remove(user_email);
+        verify_user_is_admin(adminEmail);
+        allUsers.remove(userEmail);
     }
 
     @Override
@@ -284,5 +288,17 @@ public class UserController implements IUserController {
         ((Rider)user).update_rating(ride, number_of_rides);
     }
 
+    @Override
+    public void send_message_to_all_users(String message, String adminEmail) throws Exception {
+        verify_user_is_admin(adminEmail);
+        questionController.add_announcement(message, adminEmail);
+        notify_all(adminEmail, -1, false);
+    }
 
+    private void verify_user_is_admin(String email) throws Exception {
+        var user = allUsers.get(email);
+        if (user == null || !user.is_admin()) {
+            throw new Exception("admin not found or not an admin");
+        }
+    }
 }
