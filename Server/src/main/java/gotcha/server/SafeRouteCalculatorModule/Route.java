@@ -3,7 +3,7 @@ package gotcha.server.SafeRouteCalculatorModule;
 import gotcha.server.Utils.Location;
 
 public class Route {
-    private Location [] junctions;
+    private Location[] junctions;
     private Location start_junction;
     private Location finish_junction;
     public Route()
