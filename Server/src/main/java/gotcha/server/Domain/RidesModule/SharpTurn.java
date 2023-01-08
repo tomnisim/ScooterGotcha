@@ -10,6 +10,7 @@ public class SharpTurn {
         this.final_direction = final_direction;
     }
 
+    // ------------------------------------------ Getters & Setters ----------------------------------------------------------
 
 
     public Double getStart_direction() {

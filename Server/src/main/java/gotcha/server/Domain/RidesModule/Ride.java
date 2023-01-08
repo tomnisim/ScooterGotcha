@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Ride {
     private int ride_id;
-    private int rider_id;
+    private String rider_email;
     private LocalDate date;
     private String city;
     private LocalDateTime start_time;
@@ -23,9 +23,9 @@ public class Ride {
     {
 
     }
-    public Ride(int ride_id, int rider_id, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, String actions) {
+    public Ride(int ride_id, String rider_email, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, String actions) {
         this.ride_id = ride_id;
-        this.rider_id = rider_id;
+        this.rider_email = rider_email;
         this.date = LocalDate.now();
         this.city = city;
         this.start_time = start_time;
@@ -35,6 +35,7 @@ public class Ride {
 
         this.create_riding_actions(actions);
     }
+
 
     private void create_riding_actions(String riding_actions_rp) {
         // TODO - check how the riding action accepted from RP
@@ -49,6 +50,13 @@ public class Ride {
         }
     }
 
+
+
+
+
+
+
+
     // ------------------------------------------ Getters & Setters ----------------------------------------------------------
 
     public int getRide_id() {
@@ -59,12 +67,12 @@ public class Ride {
         this.ride_id = ride_id;
     }
 
-    public int getRider_id() {
-        return rider_id;
+    public String getRider_email() {
+        return rider_email;
     }
 
-    public void setRider_id(int rider_id) {
-        this.rider_id = rider_id;
+    public void setRider_email(String rider_email) {
+        this.rider_email = rider_email;
     }
 
     public LocalDate getDate() {
