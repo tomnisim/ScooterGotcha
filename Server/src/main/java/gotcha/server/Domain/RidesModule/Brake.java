@@ -14,6 +14,7 @@ public class Brake extends RidingAction{
     }
 
 
+    // ------------------------------------------ Getters & Setters ----------------------------------------------------------
 
     public Double getStart_speed() {
         return start_speed;
