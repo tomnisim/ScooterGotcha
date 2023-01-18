@@ -1,7 +1,8 @@
 # folders
 
 .idea/
-
+RiderApp/node_modules
+RiderApp/.expo
 adminApp/node_modules
 adminApp/.expo
 
