@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { View, Text, Button, StyleSheet, TextInput} from 'react-native';
+import { LoginApi } from '../API/LoginApi';
 
+
+
+const loginApi = new LoginApi();
 export default function LoginWindow({navigation}) {
 
     let user_email = ""
@@ -17,6 +21,7 @@ export default function LoginWindow({navigation}) {
 
     const login = () => {
         // todo : move only login success
+        loginApi.login(user_email, user_password)
         navigation.navigate('Home')
     }
 
