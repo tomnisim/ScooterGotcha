@@ -1,17 +1,17 @@
-from AlertModule.Alert import Alert
-
-
-
-from AlertModule.Verbal import Verbal
-from AlertModule.Vibration import Vibration
-from AlertModule.Visual import Visual
-from AlertModule.Vocal import Vocal
-from Service.Ride import Ride
-
-from CameraModule.CameraController import CameraController
-from CommunicationModule.TCPconnection import TCPconnection
-from GPSModule.GPSController import GPSController
-from Service.Ride import Ride
+# from AlertModule.Alert import Alert
+#
+#
+#
+# from AlertModule.Verbal import Verbal
+# from AlertModule.Vibration import Vibration
+# from AlertModule.Visual import Visual
+# from AlertModule.Vocal import Vocal
+# from Service.Ride import Ride
+#
+# from CameraModule.CameraController import CameraController
+# from CommunicationModule.TCPconnection import TCPconnection
+# from GPSModule.GPSController import GPSController
+# from Service.Ride import Ride
 from VideoProccessorModule.EventDetector import EventDetector
 from VideoProccessorModule.HazardDetector import HazardDetector
 from VideoProccessorModule.RoadDetector import RoadDetector
@@ -64,8 +64,9 @@ def start_ride():
 
 
 if __name__ == '__main__':
-    ride = Ride()
-    ride.start_ride()
+    HazardDetector()
+    # ride = Ride()
+    # ride.start_ride()
 
 
 
