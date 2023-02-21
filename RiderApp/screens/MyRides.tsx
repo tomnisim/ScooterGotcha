@@ -12,7 +12,7 @@ import { StyleSheet, View, TouchableOpacity, Text, Button } from 'react-native';
 //       </View>
 //     );
 //   };
-function HomeScreen  ({ navigation }: RootTabScreenProps<'Home'>)  {
+function MyRides  ({ navigation }: RootTabScreenProps<'MyRides'>)  {
     console.log(navigation)
   return (
     <View style={styles.container}>
@@ -20,8 +20,7 @@ function HomeScreen  ({ navigation }: RootTabScreenProps<'Home'>)  {
        <Button title='Start Ride'></Button> 
        <Button title='Announcments'></Button> 
        <Button title='Contact Us'></Button> 
-      <Text style={styles.title}>Gotcha</Text>
-      <Text style={styles.description}>This is the home page of my app</Text>
+      <Text style={styles.title}>My Ridesss</Text>
     </View>
   );
 };
@@ -54,4 +53,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default MyRides;

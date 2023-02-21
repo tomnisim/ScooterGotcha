@@ -16,8 +16,13 @@ import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
+import Profile from '../screens/Profile';
 import Home from '../screens/Home';
 import Login from '../screens/Login'
+import MyRides from '../screens/MyRides';
+import ChangePassword from '../screens/ChangePassword';
+
+
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
@@ -112,6 +117,30 @@ function BottomTabNavigator() {
         component={Login}
         options={{
           title: 'Login',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="MyRides"
+        component={MyRides}
+        options={{
+          title: 'MyRides',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="ChangePassword"
+        component={ChangePassword}
+        options={{
+          title: 'ChangePassword',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
