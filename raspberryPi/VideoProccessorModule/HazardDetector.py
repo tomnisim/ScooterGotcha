@@ -15,41 +15,37 @@ import requests
 
 class HazardDetector:
     def __init__(self):
+
         print("HazardDetector build.")
-        file_id = '11ZNdE7_9-XdHFlcen5p8LtTTVC2nyC-O'
-        # destination = 'C:\\Users\\Tom\\Desktop\\university\\fourthYear\\semester7\\SeminarProject\\raspberryPi\\train_set'
-        self.train_images, self.test_images, self.train_labels, self.test_labels, self.x, self.y = self.get_train_set(file_id)
-        self.input_shape = self.train_images[0].shape
+        files = self.get_images() # files[0] -> potholes array , files[1] -> no_potholes array
+        x, y , train_images, test_images, train_labels, test_labels= self.convert_data(files)
+        params, keras_class = self.define_parameters()
+        grid_result = self.make_grid(params, x, y, keras_class)
+        model, best_params =  self.build_model(grid_result, train_images)
+        history = self.train_model(model, train_images, train_labels, best_params, test_images, test_labels)
+        self.compare_batch_sizes(history, test_images, test_labels)
 
 
 
-
-    def get_train_set(self, id):
-        os.system('rm -r *')
-        # download all the files to the colab in zipped file.
-
-        files = gdown.download('https://drive.google.com/drive/folders/11ZNdE7_9-XdHFlcen5p8LtTTVC2nyC-O?usp=sharing',
-                               quiet=False)
-        print(files)
-        # with zipfile.ZipFile('zipped_files.zip', 'r') as zip_ref:
-        #     zip_ref.extractall()
-
-        potholes = []
-        no_potholes = []
-
-        # load sunglasses images
-        for filename in os.listdir("/content/Potholes"):
-            # load the image and convert to array
-            img = Image.open("/content/Potholes/" + filename)
-            img = np.array(img)
-            potholes.append(img)
-
-        # load no sunglasses images
-        for filename in os.listdir("/content/No_potholes"):
-            # load the image and convert to array
-            img = Image.open("/content/No_potholes/" + filename)
-            img = np.array(img)
-            no_potholes.append(img)
+    def get_images(self):
+        # TODO : load arrays of images
+        # # load sunglasses images
+        # for filename in os.listdir("/content/Sunglassess"):
+        #     # load the image and convert to array
+        #     img = Image.open("/content/Sunglassess/" + filename)
+        #     img = np.array(img)
+        #     sun_glasses.append(img)
+        #
+        # # load no sunglasses images
+        # for filename in os.listdir("/content/NoSunglasses"):
+        #     # load the image and convert to array
+        #     img = Image.open("/content/NoSunglasses/" + filename)
+        #     img = np.array(img)
+        #     no_sun_glasses.append(img)
+        pass
+    def convert_data(self, files):
+        potholes = files[0]
+        no_potholes = files[1]
 
         # convert data and labels to numpy arrays
         potholes = np.array(potholes)
@@ -72,7 +68,8 @@ class HazardDetector:
 
         # print the length of the training and the testing data.
         print(f'Number of images in training (test) set: {len(train_images)} ({len(test_images)})')
-        return train_images, test_images, train_labels, test_labels, x, y
+
+        return x, y , train_images, test_images, train_labels, test_labels
 
     # Visualize model history
     def plot_model_history(self, history):
@@ -92,9 +89,25 @@ class HazardDetector:
         plt.legend(loc="upper left")
         plt.show()
 
-    def detect(self):
+    # Create convolutional base
+    def create_model(self, optimizer, input_shape):
 
-        keras_class = KerasClassifier(build_fn=self.create_model)
+        clear_session()
+        model = models.Sequential()
+        model.add(Conv2D(128, kernel_size=(3, 3), activation='relu', input_shape=(input_shape[0], input_shape[1], 1)))
+        model.add(MaxPooling2D((2, 2)))
+        model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
+        model.add(MaxPooling2D((2, 2)))
+        model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
+        model.add(Flatten())
+        model.add(Dense(128, activation='relu'))
+        model.add(Dense(1, activation='softmax'))
+        model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['accuracy'])
+        return model
+
+    def define_parameters(self):
+
+        keras_class = KerasClassifier(build_fn=self.create_model) # check if its OK to add parameter to 'create model'
 
         # define the grid search parameters
         opts = ['SGD', 'RMSprop', 'Adagrad', 'Adadelta', 'Adam', 'Adamax', 'Nadam']
@@ -103,42 +116,29 @@ class HazardDetector:
             'optimizer': opts,
             'epochs': [10, 50, 100],
         }
+        return params, keras_class
 
-        grid = GridSearchCV(estimator=keras_class, param_grid=params,
-                            cv=3)  # cv=3 divide the data to 3 and then run on each one, if we have a lot of images change to
-        grid_result = grid.fit(self.x, self.y, verbose=0)
+    def make_grid(self, params, x, y, keras_class):
+        grid = GridSearchCV(estimator=keras_class, param_grid=params, cv=3)
+        grid_result = grid.fit(x, y, verbose=0)
         print(grid_result.best_params_)
         print("Best Score is: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
+        return grid_result
 
+    def build_model(self, grid_result, train_images):
+        # Inpute shape (image_height, image_width, color_channels)
+        input_shape = train_images[0].shape
         # training new model using hyper params
         best_params = grid_result.best_params_
-        model = self.create_model(best_params['optimizer'])
+        model = self.create_model(best_params['optimizer'], )
         model.compile(loss='binary_crossentropy', metrics=['accuracy'], optimizer=best_params['optimizer'])
+        return model, best_params
 
+    def train_model(self, model, train_images, train_labels, best_params, test_images, test_labels):
         # train the model
-        history = model.fit(self.train_images, self.train_labels, epochs=best_params['epochs'],
-                            validation_data=(self.test_images, self.test_labels))
-
-
-
-    # Create convolutional base
-    def create_model(self, optimizer):
-
-        clear_session()
-        model = models.Sequential()
-        model.add(Conv2D(128, kernel_size=(3, 3), activation='relu',
-                         input_shape=(self.input_shape[0], self.input_shape[1], 1)))  # input_shape[2] or 3 instead 1
-        model.add(MaxPooling2D((2, 2)))
-        model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
-        model.add(MaxPooling2D((2, 2)))
-        model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
-        model.add(Flatten())
-        model.add(Dense(128, activation='relu'))
-        model.add(Dense(1, activation='softmax'))  # change if the function is not binary - 1 for one bit
-        model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['accuracy'])
-        return model
-
-
+        history = model.fit(train_images, train_labels, epochs=best_params['epochs'],
+                            validation_data=(test_images, test_labels))
+        return history
 
     def summary(self, model, history, test_images, test_labels):
         model.summary()
@@ -164,6 +164,7 @@ class HazardDetector:
         plt.xlabel('Batch')
         plt.show()
 
+    def compare_batch_sizes(self, history, test_images, test_labels):
         losses = []
         acces = []
 
@@ -173,16 +174,15 @@ class HazardDetector:
             # model = create_model(best_params['optimizer'])
             model = self.create_model('Adam')
 
-            # train the model
-            history = model.fit(train_images, train_labels, epochs=best_params['epochs'], batch_size=batch_size,
-                                validation_data=(test_images, test_labels), verbose=0)
+
             test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=0)
             losses.append(test_loss)
             acces.append(test_acc)
 
-        comp_batch(losses, acces, batches)
+        self.comp_batch(losses, acces, batches)
 
         print(f'best accuracy is {max(acces)}')
+
 
     def detect_hazards_in_frame(self, frame):
         print("found hazards..")
