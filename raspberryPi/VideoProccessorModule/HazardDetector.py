@@ -11,15 +11,17 @@ import numpy as np
 import os
 from sklearn.model_selection import train_test_split, GridSearchCV
 import requests
+import os
+from PIL import Image
 
 
 class HazardDetector:
     def __init__(self):
 
         print("HazardDetector build.")
-        files = self.get_images() # files[0] -> potholes array , files[1] -> no_potholes array
-        x, y , train_images, test_images, train_labels, test_labels= self.convert_data(files)
-        params, keras_class = self.define_parameters()
+        potholes, no_potholes = self.get_images() # files[0] -> potholes array , files[1] -> no_potholes array
+        x, y , train_images, test_images, train_labels, test_labels= self.convert_data(potholes, no_potholes)
+        params, keras_class = self.define_parameters(train_images)
         grid_result = self.make_grid(params, x, y, keras_class)
         model, best_params =  self.build_model(grid_result, train_images)
         history = self.train_model(model, train_images, train_labels, best_params, test_images, test_labels)
@@ -29,6 +31,24 @@ class HazardDetector:
 
     def get_images(self):
         # TODO : load arrays of images
+        potholes_path = "C:\\Users\\Tom\\Desktop\\university\\fourthYear\\semester7\\SeminarProject\\raspberryPi\\train_set\\potholes"
+        no_potholes_path = "C:\\Users\\Tom\\Desktop\\university\\fourthYear\\semester7\\SeminarProject\\raspberryPi\\train_set\\no_potholes"
+        images=[]
+        potholes_array = []
+        no_potholes_array = []
+        def get_images(path):
+            ans=[]
+            for filename in os.listdir(path):
+                if filename.endswith(".jpg"):  # Replace with the extension of your images
+                    image_path = os.path.join(path, filename)
+                    image = Image.open(image_path)
+                    ans.append(np.array(image))
+            return ans
+
+        potholes = get_images(potholes_path)
+        no_potholes = get_images(no_potholes_path)
+
+        return potholes, no_potholes
         # # load sunglasses images
         # for filename in os.listdir("/content/Sunglassess"):
         #     # load the image and convert to array
@@ -42,10 +62,7 @@ class HazardDetector:
         #     img = Image.open("/content/NoSunglasses/" + filename)
         #     img = np.array(img)
         #     no_sun_glasses.append(img)
-        pass
-    def convert_data(self, files):
-        potholes = files[0]
-        no_potholes = files[1]
+    def convert_data(self, potholes, no_potholes):
 
         # convert data and labels to numpy arrays
         potholes = np.array(potholes)
@@ -61,7 +78,7 @@ class HazardDetector:
         y = np.concatenate((potholes_labels, no_potholes_labels))
 
         # Download and prepare data
-        train_images, test_images, train_labels, test_labels = train_test_split(x, y, test_size=1 / 3)
+        train_images, test_images, train_labels, test_labels = train_test_split(x, y, test_size=(1 / 3))
 
         # Normalize pixel values to be between 0 and 1
         train_images, test_images = train_images / 255.0, test_images / 255.0
@@ -90,24 +107,27 @@ class HazardDetector:
         plt.show()
 
     # Create convolutional base
-    def create_model(self, optimizer, input_shape):
 
-        clear_session()
-        model = models.Sequential()
-        model.add(Conv2D(128, kernel_size=(3, 3), activation='relu', input_shape=(input_shape[0], input_shape[1], 1)))
-        model.add(MaxPooling2D((2, 2)))
-        model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
-        model.add(MaxPooling2D((2, 2)))
-        model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
-        model.add(Flatten())
-        model.add(Dense(128, activation='relu'))
-        model.add(Dense(1, activation='softmax'))
-        model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['accuracy'])
-        return model
 
-    def define_parameters(self):
+    def define_parameters(self, train_images):
+        # Input shape (image_height, image_width, color_channels)
+        input_shape = train_images[0].shape
+        def create_model(optimizer):
+            clear_session()
+            model = models.Sequential()
+            model.add(
+                Conv2D(128, kernel_size=(3, 3), activation='relu', input_shape=(input_shape[0], input_shape[1], 1)))
+            model.add(MaxPooling2D((2, 2)))
+            model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
+            model.add(MaxPooling2D((2, 2)))
+            model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
+            model.add(Flatten())
+            model.add(Dense(128, activation='relu'))
+            model.add(Dense(1, activation='softmax'))
+            model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['accuracy'])
+            return model
 
-        keras_class = KerasClassifier(build_fn=self.create_model) # check if its OK to add parameter to 'create model'
+        keras_class = KerasClassifier(build_fn=create_model)
 
         # define the grid search parameters
         opts = ['SGD', 'RMSprop', 'Adagrad', 'Adadelta', 'Adam', 'Adamax', 'Nadam']
@@ -120,17 +140,31 @@ class HazardDetector:
 
     def make_grid(self, params, x, y, keras_class):
         grid = GridSearchCV(estimator=keras_class, param_grid=params, cv=3)
-        grid_result = grid.fit(x, y, verbose=0)
+        grid_result = grid.fit(x, y, verbose=0, n_jobs=2)
         print(grid_result.best_params_)
         print("Best Score is: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
         return grid_result
 
     def build_model(self, grid_result, train_images):
+        def create_model(optimizer):
+            clear_session()
+            model = models.Sequential()
+            model.add(
+                Conv2D(128, kernel_size=(3, 3), activation='relu', input_shape=(input_shape[0], input_shape[1], 1)))
+            model.add(MaxPooling2D((2, 2)))
+            model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
+            model.add(MaxPooling2D((2, 2)))
+            model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
+            model.add(Flatten())
+            model.add(Dense(128, activation='relu'))
+            model.add(Dense(1, activation='softmax'))
+            model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['accuracy'])
+            return model
         # Inpute shape (image_height, image_width, color_channels)
         input_shape = train_images[0].shape
         # training new model using hyper params
         best_params = grid_result.best_params_
-        model = self.create_model(best_params['optimizer'], )
+        model = create_model(best_params['optimizer'])
         model.compile(loss='binary_crossentropy', metrics=['accuracy'], optimizer=best_params['optimizer'])
         return model, best_params
 
