@@ -1,4 +1,4 @@
-class HazardDetector:
+class HazardDetector(EventDetector):
     def __init__(self):
         print("HazardDetector build.")
 

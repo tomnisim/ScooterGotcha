@@ -1,4 +1,4 @@
-class RoadDetector:
+class RoadDetector(EventDetector):
     def __init__(self):
         print("road detector build.")
 
