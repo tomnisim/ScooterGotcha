@@ -1,29 +1,64 @@
-import React from 'react';
 import Navigation from '../navigation';
 import { RootTabScreenProps } from '../types';
-
 import { StyleSheet, View, TouchableOpacity, Text, Button } from 'react-native';
-// const CenterButtonScreen = () => {
-//     return (
-//       <View style={styles.container}>
-//         <TouchableOpacity style={styles.button}>
-//           <Text style={styles.buttonText}>Click Me</Text>
-//         </TouchableOpacity>
-//       </View>
-//     );
-//   };
-function MyRides  ({ navigation }: RootTabScreenProps<'MyRides'>)  {
-    console.log(navigation)
+
+
+import React from 'react';
+
+interface Ride {
+  id: number;
+  date: string;
+  information: string;
+  // add more properties as needed
+}
+
+interface Props {
+  rides: Ride[];
+}
+
+function MyRides  ({ rides }: Props, { navigation }: RootTabScreenProps<'MyRides'>)  {
+  const ridess=[1,2,3,4,5,5,6,7,8,8]
   return (
-    <View style={styles.container}>
-       <Button title='My Profile' onPress={()=>{navigation.navigate('Profile')}} ></Button> 
-       <Button title='Start Ride'></Button> 
-       <Button title='Announcments'></Button> 
-       <Button title='Contact Us'></Button> 
-      <Text style={styles.title}>My Ridesss</Text>
-    </View>
+    <div>
+      <h1>My Rides</h1>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Ride Date</th>
+            <th>Ride Information</th>
+          </tr>
+        </thead>
+        <tbody>
+          {ridess.map((ride, index) => (
+            <React.Fragment key={'ride.id'}>
+              <tr className={index % 2 === 0 ? 'even' : 'odd'}>
+                <td>{'ride.date'}</td>
+                <td>{'ride.information'}</td>
+              </tr>
+            </React.Fragment>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
-};
+}
+
+
+
+
+
+
+export default MyRides;
+
+
+
+
+
+
+
+
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -51,6 +86,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
   },
+  even :{
+    backgroundColor : '#f5f5f5'
+  }, 
+
+  
+
 });
 
-export default MyRides;
