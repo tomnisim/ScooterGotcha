@@ -1,4 +1,3 @@
-from signal import pause
 
 from AlertModule.Alert import Alert
 from gpiozero import LED

@@ -2,10 +2,25 @@ from time import sleep
 
 
 class CameraController:
+    __instance = None
     def __init__(self):
-        # self.camera = PiCamera()
-        self.camera= None
+        self._camera = RPCAMERA() # TODO: has to connect the RP camera
         print("camera controller build.")
+        if CameraController.__instance != None:
+            raise Exception("Singleton class can only be instantiated once")
+        else:
+            CameraController.__instance = self
+
+
+    @classmethod
+    def get_instance(cls):
+        if cls.__instance == None:
+            cls()
+        return cls.__instance
+
+
+
+
 
     def init_camera(self):
         self.camera.rotation = 180

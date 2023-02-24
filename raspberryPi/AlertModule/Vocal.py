@@ -1,6 +1,5 @@
 from AlertModule.Alert import Alert
 from gpiozero import Buzzer
-from signal import pause
 
 class Vocal(Alert):
     def __init__(self):

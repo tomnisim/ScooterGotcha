@@ -1,18 +1,29 @@
+
+
+
+[Camera]
 Camera: V2
 
+[GPS]
 GPS: default
-num_of_cordinates: 8
+num_of_coordinates: 8
 
-Server: default
+
+[ServerAddress]
 host: 8000
 port: 8080
 protocol:TCP
 
 
-Scooter: private
+[ScooterAppendixA]
 
-Alert: voice/vocal/verbal/vibration
-MinimumDistanceToAlert:2
+MinimumDistanceToAlert:5
 duration:5
+alertTypes: voice/vocal/verbal/vibration
+alert : sound
+numberOfRoutes : 4
+admin_email : gotcha_admin@gmail.com
+admin_password : GOTCHA
+minimumPasswordLength : 8
 voice:men
 verbal:"tik-tok"

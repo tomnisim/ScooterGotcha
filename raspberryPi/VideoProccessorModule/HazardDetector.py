@@ -1,4 +1,8 @@
+from VideoProccessorModule.EventDetector import EventDetector
+
+
 class HazardDetector(EventDetector):
+
     def __init__(self):
         print("HazardDetector build.")
 
