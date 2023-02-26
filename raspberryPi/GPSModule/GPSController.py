@@ -1,7 +1,10 @@
+import serial
+import pynmea2
 class GPSController:
     __instance = None
 
     def __init__(self):
+        self.gps_serial = self.init_gps()
         print("GPSController build.")
         if GPSController.__instance != None:
             raise Exception("Singleton class can only be instantiated once")
@@ -14,14 +17,38 @@ class GPSController:
             cls()
         return cls.__instance
 
+    # Initialize the GPS module
+    def init_gps(self):
+        ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
+        return ser
+
+    # Get the current location from the GPS module
+    def get_location(self):
+        location = None
+        while location is None:
+            try:
+                data = self.gps_serial.readline().decode('ascii', errors='replace')
+                if data.startswith('$GPGGA'):
+                    msg = pynmea2.parse(data)
+                    lat = msg.latitude
+                    lng = msg.longitude
+                    location = (lat, lng)
+            except Exception as e:
+                print(f"Error: {e}")
+        return location
+
+    #
+    # def get_GPS_location(self):
+    #     print("got GPS location")
+    #     nx = gpsd.next()
+    #     if nx['class'] == 'TPV':
+    #         latitude = getattr(nx, 'lat', "Unknown")
+    #         longitude = getattr(nx, 'lon', "Unknown")
+    #         print("Your position: lon = " + str(longitude) + ", lat = " + str(latitude))
+    #     return [1000000, 1000000]
 
 
-    def get_GPS_location(self):
-        print("got GPS location")
-        nx = gpsd.next()
-        if nx['class'] == 'TPV':
-            latitude = getattr(nx, 'lat', "Unknown")
-            longitude = getattr(nx, 'lon', "Unknown")
-            print("Your position: lon = " + str(longitude) + ", lat = " + str(latitude))
-        return [1000000, 1000000]
+
+
+
 

@@ -17,7 +17,7 @@ class RideController():
         self._event_detector = EventDetector()
         self._road_detector = RoadDetector()
         self._hazard_detector = HazardDetector()
-        self.alerter =
+        self.alerter = 
         self.end_curr_ride = False
 
     def end_ride(self):
