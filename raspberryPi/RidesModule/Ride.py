@@ -11,21 +11,15 @@ from datetime import date
 
 class Ride:
 
-    def __init__(self, city, start_time, end_time, origin, destination, hazards):
+    def __init__(self, city, sideway_precent, roadway_precent, hazards, events, start_location, destination_location, start_time, end_time):
         print("Ride is build.")
-        self._date = date.today()
-        self._city = city
+        self._city=city
+        self._sideway_precent = sideway_precent
+        self._roadway_precent = roadway_precent
+        self._hazards = hazards
+        self._events = events
+        self._start_location = start_location
+        self._destination_location = destination_location
         self._start_time = start_time
         self._end_time = end_time
-        self._origin = origin
-        self._destanation = destination
-        self._hazards = hazards
 
-    @property
-    def _city(self):
-
-        return self._city
-
-    @_city.setter
-    def city(self, value):
-        self._city = value

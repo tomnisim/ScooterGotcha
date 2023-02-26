@@ -1,5 +1,8 @@
 import serial
 import pynmea2
+import requests
+
+
 class GPSController:
     __instance = None
 
@@ -36,6 +39,23 @@ class GPSController:
             except Exception as e:
                 print(f"Error: {e}")
         return location
+
+
+    def get_city(self, location):
+        # Replace YOUR_API_KEY with your actual API key for the Google Maps Geocoding API
+        api_key = "YOUR_API_KEY"
+        # Construct the URL for the API request
+        url = "https://maps.googleapis.com/maps/api/geocode/json?latlng={},{}&key={}".format(location[0], location[1],
+                                                                                             api_key)
+        # Send the API request and get the response as JSON
+        response = requests.get(url).json()
+        # Parse the response and get the name of the city
+        for result in response["results"]:
+            for component in result["address_components"]:
+                if "locality" in component["types"]:
+                    return component["long_name"]
+        # If the city name couldn't be found, return None
+        return None
 
     #
     # def get_GPS_location(self):

@@ -8,7 +8,7 @@ class RoadDetector(EventDetector):
         self._roadway = 0
 
     def detect(self, frame):
-        #TODO : detect the type of road and increnebt the field according to the result
+        #TODO : detect the type of road and increment the field according to the result
         print("figure out the road type")
 
     def calculate_percentages(self):

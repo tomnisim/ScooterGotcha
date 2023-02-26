@@ -9,7 +9,7 @@ from VideoProccessorModule.RoadDetector import RoadDetector
 
 
 class RideController():
-    def __init__(self):
+    def __init__(self, alerter):
 
         self.rides={}
         self._GPS_controller = GPSController.get_instance()
@@ -17,8 +17,11 @@ class RideController():
         self._event_detector = EventDetector()
         self._road_detector = RoadDetector()
         self._hazard_detector = HazardDetector()
-        self.alerter = 
+        self.alerter = alerter
         self.end_curr_ride = False
+
+
+        self.events_detector = EventDetector()
 
     def end_ride(self):
         self.end_curr_ride = True
@@ -28,7 +31,7 @@ class RideController():
         hazards = []
         events = []  # speed changes, sharp turns..
 
-        start_location = self._GPS_controller.get_GPS_location()
+        start_location = self._GPS_controller.get_location()
 
 
         # todo : implement event who finish the loop - the ride is over.
@@ -37,7 +40,7 @@ class RideController():
             self._road_detector.detect(frame)
             current_hazards = self._hazard_detector.detect_hazards_in_frame(frame)
             for hazard in current_hazards:
-                self.alerter.alert(hazard)
+                self.alerter.alert()
                 hazards.append(hazard)
 
             # todo : what data should event hold? detector should return event.
@@ -51,13 +54,15 @@ class RideController():
 
 
         end_time = datetime.datetime.now()
-        destination_location = self.GPS_controller.get_GPS_location()
-        city = get_city(self.GPS_controller, destination_location)
-        self.finish_ride(road_type, hazards, events, start_location, destination_location, start_time, end_time)
+        destination_location = self._GPS_controller.get_location()
+        city = self._GPS_controller.get_city(destination_location)
+        sideway_precent, roadway_precent = self._road_detector.calculate_percentages()
+        self.finish_ride(city, sideway_precent, roadway_precent, hazards, events, start_location, destination_location, start_time, end_time)
 
-    def finish_ride(self, road_type, hazards, events, start_location, destination_location, start_time, end_time):
-        ride = Ride(city, start_time, end_time, origin, destination, hazards):
-        self._ride_id_idx += 1 #TODO:get & increment
+    def finish_ride(self, city, sideway_precent, roadway_precent, hazards, events, start_location, destination_location, start_time, end_time):
+        ride = Ride(city, sideway_precent, roadway_precent, hazards, events, start_location, destination_location, start_time, end_time)
+
+
+
+
         # todo :  send the server user's & ride's data.
-        print(
-            "summary: " + road_type + hazards + events + start_location + destination_location + start_time + end_time)
