@@ -26,6 +26,7 @@ public class QuestionController implements IQuestionController {
         return QuestionController.SingletonHolder.instance;
     }
 
+
     public QuestionController(){
         this.open_questions = new ConcurrentHashMap<>();
         this.users_questions = new ConcurrentHashMap<>();
@@ -46,13 +47,21 @@ public class QuestionController implements IQuestionController {
      * @param senderEmail
      */
     @Override
-    public void add_user_question(String message, String senderEmail, BiConsumer<String, Integer> notify_all_admins){
-        Question question_to_add = new Question(message, senderEmail);
-        int question_id = question_to_add.getQuestion_id();
+    public void add_user_question(String message, User sender){
+        int question_id = this.question_ids_counter.getAndIncrement();
+        Question question_to_add = new Question(question_id, message, sender);
+        String sender_email = sender.get_email();
 
-        this.open_questions.putIfAbsent(question_id, question_to_add);
-        this.users_questions.computeIfAbsent(senderEmail, k -> new ArrayList<>()).add(question_to_add);
-        notify_all_admins.accept(senderEmail, question_id);
+        this.open_questions.put(question_id, question_to_add);
+        if (this.users_questions.containsKey(sender_email))
+            this.users_questions.get(sender_email).add(question_to_add);
+        else{
+            ArrayList<Question> list = new ArrayList();
+            list.add(question_to_add);
+            this.users_questions.put(sender_email, list);
+        }
+        this.notify_admins("there is a new question");
+
     }
 
 
@@ -94,7 +103,7 @@ public class QuestionController implements IQuestionController {
      */
     @Override
     public List<String> get_all_user_questions(String user_email) {
-        ArrayList<String> answer = new ArrayList<>();
+        ArrayList<String> answer = new ArrayList();
         List<Question> user_questions = this.users_questions.get(user_email);
         for (Question question : user_questions){
             answer.add(question.toString_for_user());
@@ -108,7 +117,7 @@ public class QuestionController implements IQuestionController {
      */
     @Override
     public List<String> get_all_open_questions(){
-        ArrayList<String> answer = new ArrayList<>();
+        ArrayList<String> answer = new ArrayList<String>();
         for (Question question : this.open_questions.values()){
             answer.add(question.toString_for_admin());
         }

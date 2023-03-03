@@ -66,6 +66,7 @@ public class StationaryHazard {
         this.size = size;
     }
 
+
     public double getRate() {
         return rate;
     }
