@@ -1,10 +1,17 @@
-from AlertModule.Alert import Alert
-from AlertModule.Verbal import Verbal
-from AlertModule.Vibration import Vibration
-from AlertModule.Visual import Visual
-from AlertModule.Vocal import Vocal
-from CameraModule.CameraController import CameraController
-from GPSModule.GPSController import GPSController
+# from AlertModule.Alert import Alert
+#
+#
+#
+# from AlertModule.Verbal import Verbal
+# from AlertModule.Vibration import Vibration
+# from AlertModule.Visual import Visual
+# from AlertModule.Vocal import Vocal
+# from Service.Ride import Ride
+#
+# from CameraModule.CameraController import CameraController
+# from CommunicationModule.TCPconnection import TCPconnection
+# from GPSModule.GPSController import GPSController
+# from Service.Ride import Ride
 from VideoProccessorModule.EventDetector import EventDetector
 from VideoProccessorModule.HazardDetector import HazardDetector
 from VideoProccessorModule.RoadDetector import RoadDetector
@@ -14,6 +21,9 @@ def finish_ride(road_type, hazards, events, start_location, destination_location
     # here we should send to the server user's & ride's data.
 
     print("summary")
+    data = [road_type, hazards, events, start_location, destination_location]
+    tcp = TCPconnection()
+    tcp.send_data_to_server_by_socket(data)
 
 def start_ride():
     camera_controller = CameraController()
@@ -54,16 +64,11 @@ def start_ride():
 
 
 if __name__ == '__main__':
-    start_ride()
-    vocal = Vocal()
-    visual = Visual()
-    verbal = Verbal()
-    vib = Vibration()
+    HazardDetector()
+    # ride = Ride()
+    # ride.start_ride()
 
-    vocal.alert("hazard")
-    visual.alert("hazard")
-    verbal.alert("hazard")
-    vib.alert("hazard")
+
 
 
 

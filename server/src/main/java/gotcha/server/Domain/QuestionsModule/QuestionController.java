@@ -9,8 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 
-public class QuestionController implements iQuestionController {
+public class QuestionController implements IQuestionController {
 
     private Map<Integer, Question> open_questions;
     private Map<String, List<Question>> users_questions;
@@ -21,13 +22,14 @@ public class QuestionController implements iQuestionController {
     private static class SingletonHolder{
         private static QuestionController instance = new QuestionController();
     }
-    public static QuestionController getInstance(){
+    public static QuestionController get_instance(){
         return QuestionController.SingletonHolder.instance;
     }
 
-    public QuestionController() {
-        this.open_questions = new ConcurrentHashMap();
-        this.users_questions = new ConcurrentHashMap();
+
+    public QuestionController(){
+        this.open_questions = new ConcurrentHashMap<>();
+        this.users_questions = new ConcurrentHashMap<>();
         this.question_ids_counter = new AtomicInteger(1);
     }
 
@@ -42,7 +44,7 @@ public class QuestionController implements iQuestionController {
      * this method for a user who add question to admins, the method notify admins and added the question to the
      * open questions.
      * @param message
-     * @param sender
+     * @param senderEmail
      */
     @Override
     public void add_user_question(String message, User sender){
@@ -59,31 +61,39 @@ public class QuestionController implements iQuestionController {
             this.users_questions.put(sender_email, list);
         }
         this.notify_admins("there is a new question");
+
     }
 
 
 
     /**
      * this method for an admin who answer user question
-     * the method will notify user, and remove the question from the open questions.
+     * the method will set the answer on the question and will return the sending user email
      * @param question_id
      * @param answer
-     * @param admin
+     * @param adminEmail
      * @throws Exception
      */
     @Override
-    public void answer_user_question(int question_id, String answer, Admin admin) throws Exception {
+    public String answer_user_question(int question_id, String answer, String adminEmail) throws Exception {
         if (!this.open_questions.containsKey(question_id))
         {
             throw new Exception("Question does not exist");
         }
         Question question = this.open_questions.get(question_id);
-        question.set_answer(answer, admin);
-        question.getSender().add_notification("Your question got answered");
+        question.set_answer(answer, adminEmail);
         this.open_questions.remove(question_id);
-
+        return question.getSenderEmail();
     }
 
+    @Override
+    public Question get_question(int question_id) throws Exception {
+        if (!this.open_questions.containsKey(question_id))
+        {
+            throw new Exception("Question does not exist");
+        }
+        return this.open_questions.get(question_id);
+    }
 
 
     /**
