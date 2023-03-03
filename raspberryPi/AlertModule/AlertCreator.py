@@ -1,22 +1,13 @@
 from abc import ABC, abstractmethod
 
 
-class Alert(ABC):
+class AlertCreator(ABC):
     def __init__(self, duration, power):
         self.duration = duration # time in seconds
         self.power = power # range(0,100) - percent
 
+
     @abstractmethod
-    def alert(self, duration):
-        print("start alert, analyze hazard and save details about it ")
-
-
-
-
-
-
-
-
-
-
+    def create_alerter(self, alert_file_path):
+        pass
 

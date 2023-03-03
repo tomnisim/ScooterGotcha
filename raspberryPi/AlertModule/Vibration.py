@@ -5,6 +5,9 @@ class Vibration(Alert):
     def __init__(self):
         super().__init__()
 
-    def alert(self, hazard):
-        super().alert(hazard)
+    def alert(self):
+        super().alert()
         print("Vibration alert "+self.duration+" "+self.power)
+
+    def create_alerter(self):
+        pass

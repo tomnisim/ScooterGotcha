@@ -1,6 +1,8 @@
 # import cv2
 
 class EventDetector:
+
+
     def detect_speed_change(self, frame):
         print("speed change")
         # todo: should return event.

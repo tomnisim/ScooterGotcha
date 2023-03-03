@@ -7,6 +7,9 @@ class Verbal(Alert):
         self.voice = "men"
         self.words = "be careful"
 
-    def alert(self, hazard):
-        super().alert(hazard)
+    def alert(self):
+        super().alert()
         print("Verbal alert "+self.duration+" "+self.power)
+
+    def create_alerter(self):
+        pass
