@@ -23,7 +23,7 @@ public class HazardController implements IHazardController {
     }
 
     public HazardController() {
-        this.stationaryHazardsList = new ConcurrentHashMap<>();
+        this.stationaryHazardsList = new ConcurrentHashMap();
         this.id_counter = new AtomicInteger(1);
     }
 
@@ -99,13 +99,13 @@ public class HazardController implements IHazardController {
     private void rate_hazard(){}
 
     private List<StationaryHazard> get_hazards(HazardType type){
-        return new LinkedList<>();
+        return new LinkedList();
     }
     private List<StationaryHazard> get_hazards(String city){
-        return new LinkedList<>();
+        return new LinkedList();
     }
     private List<StationaryHazard> get_hazards(Location location, double radios){
-        return new LinkedList<>();
+        return new LinkedList();
     }
 
     // TODO: 30/12/2022 : remove // after open class "Route"
