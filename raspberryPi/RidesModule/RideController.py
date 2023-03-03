@@ -61,8 +61,4 @@ class RideController():
 
     def finish_ride(self, city, sideway_precent, roadway_precent, hazards, events, start_location, destination_location, start_time, end_time):
         ride = Ride(city, sideway_precent, roadway_precent, hazards, events, start_location, destination_location, start_time, end_time)
-
-
-
-
         # todo :  send the server user's & ride's data.
