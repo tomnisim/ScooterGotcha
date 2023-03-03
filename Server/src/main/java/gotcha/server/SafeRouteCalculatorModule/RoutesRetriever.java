@@ -12,9 +12,9 @@ public class RoutesRetriever {
     private MapsAdapterImpl google_maps;
     private HazardController hazard_controller;
     private static int NUMBER_OF_ROUTES ; // TODO: 28/12/2022  from config
-    public RoutesRetriever()
+    public RoutesRetriever(MapsAdapter maps_implementation)
     {
-        this.google_maps = new MapsAdapterImpl(); // TODO - fetch google maps class properly
+        this.google_maps = maps_implementation; // TODO - fetch google maps class properly
         this.hazard_controller = HazardController.get_instance();
 
     }
