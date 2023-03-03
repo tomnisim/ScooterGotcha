@@ -8,6 +8,6 @@ class AlertCreator(ABC):
 
 
     @abstractmethod
-    def create_alerter(self):
+    def create_alerter(self, alert_file_path):
         pass
 
