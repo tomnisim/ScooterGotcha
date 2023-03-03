@@ -1,4 +1,4 @@
-import Ride
+from Ride import Ride
 import datetime
 
 from CameraModule.CameraController import CameraController
@@ -27,6 +27,7 @@ class RideController():
         self.end_curr_ride = True
 
     def start_ride(self):
+        sideway_counter = roadway_counter = 0
         start_time = datetime.datetime.now()
         hazards = []
         events = []  # speed changes, sharp turns..
@@ -37,7 +38,7 @@ class RideController():
         # todo : implement event who finish the loop - the ride is over.
         while not self.end_curr_ride:
             frame = self._camera_controller.get_next_frame()
-            self._road_detector.detect(frame)
+            sideway_counter , roadway_counter = self._road_detector.detect(frame, sideway_counter , roadway_counter)
             current_hazards = self._hazard_detector.detect_hazards_in_frame(frame)
             for hazard in current_hazards:
                 self.alerter.alert()
@@ -56,9 +57,9 @@ class RideController():
         end_time = datetime.datetime.now()
         destination_location = self._GPS_controller.get_location()
         city = self._GPS_controller.get_city(destination_location)
-        sideway_precent, roadway_precent = self._road_detector.calculate_percentages()
-        self.finish_ride(city, sideway_precent, roadway_precent, hazards, events, start_location, destination_location, start_time, end_time)
+        sideway_precentage, roadway_precentage = self._road_detector.calculate_percentages(sideway_counter , roadway_counter)
+        self.finish_ride(city, sideway_precentage, roadway_precentage, hazards, events, start_location, destination_location, start_time, end_time)
 
-    def finish_ride(self, city, sideway_precent, roadway_precent, hazards, events, start_location, destination_location, start_time, end_time):
-        ride = Ride(city, sideway_precent, roadway_precent, hazards, events, start_location, destination_location, start_time, end_time)
+    def finish_ride(self, city, sideway_precentage, roadway_precentage, hazards, events, start_location, destination_location, start_time, end_time):
+        ride = Ride(city, sideway_precentage, roadway_precentage, hazards, events, start_location, destination_location, start_time, end_time)
         # todo :  send the server user's & ride's data.
