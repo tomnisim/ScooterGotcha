@@ -17,7 +17,7 @@ public interface IUserController extends Observable {
     void appoint_new_admin(String newAdminEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String appointingAdminEmail) throws Exception;
     void reply_to_user_question(String adminEmail, String reply, int question_id) throws Exception;
     void send_question_to_admin(String userEmail, String message) throws Exception;
-    List<String> view_admins();
+    List<Admin> view_admins();
     void change_password(String userEmail, String oldPassword, String newPassword) throws Exception;
     void remove_admin_appointment(String user_email, String admin_email) throws Exception;
     void delete_user(String user_email) throws Exception ;

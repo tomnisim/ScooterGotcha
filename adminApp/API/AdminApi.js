@@ -3,16 +3,17 @@ import {CATCH, CONNECTION_ERROR} from "./AdvertismentsApi"
 const ADD_ADMIN_PATH = "http://localhost:8080/add_admin"
 const DELETE_ADMIN_PATH = "http://localhost:8080/delete_admin"
 const VIEW_ADMINS_PATH = "http://localhost:8080/view_admins"
+import {session_id} from '../components/LoginWindow'
 
 
 const instance = require('axios');
 
 export class AdminApi {
 
-    add_admin(admin_email, admin_password, current_admin_id, phone, birthDate, gender) {
+    add_admin(admin_email, admin_password, phone, birthDate, gender) {
         return instance.get(ADD_ADMIN_PATH,
         {
-            params:{user_email: admin_email, user_password: admin_password, admin_id:current_admin_id, phoneNumbeR:phone, birthDay: birthDate, gender: gender}
+            params:{user_email: admin_email, user_password: admin_password, session_id: session_id, phoneNumber:phone, birthDay: birthDate, gender: gender}
         })
             .then(res => {
                 return new Response(res.data);
@@ -20,10 +21,10 @@ export class AdminApi {
             .catch(res => Response.create(CATCH,true, CONNECTION_ERROR ));
     }
 
-    delete_admin(user_email, admin_id) {
+    delete_admin(user_email) {
         return instance.get(DELETE_ADMIN_PATH,
         {
-            params:{user_email: user_email, admin_id : admin_id}
+            params:{user_email: user_email, session_id : session_id}
         })
             .then(res => {
                 return new Response(res.data);
@@ -31,10 +32,10 @@ export class AdminApi {
             .catch(res => Response.create(CATCH,true, CONNECTION_ERROR ));
     }
 
-    view_admins(admin_id){
+    view_admins(){
         return instance.get(VIEW_ADMINS_PATH,
             {
-                params:{admin_id : admin_id}
+                params:{session_id : session_id}
             })
                 .then(res => {
                     console.log(res);

@@ -13,12 +13,11 @@ let users_list = []
 
 const get_users_list = async () => {
   // todo: change 5 to admin id, change params to functions.
-  let response = await usersApi.view_users(5);
+  let response = await usersApi.view_users();
   if (!response.was_exception){
     users_list = response.value
   }
 }
-get_users_list();
 
 
 
@@ -43,12 +42,11 @@ const edit_user = () => {
 }
 
 const delete_user = () => {
-  // usersApi.delete_user("6",6)
-  console.log(user_email_to_delete);
-  alert(user_email_to_delete);
+  usersApi.delete_user(user_email_to_delete)
 }
 
 export default function UsersWindow({navigation}) {
+  get_users_list();
 
 
   return (

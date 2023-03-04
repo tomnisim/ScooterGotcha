@@ -13,7 +13,7 @@ let message_to_send = ""
 
 const get_questions_list = async () => {
     // todo: change 5 to admin id, change params to functions.
-  let response = await questionsApi.view_all_open_questions(5);
+  let response = await questionsApi.view_all_open_questions();
   console.log(response)
   if (!response.was_exception){
     questions_list = response.value
@@ -22,10 +22,11 @@ const get_questions_list = async () => {
     
 }
 
-get_questions_list()
-console.log(questions_list)
+
 
 export default function QuestionsWindow({navigation}) {
+  get_questions_list()
+  console.log(questions_list)
 
   const setText_to_question_id_to_answer = (text) => {
     question_id_to_answer = text
@@ -40,12 +41,12 @@ export default function QuestionsWindow({navigation}) {
   const answer_question = () => {
     alert(question_id_to_answer)
     alert(admin_answer)
-    questionsApi.answer_question(5,"ansewr", 5)
+    questionsApi.answer_question(question_id_to_answer, admin_answer)
   }
 
   const send_message_to_all_users = () => {
     alert(message_to_send)
-    questionsApi.send_message_to_all_users("message", 5)
+    questionsApi.send_message_to_all_users(message_to_send)
   }
 
 

@@ -51,11 +51,11 @@ public class AdvertiseController implements IAdvertiseController {
 
 
     @Override
-    public List<String> get_all_advertisements_for_admin(){
-        List<String> to_return = new LinkedList<>();
+    public List<Advertise> get_all_advertisements_for_admin(){
+        List<Advertise> to_return = new LinkedList<>();
         for (Advertise advertise : this.advertise_list.values())
         {
-            to_return.add(advertise.toString_admin());
+            to_return.add(advertise);
         }
         return to_return;
     }

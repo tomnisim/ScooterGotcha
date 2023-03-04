@@ -52,6 +52,7 @@ public class RidesController {
 
     public List<Ride> get_rides(int rider_id)
     {
+        // TODO: 04/03/2023 : change rider id -> email or serial number ?
         List<Ride> rides_by_rider_id = new ArrayList<>();
         for (Ride ride : this.rides.values())
         {

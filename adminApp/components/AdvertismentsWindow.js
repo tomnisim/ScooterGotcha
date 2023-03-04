@@ -17,14 +17,14 @@ let url = ""
 
 const get_advertisments_list = async () => {
   // todo: change 5 to advertisment id, change params to functions.
-  let response = await advertismentsApi.view_advertisements(5);
+  let response = await advertismentsApi.view_advertisements();
   if (!response.was_exception){
     advertisments_list = response.value
   }
 }
-get_advertisments_list()
 
 export default function AdvertismentsWindow({navigation}) {
+  get_advertisments_list()
 
   const setText_to_final_date = (text) => {
     final_date = text
@@ -52,12 +52,12 @@ export default function AdvertismentsWindow({navigation}) {
 
   const delete_advertise = () => {
     alert(advertise_id_to_delete)
-    advertismentsApi.delete_advertisement(advertise_id_to_delete,6)
+    advertismentsApi.delete_advertisement(advertise_id_to_delete)
   }
 
   const add_advertisement = () => {
     final_date, owner, message, photo, url, 
-    advertismentsApi.add_advertisement(final_date, owner, message, photo, url,6)
+    advertismentsApi.add_advertisement(final_date, owner, message, photo, url)
   }
 
   return (

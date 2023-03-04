@@ -12,15 +12,17 @@ let user_email_to_remove_appoint = "none"
 
 const get_admins_list = async () => {
   // todo: change 5 to admin id, change params to functions.
-  let response = await adminApi.view_admins(5);
+  let response = await adminApi.view_admins();
   if (!response.was_exception){
     admins_list = response.value
+    console.log(response.value)
+
   }
 }
-get_admins_list()
+
 
 export default function AdminsWindow({navigation}) {
-
+  get_admins_list()
 
 
   const setText_email_to_appoint = (text) => {
@@ -35,13 +37,13 @@ export default function AdminsWindow({navigation}) {
 
   const add_admin = () => {
     alert(user_email_to_appoint);
-    adminApi.add_admin("5","5","5","5","5","5");
+    adminApi.add_admin("5","5","5","5","5");
     get_admins_list();
   }
 
   const delete_admin = () => {
     alert(user_email_to_remove_appoint)
-    adminApi.delete_admin("6",6)
+    adminApi.delete_admin(user_email_to_remove_appoint)
     get_admins_list()
 
   }
@@ -67,7 +69,7 @@ export default function AdminsWindow({navigation}) {
         return (
           <View>
             <Text style={styles.item}>{"email: "+ item._email +", gender: "+ item._gender +", phone: "+ item._phone_number + 
-            " appointed_by: "+ item._appointed_by +", appointment_date: "}</Text>
+            " appointed_by: "+ item._appointed_by +", appointmentDate: " + item._appointment_date}</Text>
           </View>
         );
       })}

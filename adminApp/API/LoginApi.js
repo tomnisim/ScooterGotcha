@@ -16,7 +16,10 @@ export class LoginApi {
             .then(res => {
                 return new Response(res.data);
             })
-            .catch(res => Response.create(CATCH,true, CONNECTION_ERROR ));
+            .catch(res => {
+                return new Response(1);
+            });
     }
 
 }
+

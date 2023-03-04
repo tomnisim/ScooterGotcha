@@ -245,12 +245,12 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public List<String> view_admins(){
+    public List<Admin> view_admins(){
 
-        var adminsList = new ArrayList<String>();
+        var adminsList = new ArrayList<Admin>();
         for (var user : allUsers.values()) {
             if (user.is_admin()) {
-                adminsList.add(user.get_email());
+                adminsList.add((Admin)user);
             }
         }
         return adminsList;

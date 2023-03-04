@@ -12,6 +12,7 @@ import gotcha.server.Domain.RidesModule.RidesController;
 import gotcha.server.Domain.StatisticsModule.Statistic;
 import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.StatisticsModule.iStatisticsManager;
+import gotcha.server.Domain.UserModule.Admin;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.ExternalService.MapsAdapter;
@@ -151,7 +152,7 @@ public class Facade  {
         try {
             User user = user_controller.login(email, password);
             String logger_message = "User's (" + email + ")  has been login successfully.";
-            response = new Response<>(password, logger_message);
+            response = new Response<>(1, logger_message);
             serverLogger.add_log(logger_message);
             // TODO: 01/03/2023 : update logged user?
             this.loggedUser = user;
@@ -166,8 +167,23 @@ public class Facade  {
         return response;
     }
     public Response logout() {
-        return null;
-//        StatisticsManager.get_instance().inc_logout_count();
+        Response response = null;
+        try {
+            String email = this.loggedUser.get_email();
+            user_controller.logout(email);
+            String logger_message = "User's (" + email + ")  has been logout successfully.";
+            response = new Response<>("", logger_message);
+            serverLogger.add_log(logger_message);
+            this.loggedUser = null;
+            StatisticsManager.get_instance().inc_logout_count();
+
+        }
+
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
     }
 
      
@@ -316,6 +332,7 @@ public class Facade  {
             String ride_info="";
             String hazard_info ="";
             // TODO: 05/01/2023 : build the info objects
+            // TODO: 04/03/2023 : change user id -> email or serial number ?
             int number_of_rides = this.rides_controller.get_number_of_rides(user_id);
             Ride ride = this.rides_controller.add_ride(ride_info);
             int ride_id = ride.getRide_id();
@@ -438,7 +455,7 @@ public class Facade  {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in();
-            List<String> advs = advertise_controller.get_all_advertisements_for_admin();
+            List<Advertise> advs = advertise_controller.get_all_advertisements_for_admin();
             String logger_message = "admin view all advertisements";
             response = new Response(advs, logger_message);
             serverLogger.add_log(logger_message);
@@ -527,7 +544,8 @@ public class Facade  {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in();
-            List<String> admins_list = user_controller.view_admins();
+            List<User> users_list = user_controller.get_all_users();
+            List<Admin> admins_list = user_controller.view_admins();
             String logger_message = "admin view all admins list";
             response = new Response(admins_list, logger_message);
             serverLogger.add_log(logger_message);

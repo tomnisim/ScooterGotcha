@@ -222,7 +222,12 @@ public class MainSystem {
         user_facade.register(EMAIL, PASSWORD, NAME, LAST_NAME, BIRTH_DATE, PHONE, GENDER);
         user_facade.login(EMAIL, PASSWORD);
         admin_facade.login(ADMIN_USER_NAME, ADMIN_PASSWORD);
+        admin_facade.add_advertisement(start_time, "owner", "mes", "photo", "url");
+        admin_facade.add_advertisement(start_time, "owner2", "mes2", "photo2", "url2");
+        user_facade.add_user_question("????");
+        admin_facade.add_admin(EMAIL+"mmm", PASSWORD, PHONE, BIRTH_DAY, GENDER);
+        admin_facade.logout();
 
-        user_facade.finish_ride(1, origin, dest, city, start_time, end_time, hazards);
+//        user_facade.finish_ride(1, origin, dest, city, start_time, end_time, hazards);
     }
 }

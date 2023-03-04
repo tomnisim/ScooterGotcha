@@ -12,7 +12,7 @@ public interface IAdvertiseController {
 
     void update_advertise(int advertise_id, LocalDateTime final_date, String owner, String message, String photo, String url);
 
-    List<String> get_all_advertisements_for_admin();
+    List<Advertise> get_all_advertisements_for_admin();
 
     List<String> get_all_advertisements_for_user();
 }

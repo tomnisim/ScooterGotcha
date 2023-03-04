@@ -39,11 +39,11 @@ public class Service implements AdminAPI, UserAPI  {
     }
 
 
-    private Facade get_facade(Integer user_id){
-        if(!FacadeMap.containsKey(user_id)){
-            FacadeMap.put(user_id, new Facade());
+    private Facade get_facade(Integer session_id){
+        if(!FacadeMap.containsKey(session_id)){
+            FacadeMap.put(session_id, new Facade());
         }
-        return FacadeMap.get(user_id);
+        return FacadeMap.get(session_id);
     }
 
 
@@ -77,10 +77,12 @@ public class Service implements AdminAPI, UserAPI  {
         Facade facade = new Facade();
         Response<Integer> response = facade.login(email, password);
         // TODO: 04/01/2023 : have to check somehow if the login success, if it is, put in the facade map.
-        if (response.getValue() == 1) {
-            int user_id = response.getValue();
-            FacadeMap.put(user_id, facade);
+        if (!response.iswas_exception()){
+            int session_id = 5; // TODO: 04/03/2023 : generate random session id.
+            FacadeMap.put(session_id, facade);
+            response.setValue(session_id);
         }
+
         return response;
     }
 
@@ -228,8 +230,8 @@ public class Service implements AdminAPI, UserAPI  {
     @RequestMapping(value = "/view_all_open_questions")
     @CrossOrigin
     @Override
-    public Response view_all_open_questions(int admin_id) {
-        Facade facade = get_facade(admin_id);
+    public Response view_all_open_questions(int session_id) {
+        Facade facade = get_facade(session_id);
         return facade.view_all_open_questions();
 
     }
@@ -237,24 +239,24 @@ public class Service implements AdminAPI, UserAPI  {
     @RequestMapping(value = "/answer_user_question")
     @CrossOrigin
     @Override
-    public Response answer_user_question(int question_id, String answer, int admin_id) {
-        Facade facade = get_facade(admin_id);
+    public Response answer_user_question(int question_id, String answer, int session_id) {
+        Facade facade = get_facade(session_id);
         return facade.answer_user_question(question_id, answer);
     }
 
     @RequestMapping(value = "/send_message_to_all_users")
     @CrossOrigin
     @Override
-    public Response send_message_to_all_users(String message, int admin_id) {
-        Facade facade = get_facade(admin_id);
+    public Response send_message_to_all_users(String message, int session_id) {
+        Facade facade = get_facade(session_id);
         return facade.send_message_to_all_users(message);
     }
 
     @RequestMapping(value = "/view_rides")
     @CrossOrigin
     @Override
-    public Response view_rides(int admin_id) {
-        Facade facade = get_facade(admin_id);
+    public Response view_rides(int session_id) {
+        Facade facade = get_facade(session_id);
         return facade.view_rides();
 
     }
@@ -262,48 +264,48 @@ public class Service implements AdminAPI, UserAPI  {
     @RequestMapping(value = "/view_statistics")
     @CrossOrigin
     @Override
-    public Response view_statistics(int admin_id) {
-        Facade facade = get_facade(admin_id);
+    public Response view_statistics(int session_id) {
+        Facade facade = get_facade(session_id);
         return facade.view_statistics();
     }
 
     @RequestMapping(value = "/view_advertisements")
     @CrossOrigin
     @Override
-    public Response view_advertisements(int admin_id) {
-        Facade facade = get_facade(admin_id);
+    public Response view_advertisements(int session_id) {
+        Facade facade = get_facade(session_id);
         return facade.view_advertisements();
     }
 
     @RequestMapping(value = "/add_advertisement")
     @CrossOrigin
     @Override
-    public Response add_advertisement(LocalDateTime final_date, String owner, String message, String photo, String url, int admin_id) {
-        Facade facade = get_facade(admin_id);
+    public Response add_advertisement(LocalDateTime final_date, String owner, String message, String photo, String url, int session_id) {
+        Facade facade = get_facade(session_id);
         return facade.add_advertisement(final_date, owner, message, photo, url);
     }
 
     @RequestMapping(value = "/delete_advertisement")
     @CrossOrigin
     @Override
-    public Response delete_advertisement(int advertise_id, int admin_id) {
-        Facade facade = get_facade(admin_id);
+    public Response delete_advertisement(int advertise_id, int session_id) {
+        Facade facade = get_facade(session_id);
         return facade.delete_advertisement(advertise_id);
     }
 
     @RequestMapping(value = "/view_awards")
     @CrossOrigin
     @Override
-    public Response view_awards(int admin_id) {
-        Facade facade = get_facade(admin_id);
+    public Response view_awards(int session_id) {
+        Facade facade = get_facade(session_id);
         return facade.view_awards();
     }
 
     @RequestMapping(value = "/add_award")
     @CrossOrigin
     @Override
-    public Response add_award(int admin_id, String[] emails, String award) {
-        Facade facade = get_facade(admin_id);
+    public Response add_award(int session_id, String[] emails, String award) {
+        Facade facade = get_facade(session_id);
         return facade.add_award(emails, award);
     }
 
@@ -312,32 +314,32 @@ public class Service implements AdminAPI, UserAPI  {
     @RequestMapping(value = "/view_admins")
     @CrossOrigin
     @Override
-    public Response view_admins(int admin_id) {
-        Facade facade = get_facade(admin_id);
+    public Response view_admins(int session_id) {
+        Facade facade = get_facade(session_id);
         return facade.view_admins();
     }
 
     @RequestMapping(value = "/add_admin")
     @CrossOrigin
     @Override
-    public Response add_admin(String user_email, String user_password, int admin_id, String phoneNumber, String birthDay, String gender) {
-        Facade facade = get_facade(admin_id);
+    public Response add_admin(String user_email, String user_password, int session_id, String phoneNumber, String birthDay, String gender) {
+        Facade facade = get_facade(session_id);
         return facade.add_admin(user_email, user_password, phoneNumber, Utils.StringToLocalDate(birthDay), gender);
     }
 
     @RequestMapping(value = "/delete_admin")
     @CrossOrigin
     @Override
-    public Response delete_admin(String user_email, int admin_id) {
-        Facade facade = get_facade(admin_id);
+    public Response delete_admin(String user_email, int session_id) {
+        Facade facade = get_facade(session_id);
         return facade.delete_admin(user_email);
     }
 
     @RequestMapping(value = "/view_users")
     @CrossOrigin
     @Override
-    public Response view_users(int admin_id) {
-        Facade facade = get_facade(admin_id);
+    public Response view_users(int session_id) {
+        Facade facade = get_facade(session_id);
         return facade.view_users();
     }
 
@@ -345,8 +347,8 @@ public class Service implements AdminAPI, UserAPI  {
     @RequestMapping(value = "/delete_user")
     @CrossOrigin
     @Override
-    public Response delete_user(String user_email, int admin_id) {
-        Facade facade = get_facade(admin_id);
+    public Response delete_user(String user_email, int session_id) {
+        Facade facade = get_facade(session_id);
         return facade.delete_user(user_email);
     }
 
