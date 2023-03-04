@@ -24,6 +24,8 @@ public class UserController implements IUserController {
 
     private IQuestionController questionController;
 
+
+
     private static class SingletonHolder {
         private static UserController instance = new UserController();
     }
@@ -35,7 +37,7 @@ public class UserController implements IUserController {
     public UserController() {
         this.allUsers = new ConcurrentHashMap<>();
         this.passwordManager = new PasswordManagerImpl();
-        this.questionController = new QuestionController();
+        this.questionController = QuestionController.get_instance();
         this.usersEmailByRaspberryPi = new ConcurrentHashMap<>();
     }
 
@@ -43,6 +45,7 @@ public class UserController implements IUserController {
         verify_user_information(userEmail, password, phoneNumber, birthDay, gender);
         var passwordToken = passwordManager.hash(password);
         var admin = new Admin(userEmail, passwordToken, phoneNumber, birthDay, gender, null );
+        allUsers.put(userEmail, admin);
     }
 
     public void load() {
@@ -55,7 +58,7 @@ public class UserController implements IUserController {
      * @return
      * @throws UserNotFoundException
      */
-    public User get_user_by_id(String userEmail) throws UserNotFoundException {
+    public User get_user_by_email(String userEmail) throws UserNotFoundException {
         User toReturn = allUsers.get(userEmail);
         if (toReturn == null) {
             throw new UserNotFoundException("User with user name of: " + userEmail + " is not found");
@@ -83,7 +86,7 @@ public class UserController implements IUserController {
      * @return
      * @throws UserException
      */
-    public Boolean register(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate, String raspberryPiSerialNumber) throws Exception {
+    public User register(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate, String raspberryPiSerialNumber) throws Exception {
         if (allUsers.containsKey(userEmail))
         {
             throw new UserAlreadyExistsException("User with email :"+ userEmail + " alerady exists");
@@ -95,7 +98,7 @@ public class UserController implements IUserController {
         User newUser = new Rider(userEmail, passwordToken, phoneNumber, birthDay, gender, scooterType, licenceIssueDate, raspberryPiSerialNumber);
         allUsers.put(userEmail, newUser);
         usersEmailByRaspberryPi.put(raspberryPiSerialNumber, userEmail);
-        return true;
+        return newUser;
     }
 
     /**
@@ -104,7 +107,7 @@ public class UserController implements IUserController {
      * @param password
      * @throws Exception
      */
-    public void login(String userEmail, String password) throws Exception {
+    public User login(String userEmail, String password) throws Exception {
         if (!allUsers.containsKey(userEmail))
         {
             throw new UserNotFoundException("invalid login: user with email"+ userEmail + " not found");
@@ -115,6 +118,7 @@ public class UserController implements IUserController {
             throw new Exception("password is incorrect");
         }
         user.login();
+        return user;
     }
 
     public void change_password(String userEmail, String oldPassword, String newPassword) throws Exception {
@@ -185,10 +189,13 @@ public class UserController implements IUserController {
         Utils.passwordValidCheck(password);
         Utils.validate_birth_date(birthDay);
         Utils.validate_gender(gender);
-        if (extraParams[0] != null)
-            Utils.validate_scooter_type((String)extraParams[0]);
-        if (extraParams[1] != null)
-            Utils.validate_license_issue_date((LocalDate)extraParams[1]);
+        if (extraParams != null && extraParams.length > 0) {
+            if (extraParams[0] != null)
+                Utils.validate_scooter_type((String)extraParams[0]);
+            if (extraParams[1] != null)
+                Utils.validate_license_issue_date((LocalDate)extraParams[1]);
+        }
+
     }
 
     /**
@@ -208,13 +215,13 @@ public class UserController implements IUserController {
 
         var sendingUserEmail = questionController.answer_user_question(question_id, reply, adminEmail);
         var sendingUser = allUsers.get(sendingUserEmail);
-        sendingUser.notify_user(new Notification(admin.get_email(), question_id));
+        sendingUser.notify_user(new Notification(admin.get_email(), "your question got answer"));
     }
 
     private BiConsumer<String, Integer> create_notify_all_admins_callback(){
         BiConsumer<String, Integer> callback = (senderEmail, questionId) -> {
             for (var user : allUsers.values()) {
-                var newNotification = new Notification(senderEmail, questionId);
+                var newNotification = new Notification(senderEmail, "new question");
                 if (user.is_admin()) {
                     user.notify_user(newNotification);
                 }
@@ -280,6 +287,22 @@ public class UserController implements IUserController {
             throw new Exception("user not found or is admin");
 
         ((Rider)user).update_rating(ride, number_of_rides);
+    }
+
+    @Override
+    public void notify_all_users(String senderEmail, String message) throws Exception {
+        Notification notification = new Notification(senderEmail, message);
+        for (User user : allUsers.values()){
+            user.notify_user(notification);
+        }
+    }
+
+    public void notify_users(String senderEmail, String[] emails, String message) {
+        Notification notification = new Notification(senderEmail, message);
+        for (String email : emails){
+            if (email != null && allUsers.containsKey(email))
+                allUsers.get(email).notify_user(notification);
+        }
     }
 
 

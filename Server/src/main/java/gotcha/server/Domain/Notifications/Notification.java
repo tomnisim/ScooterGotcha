@@ -4,19 +4,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Notification {
 
+    // TODO: 01/03/2023 : add message 
     private static AtomicInteger idCounter = new AtomicInteger();
+
+
     private Integer id;
 
-    private Integer question_id;
+    private String message;
 
     private String senderEmail;
 
     private boolean wasSeen;
-    public Notification(String senderEmail, Integer question_id) {
+    public Notification(String senderEmail, String message) {
         this.id = idCounter.getAndIncrement();
         this.senderEmail = senderEmail;
         this.wasSeen = false;
-        this.question_id = question_id;
+        this.message = message;
+
     }
 
     public void set_seen() {
@@ -29,6 +33,10 @@ public class Notification {
 
     public Integer get_id() {
         return this.id;
+    }
+
+    public String get_message() {
+        return message;
     }
 
     public String print() {

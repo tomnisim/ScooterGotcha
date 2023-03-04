@@ -25,6 +25,8 @@ public interface UserAPI {
     Response get_safe_routes(Location origin, Location destination, int user_id);
     Response view_all_advertisement(int user_id);
 
+    Response view_notifications(int user_id);
+
     // RP API - this methods should not check if the user is logged in.
 
     Response finish_ride(int user_id, Location origin, Location destination, String city, LocalDateTime start_time,

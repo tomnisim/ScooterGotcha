@@ -6,7 +6,7 @@ import java.util.List;
 public interface IAdvertiseController {
     void load();
 
-    void add_advertise(LocalDateTime final_date, String owner, String message, String photo, String url);
+    Advertise add_advertise(LocalDateTime final_date, String owner, String message, String photo, String url);
 
     void remove_advertise(int advertise_id);
 

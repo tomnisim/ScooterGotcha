@@ -26,10 +26,11 @@ public class AdvertiseController implements IAdvertiseController {
 
 
     @Override
-    public void add_advertise(LocalDateTime final_date, String owner, String message, String photo, String url){
+    public Advertise add_advertise(LocalDateTime final_date, String owner, String message, String photo, String url){
         int advertise_id = this.id_counter.incrementAndGet();
         Advertise advertise = new Advertise(advertise_id, final_date, owner, message, photo, url);
         this.advertise_list.put(advertise_id, advertise);
+        return advertise;
     }
     @Override
     public void remove_advertise(int advertise_id){

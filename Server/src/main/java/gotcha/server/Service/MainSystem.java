@@ -4,6 +4,7 @@ import gotcha.server.DAL.HibernateUtils;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
 import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.RidesModule.RidesController;
+import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.ExternalService.MapsAdapter;
 import gotcha.server.ExternalService.MapsAdapterImpl;
@@ -41,6 +42,7 @@ public class MainSystem {
         load_database();
         if (FIRST_TIME_RUNNING)
             set_first_admin();
+        StatisticsManager.get_instance().inc_connect_system_count();
     }
 
 
@@ -187,7 +189,7 @@ public class MainSystem {
         System.out.println(MINIMUM_DISTANCE_ALERT);
     }
     private void set_first_admin() throws Exception {
-        LocalDate birth_date = LocalDate.now();
+        LocalDate birth_date = LocalDate.of(1995,4,19);
         UserController.get_instance().add_first_admin(ADMIN_USER_NAME, ADMIN_PASSWORD, "0546794211",birth_date,"male");
     }
 }

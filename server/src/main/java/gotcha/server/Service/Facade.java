@@ -5,16 +5,16 @@ import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
 import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.HazardType;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
+import gotcha.server.Domain.Notifications.Notification;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
 import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Domain.RidesModule.RidesController;
-import gotcha.server.Domain.UserModule.Admin;
+import gotcha.server.Domain.StatisticsModule.Statistic;
+import gotcha.server.Domain.StatisticsModule.StatisticsManager;
+import gotcha.server.Domain.StatisticsModule.iStatisticsManager;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.ExternalService.MapsAdapter;
-import gotcha.server.Service.API.AdminAPI;
-import gotcha.server.Service.API.ProgrammerAPI;
-import gotcha.server.Service.API.UserAPI;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserException;
 import gotcha.server.Utils.Formula;
 import gotcha.server.Utils.Location;
@@ -25,9 +25,7 @@ import gotcha.server.Utils.Utils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Dictionary;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Facade  {
     private MapsAdapter mapsAdapter;
@@ -129,13 +127,47 @@ public class Facade  {
     // USER
 
     public Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender) {
-        return null;
+        Response response = null;
+        LocalDate birth_day = LocalDate.of(1995, 4,19) ,licence_date = LocalDate.now(); // TODO: 01/03/2023 : build params
+        String scooter_type="amit", rp_serial_number = "amit"; // TODO: 01/03/2023
+        try {
+            User user = user_controller.register(email, password, phone_number, birth_day, gender, scooter_type, licence_date, rp_serial_number); // TODO: 01/03/2023 : add name & last name
+            String logger_message = "User's (" + email + ")  has been registered successfully.";
+            response = new Response<>(password, logger_message);
+            serverLogger.add_log(logger_message);
+            this.loggedUser = user;
+            StatisticsManager.get_instance().inc_register_count();
+            // TODO: 01/03/2023 : update logged user?
+        }
+
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
     }
     public Response<Integer> login(String email, String password) {
-        return null;
+        Response response = null;
+        try {
+            User user = user_controller.login(email, password);
+            String logger_message = "User's (" + email + ")  has been login successfully.";
+            response = new Response<>(password, logger_message);
+            serverLogger.add_log(logger_message);
+            // TODO: 01/03/2023 : update logged user?
+            this.loggedUser = user;
+            StatisticsManager.get_instance().inc_login_count();
+
+        }
+
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
     }
     public Response logout() {
         return null;
+//        StatisticsManager.get_instance().inc_logout_count();
     }
 
      
@@ -230,10 +262,13 @@ public class Facade  {
      * @param destination
      * @return sorted & suggested routes & ride id
      */
-    
+
+
     public Response get_safe_routes(Location origin, Location destination) {
 //        this.routes_retriever.fetch_safe_routes(origin, destination);
 //        int ride_id = this.rides_controller.start_ride(user);
+        // TODO: 03/03/2023 : Tom - have to get 3 routes from Google Maps, find all the hazards in each route,
+        //  sum the rating of each hazard by hazard rate calculator
         try {
             check_user_is_logged_in();
         }
@@ -244,7 +279,23 @@ public class Facade  {
 
      }
 
+    public Response view_notifications() {
+        // TODO: 01/03/2023
+        Response response = null;
+        try{
+            check_user_is_logged_in();
+            Collection<Notification> notifications = loggedUser.get_notifications();
+            String logger_message = "user( "+loggedUser.get_email()+ ") view his notifications";
+            response = new Response(notifications, logger_message);
+            serverLogger.add_log(logger_message);
 
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
 
     /**
      * don't check if the user is logged in - can perform without logged in.
@@ -336,8 +387,8 @@ public class Facade  {
         try{
             check_user_is_admin_and_logged_in();
             String admin_email = this.loggedUser.get_email();
-//            question_controller.send_message_to_all_users(message, admin_email); // TODO: 04/01/2023 : SASHA
-            String logger_message = "admin send message to all the users ";
+            user_controller.notify_all_users(admin_email, message);
+            String logger_message = "admin send message to all users ";
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);
 
@@ -371,8 +422,9 @@ public class Facade  {
         try{
             check_user_is_admin_and_logged_in();
             List<String> stats = new LinkedList<>(); // TODO: 04/01/2023 : implement statistic module
+            Statistic statistics = StatisticsManager.get_instance().get_system_statistics(user_controller.get_all_users());
             String logger_message = "admin view statistics";
-            response = new Response(stats, logger_message);
+            response = new Response(statistics, logger_message);
             serverLogger.add_log(logger_message);
 
         }
@@ -434,8 +486,42 @@ public class Facade  {
         return response;
     }
 
-    public Response delete_award(int award_id) {
-        return null;
+    public Response add_award(String[] emails, String award) {
+        Response response = null;
+        try{
+            check_user_is_admin_and_logged_in();
+            String admin_email = this.loggedUser.get_email();
+            user_controller.notify_users(admin_email, emails, award);
+            String logger_message = "admin add awards (" + award + ") to users: "+emails;
+            response = new Response("", logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+
+
+    public Response edit_user(String user_email,String phoneNumber, String gender) {
+        Response response = null;
+        try{
+            check_user_is_admin_and_logged_in();
+            User user = user_controller.get_user_by_email(user_email);
+            user.edit_details(phoneNumber, gender);
+            String logger_message = "admin view all admins list";
+            response = new Response(user, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
     }
 
     public Response view_admins() {
@@ -533,9 +619,9 @@ public class Facade  {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in();
-            this.advertise_controller.add_advertise(final_date, owner, message, photo, url);
+            Advertise advertise = this.advertise_controller.add_advertise(final_date, owner, message, photo, url);
             String logger_message = "admin add new advertise (" + owner+ ")";
-            response = new Response("", logger_message);
+            response = new Response(advertise.getId(), logger_message);
             serverLogger.add_log(logger_message);
 
         }
@@ -545,4 +631,10 @@ public class Facade  {
         }
         return response;
     }
+
+    public void clear() {
+        // TODO: 01/03/2023 : clear all the data in instances. 
+    }
+
+
 }
