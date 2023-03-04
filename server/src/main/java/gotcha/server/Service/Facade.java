@@ -6,6 +6,7 @@ import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.HazardType;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.Notifications.Notification;
+import gotcha.server.Domain.QuestionsModule.Question;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
 import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Domain.RidesModule.RidesController;
@@ -81,7 +82,20 @@ public class Facade  {
 
      
     public Response view_error_logger() {
-        return null;
+        Response response = null;
+        try{
+            check_user_is_admin_and_logged_in();
+            String logger = error_logger.toString();
+            String logger_message = "user( "+loggedUser.get_email()+ ") view error logger";
+            response = new Response(logger, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
     }
 
      
@@ -100,19 +114,19 @@ public class Facade  {
     }
 
      
-    public Response shout_down() {
+    public Response shut_down() {
         return null;
     }
 
      
-    public Response update_user_rate_tables(Dictionary<String, Dictionary<Integer, Integer>> tables) {
-        return null;
-    }
-
-     
-    public Response update_hazard_formula(HazardType type, Formula formula) {
-        return null;
-    }
+//    public Response update_user_rate_tables(Dictionary<String, Dictionary<Integer, Integer>> tables) {
+//        return null;
+//    }
+//
+//
+//    public Response update_hazard_formula(HazardType type, Formula formula) {
+//        return null;
+//    }
 
 
 
@@ -367,7 +381,7 @@ public class Facade  {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in();
-            List<String> questions = question_controller.get_all_open_questions();
+            List<Question> questions = question_controller.get_all_open_questions();
             String logger_message = "admin view all user questions";
             response = new Response(questions, logger_message);
             serverLogger.add_log(logger_message);

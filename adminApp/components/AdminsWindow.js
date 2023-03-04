@@ -49,9 +49,24 @@ export default function AdminsWindow({navigation}) {
   }
 
 
+
   return (
     <View style={{alignItems: 'center', justifyContent: 'center' }}>
-        <TextInput
+    <Text style={{fontSize: 30, borderColor: "gray"}}><b>Admins List:</b></Text>
+    <View style={styles.container}>
+    {admins_list.map((item) => {
+        return (
+          <View>
+            <Text style={styles.item}>{"email: "+ item._email +", gender: "+ item._gender +", phone: "+ item._phone_number + 
+            " appointed_by: "+ item._appointed_by +", appointmentDate: " + item._appointment_date}</Text>
+          </View>
+          
+        );
+      })}
+    <View style={styles.hairline} />
+    <View style={{alignItems: 'center', justifyContent: 'center' }}>
+    
+    <TextInput
           style={{height: 40}}
           placeholder="User email to appoint"
           onChangeText={newText => setText_email_to_appoint(newText)}
@@ -63,19 +78,38 @@ export default function AdminsWindow({navigation}) {
           onChangeText={newText => setText_email_to_remove_appoint(newText)}
         />
       <Button onPress={() => delete_admin()} title="Delete Admin" color="#007fff"/>
-      <Text style={{fontSize: 30, borderColor: "gray"}}><b>Admins List:</b></Text>
-      <View style={styles.container}>
-      {admins_list.map((item) => {
-        return (
-          <View>
-            <Text style={styles.item}>{"email: "+ item._email +", gender: "+ item._gender +", phone: "+ item._phone_number + 
-            " appointed_by: "+ item._appointed_by +", appointmentDate: " + item._appointment_date}</Text>
-          </View>
-        );
-      })}
-    </View>
-    </View>
-  );
+    
+  </View>
+  </View>
+  </View>
+
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
@@ -84,6 +118,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 50,
+  },
+  hairline: {
+    backgroundColor: '#A2A2A2',
+    height: 2,
+    width: 800
   },
   item: {
     padding: 20,

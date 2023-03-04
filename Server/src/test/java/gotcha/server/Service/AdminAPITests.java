@@ -71,6 +71,7 @@ class AdminAPITests {
         admin_facade.answer_user_question(0, "because");
         Response response2 = admin_facade.view_all_open_questions();
         assertNotEquals("different lists", response1.getValue(), response2.getValue());
+        admin_facade.view_error_logger();
 
 
     }

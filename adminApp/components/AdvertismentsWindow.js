@@ -74,6 +74,7 @@ export default function AdvertismentsWindow({navigation}) {
           
         );
       })}
+        <View style={styles.hairline} />
         <View style={{alignItems: 'center', justifyContent: 'center' }}>
         <TextInput
           style={{height: 40}}
@@ -121,6 +122,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 50,
+  },
+  hairline: {
+    backgroundColor: '#A2A2A2',
+    height: 2,
+    width: 800
   },
   item: {
     padding: 20,

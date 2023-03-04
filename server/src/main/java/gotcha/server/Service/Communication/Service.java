@@ -23,7 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-public class Service implements AdminAPI, UserAPI  {
+public class Service implements AdminAPI, UserAPI, ProgrammerAPI  {
     private static HashMap<Integer,Facade> FacadeMap;
     private LinkedList<Admin> admins_list;
     private LinkedList<Question> questions_list;
@@ -138,7 +138,8 @@ public class Service implements AdminAPI, UserAPI  {
     @CrossOrigin
     @Override
     public Response view_all_user_questions(int user_id) {
-        return new Response(this.questions_list, "question list");
+        Facade facade = get_facade(user_id);
+        return facade.view_all_user_questions();
     }
 
     @RequestMapping(value = "/get_safe_routes")
@@ -353,6 +354,61 @@ public class Service implements AdminAPI, UserAPI  {
     }
 
 
+    // Programmer API
 
+    @RequestMapping(value = "/set_server_config")
+    @CrossOrigin
+    @Override
+    public Response set_server_config(int session_id) {
+        Facade facade = get_facade(session_id);
+        return facade.set_server_config();
+    }
 
+    @RequestMapping(value = "/set_rp_config")
+    @CrossOrigin
+    @Override
+    public Response set_rp_config(int session_id) {
+        Facade facade = get_facade(session_id);
+        return facade.set_rp_config();
+    }
+
+    @RequestMapping(value = "/view_error_logger")
+    @CrossOrigin
+    @Override
+    public Response view_error_logger(int session_id) {
+        Facade facade = get_facade(session_id);
+        return facade.view_error_logger();
+    }
+
+    @RequestMapping(value = "/view_system_logger")
+    @CrossOrigin
+    @Override
+    public Response view_system_logger(int session_id) {
+        Facade facade = get_facade(session_id);
+        return facade.view_system_logger();
+    }
+
+    @RequestMapping(value = "/view_server_logger")
+    @CrossOrigin
+    @Override
+    public Response view_server_logger(int session_id) {
+        Facade facade = get_facade(session_id);
+        return facade.view_server_logger();
+    }
+
+    @RequestMapping(value = "/reset")
+    @CrossOrigin
+    @Override
+    public Response reset(int session_id) {
+        Facade facade = get_facade(session_id);
+        return facade.reset();
+    }
+
+    @RequestMapping(value = "/shut_down")
+    @CrossOrigin
+    @Override
+    public Response shut_down(int session_id) {
+        Facade facade = get_facade(session_id);
+        return facade.shut_down();
+    }
 }

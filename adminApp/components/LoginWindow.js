@@ -11,8 +11,8 @@ export let session_id = 0;
 
 export default function LoginWindow({navigation}) {
 
-    let user_email = ""
-    let user_password = ""
+    let user_email = "admin@gmail.com"
+    let user_password = "12345678aA"
 
     const setText_email = (text) => {
         user_email = text;
@@ -27,11 +27,14 @@ export default function LoginWindow({navigation}) {
         // todo : move only login success
         let response = await loginApi.login(user_email, user_password)
         console.log(response)
-        if (response.was_exception)
-            {alert(response.message)}
+        if (response.was_exception || response.was_exception == undefined){
+            if (response.was_exception == undefined)
+                alert("no connection")
+            else
+                alert(response.message)
+        }
         else
         {
-            
             session_id = response.value;
             console.log(session_id);
             navigation.navigate('Home')

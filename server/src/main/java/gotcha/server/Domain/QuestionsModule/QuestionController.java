@@ -107,10 +107,10 @@ public class QuestionController implements IQuestionController {
      * @return all the open questions.
      */
     @Override
-    public List<String> get_all_open_questions(){
-        ArrayList<String> answer = new ArrayList<>();
+    public List<Question> get_all_open_questions(){
+        ArrayList<Question> answer = new ArrayList<>();
         for (Question question : this.open_questions.values()){
-            answer.add(question.toString_for_admin());
+            answer.add(question);
         }
         return answer;
     }
