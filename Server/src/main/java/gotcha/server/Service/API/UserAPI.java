@@ -16,7 +16,7 @@ public interface UserAPI {
     Response logout(int user_id);
     Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender);
 
-    // SMARTPHONE API
+    // MOBILE API
 
     Response change_password(String old_password, String password, int user_id);
     Response view_user_rides_history(int user_id);
@@ -34,4 +34,5 @@ public interface UserAPI {
 
     /* maybe extend to get as input all the history rides from rp who doesn't send to the server. */
     Response get_rp_config_file();
+
 }

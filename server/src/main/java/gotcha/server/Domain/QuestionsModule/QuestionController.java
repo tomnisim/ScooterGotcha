@@ -32,7 +32,7 @@ public class QuestionController implements IQuestionController {
         this.question_ids_counter = new AtomicInteger(1);
     }
 
-    // TODO: 14/12/2022 implement
+    // TODO: 14/12/2022 database
     public void load(){
 //        this.questionsMap = HibernateUtils.get_questions();
         this.question_ids_counter = new AtomicInteger(HibernateUtils.get_max_question_id());

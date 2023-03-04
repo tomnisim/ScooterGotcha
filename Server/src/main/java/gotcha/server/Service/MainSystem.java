@@ -3,12 +3,15 @@ package gotcha.server.Service;
 import gotcha.server.DAL.HibernateUtils;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
 import gotcha.server.Domain.HazardsModule.HazardController;
+import gotcha.server.Domain.HazardsModule.HazardType;
+import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.RidesModule.RidesController;
 import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.ExternalService.MapsAdapter;
 import gotcha.server.ExternalService.MapsAdapterImpl;
 import gotcha.server.Utils.Exceptions.ExitException;
+import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.SystemLogger;
 import gotcha.server.Utils.Utils;
 import org.springframework.cglib.core.Local;
@@ -16,6 +19,8 @@ import org.springframework.cglib.core.Local;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MainSystem {
@@ -43,7 +48,10 @@ public class MainSystem {
         if (FIRST_TIME_RUNNING)
             set_first_admin();
         StatisticsManager.get_instance().inc_connect_system_count();
+        begin_instructions();
     }
+
+
 
 
 
@@ -64,7 +72,6 @@ public class MainSystem {
                     case "FIRST_TIME_RUNNING":
                         FIRST_TIME_RUNNING = Utils.string_to_boolean(instruction_parts[1]);
                         break;
-
                     case "MINIMUM_PASSWORD_LENGTH":
                         MINIMUM_PASSWORD_LENGTH = Utils.string_to_int(instruction_parts[1]);
                         break;
@@ -110,8 +117,6 @@ public class MainSystem {
         if (EXTERNAL_SERVICE_MODE == null) {throw new ExitException("Config File - Format File Unmatched.");}
     }
 
-
-
     /**
      * this method crate adapters to the external services.
      * EXTERNAL_SERVICE_MODE - "external_services:demo" or "external_services:real"
@@ -154,7 +159,6 @@ public class MainSystem {
      * @throws ExitException if the connection to DB fail OR wrong format of the config instruction.
      */
 
-
     private void connect_database() throws ExitException {
         if (DATABASE_MODE.equals("tests")){
             // TODO: 30/12/2022 : have to connect to DB with DB_URL & DB_password.
@@ -176,6 +180,7 @@ public class MainSystem {
             throw new ExitException("System Config File - Illegal Database Mode.");
         }
     }
+
     private void load_database() {
         // TODO: 29/12/2022 : load all controllers & set admins in the system.
         UserController.get_instance().load();
@@ -185,11 +190,39 @@ public class MainSystem {
     }
 
     private void create_rp_config_file() {
-        System.out.println("Here we should create Config//rp_config.txt File.");
+        // TODO: 04/03/2023  Here we should create Config//rp_config.txt File.
         System.out.println(MINIMUM_DISTANCE_ALERT);
     }
     private void set_first_admin() throws Exception {
         LocalDate birth_date = LocalDate.of(1995,4,19);
         UserController.get_instance().add_first_admin(ADMIN_USER_NAME, ADMIN_PASSWORD, "0546794211",birth_date,"male");
+    }
+
+
+    private void begin_instructions() {
+        String EMAIL = "moskoga@gmail.com";
+        String PASSWORD = "123456Aa";
+        String NAME = "AMIT";
+        String LAST_NAME = "MOSKO";
+        String BIRTH_DATE = "19-04-95";
+        LocalDate BIRTH_DAY = LocalDate.of(1995, 4,19);
+        String PHONE = "0546794211";
+        String GENDER = "MALE";
+        Location origin = new Location();
+        Location dest = new Location();
+        String city = "B7";
+        LocalDateTime start_time = LocalDateTime.now();
+        LocalDateTime end_time = LocalDateTime.now();
+        StationaryHazard hazard = new StationaryHazard(5,6,origin,city, HazardType.PoleTree, 16.5);
+        ArrayList<StationaryHazard> hazards = new ArrayList<>();
+        hazards.add(hazard);
+        //
+        Facade user_facade = new Facade();
+        Facade admin_facade = new Facade();
+        user_facade.register(EMAIL, PASSWORD, NAME, LAST_NAME, BIRTH_DATE, PHONE, GENDER);
+        user_facade.login(EMAIL, PASSWORD);
+        admin_facade.login(ADMIN_USER_NAME, ADMIN_PASSWORD);
+
+        user_facade.finish_ride(1, origin, dest, city, start_time, end_time, hazards);
     }
 }

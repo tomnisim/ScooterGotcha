@@ -160,7 +160,7 @@ public class Service implements AdminAPI, UserAPI  {
     @Override
     public Response view_notifications(int user_id) {
         Facade facade = get_facade(user_id);
-        return facade.view_all_advertisements();
+        return facade.view_notifications();
     }
 
 
@@ -321,7 +321,6 @@ public class Service implements AdminAPI, UserAPI  {
     @CrossOrigin
     @Override
     public Response add_admin(String user_email, String user_password, int admin_id, String phoneNumber, String birthDay, String gender) {
-
         Facade facade = get_facade(admin_id);
         return facade.add_admin(user_email, user_password, phoneNumber, Utils.StringToLocalDate(birthDay), gender);
     }

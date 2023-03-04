@@ -280,7 +280,6 @@ public class Facade  {
      }
 
     public Response view_notifications() {
-        // TODO: 01/03/2023
         Response response = null;
         try{
             check_user_is_logged_in();

@@ -12,7 +12,7 @@ MINIMUM_PASSWORD_LENGTH:0
 MAXIMUM_PASSWORD_LENGTH:20
 
 
-minimum_distance_alert:
+MINIMUM_DISTANCE_ALERT:15
 number_of_coordinates: 8
 Server: default
 host: 8000
