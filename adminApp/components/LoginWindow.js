@@ -11,6 +11,7 @@ export let session_id = 0;
 
 export default function LoginWindow({navigation}) {
 
+    // todo: change details
     let user_email = "admin@gmail.com"
     let user_password = "12345678aA"
 

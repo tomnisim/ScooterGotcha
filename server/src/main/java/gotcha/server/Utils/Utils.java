@@ -255,7 +255,8 @@ public class Utils {
 
     public static LocalDate StringToLocalDate(String birthDay) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-        String date = "16/08/2016";
+        // TODO: 05/03/2023  
+        String date = "16/08/1995";
 
         //convert String to LocalDate
         return LocalDate.parse(date, formatter);

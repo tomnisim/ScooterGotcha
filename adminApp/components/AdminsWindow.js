@@ -8,6 +8,11 @@ const adminApi = new AdminApi();
 let admins_list = []
 
 let user_email_to_appoint = "none"
+let password = ""
+let phoneNumber = ""
+let birthDay = ""
+let gender = ""
+
 let user_email_to_remove_appoint = "none"
 
 const get_admins_list = async () => {
@@ -28,6 +33,19 @@ export default function AdminsWindow({navigation}) {
   const setText_email_to_appoint = (text) => {
     user_email_to_appoint = text;
     }
+    const setText_password = (text) => {
+      password = text;
+      }
+    const setText_phone = (text) => {
+      phoneNumber = text;
+    }
+    const setText_gender = (text) => {
+      gender = text;
+    }
+    const setText_birthday = (text) => {
+      birthDay = text;
+    }
+  
 
   const setText_email_to_remove_appoint = (text) => {
     user_email_to_remove_appoint = text;
@@ -37,7 +55,7 @@ export default function AdminsWindow({navigation}) {
 
   const add_admin = () => {
     alert(user_email_to_appoint);
-    adminApi.add_admin("5","5","5","5","5");
+    adminApi.add_admin(user_email_to_appoint, password, phoneNumber, birthDay, gender);
     get_admins_list();
   }
 
@@ -71,6 +89,26 @@ export default function AdminsWindow({navigation}) {
           placeholder="User email to appoint"
           onChangeText={newText => setText_email_to_appoint(newText)}
         />
+      <TextInput
+        style={{height: 40}}
+        placeholder="Password"
+        onChangeText={newText => setText_password(newText)}
+      />
+      <TextInput
+        style={{height: 40}}
+        placeholder="Phone"
+        onChangeText={newText => setText_phone(newText)}
+      />
+      <TextInput
+        style={{height: 40}}
+        placeholder="Gender"
+        onChangeText={newText => setText_gender(newText)}
+      />
+      <TextInput
+        style={{height: 40}}
+        placeholder="Birth Day"
+        onChangeText={newText => setText_birthday(newText)}
+      />
       <Button onPress={() => add_admin()} title="Add Admin" color="#007fff"/>
       <TextInput
           style={{height: 40}}
