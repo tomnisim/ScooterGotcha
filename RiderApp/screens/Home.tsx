@@ -17,6 +17,7 @@ function HomeScreen  ({ navigation }: RootTabScreenProps<'Home'>)  {
   return (
     <View style={styles.container}>
        <Button title='My Profile' onPress={()=>{navigation.navigate('Profile')}} ></Button> 
+       <Button title='Register' onPress={()=>{navigation.navigate('Register')}} ></Button> 
        <Button title='Start Ride'></Button> 
        <Button title='Announcments'></Button> 
        <Button title='Contact Us'></Button> 

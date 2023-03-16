@@ -21,7 +21,7 @@ import Home from '../screens/Home';
 import Login from '../screens/Login'
 import MyRides from '../screens/MyRides';
 import ChangePassword from '../screens/ChangePassword';
-
+import Register from '../screens/Register';
 
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -125,6 +125,14 @@ function BottomTabNavigator() {
         component={Profile}
         options={{
           title: 'Profile',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Register"
+        component={Register}
+        options={{
+          title: 'Register',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
