@@ -3,20 +3,42 @@ package gotcha.server.Utils;
 import java.util.Objects;
 
 public class Location {
-    private int x;
-    private int y;
+    private Double lng;
+    private Double lat;
 
-    @Override
-    public boolean equals(Object o) {
+    public Location(Double lng, Double lat){
+        this.lng = lng;
+        this.lat = lat;
+    }
+
+    // TODO: 17/03/2023 : extend to some radios who will set in config.
+    public boolean equals(Object o, double radios) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Location location = (Location) o;
-        return x == location.x &&
-                y == location.y;
+        return lng.equals(location.getLng()) &&
+                lat.equals(location.getLat());
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public Double getLng() {
+        return lng;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return Objects.hash(lng, lat);
+    }
+
+    @Override
+    // TODO: 17/03/2023 : implement 
+    public String toString() {
+        return "Location{" +
+                "lng=" + lng +
+                ", lat=" + lat +
+                '}';
     }
 }

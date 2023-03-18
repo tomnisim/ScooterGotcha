@@ -17,6 +17,9 @@ import gotcha.server.Domain.UserModule.Admin;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.ExternalService.MapsAdapter;
+import gotcha.server.ExternalService.MapsAdapterImpl;
+import gotcha.server.SafeRouteCalculatorModule.Route;
+import gotcha.server.SafeRouteCalculatorModule.RoutesRetriever;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserException;
 import gotcha.server.Utils.Formula;
 import gotcha.server.Utils.Location;
@@ -40,7 +43,7 @@ public class Facade  {
     private HazardController hazard_controller;
     private User loggedUser;
     // TODO: 30/12/2022 : remove // after open class "Route"
-//    private RoutesRetriever routes_retriever;
+    private RoutesRetriever routes_retriever;
     public Facade() {
         this.error_logger = ErrorLogger.get_instance();
         this.serverLogger = ServerLogger.get_instance();
@@ -49,8 +52,9 @@ public class Facade  {
         this.user_controller = UserController.get_instance();
         this.advertise_controller = AdvertiseController.get_instance();
         this.hazard_controller = HazardController.get_instance();
-        // TODO: 30/12/2022 : remove // after open class "Route"
-//        this.routes_retriever = RoutesRetriever.getInstance();
+        // TODO: 30/12/2022 : remove // after open class "Route"\
+        MapsAdapter mapsAdapter = new MapsAdapterImpl();
+        this.routes_retriever = new RoutesRetriever(mapsAdapter);
     }
 
 
@@ -110,11 +114,27 @@ public class Facade  {
 
      
     public Response reset() {
+        try{
+            check_user_is_admin_and_logged_in();
+            clear();
+
+        }
+        catch (Exception e){
+
+        }
         return null;
     }
 
      
     public Response shut_down() {
+        try{
+            check_user_is_admin_and_logged_in();
+            System.exit(800);
+
+        }
+        catch (Exception e){
+
+        }
         return null;
     }
 
@@ -295,17 +315,23 @@ public class Facade  {
 
 
     public Response get_safe_routes(Location origin, Location destination) {
-//        this.routes_retriever.fetch_safe_routes(origin, destination);
-//        int ride_id = this.rides_controller.start_ride(user);
+        Response response = null;
         // TODO: 03/03/2023 : Tom - have to get 3 routes from Google Maps, find all the hazards in each route,
         //  sum the rating of each hazard by hazard rate calculator
         try {
             check_user_is_logged_in();
+            List<Route> routeList = this.routes_retriever.fetch_safe_routes(origin, destination);
+            // int ride_id = this.rides_controller.start_ride(user);
+            String logger_message = "user( "+loggedUser.get_email()+ ") got routes from: " + origin.toString() + ", to: "+destination.toString();
+            response = new Response(routeList, logger_message);
+            serverLogger.add_log(logger_message);
+
         }
-        catch (UserException ex){
-            // TODO: 04/01/2023 : handle exception - build response.
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
         }
-        return null;
+        return response;
 
      }
 
@@ -665,6 +691,11 @@ public class Facade  {
 
     public void clear() {
         // TODO: 01/03/2023 : clear all the data in instances. 
+//        this.user_controller.reset();
+//        this.hazard_controller.reset();
+//        this.rides_controller.reset();
+//        this.advertise_controller.reset();
+//        this.question_controller.reset();
     }
 
 

@@ -1,6 +1,7 @@
 package gotcha.server.Domain.HazardsModule;
 
 import ch.qos.logback.classic.pattern.ClassOfCallerConverter;
+import gotcha.server.SafeRouteCalculatorModule.Route;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.SystemLogger;
 
@@ -68,6 +69,7 @@ public class HazardController implements IHazardController {
     }
 
     public void remove_hazard(int hazard_id){
+        this.stationaryHazardsList.remove(hazard_id);
 
     }
 
@@ -79,7 +81,8 @@ public class HazardController implements IHazardController {
      */
     @Override
     public void update_hazards(String hazard_info, int ride_id) {
-        List<StationaryHazard> hazards = new LinkedList<>(); // TODO: 05/01/2023 : build from hazards info - change List<Hazard> to something else.
+        // TODO: 05/01/2023 : build from hazards info - change List<Hazard> to something else.
+        List<StationaryHazard> hazards = new LinkedList<>();
         for (StationaryHazard hazard : hazards){
             Location location = null;
             String city = null;
@@ -95,22 +98,48 @@ public class HazardController implements IHazardController {
 
     }
 
-    // this private method will called from add_hazard / update_hazard and will update hazard type and size - will use Rating Module
-    private void rate_hazard(){}
 
     private List<StationaryHazard> get_hazards(HazardType type){
-        return new LinkedList<>();
-    }
-    private List<StationaryHazard> get_hazards(String city){
-        return new LinkedList<>();
-    }
-    private List<StationaryHazard> get_hazards(Location location, double radios){
-        return new LinkedList<>();
+        LinkedList<StationaryHazard> list = new LinkedList<>();
+        for (StationaryHazard stationaryHazard : this.stationaryHazardsList.values()){
+            if (stationaryHazard.getType().equals(type)){
+                list.add(stationaryHazard);
+            }
+        }
+        return list;
     }
 
-    // TODO: 30/12/2022 : remove // after open class "Route"
-    // TODO: 28/12/2022 : implement
-//    public List<StationaryHazard> get_hazards_in_route(Route route) {
-//        return null;
-//    }
+    private List<StationaryHazard> get_hazards(String city){
+        LinkedList<StationaryHazard> list = new LinkedList<>();
+        for (StationaryHazard stationaryHazard : this.stationaryHazardsList.values()){
+            if (stationaryHazard.getCity().equals(city)){
+                list.add(stationaryHazard);
+            }
+        }
+        return list;
+    }
+    private List<StationaryHazard> get_hazards(Location location, double radios){
+        LinkedList<StationaryHazard> list = new LinkedList<>();
+        for (StationaryHazard stationaryHazard : this.stationaryHazardsList.values()){
+            if (stationaryHazard.getLocation().equals(location, radios)){
+                list.add(stationaryHazard);
+            }
+        }
+        return list;
+    }
+
+    public List<StationaryHazard> get_hazards_in_route(Route route) {
+        double radios = 0.0;
+        // TODO: 17/03/2023 : radios
+        LinkedList<StationaryHazard> list = new LinkedList<>();
+        for (StationaryHazard stationaryHazard : this.stationaryHazardsList.values()){
+            for (Location junction : route.getJunctions()){
+                if (stationaryHazard.getLocation().equals(junction, radios)){
+                    list.add(stationaryHazard);
+                }
+
+            }
+        }
+        return list;
+    }
 }

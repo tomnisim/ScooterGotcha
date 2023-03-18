@@ -208,8 +208,8 @@ public class MainSystem {
         LocalDate BIRTH_DAY = LocalDate.of(1995, 4,19);
         String PHONE = "0546794211";
         String GENDER = "MALE";
-        Location origin = new Location();
-        Location dest = new Location();
+        Location origin = new Location(0.0,0.0);
+        Location dest = new Location(0.0,0.0);
         String city = "B7";
         LocalDateTime start_time = LocalDateTime.now();
         LocalDateTime end_time = LocalDateTime.now();
