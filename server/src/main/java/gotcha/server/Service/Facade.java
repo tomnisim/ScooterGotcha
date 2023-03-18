@@ -42,7 +42,6 @@ public class Facade  {
     private AdvertiseController advertise_controller;
     private HazardController hazard_controller;
     private User loggedUser;
-    // TODO: 30/12/2022 : remove // after open class "Route"
     private RoutesRetriever routes_retriever;
     public Facade() {
         this.error_logger = ErrorLogger.get_instance();
@@ -52,7 +51,6 @@ public class Facade  {
         this.user_controller = UserController.get_instance();
         this.advertise_controller = AdvertiseController.get_instance();
         this.hazard_controller = HazardController.get_instance();
-        // TODO: 30/12/2022 : remove // after open class "Route"\
         MapsAdapter mapsAdapter = new MapsAdapterImpl();
         this.routes_retriever = new RoutesRetriever(mapsAdapter);
     }
@@ -242,7 +240,7 @@ public class Facade  {
         try{
             check_user_is_logged_in();
             String user_email = loggedUser.get_email();
-            int user_id = 0; // TODO: 04/01/2023 : get id from logged user
+            int user_id = 0; // TODO: 04/01/2023 : get id from logged user -> email not id!!
             List<Ride> rides = this.rides_controller.get_rides(user_id);
             String logger_message = user_email+ " view rides history";
             response = new Response(rides, logger_message);

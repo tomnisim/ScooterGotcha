@@ -5,6 +5,7 @@ import java.util.Objects;
 public class Location {
     private Double lng;
     private Double lat;
+    // TODO: 18/03/2023 : try to add city and country. 
 
     public Location(Double lng, Double lat){
         this.lng = lng;
@@ -34,7 +35,6 @@ public class Location {
     }
 
     @Override
-    // TODO: 17/03/2023 : implement 
     public String toString() {
         return "Location{" +
                 "lng=" + lng +
