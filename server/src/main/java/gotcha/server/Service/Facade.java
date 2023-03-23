@@ -22,6 +22,8 @@ import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.ServerLogger;
 import gotcha.server.Utils.Response;
 import gotcha.server.Utils.Utils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,6 +31,7 @@ import java.util.Dictionary;
 import java.util.LinkedList;
 import java.util.List;
 
+@Component
 public class Facade  {
     private MapsAdapter mapsAdapter;
     private ErrorLogger error_logger;
@@ -41,6 +44,7 @@ public class Facade  {
     private User loggedUser;
     // TODO: 30/12/2022 : remove // after open class "Route"
 //    private RoutesRetriever routes_retriever;
+    @Autowired
     public Facade() {
         this.error_logger = ErrorLogger.get_instance();
         this.serverLogger = ServerLogger.get_instance();

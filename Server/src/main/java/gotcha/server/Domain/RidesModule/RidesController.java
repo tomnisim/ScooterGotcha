@@ -2,6 +2,7 @@ package gotcha.server.Domain.RidesModule;
 
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Utils.Exceptions.RideNotFoundException;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Component
 public class RidesController implements IRidesController {
     private AtomicInteger id_counter;
     private Map<Integer, Ride> rides; // maps ride_id to ride
@@ -25,6 +27,10 @@ public class RidesController implements IRidesController {
     @Override
     public void load() {
         //TODO
+    }
+
+    public static RidesController get_instance() {
+        return RidesController.SingletonHolder.instance;
     }
 
     /**

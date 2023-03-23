@@ -2,14 +2,16 @@ package gotcha.server.SafeRouteCalculatorModule;
 
 import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
+import gotcha.server.ExternalService.MapsAdapter;
 import gotcha.server.ExternalService.MapsAdapterImpl;
 import gotcha.server.Utils.Formula;
 import gotcha.server.Utils.Location;
+import jdk.jshell.spi.ExecutionControl;
 
 import java.util.*;
 
 public class RoutesRetriever {
-    private MapsAdapterImpl google_maps;
+    private MapsAdapter google_maps;
     private HazardController hazard_controller;
     private static int NUMBER_OF_ROUTES ; // TODO: 28/12/2022  from config
     public RoutesRetriever(MapsAdapter maps_implementation)
@@ -27,10 +29,11 @@ public class RoutesRetriever {
      */
     public List<Route> fetch_safe_routes(Location source, Location destination)
     {
-        // TODO - add number_of_routes to utils , from Appendix A
+        return null;
+/*        // TODO - add number_of_routes to utils , from Appendix A
         List<Route> routes = this.google_maps.get_routes(source, destination, number_of_routes); // TODO - API request to get routes
         List<Route> sorted_routes_by_safety = this.rate_routes(routes);
-        return sorted_routes_by_safety; //TODO - maybe return the rating for each route to show it to the rider
+        return sorted_routes_by_safety; //TODO - maybe return the rating for each route to show it to the rider*/
     }
 
     private List<Route> rate_routes(List<Route> routes) {

@@ -1,6 +1,7 @@
 package gotcha.server.Domain.HazardsModule;
 
 import ch.qos.logback.classic.pattern.ClassOfCallerConverter;
+import gotcha.server.SafeRouteCalculatorModule.Route;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.SystemLogger;
 
@@ -93,6 +94,11 @@ public class HazardController implements IHazardController {
                 update_hazard(current, size);
         }
 
+    }
+
+    @Override
+    public List<StationaryHazard> get_hazards_in_route(Route route) {
+        return null;
     }
 
     // this private method will called from add_hazard / update_hazard and will update hazard type and size - will use Rating Module

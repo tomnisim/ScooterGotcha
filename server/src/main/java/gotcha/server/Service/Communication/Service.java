@@ -176,7 +176,8 @@ public class Service implements AdminAPI, UserAPI  {
     @CrossOrigin
     @Override
     public Response get_rp_config_file() {
-        String config_file_data = Utils.get_rp_config_file_data();
+        // TODO: Not sure we even need this, the config file should be injected
+        String config_file_data = "test";
         Response response = new Response(config_file_data, "rp config file got successfully");
         return response;
     }
