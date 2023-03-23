@@ -23,49 +23,28 @@ public class MainSystem {
     private final RidesController ridesController;
     private final AdvertiseController advertiseController;
     private final SystemLogger systemLogger;
-    private MapsAdapter maps_adapter;
+    private final MapsAdapter maps_adapter;
 
     @Autowired
-    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger){
+    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, MapsAdapter mapsAdapter){
         this.configuration = configuration;
         this.userController = userController;
         this.hazardController = hazardController;
         this.ridesController = ridesController;
         this.advertiseController = advertiseController;
         this.systemLogger = systemLogger;
+        this.maps_adapter = mapsAdapter;
     }
 
     public void init_server() throws Exception {
         systemLogger.add_log("Start Init Server");
         configuration.getAdminPassword();
-        //set_static_vars(config_file_path);
-        set_external_services();
         connect_to_external_services();
-        create_rp_config_file();
         connect_database();
         load_database();
+        // TODO: This needs to be done by checking the DB for existing info
         if (configuration.getFirstTimeRunning())
             set_first_admin();
-    }
-
-    /**
-     * this method crate adapters to the external services.
-     * EXTERNAL_SERVICE_MODE - "external_services:demo" or "external_services:real"
-     * @throws ExitException if the input is illegal.
-     */
-    private void set_external_services() throws ExitException {
-        if (configuration.getExternalServiceMode().equals("tests")){
-            systemLogger.add_log("Set Tests External Services");
-            // TODO: 28/12/2022 : implement here new maps adapter implementation when MapsAdapter interface is ready.
-            this.maps_adapter = new MapsAdapterImpl();
-        }
-        else if (configuration.getExternalServiceMode().equals("real")){
-            systemLogger.add_log("Set Real External Services");
-            this.maps_adapter = new MapsAdapterImpl();
-        }
-        else {
-            throw new ExitException("System Config File - Illegal External Services Data.");
-        }
     }
 
     /** Connect the system to the external services after set the services according the configuration file.
@@ -113,7 +92,7 @@ public class MainSystem {
         }
     }
 
-    // TODO: Not sure we need to load the database here
+    // TODO: Not sure we need to load the database here, Need to create a Repository object according to Spring Boot guidelines to access DB
     private void load_database() {
         // TODO: 29/12/2022 : load all controllers & set admins in the system.
         userController.load();
@@ -122,10 +101,6 @@ public class MainSystem {
         advertiseController.load();
     }
 
-    private void create_rp_config_file() {
-        System.out.println("Here we should create Config//rp_config.txt File.");
-        System.out.println(configuration.getMinimumDistanceAlert());
-    }
     private void set_first_admin() throws Exception {
         LocalDate birth_date = LocalDate.now();
         userController.add_first_admin(configuration.getAdminUserName(), configuration.getAdminPassword(), "0546794211",birth_date,"male");

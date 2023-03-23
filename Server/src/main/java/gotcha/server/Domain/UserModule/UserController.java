@@ -21,19 +21,19 @@ import java.util.function.BiConsumer;
 @Component
 public class UserController implements IUserController {
     private Map<String, User> allUsers;
-    private Utils utils;
+    private final Utils utils;
 
     private Map<String, String> usersEmailByRaspberryPi;
-    private iPasswordManager passwordManager;
+    private final iPasswordManager passwordManager;
 
-    private IQuestionController questionController;
+    private final IQuestionController questionController;
 
     @Autowired
-    public UserController(Utils utils) {
+    public UserController(Utils utils, iPasswordManager passwordManager, IQuestionController questionController) {
         this.utils = utils;
         this.allUsers = new ConcurrentHashMap<>();
-        this.passwordManager = new PasswordManagerImpl();
-        this.questionController = new QuestionController();
+        this.passwordManager = passwordManager;
+        this.questionController = questionController;
         this.usersEmailByRaspberryPi = new ConcurrentHashMap<>();
     }
 
