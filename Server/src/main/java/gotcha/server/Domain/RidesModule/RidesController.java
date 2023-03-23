@@ -113,7 +113,7 @@ public class RidesController implements IRidesController {
     }
     
     @Override
-    public int get_number_of_rides(int rider_id){
+    public int get_number_of_rides(String rider_id){
         // TODO: 05/01/2023 : tom - change fields, add field of <user_email, List<Ride>> 
         return this.get_rides(rider_id).size();
         

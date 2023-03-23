@@ -20,5 +20,5 @@ public interface IRidesController {
 
     List<Ride> get_all_rides();
 
-    int get_number_of_rides(int rider_id);
+    int get_number_of_rides(String rider_id);
 }

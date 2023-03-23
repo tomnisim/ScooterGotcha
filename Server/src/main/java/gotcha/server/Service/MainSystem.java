@@ -1,6 +1,6 @@
 package gotcha.server.Service;
 
-import gotcha.server.Config.ServerConfiguration;
+import gotcha.server.Config.Configuration;
 import gotcha.server.DAL.HibernateUtils;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
 import gotcha.server.Domain.HazardsModule.HazardController;
@@ -10,35 +10,33 @@ import gotcha.server.ExternalService.MapsAdapter;
 import gotcha.server.ExternalService.MapsAdapterImpl;
 import gotcha.server.Utils.Exceptions.ExitException;
 import gotcha.server.Utils.Logger.SystemLogger;
-import gotcha.server.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
-import java.util.Scanner;
 
 @Component
 public class MainSystem {
-    private final ServerConfiguration configuration;
+    private final Configuration configuration;
     private final UserController userController;
     private final HazardController hazardController;
     private final RidesController ridesController;
     private final AdvertiseController advertiseController;
+    private final SystemLogger systemLogger;
     private MapsAdapter maps_adapter;
 
     @Autowired
-    public MainSystem(ServerConfiguration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController){
+    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger){
         this.configuration = configuration;
         this.userController = userController;
         this.hazardController = hazardController;
         this.ridesController = ridesController;
         this.advertiseController = advertiseController;
+        this.systemLogger = systemLogger;
     }
 
     public void init_server() throws Exception {
-        SystemLogger.getInstance().add_log("Start Init Server");
+        systemLogger.add_log("Start Init Server");
         configuration.getAdminPassword();
         //set_static_vars(config_file_path);
         set_external_services();
@@ -57,12 +55,12 @@ public class MainSystem {
      */
     private void set_external_services() throws ExitException {
         if (configuration.getExternalServiceMode().equals("tests")){
-            SystemLogger.getInstance().add_log("Set Tests External Services");
+            systemLogger.add_log("Set Tests External Services");
             // TODO: 28/12/2022 : implement here new maps adapter implementation when MapsAdapter interface is ready.
             this.maps_adapter = new MapsAdapterImpl();
         }
         else if (configuration.getExternalServiceMode().equals("real")){
-            SystemLogger.getInstance().add_log("Set Real External Services");
+            systemLogger.add_log("Set Real External Services");
             this.maps_adapter = new MapsAdapterImpl();
         }
         else {
@@ -74,7 +72,7 @@ public class MainSystem {
      * @throws ExitException if the handshake fail.
      */
     private void connect_to_external_services() throws ExitException {
-        SystemLogger.getInstance().add_log("System Start Connect To External Services");
+        systemLogger.add_log("System Start Connect To External Services");
         boolean connect_to_external_systems = this.maps_adapter.handshake();
         if (!connect_to_external_systems) // have to exit
         {
@@ -99,7 +97,7 @@ public class MainSystem {
             System.out.println(configuration.getDatabaseUrl());
             System.out.println(configuration.getDatabasePassword());
             HibernateUtils.set_tests_mode();
-            SystemLogger.getInstance().add_log("Tests Database Connected Successfully");
+            systemLogger.add_log("Tests Database Connected Successfully");
         }
 
         else if (configuration.getDatabaseMode().equals("real")){
@@ -107,19 +105,21 @@ public class MainSystem {
             System.out.println(configuration.getDatabaseUrl());
             System.out.println(configuration.getDatabasePassword());
             HibernateUtils.set_normal_use();
-            SystemLogger.getInstance().add_log("Real Database Connected Successfully");
+            systemLogger.add_log("Real Database Connected Successfully");
 
         }
         else {
             throw new ExitException("System Config File - Illegal Database Mode.");
         }
     }
+
+    // TODO: Not sure we need to load the database here
     private void load_database() {
         // TODO: 29/12/2022 : load all controllers & set admins in the system.
-        UserController.get_instance().load();
-        HazardController.get_instance().load();
-        RidesController.get_instance().load();
-        AdvertiseController.get_instance().load();
+        userController.load();
+        hazardController.load();
+        ridesController.load();
+        advertiseController.load();
     }
 
     private void create_rp_config_file() {
@@ -128,6 +128,6 @@ public class MainSystem {
     }
     private void set_first_admin() throws Exception {
         LocalDate birth_date = LocalDate.now();
-        UserController.get_instance().add_first_admin(configuration.getAdminUserName(), configuration.getAdminPassword(), "0546794211",birth_date,"male");
+        userController.add_first_admin(configuration.getAdminUserName(), configuration.getAdminPassword(), "0546794211",birth_date,"male");
     }
 }

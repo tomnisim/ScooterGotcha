@@ -1,6 +1,5 @@
 package gotcha.server.Utils;
-import gotcha.server.Config.Server;
-import gotcha.server.Config.ServerConfiguration;
+import gotcha.server.Config.Configuration;
 import gotcha.server.Utils.Logger.SystemLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,16 +11,17 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.regex.Pattern;
 
 @Component
 public class Utils {
-    private final ServerConfiguration configuration;
+    private final Configuration configuration;
+    private final SystemLogger systemLogger;
 
     @Autowired
-    public Utils(ServerConfiguration configuration) {
+    public Utils(Configuration configuration, SystemLogger systemLogger) {
         this.configuration = configuration;
+        this.systemLogger = systemLogger;
     }
 
     public static String DateToString(LocalDate d) {
@@ -223,13 +223,13 @@ public class Utils {
             @Override
             public String OnSuccess(String response) {
                 // on success
-                SystemLogger.getInstance().add_log("HTTP POST On Success Response= "+response);
+                systemLogger.add_log("HTTP POST On Success Response= "+response);
                 return response;
             }
             @Override
             public String OnError(int status_code, String message) {
                 // on error
-                SystemLogger.getInstance().add_log("HTTP POST On Error Status Code= "+status_code+" Message= "+message);
+                systemLogger.add_log("HTTP POST On Error Status Code= "+status_code+" Message= "+message);
                 return message;
             }
         });

@@ -272,7 +272,7 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public void update_user_rate(int user_id, Ride ride, int number_of_rides) throws Exception {
+    public void update_user_rate(String user_id, Ride ride, int number_of_rides) throws Exception {
         var user = allUsers.get(user_id);
         if (user == null || !user.is_admin())
             throw new Exception("user not found or is admin");
