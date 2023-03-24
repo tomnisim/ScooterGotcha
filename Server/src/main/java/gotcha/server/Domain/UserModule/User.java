@@ -1,7 +1,10 @@
 package gotcha.server.Domain.UserModule;
 
 import gotcha.server.Domain.Notifications.Notification;
+import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Observer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -16,7 +19,6 @@ User implements Observer {
     private String gender;
     private LocalDate birthDay;
     private Map<Integer, Notification> userNotifications;
-
     private boolean loggedIn;
 
     public User(String userEmail, String userPasswordToken, String phoneNumber, LocalDate birthDay, String gender) {
@@ -58,11 +60,20 @@ User implements Observer {
         return this.loggedIn;
     }
 
-    public void login(){
+    public synchronized void login() throws Exception {
+        if (loggedIn) {
+            var message = String.format("User with email %s is already logged in", userEmail);
+            throw new Exception(message);
+        }
         this.loggedIn = true;
     }
 
-    public void logout() {
+    public synchronized void logout() throws Exception {
+        if(!loggedIn)
+        {
+            var message = String.format("User with email %s is NOT logged in", userEmail);
+            throw new Exception(message);
+        }
         this.loggedIn = false;
     }
 

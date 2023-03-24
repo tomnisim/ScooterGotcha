@@ -113,24 +113,22 @@ public class Facade {
         return null;
     }
 
-
-
-
-
-
-
-
-
-
-
-
     // USER
 
     public Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender, UserContext userContext) {
         return null;
     }
     public Response<User> login(String email, String password) {
-        return null;
+        Response<User> response = null;
+        try {
+            var user = user_controller.login(email,password);
+            var message = String.format("User with email %s Successfully logged in", email);
+            response = new Response<>(user,message);
+        }
+        catch (Exception e) {
+            response = new Response<>(e.getMessage(), e);
+        }
+        return response;
     }
     public Response logout() {
         return null;
