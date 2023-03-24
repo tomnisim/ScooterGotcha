@@ -17,17 +17,6 @@ public class QuestionController implements IQuestionController {
     private Map<Integer, Question> open_questions;
     private Map<String, List<Question>> users_questions;
     private AtomicInteger question_ids_counter;
-
-
-
-    private static class SingletonHolder{
-        private static QuestionController instance = new QuestionController();
-    }
-    public static QuestionController get_instance(){
-        return QuestionController.SingletonHolder.instance;
-    }
-
-
     public QuestionController(){
         this.open_questions = new ConcurrentHashMap<>();
         this.users_questions = new ConcurrentHashMap<>();

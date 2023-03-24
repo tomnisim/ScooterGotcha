@@ -15,9 +15,6 @@ public class RidesController implements IRidesController {
     private AtomicInteger id_counter;
     private Map<Integer, Ride> rides; // maps ride_id to ride
     private Map<String, List<Ride>> rides_by_rider; // maps rider_email to List of his rides
-    static class SingletonHolder {
-        static RidesController instance = new RidesController();
-    }
 
     public RidesController()
     {
@@ -27,10 +24,6 @@ public class RidesController implements IRidesController {
     @Override
     public void load() {
         //TODO
-    }
-
-    public static RidesController get_instance() {
-        return RidesController.SingletonHolder.instance;
     }
 
     /**

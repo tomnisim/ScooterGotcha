@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c0e87fe9-84f7-4d38-a9b5-ab0a83852605" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/UserModule/UserControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/IUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/IUserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Service/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Service/Facade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/AdvertiseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/AdvertiseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +67,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.UserControllerTest.login_userAlreadyLoggedIn_failedLogin">
+  <component name="RunManager" selected="JUnit.UserControllerTest">
     <configuration name="UserControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
@@ -152,8 +148,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.UserControllerTest.login_userAlreadyLoggedIn_failedLogin" />
         <item itemvalue="JUnit.UserControllerTest" />
+        <item itemvalue="JUnit.UserControllerTest.login_userAlreadyLoggedIn_failedLogin" />
         <item itemvalue="JUnit.UserControllerTest.login_userDoesNotExist_failedLogin" />
         <item itemvalue="JUnit.UserControllerTest.login_userExists_successfullyLoggedIn" />
       </list>
