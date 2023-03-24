@@ -21,6 +21,6 @@ public interface IUserController extends Observable {
     void change_password(String userEmail, String oldPassword, String newPassword) throws Exception;
     void remove_admin_appointment(String user_email, String admin_email) throws Exception;
     void delete_user(String user_email) throws Exception ;
-    void update_user_rate(int user_id, Ride ride, int number_of_rides) throws Exception;
+    void update_user_rate(String user_id, Ride ride, int number_of_rides) throws Exception;
 
 }

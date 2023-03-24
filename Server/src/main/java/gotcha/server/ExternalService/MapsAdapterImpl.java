@@ -1,10 +1,12 @@
 package gotcha.server.ExternalService;
 
 import gotcha.server.Utils.Location;
+import org.springframework.stereotype.Component;
 
 import java.net.http.HttpClient;
 import java.util.List;
 
+@Component
 public class MapsAdapterImpl implements MapsAdapter {
     @Override
     public boolean handshake() {

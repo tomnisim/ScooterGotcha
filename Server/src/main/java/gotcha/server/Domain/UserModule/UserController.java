@@ -10,32 +10,30 @@ import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
 import gotcha.server.Utils.Password.PasswordManagerImpl;
 import gotcha.server.Utils.Password.iPasswordManager;
 import gotcha.server.Utils.Utils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
+@Component
 public class UserController implements IUserController {
     private Map<String, User> allUsers;
+    private final Utils utils;
 
     private Map<String, String> usersEmailByRaspberryPi;
-    private iPasswordManager passwordManager;
+    private final iPasswordManager passwordManager;
 
-    private IQuestionController questionController;
+    private final IQuestionController questionController;
 
-    private static class SingletonHolder {
-        private static UserController instance = new UserController();
-    }
-
-    public static UserController get_instance() {
-        return UserController.SingletonHolder.instance;
-    }
-
-    public UserController() {
+    @Autowired
+    public UserController(Utils utils, iPasswordManager passwordManager, IQuestionController questionController) {
+        this.utils = utils;
         this.allUsers = new ConcurrentHashMap<>();
-        this.passwordManager = new PasswordManagerImpl();
-        this.questionController = new QuestionController();
+        this.passwordManager = passwordManager;
+        this.questionController = questionController;
         this.usersEmailByRaspberryPi = new ConcurrentHashMap<>();
     }
 
@@ -124,7 +122,7 @@ public class UserController implements IUserController {
         var user = allUsers.get(userEmail);
         if (passwordManager.authenticate(oldPassword, user.get_password_token()));
         {
-            Utils.passwordValidCheck(oldPassword);
+            utils.passwordValidCheck(oldPassword);
             String passwordToken = passwordManager.hash(newPassword);
             user.change_password_token(passwordToken);
 
@@ -180,15 +178,15 @@ public class UserController implements IUserController {
      * @return
      */
     private void verify_user_information(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, Object...extraParams) throws Exception {
-        Utils.emailValidCheck(userEmail);
-        Utils.validate_phone_number(phoneNumber);
-        Utils.passwordValidCheck(password);
-        Utils.validate_birth_date(birthDay);
-        Utils.validate_gender(gender);
+        utils.emailValidCheck(userEmail);
+        utils.validate_phone_number(phoneNumber);
+        utils.passwordValidCheck(password);
+        utils.validate_birth_date(birthDay);
+        utils.validate_gender(gender);
         if (extraParams[0] != null)
-            Utils.validate_scooter_type((String)extraParams[0]);
+            utils.validate_scooter_type((String)extraParams[0]);
         if (extraParams[1] != null)
-            Utils.validate_license_issue_date((LocalDate)extraParams[1]);
+            utils.validate_license_issue_date((LocalDate)extraParams[1]);
     }
 
     /**
@@ -274,7 +272,7 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public void update_user_rate(int user_id, Ride ride, int number_of_rides) throws Exception {
+    public void update_user_rate(String user_id, Ride ride, int number_of_rides) throws Exception {
         var user = allUsers.get(user_id);
         if (user == null || !user.is_admin())
             throw new Exception("user not found or is admin");

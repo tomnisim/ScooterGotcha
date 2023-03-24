@@ -1,37 +1,32 @@
 package gotcha.server.Domain.HazardsModule;
 
 import ch.qos.logback.classic.pattern.ClassOfCallerConverter;
+import gotcha.server.SafeRouteCalculatorModule.Route;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.SystemLogger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-
+@Component
 public class HazardController implements IHazardController {
     private Map<Integer, StationaryHazard> stationaryHazardsList;
+    private final SystemLogger systemLogger;
     private AtomicInteger id_counter;
-
-
-    private static class SingletonHolder {
-        private static HazardController instance = new HazardController();
-    }
-    public static HazardController get_instance() {
-        return HazardController.SingletonHolder.instance;
-    }
-
-    public HazardController() {
+    @Autowired
+    public HazardController(SystemLogger systemLogger) {
         this.stationaryHazardsList = new ConcurrentHashMap();
         this.id_counter = new AtomicInteger(1);
+        this.systemLogger = systemLogger;
     }
 
     @Override
     public void load(){
-
-        SystemLogger.getInstance().add_log("Hazard controller loaded successfully");
-
+        systemLogger.add_log("Hazard controller loaded successfully");
     }
 
     public void add_hazard(int ride_id, Location location, String city, HazardType type, double size){
@@ -93,6 +88,11 @@ public class HazardController implements IHazardController {
                 update_hazard(current, size);
         }
 
+    }
+
+    @Override
+    public List<StationaryHazard> get_hazards_in_route(Route route) {
+        return null;
     }
 
     // this private method will called from add_hazard / update_hazard and will update hazard type and size - will use Rating Module

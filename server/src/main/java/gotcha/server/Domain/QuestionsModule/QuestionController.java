@@ -3,6 +3,7 @@ package gotcha.server.Domain.QuestionsModule;
 import gotcha.server.DAL.HibernateUtils;
 import gotcha.server.Domain.UserModule.Admin;
 import gotcha.server.Domain.UserModule.User;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
-
+@Component
 public class QuestionController implements IQuestionController {
 
     private Map<Integer, Question> open_questions;
@@ -34,37 +35,16 @@ public class QuestionController implements IQuestionController {
     }
 
     // TODO: 14/12/2022 implement
-    public void load(){
+    public void load() {
 //        this.questionsMap = HibernateUtils.get_questions();
         this.question_ids_counter = new AtomicInteger(HibernateUtils.get_max_question_id());
     }
 
 
-    /**
-     * this method for a user who add question to admins, the method notify admins and added the question to the
-     * open questions.
-     * @param message
-     * @param senderEmail
-     */
     @Override
-    public void add_user_question(String message, User sender){
-        int question_id = this.question_ids_counter.getAndIncrement();
-        Question question_to_add = new Question(question_id, message, sender);
-        String sender_email = sender.get_email();
-
-        this.open_questions.put(question_id, question_to_add);
-        if (this.users_questions.containsKey(sender_email))
-            this.users_questions.get(sender_email).add(question_to_add);
-        else{
-            ArrayList<Question> list = new ArrayList();
-            list.add(question_to_add);
-            this.users_questions.put(sender_email, list);
-        }
-        this.notify_admins("there is a new question");
+    public void add_user_question(String message, String senderEmail, BiConsumer<String, Integer> update_function) {
 
     }
-
-
 
     /**
      * this method for an admin who answer user question

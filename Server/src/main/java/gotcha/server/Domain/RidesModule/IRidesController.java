@@ -6,10 +6,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface IRidesController {
-    static RidesController get_instance() {
-        return RidesController.SingletonHolder.instance;
-    }
-
     void load();
 
     Ride add_ride(String ride_info);
@@ -24,5 +20,5 @@ public interface IRidesController {
 
     List<Ride> get_all_rides();
 
-    int get_number_of_rides(int rider_id);
+    int get_number_of_rides(String rider_id);
 }
