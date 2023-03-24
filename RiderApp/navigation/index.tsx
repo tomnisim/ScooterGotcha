@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { Button, ColorSchemeName, Pressable } from 'react-native';
+import { Button, ColorSchemeName, Pressable, View } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -25,6 +25,7 @@ import Register from '../screens/Register';
 
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import StartRide from '../screens/StartRide';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -32,7 +33,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
     
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Button title='Log'></Button>
+      <Button title='UPPER MENU'></Button>
       <RootNavigator />
       
     </NavigationContainer>
@@ -47,14 +48,35 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
+    
     <Stack.Navigator>
+      
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Screen
+        name="Button"
+        component={BottomTabNavigator}
+        options={{
+          title: 'Home',
+          headerRight: () => (
+            <Button
+              onPress={() => alert('Button pressed')}
+              title="Button"
+              color="#fff"
+            />
+          ),
+        }}
+      />
+ 
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
         
       </Stack.Group>
+      
     </Stack.Navigator>
+
+
+    
     
   );
 }
@@ -149,6 +171,14 @@ function BottomTabNavigator() {
         component={ChangePassword}
         options={{
           title: 'ChangePassword',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="StartRide"
+        component={StartRide}
+        options={{
+          title: 'StartRide',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
