@@ -4,6 +4,8 @@ import gotcha.server.Config.Configuration;
 import gotcha.server.Domain.QuestionsModule.IQuestionController;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
+import gotcha.server.Utils.Logger.ErrorLogger;
+import gotcha.server.Utils.Logger.ServerLogger;
 import gotcha.server.Utils.Password.PasswordManagerImpl;
 import gotcha.server.Utils.Password.iPasswordManager;
 import gotcha.server.Utils.Utils;
@@ -33,6 +35,10 @@ class UserControllerTest {
 
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private ErrorLogger errorLoggerMock;
+    @Mock
+    private ServerLogger serverLoggerMock;
 
     @BeforeEach
     public void setUp() {

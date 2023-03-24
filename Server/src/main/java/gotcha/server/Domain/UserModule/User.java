@@ -1,12 +1,16 @@
 package gotcha.server.Domain.UserModule;
 
 import gotcha.server.Domain.Notifications.Notification;
+import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Observer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public abstract class
 User implements Observer {
 
@@ -16,7 +20,6 @@ User implements Observer {
     private String gender;
     private LocalDate birthDay;
     private Map<Integer, Notification> userNotifications;
-
     private boolean loggedIn;
 
     public User(String userEmail, String userPasswordToken, String phoneNumber, LocalDate birthDay, String gender) {

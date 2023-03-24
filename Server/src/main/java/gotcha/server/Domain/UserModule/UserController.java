@@ -7,7 +7,8 @@ import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserAlreadyExistsException;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserException;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
-import gotcha.server.Utils.Password.PasswordManagerImpl;
+import gotcha.server.Utils.Logger.ErrorLogger;
+import gotcha.server.Utils.Logger.ServerLogger;
 import gotcha.server.Utils.Password.iPasswordManager;
 import gotcha.server.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,20 +22,23 @@ import java.util.function.BiConsumer;
 @Component
 public class UserController implements IUserController {
     private final Utils utils;
-
     private Map<String, String> usersEmailByRaspberryPi;
     private final iPasswordManager passwordManager;
     private final UserRepository userRepository;
+    private final ServerLogger serverLogger;
+    private final ErrorLogger errorLogger;
 
     private final IQuestionController questionController;
 
     @Autowired
-    public UserController(Utils utils, iPasswordManager passwordManager, IQuestionController questionController, UserRepository userRepository) {
+    public UserController(Utils utils, iPasswordManager passwordManager, IQuestionController questionController, UserRepository userRepository, ServerLogger serverLogger, ErrorLogger errorLogger) {
         this.utils = utils;
         this.passwordManager = passwordManager;
         this.questionController = questionController;
         this.usersEmailByRaspberryPi = new ConcurrentHashMap<>();
         this.userRepository = userRepository;
+        this.serverLogger = serverLogger;
+        this.errorLogger = errorLogger;
     }
 
     public void add_first_admin(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender) throws Exception {
@@ -80,7 +84,6 @@ public class UserController implements IUserController {
         var user = userRepository.getUser(userEmail);
         if(user != null) {
             throw new UserAlreadyExistsException("User with email :"+ userEmail + " alerady exists");
-
         }
 
         verify_user_information(userEmail, password, phoneNumber, birthDay, gender, scooterType, licenceIssueDate);
@@ -102,13 +105,24 @@ public class UserController implements IUserController {
         var user = userRepository.getUser(userEmail);
         if (user == null)
         {
-            throw new UserNotFoundException("invalid login: user with email"+ userEmail + " not found");
+            var message = "invalid login: user with email"+ userEmail + " not found";
+            errorLogger.add_log(message);
+            throw new UserNotFoundException(message);
         }
         if (!passwordManager.authenticate(password, user.get_password_token()))
         {
-            throw new Exception("password is incorrect");
+            var message = "password is incorrect for user with email "+ userEmail;
+            errorLogger.add_log(message);
+            throw new Exception(message);
         }
-        user.login();
+        try {
+            user.login();
+            serverLogger.add_log("Successfully logged in user with email" + userEmail);
+        }
+        catch (Exception e) {
+            errorLogger.add_log(e.getMessage());
+            throw e;
+        }
         return user;
     }
 
