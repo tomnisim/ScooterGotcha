@@ -45,33 +45,36 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
  * https://reactnavigation.org/docs/modal
  */
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
+function log_in  ({ navigation }: RootTabScreenProps<'Home'>) {
+  navigation.navigate('Login')
+  alert("LOGIN")
+}
 function RootNavigator() {
   return (
+ 
     
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{
+      headerRight: () => (
+        <Button
+          onPress={() => {
+            log_in()
+          }}
+          title="Log In"
+        />
+      ),
+    }}>
       
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Screen
-        name="Button"
-        component={BottomTabNavigator}
-        options={{
-          title: 'Home',
-          headerRight: () => (
-            <Button
-              onPress={() => alert('Button pressed')}
-              title="Button"
-              color="#fff"
-            />
-          ),
-        }}
-      />
+        
+
  
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
         
+        
       </Stack.Group>
+
       
     </Stack.Navigator>
 
