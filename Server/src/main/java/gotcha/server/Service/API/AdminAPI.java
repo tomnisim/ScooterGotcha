@@ -30,7 +30,7 @@ public interface AdminAPI {
     Response delete_award(int award_id, @SessionAttribute("userContext") UserContext userContext);
 
     Response view_admins( @SessionAttribute("userContext") UserContext userContext);
-    Response add_admin(String user_email, String user_password, String phoneNumber, LocalDate birthDay, String gender, @SessionAttribute("userContext") UserContext userContext);
+    Response add_admin(String user_email,String name, String lastName, String user_password, String phoneNumber, LocalDate birthDay, String gender, @SessionAttribute("userContext") UserContext userContext);
     Response delete_admin(String user_email, @SessionAttribute("userContext") UserContext userContext);
 
     Response view_users(@SessionAttribute("userContext") UserContext userContext);

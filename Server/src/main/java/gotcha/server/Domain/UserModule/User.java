@@ -18,10 +18,12 @@ User implements Observer {
     private String phoneNumber;
     private String gender;
     private LocalDate birthDay;
+    private String name;
+    private String lastName;
     private Map<Integer, Notification> userNotifications;
     private boolean loggedIn;
 
-    public User(String userEmail, String userPasswordToken, String phoneNumber, LocalDate birthDay, String gender) {
+    public User(String userEmail,String name, String lastName, String userPasswordToken, String phoneNumber, LocalDate birthDay, String gender) {
         this.userEmail = userEmail;
         this.userPasswordToken = userPasswordToken;
         this.phoneNumber = phoneNumber;
@@ -29,6 +31,8 @@ User implements Observer {
         this.gender = gender;
         this.loggedIn = false;
         this.userNotifications = new HashMap<>();
+        this.name = name;
+        this.lastName = lastName;
     }
 
     // Empty constructor for DB

@@ -41,10 +41,10 @@ public class UserController implements IUserController {
         this.errorLogger = errorLogger;
     }
 
-    public void add_first_admin(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender) throws Exception {
+    public void add_first_admin(String userEmail, String name, String lastName, String password, String phoneNumber, LocalDate birthDay, String gender) throws Exception {
         verify_user_information(userEmail, password, phoneNumber, birthDay, gender);
         var passwordToken = passwordManager.hash(password);
-        var admin = new Admin(userEmail, passwordToken, phoneNumber, birthDay, gender, null );
+        var admin = new Admin(userEmail, name, lastName, passwordToken, phoneNumber, birthDay, gender, null);
     }
 
     public void load() {
@@ -55,13 +55,14 @@ public class UserController implements IUserController {
     public User get_user_by_id(String userEmail) throws UserNotFoundException {
         var user = userRepository.getUser(userEmail);
         if (user == null) {
-            throw new UserNotFoundException("user with email"+ userEmail + " not found");
+            throw new UserNotFoundException("user with email" + userEmail + " not found");
         }
         return user;
     }
 
     /**
      * Returns a list of all users
+     *
      * @return
      */
     public List<User> get_all_users() {
@@ -70,8 +71,11 @@ public class UserController implements IUserController {
 
     /**
      * Registers a new user, throws exception if user already exists or one of his credentials is invalid
+     *
      * @param userEmail
      * @param password
+     * @param name
+     * @param lastName
      * @param phoneNumber
      * @param birthDay
      * @param gender
@@ -80,60 +84,47 @@ public class UserController implements IUserController {
      * @return
      * @throws UserException
      */
-    public Boolean register(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate, String raspberryPiSerialNumber) throws Exception {
+    public Boolean register(String userEmail, String password, String name, String lastName, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate, String raspberryPiSerialNumber) throws Exception {
         var user = userRepository.getUser(userEmail);
-        if(user != null) {
-            throw new UserAlreadyExistsException("User with email :"+ userEmail + " alerady exists");
+        if (user != null) {
+            throw new UserAlreadyExistsException("User with email :" + userEmail + " alerady exists");
         }
 
         verify_user_information(userEmail, password, phoneNumber, birthDay, gender, scooterType, licenceIssueDate);
 
         String passwordToken = passwordManager.hash(password);
-        User newUser = new Rider(userEmail, passwordToken, phoneNumber, birthDay, gender, scooterType, licenceIssueDate, raspberryPiSerialNumber);
-        userRepository.addUser(newUser);
+        user = new Rider(userEmail, name, lastName, passwordToken, phoneNumber, birthDay, gender, scooterType, licenceIssueDate, raspberryPiSerialNumber);
+        userRepository.addUser(user);
         usersEmailByRaspberryPi.put(raspberryPiSerialNumber, userEmail);
         return true;
     }
 
     /**
      * Login user with email {userEmail}, throws exception if user not found or invalid password
+     *
      * @param userEmail
      * @param password
      * @throws Exception
      */
     public User login(String userEmail, String password) throws Exception {
         var user = userRepository.getUser(userEmail);
-        if (user == null)
-        {
-            var message = "invalid login: user with email"+ userEmail + " not found";
-            errorLogger.add_log(message);
-            throw new UserNotFoundException(message);
+        if (user == null) {
+            throw new UserNotFoundException("invalid login: user with email" + userEmail + " not found");
         }
-        if (!passwordManager.authenticate(password, user.get_password_token()))
-        {
-            var message = "password is incorrect for user with email "+ userEmail;
-            errorLogger.add_log(message);
-            throw new Exception(message);
+        if (!passwordManager.authenticate(password, user.get_password_token())) {
+            throw new Exception("password is incorrect for user with email " + userEmail);
         }
-        try {
-            user.login();
-            serverLogger.add_log("Successfully logged in user with email" + userEmail);
-        }
-        catch (Exception e) {
-            errorLogger.add_log(e.getMessage());
-            throw e;
-        }
+        user.login();
         return user;
     }
 
     public void change_password(String userEmail, String oldPassword, String newPassword) throws Exception {
 
         var user = userRepository.getUser(userEmail);
-        if(user == null) {
+        if (user == null) {
             throw new UserNotFoundException("user email: " + userEmail + " not found");
         }
-        if (!passwordManager.authenticate(oldPassword, user.get_password_token()))
-        {
+        if (!passwordManager.authenticate(oldPassword, user.get_password_token())) {
             throw new Exception("Invalid password");
         }
         utils.passwordValidCheck(oldPassword);
@@ -143,14 +134,14 @@ public class UserController implements IUserController {
 
     /**
      * Logout user, throws exception if user not found
+     *
      * @param userEmail
      * @throws UserNotFoundException
      */
     public void logout(String userEmail) throws Exception {
         var user = userRepository.getUser(userEmail);
-        if (user == null)
-        {
-            throw new UserNotFoundException("invalid login: user with email"+ userEmail + " not found");
+        if (user == null) {
+            throw new UserNotFoundException("invalid login: user with email" + userEmail + " not found");
         }
         user.logout();
     }
@@ -158,11 +149,12 @@ public class UserController implements IUserController {
     /**
      * Appoints a new admin, throws exception if user eamil already exists or the appointing admin is not admin
      * new admin needs to have an email that is not already registered in the system
+     *
      * @param newAdminEmail
      * @param appointingAdminEmail
      * @throws Exception
      */
-    public void appoint_new_admin(String newAdminEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String appointingAdminEmail) throws Exception {
+    public void appoint_new_admin(String newAdminEmail, String name, String lastName, String password, String phoneNumber, LocalDate birthDay, String gender, String appointingAdminEmail) throws Exception {
         var newAdmin = userRepository.getUser(newAdminEmail);
         if (newAdmin != null) {
             throw new Exception("appointed admin email: " + appointingAdminEmail + " already exists");
@@ -177,13 +169,14 @@ public class UserController implements IUserController {
         }
 
         var passwordToken = passwordManager.hash(password);
-        newAdmin = new Admin(newAdminEmail, passwordToken, phoneNumber, birthDay, gender, (Admin)appointingAdmin);
+        newAdmin = new Admin(newAdminEmail, name, lastName, passwordToken, phoneNumber, birthDay, gender, (Admin) appointingAdmin);
         userRepository.addUser(newAdmin);
     }
 
 
     /**
      * Verifies the user information is valid
+     *
      * @param userEmail
      * @param password
      * @param phoneNumber
@@ -192,20 +185,21 @@ public class UserController implements IUserController {
      * @param extraParams
      * @return
      */
-    private void verify_user_information(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, Object...extraParams) throws Exception {
+    private void verify_user_information(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, Object... extraParams) throws Exception {
         utils.emailValidCheck(userEmail);
         utils.validate_phone_number(phoneNumber);
         utils.passwordValidCheck(password);
         utils.validate_birth_date(birthDay);
         utils.validate_gender(gender);
         if (extraParams[0] != null)
-            utils.validate_scooter_type((String)extraParams[0]);
+            utils.validate_scooter_type((String) extraParams[0]);
         if (extraParams[1] != null)
-            utils.validate_license_issue_date((LocalDate)extraParams[1]);
+            utils.validate_license_issue_date((LocalDate) extraParams[1]);
     }
 
     /**
      * adds an answer to the question and notifies the user about the reply
+     *
      * @param adminEmail
      * @param reply
      * @param question_id
@@ -227,7 +221,7 @@ public class UserController implements IUserController {
         sendingUser.notify_user(new Notification(admin.get_email(), question_id));
     }
 
-    private BiConsumer<String, Integer> create_notify_all_admins_callback(){
+    private BiConsumer<String, Integer> create_notify_all_admins_callback() {
         BiConsumer<String, Integer> callback = (senderEmail, questionId) -> {
             var allUsers = userRepository.getAllUsers();
             for (var user : allUsers) {
@@ -242,6 +236,7 @@ public class UserController implements IUserController {
 
     /**
      * this method will send to all admins a question for the user
+     *
      * @param userEmail
      * @param message
      * @throws Exception
@@ -251,11 +246,11 @@ public class UserController implements IUserController {
         if (sender == null) {
             throw new UserNotFoundException("Invalid user email :" + userEmail);
         }
-        questionController.add_user_question(message, sender.get_email(),create_notify_all_admins_callback());
+        questionController.add_user_question(message, sender.get_email(), create_notify_all_admins_callback());
     }
 
     @Override
-    public List<String> view_admins(){
+    public List<String> view_admins() {
 
         var adminsList = new ArrayList<String>();
         var allUsers = userRepository.getAllUsers();
@@ -279,7 +274,7 @@ public class UserController implements IUserController {
         if (admin == null) {
             throw new Exception("admin email: " + admin_email);
         }
-        if (((Admin)admin).get_appointed_by() != null) {
+        if (((Admin) admin).get_appointed_by() != null) {
             throw new Exception("only master admin can remove appointment");
         }
 
@@ -297,7 +292,7 @@ public class UserController implements IUserController {
         if (user == null || !user.is_admin())
             throw new Exception("user not found or is admin");
 
-        ((Rider)user).update_rating(ride, number_of_rides);
+        ((Rider) user).update_rating(ride, number_of_rides);
     }
 
 

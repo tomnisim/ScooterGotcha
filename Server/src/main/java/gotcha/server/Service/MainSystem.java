@@ -103,6 +103,6 @@ public class MainSystem {
 
     private void set_first_admin() throws Exception {
         LocalDate birth_date = LocalDate.now();
-        userController.add_first_admin(configuration.getAdminUserName(), configuration.getAdminPassword(), "0546794211",birth_date,"male");
+        //userController.add_first_admin(configuration.getAdminUserName(), configuration.getAdminPassword(), "0546794211",birth_date,"male");
     }
 }
