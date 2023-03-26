@@ -1,24 +1,28 @@
 package gotcha.server.SafeRouteCalculatorModule;
 
+import gotcha.server.Config.Configuration;
 import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.ExternalService.MapsAdapter;
-import gotcha.server.ExternalService.MapsAdapterImpl;
-import gotcha.server.Utils.Formula;
 import gotcha.server.Utils.Location;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-import static gotcha.server.Service.MainSystem.NUMBER_OF_ROUTES;
-
+@Component
 public class RoutesRetriever {
-    private MapsAdapter google_maps;
-    private HazardController hazard_controller;
+    private final MapsAdapter google_maps;
+    private final HazardController hazard_controller;
+    private final Configuration configuration;
+    private static int NUMBER_OF_ROUTES ; // TODO: 28/12/2022  from config
 
-    public RoutesRetriever(MapsAdapter maps_implementation)
+    @Autowired
+    public RoutesRetriever(MapsAdapter maps_implementation,HazardController hazardController, Configuration configuration)
     {
-        this.google_maps = maps_implementation;
-        this.hazard_controller = HazardController.get_instance();
+        this.google_maps = maps_implementation; // TODO - fetch google maps class properly
+        this.configuration = configuration;
+        this.hazard_controller = hazardController;
 
     }
 

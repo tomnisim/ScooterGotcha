@@ -1,5 +1,7 @@
 package gotcha.server.Utils.Password;
 
+import org.springframework.stereotype.Component;
+
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -20,6 +22,7 @@ import javax.crypto.spec.PBEKeySpec;
  * @author erickson
  * @see <a href="http://stackoverflow.com/a/2861125/3474">StackOverflow</a>
  */
+@Component
 public final class PasswordManagerImpl implements iPasswordManager {
 
     /**

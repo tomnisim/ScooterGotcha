@@ -1,13 +1,17 @@
-class Alert:
-    def __init__(self):
-        self.duration = "5" # time in seconds
-        self.power = "70" # range(0,100) - percent
+from abc import ABC, abstractmethod
 
-    def alert(self, hazard):
+
+class Alert(ABC):
+    def __init__(self, duration, power):
+        self.duration = duration # time in seconds
+        self.power = power # range(0,100) - percent
+
+    @abstractmethod
+    def alert(self, duration):
         print("start alert, analyze hazard and save details about it ")
 
-    def print_time(self):
-        print("abstract method")
+
+
 
 
 

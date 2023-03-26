@@ -3,33 +3,36 @@ package gotcha.server.Service.API;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Domain.UserModule.User;
+import gotcha.server.Service.UserContext;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Response;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface UserAPI {
 
 
-    Response login(String email, String password);
-    Response logout(int user_id);
+    Response login(String email, String password, HttpSession session);
+    Response logout(HttpSession session);
     Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender);
 
     // MOBILE API
 
-    Response change_password(String old_password, String password, int user_id);
-    Response view_user_rides_history(int user_id);
-    Response add_user_question(String message, int user_id);
-    Response view_all_user_questions(int user_id);
-    Response get_safe_routes(Location origin, Location destination, int user_id);
-    Response view_all_advertisement(int user_id);
+    Response change_password(String old_password, String password, @SessionAttribute("userContext") UserContext userContext);
+    Response view_user_rides_history(@SessionAttribute("userContext") UserContext userContext);
+    Response add_user_question(String message, @SessionAttribute("userContext") UserContext userContext);
+    Response view_all_user_questions(@SessionAttribute("userContext") UserContext userContext);
+    Response get_safe_routes(Location origin, Location destination, @SessionAttribute("userContext") UserContext userContext);
+    Response view_all_advertisement(@SessionAttribute("userContext") UserContext userContext);
 
     Response view_notifications(int user_id);
 
     // RP API - this methods should not check if the user is logged in.
 
-    Response finish_ride(int user_id, Location origin, Location destination, String city, LocalDateTime start_time,
+    Response finish_ride(String userEmail, Location origin, Location destination, String city, LocalDateTime start_time,
                          LocalDateTime end_time, List<StationaryHazard> hazards);
 
     /* maybe extend to get as input all the history rides from rp who doesn't send to the server. */

@@ -2,6 +2,9 @@
 Hazard detection system for scooter riders
 Docs:
 
+ADD:
+https://docs.google.com/document/d/1e4QV5IlwU6Id1_Ae7iCsr-jmUhakPypmjay4Jxxn9Us/edit
+
 ARD:
 https://docs.google.com/document/d/1hPfG14uIX1_8JkeEVfdIWuoPFlgkyfya/edit
 

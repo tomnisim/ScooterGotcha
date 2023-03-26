@@ -1,25 +1,18 @@
 package gotcha.server.Domain.AdvertiseModule;
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-
+@Component
 public class AdvertiseController implements IAdvertiseController {
     private AtomicInteger id_counter;
     private Map<Integer, Advertise> advertise_list;
-
-    private static class SingletonHolder {
-        private static AdvertiseController instance = new AdvertiseController();
-    }
-    public static AdvertiseController get_instance() {
-        return AdvertiseController.SingletonHolder.instance;
-    }
 
     public AdvertiseController() {
         this.id_counter = new AtomicInteger(1);
         this.advertise_list = new HashMap<>();
     }
-
-
 
     @Override
     public void load() {}
