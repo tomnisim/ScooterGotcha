@@ -42,8 +42,7 @@ public class HazardRateCalculator implements IHazardRateCalculator {
     @Override
     public double rate_hazard(StationaryHazard hazard){
         Formula formula = formulas.get(hazard.getType());
-        double answer = formula.evaluate(hazard.getSize());
-        return answer;
+        return formula.evaluate(hazard.getSize());
     }
 
     /**

@@ -19,10 +19,11 @@ public class AdvertiseController implements IAdvertiseController {
 
 
     @Override
-    public void add_advertise(LocalDateTime final_date, String owner, String message, String photo, String url){
+    public Advertise add_advertise(LocalDateTime final_date, String owner, String message, String photo, String url){
         int advertise_id = this.id_counter.incrementAndGet();
         Advertise advertise = new Advertise(advertise_id, final_date, owner, message, photo, url);
         this.advertise_list.put(advertise_id, advertise);
+        return advertise;
     }
     @Override
     public void remove_advertise(int advertise_id){
@@ -43,11 +44,11 @@ public class AdvertiseController implements IAdvertiseController {
 
 
     @Override
-    public List<String> get_all_advertisements_for_admin(){
-        List<String> to_return = new LinkedList<>();
+    public List<Advertise> get_all_advertisements_for_admin(){
+        List<Advertise> to_return = new LinkedList<>();
         for (Advertise advertise : this.advertise_list.values())
         {
-            to_return.add(advertise.toString_admin());
+            to_return.add(advertise);
         }
         return to_return;
     }

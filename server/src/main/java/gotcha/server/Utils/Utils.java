@@ -257,4 +257,13 @@ public class Utils {
         // TODO: 05/01/2023 : implement 
         return "todo";
     }
+
+    public static LocalDate StringToLocalDate(String birthDay) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        // TODO: 05/03/2023  
+        String date = "16/08/1995";
+
+        //convert String to LocalDate
+        return LocalDate.parse(date, formatter);
+    }
 }

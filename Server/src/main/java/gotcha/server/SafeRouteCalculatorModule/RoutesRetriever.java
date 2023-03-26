@@ -34,11 +34,9 @@ public class RoutesRetriever {
      */
     public List<Route> fetch_safe_routes(Location source, Location destination)
     {
-        return null;
-/*        // TODO - add number_of_routes to utils , from Appendix A
-        List<Route> routes = this.google_maps.get_routes(source, destination, number_of_routes); // TODO - API request to get routes
-        List<Route> sorted_routes_by_safety = this.rate_routes(routes);
-        return sorted_routes_by_safety; //TODO - maybe return the rating for each route to show it to the rider*/
+        List<Route> routes = this.google_maps.get_routes(source, destination, NUMBER_OF_ROUTES);
+        return this.rate_routes(routes);
+        //TODO - maybe return the rating for each route to show it to the rider
     }
 
     private List<Route> rate_routes(List<Route> routes) {

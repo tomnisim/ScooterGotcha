@@ -19,14 +19,16 @@ public interface UserAPI {
     Response logout(HttpSession session);
     Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender);
 
-    // SMARTPHONE API
-
+    // MOBILE API
+    Response view_notifications(@SessionAttribute("userContext") UserContext userContext);
     Response change_password(String old_password, String password, @SessionAttribute("userContext") UserContext userContext);
     Response view_user_rides_history(@SessionAttribute("userContext") UserContext userContext);
     Response add_user_question(String message, @SessionAttribute("userContext") UserContext userContext);
     Response view_all_user_questions(@SessionAttribute("userContext") UserContext userContext);
     Response get_safe_routes(Location origin, Location destination, @SessionAttribute("userContext") UserContext userContext);
     Response view_all_advertisement(@SessionAttribute("userContext") UserContext userContext);
+
+
 
     // RP API - this methods should not check if the user is logged in.
 
@@ -35,4 +37,5 @@ public interface UserAPI {
 
     /* maybe extend to get as input all the history rides from rp who doesn't send to the server. */
     Response get_rp_config_file();
+
 }
