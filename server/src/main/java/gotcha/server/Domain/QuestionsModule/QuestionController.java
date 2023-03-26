@@ -23,6 +23,7 @@ public class QuestionController implements IQuestionController {
         this.question_ids_counter = new AtomicInteger(1);
     }
 
+
     // TODO: 14/12/2022 implement
     public void load() {
 //        this.questionsMap = HibernateUtils.get_questions();
@@ -85,6 +86,7 @@ public class QuestionController implements IQuestionController {
      * @return all the open questions.
      */
     @Override
+
     public List<String> get_all_open_questions(){
         ArrayList<String> answer = new ArrayList<String>();
         for (Question question : this.open_questions.values()){

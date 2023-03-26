@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -108,7 +109,17 @@ User implements Observer {
         }
     }
 
+    public Collection<Notification> get_notifications(){
+        // TODO: 01/03/2023
+        return this.userNotifications.values();
+    }
     public Boolean is_admin() {
         return false;
+    }
+
+    public void edit_details(String phoneNumber, String gender) {
+        // TODO: 03/03/2023 : check validate args
+        this.phoneNumber = phoneNumber;
+        this.gender = gender;
     }
 }
