@@ -35,4 +35,19 @@ public interface AdminAPI {
     Response view_users(@SessionAttribute("userContext") UserContext userContext);
     Response delete_user(String user_email, @SessionAttribute("userContext") UserContext userContext);
 
+    // super admin
+
+    Response set_server_config(UserContext userContext);
+    Response set_rp_config(UserContext userContext);
+
+    Response view_error_logger(UserContext userContext);
+    Response view_system_logger(UserContext userContext);
+    Response view_server_logger(UserContext userContext);
+
+    Response reset(UserContext userContext);
+    Response shut_down(UserContext userContext);
+
+//    Response update_user_rate_tables(Dictionary<String, Dictionary<Integer, Integer>> tables, UserContext userContext);
+//    Response update_hazard_formula(HazardType type, Formula formula, UserContext userContext);
+
 }

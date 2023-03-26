@@ -3,7 +3,6 @@ package gotcha.server.Service.Communication;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Service.API.AdminAPI;
-import gotcha.server.Service.API.ProgrammerAPI;
 import gotcha.server.Service.API.UserAPI;
 import gotcha.server.Service.Facade;
 import gotcha.server.Service.UserContext;
@@ -21,7 +20,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-public class ApiController implements AdminAPI, UserAPI, ProgrammerAPI {
+public class ApiController implements AdminAPI, UserAPI {
     private final Facade facade;
     private final String USER_CONTEXT_ATTRIBUTE_NAME = "userContext";
 
