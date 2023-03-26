@@ -43,8 +43,8 @@ public class ApiController implements AdminAPI, UserAPI, ProgrammerAPI {
     public Response login(@RequestBody LoginRequest loginRequest, HttpSession session){
         System.out.println("login");
         // TODO: Maybe implement Service Layer User object
-        Response<User> response = facade.login(email, password);
-        if(response.getValue() != null) {
+        Response<User> response = facade.login(loginRequest);
+        if(!response.iswas_exception()) {
             var userContext = new UserContext(response.getValue());
             session.setAttribute(USER_CONTEXT_ATTRIBUTE_NAME, userContext);
         }

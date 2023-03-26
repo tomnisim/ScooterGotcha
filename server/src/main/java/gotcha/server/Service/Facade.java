@@ -38,8 +38,10 @@ import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.ServerLogger;
 import gotcha.server.Utils.Response;
 import gotcha.server.Utils.Utils;
+import jdk.jshell.spi.ExecutionControl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -686,6 +688,9 @@ public class Facade {
         }
         return response;
     }
+
+    // TODO: 3/26/2023 : Need to implement this method 
+    public Response delete_award(int award_id, UserContext userContext){return null;}
 
     public void clear() {
         // TODO: 01/03/2023 : clear all the data in instances. 

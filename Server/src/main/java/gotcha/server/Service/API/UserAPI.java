@@ -3,6 +3,8 @@ package gotcha.server.Service.API;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Domain.UserModule.User;
+import gotcha.server.Service.Communication.Requests.LoginRequest;
+import gotcha.server.Service.Communication.Requests.RegisterRequest;
 import gotcha.server.Service.UserContext;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Response;
@@ -16,7 +18,7 @@ public interface UserAPI {
 
 
     Response login(LoginRequest loginRequest, HttpSession session);
-    Response logout(HttpSession session);
+    Response logout(HttpSession session, UserContext userContext);
     Response register(RegisterRequest registerRequest);
 
     // MOBILE API

@@ -26,6 +26,7 @@ public interface AdminAPI {
     Response delete_advertisement(int advertise_id,@SessionAttribute("userContext") UserContext userContext);
 
     Response view_awards(@SessionAttribute("userContext") UserContext userContext);
+    Response delete_award(int award_id, @SessionAttribute("userContext") UserContext userContext);
     Response add_award(@SessionAttribute("userContext") UserContext userContext, String[] emails, String award);
 
     Response view_admins( @SessionAttribute("userContext") UserContext userContext);

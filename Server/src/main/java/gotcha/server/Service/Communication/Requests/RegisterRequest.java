@@ -18,7 +18,14 @@ public class RegisterRequest {
     private String phoneNumber;
     private String gender;
     private String raspberrySerialNumber;
+    @JsonFormat(pattern = "yyyy-MM-DD")
+
     private LocalDate licenseIssueDate;
+
+    private String scooterType;
+
+    @JsonFormat(pattern = "yyyy-MM-DD")
+    private LocalDate birthDate;
 
     public LocalDate getLicenseIssueDate() {
         return licenseIssueDate;
@@ -35,11 +42,6 @@ public class RegisterRequest {
     public void setScooterType(String scooterType) {
         this.scooterType = scooterType;
     }
-
-    private String scooterType;
-
-    @JsonFormat(pattern = "yyyy-mm-dd")
-    private LocalDate birthDate;
 
     // Default constructor (required for deserialization)
     public RegisterRequest() {

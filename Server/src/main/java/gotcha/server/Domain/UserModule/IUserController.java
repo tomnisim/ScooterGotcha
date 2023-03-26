@@ -22,6 +22,7 @@ public interface IUserController extends Observable {
     void remove_admin_appointment(String user_email, String admin_email) throws Exception;
     void delete_user(String user_email) throws Exception ;
     void notify_all_users(String senderEmail, String message) throws Exception;
+    void notify_users(String senderEmail, String[] emails, String message);
     // user id -> user email
     void update_user_rate(String user_id, Ride ride, int number_of_rides) throws Exception;
 
