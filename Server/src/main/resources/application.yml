@@ -6,7 +6,7 @@ gotcha:
   DATABASE_PASSWORD: "12345"
   system_email: "system@gmail.com"
   system_email_password: "123456"
-  admin_user_name: "admin"
+  admin_user_name: "admin@gmail.com"
   admin_password: "admin"
   number_of_routes: 5
   minimum_password_length: 4

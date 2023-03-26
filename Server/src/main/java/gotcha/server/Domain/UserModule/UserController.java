@@ -41,15 +41,15 @@ public class UserController implements IUserController {
         this.errorLogger = errorLogger;
     }
 
+
+    public void load() {
+
+    }
     public void add_first_admin(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender) throws Exception {
         verify_user_information(userEmail, password, phoneNumber, birthDay, gender);
         var passwordToken = passwordManager.hash(password);
         var admin = new Admin(userEmail, passwordToken, phoneNumber, birthDay, gender, null);
         userRepository.addUser(admin);
-    }
-
-    public void load() {
-
     }
 
     /**
