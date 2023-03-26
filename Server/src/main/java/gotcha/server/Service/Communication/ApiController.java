@@ -31,8 +31,6 @@ public class ApiController implements AdminAPI, UserAPI, ProgrammerAPI {
 
     }
 
-
-
     /**
      * this method will create a new facade for the connection.
      * @param email
@@ -46,7 +44,7 @@ public class ApiController implements AdminAPI, UserAPI, ProgrammerAPI {
         System.out.println("login");
         // TODO: Maybe implement Service Layer User object
         Response<User> response = facade.login(email, password);
-        if(response.getValue() != null) {
+        if(!response.iswas_exception()) {
             var userContext = new UserContext(response.getValue());
             session.setAttribute(USER_CONTEXT_ATTRIBUTE_NAME, userContext);
         }
