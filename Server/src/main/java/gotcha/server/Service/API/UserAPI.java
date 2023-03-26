@@ -16,7 +16,7 @@ public interface UserAPI {
 
 
     Response login(String email, String password, HttpSession session);
-    Response logout(HttpSession session);
+    Response logout(HttpSession session, UserContext userContext);
     Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender);
 
     // MOBILE API

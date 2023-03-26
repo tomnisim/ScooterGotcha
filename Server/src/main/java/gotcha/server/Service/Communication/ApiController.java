@@ -57,8 +57,8 @@ public class ApiController implements AdminAPI, UserAPI, ProgrammerAPI {
     @RequestMapping(value = "/logout")
     @CrossOrigin
     @Override
-    public Response logout(HttpSession session) {
-        Response response = facade.logout();
+    public Response logout(HttpSession session, @SessionAttribute("userContext") UserContext userContext) {
+        Response response = facade.logout(userContext);
         session.removeAttribute(USER_CONTEXT_ATTRIBUTE_NAME);
         return response;
     }
