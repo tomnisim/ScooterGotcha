@@ -57,20 +57,18 @@ public class RidesController implements IRidesController {
     }
 
     @Override
-    public List<Ride> get_rides(int rider_email)
-    {
+    public List<Ride> get_rides_by_email(String rider_email) {
         // TODO: 04/03/2023 : change rider id -> email or serial number ?
         List<Ride> rides_by_rider_id = new ArrayList<>();
-        for (Ride ride : this.rides.values())
-        {
-            if (ride.getRider_id() == rider_id)
-            {
+        for (Ride ride : this.rides.values()) {
+            if (ride.getRider_email().equals(rider_email)) {
                 rides_by_rider_id.add(ride);
             }
         }
         return rides_by_rider_id;
         // maybe replace this method with:
         //         return rides_by_rider.get(rider_email);
+    }
 
     /**
      *
@@ -94,12 +92,12 @@ public class RidesController implements IRidesController {
 
     }
     @Override
-    public List<Ride> get_rides(String city)
+    public List<Ride> get_rides_by_city(String city)
     {
         List<Ride> rides_by_city = new ArrayList<Ride>();
         for (Ride ride : this.rides.values())
         {
-            if (ride.getCity() == city)
+            if (ride.getCity().equals(city))
             {
                 rides_by_city.add(ride);
             }
@@ -114,9 +112,9 @@ public class RidesController implements IRidesController {
     }
     
     @Override
-    public int get_number_of_rides(String rider_id){
+    public int get_number_of_rides(String rider_email){
         // TODO: 05/01/2023 : rider id is email or serial?>
-        return this.get_rides(rider_id).size();
+        return this.get_rides_by_email(rider_email).size();
         
     }
 

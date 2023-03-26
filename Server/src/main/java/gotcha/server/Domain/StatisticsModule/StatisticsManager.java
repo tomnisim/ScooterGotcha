@@ -5,6 +5,7 @@ import gotcha.server.Domain.QuestionsModule.QuestionController;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.Utils.Password.PasswordManagerImpl;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
+@Component
 public class StatisticsManager implements iStatisticsManager {
 
     private Long id;
@@ -23,15 +24,6 @@ public class StatisticsManager implements iStatisticsManager {
     private AtomicInteger logout_count;
     private AtomicInteger connect_system_count;
     private AtomicInteger register_count;
-
-
-    private static class SingletonHolder {
-        private static StatisticsManager instance = new StatisticsManager();
-    }
-
-    public static StatisticsManager get_instance() {
-        return StatisticsManager.SingletonHolder.instance;
-    }
 
     public StatisticsManager() {
         this.init_time = LocalDateTime.now().toString();

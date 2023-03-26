@@ -93,19 +93,16 @@ public class HazardController implements IHazardController {
     }
 
 
-    private List<StationaryHazard> get_hazards(HazardType type){
+    private List<StationaryHazard> get_hazards(HazardType type) {
         LinkedList<StationaryHazard> list = new LinkedList<>();
-        for (StationaryHazard stationaryHazard : this.stationaryHazardsList.values()){
-            if (stationaryHazard.getType().equals(type)){
+        for (StationaryHazard stationaryHazard : this.stationaryHazardsList.values()) {
+            if (stationaryHazard.getType().equals(type)) {
                 list.add(stationaryHazard);
             }
         }
         return list;
-
-    @Override
-    public List<StationaryHazard> get_hazards_in_route(Route route) {
-        return null;
     }
+
 
     // this private method will called from add_hazard / update_hazard and will update hazard type and size - will use Rating Module
     private void rate_hazard(){}

@@ -4,11 +4,15 @@ import gotcha.server.Config.Configuration;
 import gotcha.server.DAL.HibernateUtils;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
 import gotcha.server.Domain.HazardsModule.HazardController;
+import gotcha.server.Domain.HazardsModule.HazardType;
+import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.RidesModule.RidesController;
+import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.ExternalService.MapsAdapter;
 import gotcha.server.ExternalService.MapsAdapterImpl;
 import gotcha.server.Utils.Exceptions.ExitException;
+import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.SystemLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,6 +20,8 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 @Component
@@ -25,16 +31,18 @@ public class MainSystem {
     private final HazardController hazardController;
     private final RidesController ridesController;
     private final AdvertiseController advertiseController;
+    private final StatisticsManager statisticsManager;
     private final SystemLogger systemLogger;
     private final MapsAdapter maps_adapter;
 
     @Autowired
-    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, MapsAdapter mapsAdapter){
+    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, MapsAdapter mapsAdapter, StatisticsManager statisticsManager){
         this.configuration = configuration;
         this.userController = userController;
         this.hazardController = hazardController;
         this.ridesController = ridesController;
         this.advertiseController = advertiseController;
+        this.statisticsManager = statisticsManager;
         this.systemLogger = systemLogger;
         this.maps_adapter = mapsAdapter;
     }
@@ -49,7 +57,7 @@ public class MainSystem {
         // TODO: This needs to be done by checking the DB for existing info
         if (configuration.getFirstTimeRunning())
             set_first_admin();
-        StatisticsManager.get_instance().inc_connect_system_count();
+        this.statisticsManager.inc_connect_system_count();
         begin_instructions();
     }
 
@@ -111,7 +119,7 @@ public class MainSystem {
 
     private void create_rp_config_file() {
         System.out.println("Here we should create Config//rp_config.txt File.");
-        System.out.println(MINIMUM_DISTANCE_ALERT);
+        System.out.println(configuration.getMinimumDistanceAlert());
     }
     private void set_first_admin() throws Exception {
         LocalDate birth_date = LocalDate.now();
@@ -137,16 +145,16 @@ public class MainSystem {
         ArrayList<StationaryHazard> hazards = new ArrayList<>();
         hazards.add(hazard);
         //
-        Facade user_facade = new Facade();
-        Facade admin_facade = new Facade();
-        user_facade.register(EMAIL, PASSWORD, NAME, LAST_NAME, BIRTH_DATE, PHONE, GENDER);
-        user_facade.login(EMAIL, PASSWORD);
-        admin_facade.login(ADMIN_USER_NAME, ADMIN_PASSWORD);
-        admin_facade.add_advertisement(start_time, "owner", "mes", "photo", "url");
-        admin_facade.add_advertisement(start_time, "owner2", "mes2", "photo2", "url2");
-        user_facade.add_user_question("????");
-        admin_facade.add_admin(EMAIL+"mmm", PASSWORD, PHONE, BIRTH_DAY, GENDER);
-        admin_facade.logout();
+//        Facade user_facade = new Facade();
+//        Facade admin_facade = new Facade();
+//        user_facade.register(EMAIL, PASSWORD, NAME, LAST_NAME, BIRTH_DATE, PHONE, GENDER);
+//        user_facade.login(EMAIL, PASSWORD);
+//        admin_facade.login(configuration.getAdminUserName(), configuration.getAdminPassword());
+////        admin_facade.add_advertisement(start_time, "owner", "mes", "photo", "url");
+////        admin_facade.add_advertisement(start_time, "owner2", "mes2", "photo2", "url2");
+////        user_facade.add_user_question("????");
+////        admin_facade.add_admin(EMAIL+"mmm", PASSWORD, PHONE, BIRTH_DAY, GENDER);
+//        admin_facade.logout();
 
 //        user_facade.finish_ride(1, origin, dest, city, start_time, end_time, hazards);
     }

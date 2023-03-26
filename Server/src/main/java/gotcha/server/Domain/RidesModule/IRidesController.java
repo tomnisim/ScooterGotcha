@@ -12,11 +12,11 @@ public interface IRidesController {
 
     void remove_ride(int ride_id) throws RideNotFoundException;
 
-    List<Ride> get_rides(int rider_email);
+    List<Ride> get_rides_by_email(String rider_email);
 
     List<Ride> get_rides(LocalDate[] dates_ranges);
 
-    List<Ride> get_rides(String city);
+    List<Ride> get_rides_by_city(String city);
 
     List<Ride> get_all_rides();
 

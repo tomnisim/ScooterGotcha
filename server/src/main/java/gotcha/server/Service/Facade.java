@@ -1,5 +1,7 @@
 package gotcha.server.Service;
 
+import gotcha.server.Config.Configuration;
+import gotcha.server.Domain.AdvertiseModule.Advertise;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
 import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.HazardType;
@@ -46,11 +48,12 @@ public class Facade {
     private UserController user_controller;
     private AdvertiseController advertise_controller;
     private HazardController hazard_controller;
+    private StatisticsManager statisticsManager;
     private User loggedUser;
     private RoutesRetriever routes_retriever;
    
     @Autowired
-    public Facade(UserController userController, HazardController hazardController, AdvertiseController advertiseController, RidesController ridesController, QuestionController questionController, ServerLogger serverLogger, ErrorLogger errorLogger) {
+    public Facade(UserController userController, HazardController hazardController, AdvertiseController advertiseController, RidesController ridesController, QuestionController questionController, ServerLogger serverLogger, ErrorLogger errorLogger, StatisticsManager statisticsManager, Configuration config) {
         this.error_logger = errorLogger;
         this.serverLogger = serverLogger;
         this.question_controller = questionController;
@@ -58,9 +61,10 @@ public class Facade {
         this.user_controller = userController;
         this.advertise_controller = advertiseController;
         this.hazard_controller = hazardController;
+        this.statisticsManager = statisticsManager;
 		// todo : maybe move to the input
 		MapsAdapter mapsAdapter = new MapsAdapterImpl();
-        this.routes_retriever = new RoutesRetriever(mapsAdapter);
+        this.routes_retriever = new RoutesRetriever(mapsAdapter, hazardController, config);
     }
 
 
@@ -80,20 +84,20 @@ public class Facade {
 
     // PROGRAMMER
      
-    public Response set_server_config() {
+    public Response set_server_config(UserContext userContext) {
         return null;
     }
 
      
-    public Response set_rp_config() {
+    public Response set_rp_config(UserContext userContext) {
         return null;
     }
 
      
-    public Response view_error_logger() {
+    public Response view_error_logger(UserContext userContext) {
         Response response = null;
         try{
-            check_user_is_admin_and_logged_in();
+            check_user_is_admin_and_logged_in(userContext);
             String logger = error_logger.toString();
             String logger_message = "user( "+loggedUser.get_email()+ ") view error logger";
             response = new Response(logger, logger_message);
@@ -108,19 +112,19 @@ public class Facade {
     }
 
      
-    public Response view_system_logger() {
+    public Response view_system_logger(UserContext userContext) {
         return null;
     }
 
      
-    public Response view_server_logger() {
+    public Response view_server_logger(UserContext userContext) {
         return null;
     }
 
      
-    public Response reset() {
+    public Response reset(UserContext userContext) {
         try{
-            check_user_is_admin_and_logged_in();
+            check_user_is_admin_and_logged_in(userContext);
             clear();
 
         }
@@ -131,9 +135,9 @@ public class Facade {
     }
 
      
-    public Response shut_down() {
+    public Response shut_down(UserContext userContext) {
         try{
-            check_user_is_admin_and_logged_in();
+            check_user_is_admin_and_logged_in(userContext);
             System.exit(800);
 
         }
@@ -161,12 +165,12 @@ public class Facade {
         LocalDate birth_day = LocalDate.of(1995, 4,19) ,licence_date = LocalDate.now(); // TODO: 01/03/2023 : build params
         String scooter_type="amit", rp_serial_number = "amit"; // TODO: 01/03/2023
         try {
-            User user = user_controller.register(email, password, phone_number, birth_day, gender, scooter_type, licence_date, rp_serial_number); // TODO: 01/03/2023 : add name & last name
+            user_controller.register(email, password, phone_number, birth_day, gender, scooter_type, licence_date, rp_serial_number); // TODO: 01/03/2023 : add name & last name
             String logger_message = "User's (" + email + ")  has been registered successfully.";
             response = new Response<>(password, logger_message);
             serverLogger.add_log(logger_message);
-            this.loggedUser = user;
-            StatisticsManager.get_instance().inc_register_count();
+
+            this.statisticsManager.inc_register_count();
             // TODO: 01/03/2023 : update logged user?
         }
 
@@ -182,9 +186,8 @@ public class Facade {
         try {
             var user = user_controller.login(email,password);
             var message = String.format("User with email %s Successfully logged in", email);
-
             response = new Response<>(user,message);
-			serverLogger.add_log(logger_message);
+			serverLogger.add_log(message);
 
         }
         catch (Exception e) {
@@ -202,7 +205,7 @@ public class Facade {
             response = new Response<>("", logger_message);
             serverLogger.add_log(logger_message);
             this.loggedUser = null;
-            StatisticsManager.get_instance().inc_logout_count();
+            this.statisticsManager.inc_logout_count();
 
         }
 
@@ -236,7 +239,7 @@ public class Facade {
             check_user_is_logged_in(userContext);
             String user_email = loggedUser.get_email();
             int user_id = 0; // TODO: 04/01/2023 : get id from logged user -> email not id!!
-            List<Ride> rides = this.rides_controller.get_rides(user_id);
+            List<Ride> rides = this.rides_controller.get_rides_by_email(user_email);
             String logger_message = user_email+ " view rides history";
             response = new Response(rides, logger_message);
             serverLogger.add_log(logger_message);
@@ -321,17 +324,17 @@ public class Facade {
             serverLogger.add_log(logger_message);
         }
         catch (Exception e){
-            response = utils.createResponse(e);
+            response = Utils.createResponse(e);
             error_logger.add_log(e.getMessage());
         }
         return response;
 
      }
 
-    public Response view_notifications() {
+    public Response view_notifications(UserContext userContext) {
         Response response = null;
         try{
-            check_user_is_logged_in();
+            check_user_is_logged_in(userContext);
             Collection<Notification> notifications = loggedUser.get_notifications();
             String logger_message = "user( "+loggedUser.get_email()+ ") view his notifications";
             response = new Response(notifications, logger_message);
@@ -472,7 +475,7 @@ public class Facade {
         try{
             check_user_is_admin_and_logged_in(userContext);
             List<String> stats = new LinkedList<>(); // TODO: 04/01/2023 : implement statistic module
-            Statistic statistics = StatisticsManager.get_instance().get_system_statistics(user_controller.get_all_users());
+            Statistic statistics = this.statisticsManager.get_system_statistics(user_controller.get_all_users());
             String logger_message = "admin view statistics";
             response = new Response(statistics, logger_message);
             serverLogger.add_log(logger_message);
@@ -490,7 +493,7 @@ public class Facade {
         try{
 
             check_user_is_admin_and_logged_in(userContext);
-            List<String> advs = advertise_controller.get_all_advertisements_for_admin();
+            List<Advertise> advs = advertise_controller.get_all_advertisements_for_admin();
 
             String logger_message = "admin view all advertisements";
             response = new Response(advs, logger_message);
@@ -540,10 +543,10 @@ public class Facade {
 
 
 // todo : add user context
-    public Response add_award(String[] emails, String award) {
+    public Response add_award(String[] emails, String award, UserContext userContext) {
         Response response = null;
         try{
-            check_user_is_admin_and_logged_in();
+            check_user_is_admin_and_logged_in(userContext);
             String admin_email = this.loggedUser.get_email();
             user_controller.notify_users(admin_email, emails, award);
             String logger_message = "admin add awards (" + award + ") to users: "+emails;

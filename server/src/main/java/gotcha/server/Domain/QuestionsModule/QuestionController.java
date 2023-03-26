@@ -90,7 +90,7 @@ public class QuestionController implements IQuestionController {
     public List<String> get_all_open_questions(){
         ArrayList<String> answer = new ArrayList<String>();
         for (Question question : this.open_questions.values()){
-            answer.add(question);
+            answer.add(question.toString_for_admin());
         }
         return answer;
     }
