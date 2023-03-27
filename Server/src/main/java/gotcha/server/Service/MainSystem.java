@@ -54,7 +54,6 @@ public class MainSystem {
         create_rp_config_file();
         connect_database();
         load_database();
-        // TODO: This needs to be done by checking the DB for existing info
         if (configuration.getFirstTimeRunning())
             set_first_admin();
         this.statisticsManager.inc_connect_system_count();
