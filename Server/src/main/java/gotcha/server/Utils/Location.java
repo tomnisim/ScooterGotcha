@@ -13,18 +13,18 @@ public class Location {
         this.lat = lat;
     }
 
-    // TODO: 17/03/2023 : extend to some radios who will set in config.
+    public BigDecimal getLat() {
+        return lat;
+    }
+
     public boolean equals(Object o) {
+        // TODO: 17/03/2023 : extend to some radios who will set in config.
         double radios;
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Location location = (Location) o;
         return lng.equals(location.getLng()) &&
                 lat.equals(location.getLat());
-    }
-
-    public BigDecimal getLat() {
-        return lat;
     }
 
     public BigDecimal getLng() {

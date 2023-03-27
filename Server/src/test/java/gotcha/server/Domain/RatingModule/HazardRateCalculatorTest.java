@@ -19,6 +19,8 @@ class HazardRateCalculatorTest {
     final HazardType type3 = HazardType.RoadSign;
     BigDecimal bigDecimal = new BigDecimal("0.0");
     final Location location = new Location(bigDecimal, bigDecimal);
+    double size = 16;
+
 
     @BeforeEach
     void setUp() {
@@ -30,12 +32,31 @@ class HazardRateCalculatorTest {
     }
 
     @Test
-    void rate_hazard() {
+    // PoleTree: 5+(W/2)*10
+    void rate_hazard_poleTree() {
         HazardRateCalculator hazardRateCalculator = new HazardRateCalculator();
-        StationaryHazard hazard = new StationaryHazard(5, 6, location, city, type1, 16);
+        StationaryHazard hazard = new StationaryHazard(5, 6, location, city, type1, size);
         double answer = hazard.getRate();
-        assertEquals(answer, 85);
+        assertEquals(answer, 5+(size/2)*10);
+    }
 
+    @Test
+    //  pothole: 10+(W/2)*10
+    void rate_hazard_pothole() {
+        HazardRateCalculator hazardRateCalculator = new HazardRateCalculator();
+        StationaryHazard hazard = new StationaryHazard(5, 6, location, city, type2, size);
+        double answer = hazard.getRate();
+        assertEquals(answer, 10+(size/2)*10);
+    }
+
+    @Test
+    // RoadSign: (W/2)*10
+    void rate_hazard_roadSign() {
+        double size = 16;
+        HazardRateCalculator hazardRateCalculator = new HazardRateCalculator();
+        StationaryHazard hazard = new StationaryHazard(5, 6, location, city, type3, size);
+        double answer = hazard.getRate();
+        assertEquals(answer, (size/2)*10);
     }
 
     @Test
