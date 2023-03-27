@@ -3,6 +3,8 @@ package gotcha.server.Service.API;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Domain.UserModule.User;
+import gotcha.server.Service.Communication.Requests.LoginRequest;
+import gotcha.server.Service.Communication.Requests.RegisterRequest;
 import gotcha.server.Service.UserContext;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Response;
@@ -15,9 +17,9 @@ import java.util.List;
 public interface UserAPI {
 
 
-    Response login(String email, String password, HttpSession session);
-    Response logout(HttpSession session);
-    Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender);
+    Response login(LoginRequest loginRequest, HttpSession session);
+    Response logout(HttpSession session, UserContext userContext);
+    Response register(RegisterRequest registerRequest);
 
     // MOBILE API
     Response view_notifications(@SessionAttribute("userContext") UserContext userContext);
@@ -28,8 +30,6 @@ public interface UserAPI {
     Response get_safe_routes(Location origin, Location destination, @SessionAttribute("userContext") UserContext userContext);
     Response view_all_advertisement(@SessionAttribute("userContext") UserContext userContext);
 
-
-
     // RP API - this methods should not check if the user is logged in.
 
     Response finish_ride(String userEmail, Location origin, Location destination, String city, LocalDateTime start_time,
@@ -37,5 +37,4 @@ public interface UserAPI {
 
     /* maybe extend to get as input all the history rides from rp who doesn't send to the server. */
     Response get_rp_config_file();
-
 }

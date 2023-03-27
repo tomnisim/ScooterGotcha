@@ -4,15 +4,14 @@ import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Service.API.AdminAPI;
 import gotcha.server.Service.API.UserAPI;
+import gotcha.server.Service.Communication.Requests.LoginRequest;
+import gotcha.server.Service.Communication.Requests.RegisterRequest;
 import gotcha.server.Service.Facade;
 import gotcha.server.Service.UserContext;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
@@ -30,19 +29,20 @@ public class ApiController implements AdminAPI, UserAPI {
 
     }
 
+
     /**
      * this method will create a new facade for the connection.
-     * @param email
-     * @param password
+     * @param loginRequest
+     * @param session
      * @return
      */
     @RequestMapping(value = "/login")
     @CrossOrigin
     @Override
-    public Response login(String email, String password, HttpSession session){
+    public Response login(@RequestBody LoginRequest loginRequest, HttpSession session){
         System.out.println("login");
         // TODO: Maybe implement Service Layer User object
-        Response<User> response = facade.login(email, password);
+        Response<User> response = facade.login(loginRequest);
         if(!response.iswas_exception()) {
             var userContext = new UserContext(response.getValue());
             session.setAttribute(USER_CONTEXT_ATTRIBUTE_NAME, userContext);
@@ -59,8 +59,8 @@ public class ApiController implements AdminAPI, UserAPI {
     @RequestMapping(value = "/logout")
     @CrossOrigin
     @Override
-    public Response logout(HttpSession session) {
-        Response response = facade.logout();
+    public Response logout(HttpSession session, @SessionAttribute("userContext") UserContext userContext) {
+        Response response = facade.logout(userContext);
         session.removeAttribute(USER_CONTEXT_ATTRIBUTE_NAME);
         return response;
     }
@@ -68,9 +68,10 @@ public class ApiController implements AdminAPI, UserAPI {
     @RequestMapping(value = "/register")
     @CrossOrigin
     @Override
-    public Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender) {
+    public Response<Boolean> register(@RequestBody RegisterRequest registerRequest) {
         // TODO: 04/01/2023 : implement according new sequence diagram
-        return null;
+        var response = facade.register(registerRequest);
+        return response;
     }
 
     @RequestMapping(value = "/change_password")
@@ -126,7 +127,7 @@ public class ApiController implements AdminAPI, UserAPI {
 
     /* the methods for RP */
 
-// have to change user email to RP serial number
+
     /**
      * this method is for RP usage, when user is not have to be logged in.
      * this method will create a new facade for rp connection and remove it after finish in case of dismiss connection,
@@ -249,7 +250,12 @@ public class ApiController implements AdminAPI, UserAPI {
         return facade.add_award(emails,award, userContext);
     }
 
-
+    @RequestMapping(value = "/delete_award")
+    @CrossOrigin
+    @Override
+    public Response delete_award(int award_id, @SessionAttribute("userContext") UserContext userContext) {
+        return facade.delete_award(award_id, userContext);
+    }
 
 
 
@@ -263,8 +269,8 @@ public class ApiController implements AdminAPI, UserAPI {
     @RequestMapping(value = "/add_admin")
     @CrossOrigin
     @Override
-    public Response add_admin(String user_email, String user_password, String phoneNumber, LocalDate birthDay, String gender, @SessionAttribute("userContext") UserContext userContext) {
-        return facade.add_admin(user_email, user_password, phoneNumber, birthDay, gender, userContext);
+    public Response add_admin(String user_email,String name, String lastName, String user_password, String phoneNumber, LocalDate birthDay, String gender, @SessionAttribute("userContext") UserContext userContext) {
+        return facade.add_admin(user_email,name, lastName, user_password, phoneNumber, birthDay, gender, userContext);
     }
 
     @RequestMapping(value = "/delete_admin")

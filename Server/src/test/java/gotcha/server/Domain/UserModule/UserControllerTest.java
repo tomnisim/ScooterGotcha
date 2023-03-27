@@ -3,6 +3,7 @@ package gotcha.server.Domain.UserModule;
 import gotcha.server.Config.Configuration;
 import gotcha.server.Domain.QuestionsModule.IQuestionController;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
+import gotcha.server.Utils.Exceptions.UserExceptions.UserAlreadyExistsException;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
 import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.ServerLogger;
@@ -14,11 +15,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class UserControllerTest {
     @InjectMocks
@@ -39,6 +42,18 @@ class UserControllerTest {
     private ErrorLogger errorLoggerMock;
     @Mock
     private ServerLogger serverLoggerMock;
+
+    private final String email = "test@gmail.com";
+    private final String  password = "testPassword";
+    private final String  gender = "male";
+    private final LocalDate birthDate = LocalDate.now();
+    private final String  name = "testName";
+    private final String  lastName = "testLastName";
+    private final String  phone = "testPhone";
+    private final String  rpSerialNumber = "testRp";
+    private final String  scooterType = "testScooter";
+    private final LocalDate licenseIssueDate = LocalDate.now();
+
 
     @BeforeEach
     public void setUp() {
@@ -98,5 +113,123 @@ class UserControllerTest {
         assertThrows(Exception.class, () -> {
            userController.login(testEmail,testPassword);
         });
+    }
+
+    @Test
+    void register_validUserCredentials_successfullyRegistered() {
+        configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.register(email,password,name,lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber));
+    }
+
+    @Test
+    void register_userAlreadyExists_failedRegisration() {
+        configureRegisterMockForSuccess();
+        try {
+            when(userRepository.getUser(anyString())).thenReturn(new Rider());
+        }
+        catch (Exception e) {
+            fail("Unexpected exception when configuring the mock: " + e.getMessage());
+        }
+        assertThrows(UserAlreadyExistsException.class, () -> userController.register(email,password,name,lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber));
+    }
+
+    @Test
+    void register_invalidEmail_failedRegistration() {
+        configureRegisterMockForSuccess();
+        try {
+            doThrow(Exception.class).when(utils).emailValidCheck(anyString());
+        }
+        catch (Exception e) {
+            fail("Unexpected exception when configuring the mock: " + e.getMessage());
+        }
+        assertThrows(Exception.class, () -> userController.register(email,password,name,lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber));
+    }
+
+    @Test
+    void register_invalidPassword_failedRegistration() {
+        configureRegisterMockForSuccess();
+        try {
+            doThrow(Exception.class).when(utils).passwordValidCheck(anyString());
+        }
+        catch (Exception e) {
+            fail("Unexpected exception when configuring the mock: " + e.getMessage());
+        }
+        assertThrows(Exception.class, () -> userController.register(email,password,name,lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber));
+    }
+
+    @Test
+    void register_invalidPhoneNumber_failedRegistration() {
+        configureRegisterMockForSuccess();
+        try {
+            doThrow(Exception.class).when(utils).validate_phone_number(anyString());
+        }
+        catch (Exception e) {
+            fail("Unexpected exception when configuring the mock: " + e.getMessage());
+        }
+        assertThrows(Exception.class, () -> userController.register(email,password,name,lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber));
+    }
+
+    @Test
+    void register_invalidBirthDate_failedRegistration() {
+        configureRegisterMockForSuccess();
+        try {
+            doThrow(Exception.class).when(utils).validate_birth_date(any());
+        }
+        catch (Exception e) {
+            fail("Unexpected exception when configuring the mock: " + e.getMessage());
+        }
+        assertThrows(Exception.class, () -> userController.register(email,password,name,lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber));
+    }
+
+    @Test
+    void register_invalidGender_failedRegistration() {
+        configureRegisterMockForSuccess();
+        try {
+            doThrow(Exception.class).when(utils).validate_gender(anyString());
+        }
+        catch (Exception e) {
+            fail("Unexpected exception when configuring the mock: " + e.getMessage());
+        }
+        assertThrows(Exception.class, () -> userController.register(email,password,name,lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber));
+    }
+
+    @Test
+    void register_invalidScooterType_failedRegistration() {
+        configureRegisterMockForSuccess();
+        try {
+            doThrow(Exception.class).when(utils).validate_scooter_type(anyString());
+        }
+        catch (Exception e) {
+            fail("Unexpected exception when configuring the mock: " + e.getMessage());
+        }
+        assertThrows(Exception.class, () -> userController.register(email,password,name,lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber));
+    }
+
+    @Test
+    void register_invalidLicenseIssueDate_failedRegistration() {
+        configureRegisterMockForSuccess();
+        try {
+            doThrow(Exception.class).when(utils).validate_license_issue_date(any());
+        }
+        catch (Exception e) {
+            fail("Unexpected exception when configuring the mock: " + e.getMessage());
+        }
+        assertThrows(Exception.class, () -> userController.register(email,password,name,lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber));
+    }
+
+    private void configureRegisterMockForSuccess() {
+        try {
+            doNothing().when(utils).emailValidCheck(anyString());
+            doNothing().when(utils).passwordValidCheck(anyString());
+            doNothing().when(utils).validate_phone_number(anyString());
+            doNothing().when(utils).validate_birth_date(any());
+            doNothing().when(utils).validate_gender(anyString());
+            doNothing().when(utils).validate_scooter_type(anyString());
+            doNothing().when(utils).validate_license_issue_date(any());
+            when(userRepository.getUser(anyString())).thenReturn(null);
+        }
+        catch (Exception e) {
+            fail("Unexpected exception when configuring the mock: " + e.getMessage());
+        }
     }
 }

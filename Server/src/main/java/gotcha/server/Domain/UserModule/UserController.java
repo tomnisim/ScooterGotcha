@@ -41,18 +41,17 @@ public class UserController implements IUserController {
         this.errorLogger = errorLogger;
     }
 
-
     public void load() {
 
     }
-    public void add_first_admin(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender) throws Exception {
-        // TODO: remove comment
+
+    public void add_first_admin(String userEmail, String name, String lastName, String password, String phoneNumber, LocalDate birthDay, String gender) throws Exception {
+        // TODO: 3/26/2023 : Remove comment 
         //verify_user_information(userEmail, password, phoneNumber, birthDay, gender);
         var passwordToken = passwordManager.hash(password);
-        var admin = new Admin(userEmail, passwordToken, phoneNumber, birthDay, gender, null);
+        var admin = new Admin(userEmail, name, lastName, passwordToken, phoneNumber, birthDay, gender, null);
         userRepository.addUser(admin);
     }
-
     /**
      * Returns the user with the give {userEmail}, throws exception if not found
      *
@@ -71,7 +70,6 @@ public class UserController implements IUserController {
 
     /**
      * Returns a list of all users
-     *
      * @return
      */
     public List<User> get_all_users() {
@@ -80,9 +78,10 @@ public class UserController implements IUserController {
 
     /**
      * Registers a new user, throws exception if user already exists or one of his credentials is invalid
-     *
      * @param userEmail
      * @param password
+     * @param name
+     * @param lastName
      * @param phoneNumber
      * @param birthDay
      * @param gender
@@ -91,7 +90,7 @@ public class UserController implements IUserController {
      * @return
      * @throws UserException
      */
-    public Boolean register(String userEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate, String raspberryPiSerialNumber) throws Exception {
+    public Boolean register(String userEmail, String password, String name, String lastName, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate, String raspberryPiSerialNumber) throws Exception {
         var user = userRepository.getUser(userEmail);
         if (user != null) {
             throw new UserAlreadyExistsException("User with email :" + userEmail + " alerady exists");
@@ -100,15 +99,14 @@ public class UserController implements IUserController {
         verify_user_information(userEmail, password, phoneNumber, birthDay, gender, scooterType, licenceIssueDate);
 
         String passwordToken = passwordManager.hash(password);
-        User newUser = new Rider(userEmail, passwordToken, phoneNumber, birthDay, gender, scooterType, licenceIssueDate, raspberryPiSerialNumber);
-        userRepository.addUser(newUser);
+        user = new Rider(userEmail, name, lastName, passwordToken, phoneNumber, birthDay, gender, scooterType, licenceIssueDate, raspberryPiSerialNumber);
+        userRepository.addUser(user);
         usersEmailByRaspberryPi.put(raspberryPiSerialNumber, userEmail);
         return true;
     }
 
     /**
      * Login user with email {userEmail}, throws exception if user not found or invalid password
-     *
      * @param userEmail
      * @param password
      * @throws Exception
@@ -116,22 +114,12 @@ public class UserController implements IUserController {
     public User login(String userEmail, String password) throws Exception {
         var user = userRepository.getUser(userEmail);
         if (user == null) {
-            var message = "invalid login: user with email" + userEmail + " not found";
-            errorLogger.add_log(message);
-            throw new UserNotFoundException(message);
+            throw new UserNotFoundException("invalid login: user with email" + userEmail + " not found");
         }
         if (!passwordManager.authenticate(password, user.get_password_token())) {
-            var message = "password is incorrect for user with email " + userEmail;
-            errorLogger.add_log(message);
-            throw new Exception(message);
+            throw new Exception("password is incorrect for user with email " + userEmail);
         }
-        try {
-            user.login();
-            serverLogger.add_log("Successfully logged in user with email" + userEmail);
-        } catch (Exception e) {
-            errorLogger.add_log(e.getMessage());
-            throw e;
-        }
+        user.login();
         return user;
     }
 
@@ -151,7 +139,6 @@ public class UserController implements IUserController {
 
     /**
      * Logout user, throws exception if user not found
-     *
      * @param userEmail
      * @throws UserNotFoundException
      */
@@ -166,17 +153,15 @@ public class UserController implements IUserController {
     /**
      * Appoints a new admin, throws exception if user eamil already exists or the appointing admin is not admin
      * new admin needs to have an email that is not already registered in the system
-     *
      * @param newAdminEmail
      * @param appointingAdminEmail
      * @throws Exception
      */
-    public void appoint_new_admin(String newAdminEmail, String password, String phoneNumber, LocalDate birthDay, String gender, String appointingAdminEmail) throws Exception {
+    public void appoint_new_admin(String newAdminEmail, String name, String lastName, String password, String phoneNumber, LocalDate birthDay, String gender, String appointingAdminEmail) throws Exception {
         var newAdmin = userRepository.getUser(newAdminEmail);
         if (newAdmin != null) {
             throw new Exception("appointed admin email: " + appointingAdminEmail + " already exists");
         }
-
         verify_user_information(newAdminEmail, password, phoneNumber, birthDay, gender);
         var appointingAdmin = userRepository.getUser(appointingAdminEmail);
         if (appointingAdmin == null) {
@@ -187,7 +172,7 @@ public class UserController implements IUserController {
         }
 
         var passwordToken = passwordManager.hash(password);
-        newAdmin = new Admin(newAdminEmail, passwordToken, phoneNumber, birthDay, gender, (Admin) appointingAdmin);
+        newAdmin = new Admin(newAdminEmail, name, lastName, passwordToken, phoneNumber, birthDay, gender, (Admin) appointingAdmin);
         userRepository.addUser(newAdmin);
     }
 
@@ -333,7 +318,6 @@ public class UserController implements IUserController {
                 user.notify_user(notification);
             }
         }
-
-
     }
+
 }
