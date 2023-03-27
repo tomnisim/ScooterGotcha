@@ -82,80 +82,7 @@ public class Facade {
         }
     }
 
-    // PROGRAMMER
-     
-    public Response set_server_config(UserContext userContext) {
-        return null;
-    }
 
-     
-    public Response set_rp_config(UserContext userContext) {
-        return null;
-    }
-
-     
-    public Response view_error_logger(UserContext userContext) {
-        Response response = null;
-        try{
-            check_user_is_admin_and_logged_in(userContext);
-            String logger = error_logger.toString();
-            String logger_message = "user( "+loggedUser.get_email()+ ") view error logger";
-            response = new Response(logger, logger_message);
-            serverLogger.add_log(logger_message);
-
-        }
-        catch (Exception e){
-            response = Utils.createResponse(e);
-            error_logger.add_log(e.getMessage());
-        }
-        return response;
-    }
-
-     
-    public Response view_system_logger(UserContext userContext) {
-        return null;
-    }
-
-     
-    public Response view_server_logger(UserContext userContext) {
-        return null;
-    }
-
-     
-    public Response reset(UserContext userContext) {
-        try{
-            check_user_is_admin_and_logged_in(userContext);
-            clear();
-
-        }
-        catch (Exception e){
-
-        }
-        return null;
-    }
-
-     
-    public Response shut_down(UserContext userContext) {
-        try{
-            check_user_is_admin_and_logged_in(userContext);
-            System.exit(800);
-
-        }
-        catch (Exception e){
-
-        }
-        return null;
-    }
-
-     
-//    public Response update_user_rate_tables(Dictionary<String, Dictionary<Integer, Integer>> tables) {
-//        return null;
-//    }
-//
-//
-//    public Response update_hazard_formula(HazardType type, Formula formula) {
-//        return null;
-//    }
 
     // USER
 
@@ -682,6 +609,110 @@ public class Facade {
 //        this.advertise_controller.reset();
 //        this.question_controller.reset();
     }
+
+
+    // PROGRAMMER
+
+
+
+    public Response reset(UserContext userContext) {
+        Response response = null;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            clear();
+            String logger_message = "admin ( "+loggedUser.get_email()+ ") reset the system";
+            response = new Response("", logger_message);
+            serverLogger.add_log(logger_message);
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+
+    public Response shut_down(UserContext userContext) {
+        Response response = null;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            System.exit(800);
+            String logger_message = "admin ( "+loggedUser.get_email()+ ") sut down the system";
+            response = new Response("", logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response set_server_config(UserContext userContext) {
+        return null;
+    }
+
+
+    public Response set_rp_config(UserContext userContext) {
+        return null;
+    }
+
+
+    public Response view_error_logger(UserContext userContext) {
+        Response response = null;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String logger = error_logger.toString();
+            String logger_message = "user( "+loggedUser.get_email()+ ") view error logger";
+            response = new Response(logger, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+
+    public Response view_system_logger(UserContext userContext) {
+        Response response = null;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String logger = serverLogger.toString(); // TODO: 26/03/2023 : change to system logger
+            String logger_message = "user( "+loggedUser.get_email()+ ") view system logger";
+            response = new Response(logger, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+
+    public Response view_server_logger(UserContext userContext) {
+        Response response = null;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String logger = serverLogger.toString();
+            String logger_message = "user( "+loggedUser.get_email()+ ") view server logger";
+            response = new Response(logger, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+
 
 
 }

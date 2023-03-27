@@ -288,6 +288,10 @@ public class ApiController implements AdminAPI, UserAPI {
         return facade.delete_user(user_email, userContext);
     }
 
+
+    // super admin API
+
+
     @RequestMapping(value = "/view_server_logger")
     @CrossOrigin
     @Override
