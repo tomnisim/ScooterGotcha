@@ -104,7 +104,7 @@ public class ApiController implements AdminAPI, UserAPI {
     @RequestMapping(value = "/get_safe_routes")
     @CrossOrigin
     @Override
-    public Response get_safe_routes(Location origin, Location destination, @SessionAttribute("userContext") UserContext userContext) {
+    public Response get_safe_routes(String origin, String destination, @SessionAttribute("userContext") UserContext userContext) {
         return facade.get_safe_routes(origin, destination, userContext);
     }
 
@@ -250,12 +250,7 @@ public class ApiController implements AdminAPI, UserAPI {
         return facade.add_award(emails,award, userContext);
     }
 
-    @RequestMapping(value = "/delete_award")
-    @CrossOrigin
-    @Override
-    public Response delete_award(int award_id, @SessionAttribute("userContext") UserContext userContext) {
-        return facade.delete_award(award_id, userContext);
-    }
+
 
 
 

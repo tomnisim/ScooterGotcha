@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -49,7 +50,6 @@ public class MainSystem {
 
     public void init_server() throws Exception {
         systemLogger.add_log("Start Init Server");
-        configuration.getAdminPassword();
         connect_to_external_services();
         create_rp_config_file();
         connect_database();
@@ -59,6 +59,7 @@ public class MainSystem {
             set_first_admin();
         this.statisticsManager.inc_connect_system_count();
         begin_instructions();
+        systemLogger.add_log("Finish Init Server");
     }
 
 
@@ -137,8 +138,10 @@ public class MainSystem {
         LocalDate BIRTH_DAY = LocalDate.of(1995, 4,19);
         String PHONE = "0546794211";
         String GENDER = "MALE";
-        Location origin = new Location(0.0,0.0);
-        Location dest = new Location(0.0,0.0);
+        BigDecimal lng = new BigDecimal("0.0");
+        BigDecimal lat = new BigDecimal("0.0");
+        Location origin = new Location(lng, lat);
+        Location dest = new Location(lng, lat);
         String city = "B7";
         LocalDateTime start_time = LocalDateTime.now();
         LocalDateTime end_time = LocalDateTime.now();

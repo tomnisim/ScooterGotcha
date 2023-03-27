@@ -24,6 +24,7 @@ import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.ExternalService.MapsAdapter;
 import gotcha.server.ExternalService.MapsAdapterImpl;
+import gotcha.server.ExternalService.MapsAdapterRealTime;
 import gotcha.server.SafeRouteCalculatorModule.Route;
 import gotcha.server.SafeRouteCalculatorModule.RoutesRetriever;
 import gotcha.server.Domain.UserModule.User;
@@ -38,7 +39,6 @@ import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.ServerLogger;
 import gotcha.server.Utils.Response;
 import gotcha.server.Utils.Utils;
-import jdk.jshell.spi.ExecutionControl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -49,7 +49,6 @@ import java.util.*;
 
 @Component
 public class Facade {
-    private MapsAdapter mapsAdapter;
     private ErrorLogger error_logger;
     private ServerLogger serverLogger;
     private IQuestionController question_controller;
@@ -57,9 +56,6 @@ public class Facade {
     private IUserController user_controller;
     private IAdvertiseController advertise_controller;
     private IHazardController hazard_controller;
-    private User loggedUser;
-    // TODO: 30/12/2022 : remove // after open class "Route"
-//    private RoutesRetriever routes_retriever;
     private StatisticsManager statisticsManager;
     private RoutesRetriever routes_retriever;
    
@@ -75,6 +71,7 @@ public class Facade {
         this.statisticsManager = statisticsManager;
 		// todo : maybe move to the input
 		MapsAdapter mapsAdapter = new MapsAdapterImpl();
+//		MapsAdapter mapsAdapter = new MapsAdapterRealTime();
         this.routes_retriever = new RoutesRetriever(mapsAdapter, hazardController, config);
     }
 
@@ -255,14 +252,13 @@ public class Facade {
 
 
 
-    public Response get_safe_routes(Location origin, Location destination, UserContext userContext) {
+    public Response get_safe_routes(String origin, String destination, UserContext userContext) {
         Response response = null;
         // TODO: 03/03/2023 : Tom - have to get 3 routes from Google Maps, find all the hazards in each route,
         //  sum the rating of each hazard by hazard rate calculator
         try {
             check_user_is_logged_in(userContext);
             List<Route> routeList = this.routes_retriever.fetch_safe_routes(origin, destination);
-            // int ride_id = this.rides_controller.start_ride(user);
             String logger_message = "user( "+userContext.get_email()+ ") got routes from: " + origin.toString() + ", to: "+destination.toString();
             response = new Response(routeList, logger_message);
             serverLogger.add_log(logger_message);
@@ -605,8 +601,9 @@ public class Facade {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
             Advertise advertise = this.advertise_controller.add_advertise(final_date, owner, message, photo, url);
-            String logger_message = "admin add new advertise (" + owner+ ")";
+            String logger_message = "admin("+admin_email+"" +") add new advertise (" + owner+ ")";
             response = new Response(advertise.getId(), logger_message);
             serverLogger.add_log(logger_message);
 
@@ -618,8 +615,7 @@ public class Facade {
         return response;
     }
 
-    // TODO: 3/26/2023 : Need to implement this method 
-    public Response delete_award(int award_id, UserContext userContext){return null;}
+
 
     public void clear() {
         // TODO: 01/03/2023 : clear all the data in instances. 
@@ -639,8 +635,9 @@ public class Facade {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
             clear();
-            String logger_message = "admin ( "+loggedUser.get_email()+ ") reset the system";
+            String logger_message = "admin ( "+admin_email+ ") reset the system";
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);
         }
@@ -656,8 +653,9 @@ public class Facade {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
             System.exit(800);
-            String logger_message = "admin ( "+loggedUser.get_email()+ ") sut down the system";
+            String logger_message = "admin ( "+admin_email+ ") sut down the system";
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);
 
@@ -683,8 +681,9 @@ public class Facade {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
             String logger = error_logger.toString();
-            String logger_message = "user( "+loggedUser.get_email()+ ") view error logger";
+            String logger_message = "admin( "+admin_email+ ") view error logger";
             response = new Response(logger, logger_message);
             serverLogger.add_log(logger_message);
 
@@ -701,8 +700,9 @@ public class Facade {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
             String logger = serverLogger.toString(); // TODO: 26/03/2023 : change to system logger
-            String logger_message = "user( "+loggedUser.get_email()+ ") view system logger";
+            String logger_message = "admin( "+admin_email+ ") view system logger";
             response = new Response(logger, logger_message);
             serverLogger.add_log(logger_message);
 
@@ -719,8 +719,9 @@ public class Facade {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
             String logger = serverLogger.toString();
-            String logger_message = "user( "+loggedUser.get_email()+ ") view server logger";
+            String logger_message = "admin( "+admin_email+ ") view server logger";
             response = new Response(logger, logger_message);
             serverLogger.add_log(logger_message);
 

@@ -27,7 +27,7 @@ public interface UserAPI {
     Response view_user_rides_history(@SessionAttribute("userContext") UserContext userContext);
     Response add_user_question(String message, @SessionAttribute("userContext") UserContext userContext);
     Response view_all_user_questions(@SessionAttribute("userContext") UserContext userContext);
-    Response get_safe_routes(Location origin, Location destination, @SessionAttribute("userContext") UserContext userContext);
+    Response get_safe_routes(String origin, String destination, @SessionAttribute("userContext") UserContext userContext);
     Response view_all_advertisement(@SessionAttribute("userContext") UserContext userContext);
 
     // RP API - this methods should not check if the user is logged in.

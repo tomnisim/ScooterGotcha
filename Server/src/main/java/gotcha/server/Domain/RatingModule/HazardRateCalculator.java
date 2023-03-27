@@ -28,7 +28,7 @@ public class HazardRateCalculator implements IHazardRateCalculator {
 
     public HazardRateCalculator() {
         this.formulas = new Hashtable<HazardType, Formula>();
-        //this.set_formulas();
+        this.set_formulas();
     }
 
 
@@ -43,14 +43,15 @@ public class HazardRateCalculator implements IHazardRateCalculator {
     public double rate_hazard(StationaryHazard hazard){
         Formula formula = formulas.get(hazard.getType());
         // TODO: 3/26/2023 : Remove comment (null exception was thrown) 
-        return 5;
-        //return formula.evaluate(hazard.getSize());
+//        return 5;
+        return formula.evaluate(hazard.getSize());
     }
 
     /**
      * this method reads a txt file and config formulas.
      */
 
+    // TODO: 27/03/2023 : test
     @Override
     public void set_formulas() {
         try {

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface MapsAdapter {
     boolean handshake();
-    List<Route> get_routes(Location source, Location destination, int number_of_routes);
+    List<Route> get_routes(String source, String destination, int number_of_routes);
 
 }
