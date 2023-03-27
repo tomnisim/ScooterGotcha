@@ -416,7 +416,6 @@ public class Facade {
         Response response;
         try{
             check_user_is_admin_and_logged_in(userContext);
-            List<String> stats = new LinkedList<>(); // TODO: 04/01/2023 : implement statistic module
             Statistic statistics = this.statisticsManager.get_system_statistics(user_controller.get_all_users());
             String logger_message = "admin view statistics";
             response = new Response(statistics, logger_message);
