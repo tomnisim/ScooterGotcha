@@ -41,7 +41,6 @@ public class UserController implements IUserController {
         this.errorLogger = errorLogger;
     }
 
-
     public void load() {
 
     }

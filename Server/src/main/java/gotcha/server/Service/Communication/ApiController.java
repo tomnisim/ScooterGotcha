@@ -10,10 +10,7 @@ import gotcha.server.Service.UserContext;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
@@ -60,8 +57,8 @@ public class ApiController implements AdminAPI, UserAPI, ProgrammerAPI {
     @RequestMapping(value = "/logout")
     @CrossOrigin
     @Override
-    public Response logout(HttpSession session) {
-        Response response = facade.logout();
+    public Response logout(HttpSession session, @SessionAttribute("userContext") UserContext userContext) {
+        Response response = facade.logout(userContext);
         session.removeAttribute(USER_CONTEXT_ATTRIBUTE_NAME);
         return response;
     }

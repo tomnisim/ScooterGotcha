@@ -49,7 +49,6 @@ public class Facade {
     private AdvertiseController advertise_controller;
     private HazardController hazard_controller;
     private StatisticsManager statisticsManager;
-    private User loggedUser;
     private RoutesRetriever routes_retriever;
    
     @Autowired
@@ -99,10 +98,9 @@ public class Facade {
         try{
             check_user_is_admin_and_logged_in(userContext);
             String logger = error_logger.toString();
-            String logger_message = "user( "+loggedUser.get_email()+ ") view error logger";
+            String logger_message = "user( "+userContext.get_email()+ ") view error logger";
             response = new Response(logger, logger_message);
             serverLogger.add_log(logger_message);
-
         }
         catch (Exception e){
             response = Utils.createResponse(e);
@@ -196,15 +194,14 @@ public class Facade {
         return response;
     }
 	
-    public Response logout() {
+    public Response logout(UserContext userContext) {
         Response response = null;
         try {
-            String email = this.loggedUser.get_email();
+            String email = userContext.get_email();
             user_controller.logout(email);
             String logger_message = "User's (" + email + ")  has been logout successfully.";
             response = new Response<>("", logger_message);
             serverLogger.add_log(logger_message);
-            this.loggedUser = null;
             this.statisticsManager.inc_logout_count();
 
         }
@@ -221,8 +218,8 @@ public class Facade {
         Response response = null;
         try {
             check_user_is_logged_in(userContext);
-            user_controller.change_password(loggedUser.get_email(), old_password, password);
-            String logger_message = "User's (" + loggedUser.get_email() + ")  password has been changed successfully.";
+            user_controller.change_password(userContext.get_email(), old_password, password);
+            String logger_message = "User's (" + userContext.get_email() + ")  password has been changed successfully.";
             response = new Response<>(password, logger_message);
             serverLogger.add_log(logger_message);
         }
@@ -237,7 +234,7 @@ public class Facade {
         Response response = null;
         try{
             check_user_is_logged_in(userContext);
-            String user_email = loggedUser.get_email();
+            String user_email = userContext.get_email();
             int user_id = 0; // TODO: 04/01/2023 : get id from logged user -> email not id!!
             List<Ride> rides = this.rides_controller.get_rides_by_email(user_email);
             String logger_message = user_email+ " view rides history";
@@ -255,9 +252,9 @@ public class Facade {
         Response response = null;
         try{
             check_user_is_logged_in(userContext);
-            String user_email = this.loggedUser.get_email();
+            String user_email = userContext.get_email();
             user_controller.send_question_to_admin(user_email, message);
-            String logger_message = loggedUser.get_email() + " add user question";
+            String logger_message = user_email + " add user question";
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);
 
@@ -272,7 +269,7 @@ public class Facade {
         Response response = null;
         try{
             check_user_is_logged_in(userContext);
-            String user_email = loggedUser.get_email();
+            String user_email = userContext.get_email();
             List<String> questions = question_controller.get_all_user_questions(user_email);
             String logger_message = user_email+ " view all user questions";
             response = new Response(questions, logger_message);
@@ -290,7 +287,7 @@ public class Facade {
         try{
             check_user_is_logged_in(userContext);
             List<String> advs = advertise_controller.get_all_advertisements_for_user();
-            String logger_message = "user( "+loggedUser.get_email()+ ") view all advertisements";
+            String logger_message = "user( "+userContext.get_email()+ ") view all advertisements";
             response = new Response(advs, logger_message);
             serverLogger.add_log(logger_message);
 
@@ -319,7 +316,7 @@ public class Facade {
             check_user_is_logged_in(userContext);
             List<Route> routeList = this.routes_retriever.fetch_safe_routes(origin, destination);
             // int ride_id = this.rides_controller.start_ride(user);
-            String logger_message = "user( "+loggedUser.get_email()+ ") got routes from: " + origin.toString() + ", to: "+destination.toString();
+            String logger_message = "user( "+userContext.get_email()+ ") got routes from: " + origin.toString() + ", to: "+destination.toString();
             response = new Response(routeList, logger_message);
             serverLogger.add_log(logger_message);
         }
@@ -335,8 +332,8 @@ public class Facade {
         Response response = null;
         try{
             check_user_is_logged_in(userContext);
-            Collection<Notification> notifications = loggedUser.get_notifications();
-            String logger_message = "user( "+loggedUser.get_email()+ ") view his notifications";
+            Collection<Notification> notifications = userContext.get_notifications();
+            String logger_message = "user( "+userContext.get_email()+ ") view his notifications";
             response = new Response(notifications, logger_message);
             serverLogger.add_log(logger_message);
 
@@ -421,7 +418,7 @@ public class Facade {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in(userContext);
-            String admin_email = this.loggedUser.get_email();
+            String admin_email = userContext.get_email();
             question_controller.answer_user_question(question_id, answer, admin_email);
             String logger_message = "admin answer question : " + question_id;
             response = new Response("", logger_message);
@@ -439,7 +436,7 @@ public class Facade {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in(userContext);
-            String admin_email = this.loggedUser.get_email();
+            String admin_email = userContext.get_email();
             user_controller.notify_all_users(admin_email, message);
             String logger_message = "admin send message to all users ";
             response = new Response("", logger_message);
@@ -547,7 +544,7 @@ public class Facade {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in(userContext);
-            String admin_email = this.loggedUser.get_email();
+            String admin_email = userContext.get_email();
             user_controller.notify_users(admin_email, emails, award);
             String logger_message = "admin add awards (" + award + ") to users: "+emails;
             response = new Response("", logger_message);
@@ -587,7 +584,7 @@ public class Facade {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in(userContext);
-            String admin_email = this.loggedUser.get_email();
+            String admin_email = userContext.get_email();
             user_controller.appoint_new_admin(user_email, user_password, phoneNumber, birthDay, gender, admin_email);
             // TODO: 04/01/2023 : have to register a new user, and not change the state of existing one.
             String logger_message = "admin (" + admin_email + ")appoint new admin (" + user_email+ ")";
@@ -607,7 +604,7 @@ public class Facade {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in(userContext);
-            String admin_email = this.loggedUser.get_email();
+            String admin_email = userContext.get_email();
             user_controller.remove_admin_appointment(user_email, admin_email);
             // TODO: 04/01/2023 : have to register a new user, and not change the state of existing one.
             String logger_message = "admin (" + admin_email + ")remove appoint of admin (" + user_email + ")";
@@ -643,7 +640,7 @@ public class Facade {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in(userContext);
-            String admin_email = this.loggedUser.get_email();
+            String admin_email = userContext.get_email();
             user_controller.delete_user(user_email);
             String logger_message = "admin (" + admin_email + ") delete the user (" + user_email + ")";
             response = new Response("", logger_message);
