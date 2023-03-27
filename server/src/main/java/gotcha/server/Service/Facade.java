@@ -3,14 +3,19 @@ package gotcha.server.Service;
 import gotcha.server.Config.Configuration;
 import gotcha.server.Domain.AdvertiseModule.Advertise;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
+import gotcha.server.Domain.AdvertiseModule.IAdvertiseController;
 import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.HazardType;
+import gotcha.server.Domain.HazardsModule.IHazardController;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
+import gotcha.server.Domain.QuestionsModule.IQuestionController;
 import gotcha.server.Domain.Notifications.Notification;
 import gotcha.server.Domain.QuestionsModule.Question;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
+import gotcha.server.Domain.RidesModule.IRidesController;
 import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Domain.RidesModule.RidesController;
+import gotcha.server.Domain.UserModule.IUserController;
 import gotcha.server.Domain.StatisticsModule.Statistic;
 import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.StatisticsModule.iStatisticsManager;
@@ -24,6 +29,8 @@ import gotcha.server.SafeRouteCalculatorModule.RoutesRetriever;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.ExternalService.MapsAdapter;
+import gotcha.server.Service.Communication.Requests.LoginRequest;
+import gotcha.server.Service.Communication.Requests.RegisterRequest;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserException;
 import gotcha.server.Utils.Formula;
 import gotcha.server.Utils.Location;
@@ -31,8 +38,10 @@ import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.ServerLogger;
 import gotcha.server.Utils.Response;
 import gotcha.server.Utils.Utils;
+import jdk.jshell.spi.ExecutionControl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -43,11 +52,14 @@ public class Facade {
     private MapsAdapter mapsAdapter;
     private ErrorLogger error_logger;
     private ServerLogger serverLogger;
-    private QuestionController question_controller;
-    private RidesController rides_controller;
-    private UserController user_controller;
-    private AdvertiseController advertise_controller;
-    private HazardController hazard_controller;
+    private IQuestionController question_controller;
+    private IRidesController rides_controller;
+    private IUserController user_controller;
+    private IAdvertiseController advertise_controller;
+    private IHazardController hazard_controller;
+    private User loggedUser;
+    // TODO: 30/12/2022 : remove // after open class "Route"
+//    private RoutesRetriever routes_retriever;
     private StatisticsManager statisticsManager;
     private RoutesRetriever routes_retriever;
    
@@ -157,38 +169,44 @@ public class Facade {
 
     // USER
 
-
-    public Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender) {
-        Response response = null;
-        LocalDate birth_day = LocalDate.of(1995, 4,19) ,licence_date = LocalDate.now(); // TODO: 01/03/2023 : build params
-        String scooter_type="amit", rp_serial_number = "amit"; // TODO: 01/03/2023
+    public Response<Boolean> register(RegisterRequest registerRequest) {
+        Response<Boolean> response = null;
         try {
-            user_controller.register(email, password, phone_number, birth_day, gender, scooter_type, licence_date, rp_serial_number); // TODO: 01/03/2023 : add name & last name
-            String logger_message = "User's (" + email + ")  has been registered successfully.";
-            response = new Response<>(password, logger_message);
-            serverLogger.add_log(logger_message);
-
-            this.statisticsManager.inc_register_count();
-            // TODO: 01/03/2023 : update logged user?
+            var email = registerRequest.getEmail();
+            var password = registerRequest.getPassword();
+            var gender = registerRequest.getGender();
+            var birthDate = registerRequest.getBirthDate();
+            var name = registerRequest.getName();
+            var lastName = registerRequest.getLastName();
+            var phone = registerRequest.getPhoneNumber();
+            var rpSerialNumber = registerRequest.getRaspberrySerialNumber();
+            var scooterType = registerRequest.getScooterType();
+            var licenseIssueDate = registerRequest.getLicenseIssueDate();
+            user_controller.register(email,password,name, lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber);
+            var message = "Successfully registered user with email" + email;
+            serverLogger.add_log(message);
+            response = new Response(true,message);
         }
-
-        catch (Exception e){
-            response = Utils.createResponse(e);
+        catch (Exception e) {
             error_logger.add_log(e.getMessage());
+            response = new Response(e.getMessage(), e);
         }
         return response;
     }
-
-    public Response<User> login(String email, String password) {
+    public Response<User> login(LoginRequest loginRequest) {
         Response<User> response = null;
         try {
+            var email = loginRequest.getEmail();
+            var password = loginRequest.getPassword();
             var user = user_controller.login(email,password);
             var message = String.format("User with email %s Successfully logged in", email);
+            serverLogger.add_log(message);
             response = new Response<>(user,message);
 			serverLogger.add_log(message);
 
         }
         catch (Exception e) {
+            error_logger.add_log(e.getMessage());
             response = new Response<>(e.getMessage(), e);
         }
         return response;
@@ -580,12 +598,12 @@ public class Facade {
         return response;
     }
 
-    public Response add_admin(String user_email, String user_password, String phoneNumber, LocalDate birthDay, String gender, UserContext userContext) {
+    public Response add_admin(String user_email, String name, String lastName, String user_password, String phoneNumber, LocalDate birthDay, String gender, UserContext userContext) {
         Response response = null;
         try{
             check_user_is_admin_and_logged_in(userContext);
             String admin_email = userContext.get_email();
-            user_controller.appoint_new_admin(user_email, user_password, phoneNumber, birthDay, gender, admin_email);
+            user_controller.appoint_new_admin(user_email,name, lastName, user_password, phoneNumber, birthDay, gender, admin_email);
             // TODO: 04/01/2023 : have to register a new user, and not change the state of existing one.
             String logger_message = "admin (" + admin_email + ")appoint new admin (" + user_email+ ")";
             response = new Response("", logger_message);
@@ -670,6 +688,9 @@ public class Facade {
         }
         return response;
     }
+
+    // TODO: 3/26/2023 : Need to implement this method 
+    public Response delete_award(int award_id, UserContext userContext){return null;}
 
     public void clear() {
         // TODO: 01/03/2023 : clear all the data in instances. 
