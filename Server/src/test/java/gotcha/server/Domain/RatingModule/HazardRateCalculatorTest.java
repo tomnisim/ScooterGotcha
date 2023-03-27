@@ -34,7 +34,6 @@ class HazardRateCalculatorTest {
     @Test
     // PoleTree: 5+(W/2)*10
     void rate_hazard_poleTree() {
-        HazardRateCalculator hazardRateCalculator = new HazardRateCalculator();
         StationaryHazard hazard = new StationaryHazard(5, 6, location, city, type1, size);
         double answer = hazard.getRate();
         assertEquals(answer, 5+(size/2)*10);
@@ -43,7 +42,6 @@ class HazardRateCalculatorTest {
     @Test
     //  pothole: 10+(W/2)*10
     void rate_hazard_pothole() {
-        HazardRateCalculator hazardRateCalculator = new HazardRateCalculator();
         StationaryHazard hazard = new StationaryHazard(5, 6, location, city, type2, size);
         double answer = hazard.getRate();
         assertEquals(answer, 10+(size/2)*10);
@@ -53,7 +51,6 @@ class HazardRateCalculatorTest {
     // RoadSign: (W/2)*10
     void rate_hazard_roadSign() {
         double size = 16;
-        HazardRateCalculator hazardRateCalculator = new HazardRateCalculator();
         StationaryHazard hazard = new StationaryHazard(5, 6, location, city, type3, size);
         double answer = hazard.getRate();
         assertEquals(answer, (size/2)*10);
@@ -61,6 +58,9 @@ class HazardRateCalculatorTest {
 
     @Test
     void set_formulas() {
+        HazardRateCalculator hazardRateCalculator = new HazardRateCalculator();
+        hazardRateCalculator.set_formulas();
+
     }
 
     @Test

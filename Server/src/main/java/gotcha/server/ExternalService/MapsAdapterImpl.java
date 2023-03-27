@@ -58,9 +58,6 @@ public class MapsAdapterImpl implements MapsAdapter {
      */
     private Route get_route(String origin_destination, String destination_input) {
         Route route = new Route();
-
-        // TODO: 18/03/2023 : Replace ORIGIN and DESTINATION with your desired locations
-
         StringBuffer response = new StringBuffer();
         try {
             URL url = new URL(String.format("https://maps.googleapis.com/maps/api/directions/json?origin=%s&destination=%s&mode=%s&key=%s",

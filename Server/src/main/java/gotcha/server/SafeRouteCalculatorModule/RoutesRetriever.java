@@ -4,6 +4,8 @@ import gotcha.server.Config.Configuration;
 import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.ExternalService.MapsAdapter;
+import gotcha.server.ExternalService.MapsAdapterImpl;
+import gotcha.server.ExternalService.MapsAdapterRealTime;
 import gotcha.server.Utils.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,11 +19,18 @@ public class RoutesRetriever {
     private final Configuration configuration;
 
     @Autowired
-    public RoutesRetriever(MapsAdapter maps_implementation,HazardController hazardController, Configuration configuration)
+    public RoutesRetriever(HazardController hazardController, Configuration configuration)
     {
-        this.google_maps = maps_implementation; // TODO - fetch google maps class properly
         this.configuration = configuration;
         this.hazard_controller = hazardController;
+        if (configuration.getMapsAdapter().equals("develop"))
+        {
+            this.google_maps = new MapsAdapterImpl();
+        }
+        else
+        {
+            this.google_maps = new MapsAdapterRealTime();
+        }
 
     }
 

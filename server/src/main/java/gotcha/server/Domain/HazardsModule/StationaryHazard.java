@@ -22,7 +22,6 @@ public class StationaryHazard {
         this.setRate();
     }
 
-    // TODO: 28/12/2022 : input checks - ranges and implement tests after.
 
     public int getId() {
         return id;

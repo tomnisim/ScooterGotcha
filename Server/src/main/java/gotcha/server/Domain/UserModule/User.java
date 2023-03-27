@@ -92,7 +92,6 @@ User implements Observer {
         if (!wasAdded) {
             return false;
         }
-        // TODO: try to show the user the notification through publisher
         return true;
 
     }
@@ -110,7 +109,6 @@ User implements Observer {
     }
 
     public Collection<Notification> get_notifications(){
-        // TODO: 01/03/2023
         return this.userNotifications.values();
     }
     public Boolean is_admin() {
@@ -118,7 +116,6 @@ User implements Observer {
     }
 
     public void edit_details(String phoneNumber, String gender) {
-        // TODO: 03/03/2023 : check validate args
         this.phoneNumber = phoneNumber;
         this.gender = gender;
     }

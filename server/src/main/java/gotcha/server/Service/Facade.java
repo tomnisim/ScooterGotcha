@@ -69,10 +69,7 @@ public class Facade {
         this.advertise_controller = advertiseController;
         this.hazard_controller = hazardController;
         this.statisticsManager = statisticsManager;
-		// todo : maybe move to the input
-		MapsAdapter mapsAdapter = new MapsAdapterImpl();
-//		MapsAdapter mapsAdapter = new MapsAdapterRealTime();
-        this.routes_retriever = new RoutesRetriever(mapsAdapter, hazardController, config);
+        this.routes_retriever = new RoutesRetriever(hazardController, config);
     }
 
 

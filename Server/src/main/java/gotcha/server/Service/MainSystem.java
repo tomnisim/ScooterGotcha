@@ -37,7 +37,7 @@ public class MainSystem {
     private final MapsAdapter maps_adapter;
 
     @Autowired
-    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, MapsAdapter mapsAdapter, StatisticsManager statisticsManager){
+    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, MapsAdapterImpl mapsAdapter, StatisticsManager statisticsManager){
         this.configuration = configuration;
         this.userController = userController;
         this.hazardController = hazardController;

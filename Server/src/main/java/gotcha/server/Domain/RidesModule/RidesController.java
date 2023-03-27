@@ -23,7 +23,7 @@ public class RidesController implements IRidesController {
 
     @Override
     public void load() {
-        //TODO
+        //TODO : Database
     }
 
     /**
