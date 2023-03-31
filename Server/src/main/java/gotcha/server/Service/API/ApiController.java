@@ -1,4 +1,4 @@
-package gotcha.server.Service.Communication;
+package gotcha.server.Service.API;
 
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.UserModule.User;
