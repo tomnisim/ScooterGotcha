@@ -1,7 +1,7 @@
 package gotcha.server.Utils;
 
 public class Formula {
-    private String form;
+    private final String form;
 
     public Formula(String form){
         this.form = form;
@@ -9,7 +9,7 @@ public class Formula {
 
 
     public double evaluate(double size) {
-        String siz = size+"";
+        String siz = String.valueOf(size);
         String form1 = this.form.replace("W", siz);
         return eval(form1);
     }
