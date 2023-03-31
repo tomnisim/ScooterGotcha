@@ -25,20 +25,15 @@ public class UserController implements IUserController {
     private Map<String, String> usersEmailByRaspberryPi;
     private final iPasswordManager passwordManager;
     private final UserRepository userRepository;
-    private final ServerLogger serverLogger;
-    private final ErrorLogger errorLogger;
-
     private final IQuestionController questionController;
 
     @Autowired
-    public UserController(Utils utils, iPasswordManager passwordManager, IQuestionController questionController, UserRepository userRepository, ServerLogger serverLogger, ErrorLogger errorLogger) {
+    public UserController(Utils utils, iPasswordManager passwordManager, IQuestionController questionController, UserRepository userRepository) {
         this.utils = utils;
         this.passwordManager = passwordManager;
         this.questionController = questionController;
         this.usersEmailByRaspberryPi = new ConcurrentHashMap<>();
         this.userRepository = userRepository;
-        this.serverLogger = serverLogger;
-        this.errorLogger = errorLogger;
     }
 
     public void load() {
@@ -52,6 +47,7 @@ public class UserController implements IUserController {
         var admin = new Admin(userEmail, name, lastName, passwordToken, phoneNumber, birthDay, gender, null);
         userRepository.addUser(admin);
     }
+
     /**
      * Returns the user with the give {userEmail}, throws exception if not found
      *
@@ -70,6 +66,7 @@ public class UserController implements IUserController {
 
     /**
      * Returns a list of all users
+     *
      * @return
      */
     public List<User> get_all_users() {
@@ -78,6 +75,7 @@ public class UserController implements IUserController {
 
     /**
      * Registers a new user, throws exception if user already exists or one of his credentials is invalid
+     *
      * @param userEmail
      * @param password
      * @param name
@@ -88,25 +86,23 @@ public class UserController implements IUserController {
      * @param scooterType
      * @param licenceIssueDate
      * @return
-     * @throws UserException
+     * @throws Exception
      */
     public Boolean register(String userEmail, String password, String name, String lastName, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate, String raspberryPiSerialNumber) throws Exception {
-        var user = userRepository.getUser(userEmail);
-        if (user != null) {
-            throw new UserAlreadyExistsException("User with email :" + userEmail + " alerady exists");
-        }
-
         verify_user_information(userEmail, password, phoneNumber, birthDay, gender, scooterType, licenceIssueDate);
 
         String passwordToken = passwordManager.hash(password);
-        user = new Rider(userEmail, name, lastName, passwordToken, phoneNumber, birthDay, gender, scooterType, licenceIssueDate, raspberryPiSerialNumber);
-        userRepository.addUser(user);
+        var user = new Rider(userEmail, name, lastName, passwordToken, phoneNumber, birthDay, gender, scooterType, licenceIssueDate, raspberryPiSerialNumber);
+        var addResult = userRepository.addUser(user);
+        if (addResult != null)
+            throw new UserAlreadyExistsException(String.format("user with email: %s is already registered in the system", userEmail));
         usersEmailByRaspberryPi.put(raspberryPiSerialNumber, userEmail);
         return true;
     }
 
     /**
      * Login user with email {userEmail}, throws exception if user not found or invalid password
+     *
      * @param userEmail
      * @param password
      * @throws Exception
@@ -139,6 +135,7 @@ public class UserController implements IUserController {
 
     /**
      * Logout user, throws exception if user not found
+     *
      * @param userEmail
      * @throws UserNotFoundException
      */
@@ -153,6 +150,7 @@ public class UserController implements IUserController {
     /**
      * Appoints a new admin, throws exception if user eamil already exists or the appointing admin is not admin
      * new admin needs to have an email that is not already registered in the system
+     *
      * @param newAdminEmail
      * @param appointingAdminEmail
      * @throws Exception

@@ -125,7 +125,7 @@ class UserControllerTest {
     void register_userAlreadyExists_failedRegisration() {
         configureRegisterMockForSuccess();
         try {
-            when(userRepository.getUser(anyString())).thenReturn(new Rider());
+            when(userRepository.addUser(any())).thenReturn(new Rider());
         }
         catch (Exception e) {
             fail("Unexpected exception when configuring the mock: " + e.getMessage());

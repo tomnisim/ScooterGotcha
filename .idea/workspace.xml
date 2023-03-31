@@ -6,14 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c0e87fe9-84f7-4d38-a9b5-ab0a83852605" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/IUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/IUserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/AdminAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/AdminAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/UserAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/UserAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/ApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/ApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/Requests/RegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/Requests/RegisterRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Service/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Service/Facade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/UserModule/UserControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/UserModule/UserControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,17 +41,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;spring.boot&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "settings.editor.selected.configurable": "spring.boot",
+    "spring.configuration.checksum": "cf1e8c14e54505f60aa10ceb8d5d8ab3"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -73,7 +70,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.ServerApplication (1)">
+  <component name="RunManager" selected="JUnit.UserControllerTest.register_userAlreadyExists_failedRegisration">
     <configuration name="UserControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
@@ -137,6 +134,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="UserControllerTest.register_userAlreadyExists_failedRegisration" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gotcha.server.Domain.UserModule.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
+      <option name="METHOD_NAME" value="register_userAlreadyExists_failedRegisration" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ServerApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="server" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="gotcha.server.ServerApplication" />
@@ -154,6 +167,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.UserControllerTest.register_userAlreadyExists_failedRegisration" />
         <item itemvalue="JUnit.UserControllerTest" />
         <item itemvalue="JUnit.UserControllerTest.login_userAlreadyLoggedIn_failedLogin" />
         <item itemvalue="JUnit.UserControllerTest.login_userDoesNotExist_failedLogin" />
@@ -174,6 +188,7 @@
       <workItem from="1672739143663" duration="15000" />
       <workItem from="1672739687047" duration="398000" />
       <workItem from="1672756109577" duration="994000" />
+      <workItem from="1680268062688" duration="1146000" />
     </task>
     <servers />
   </component>
@@ -201,32 +216,32 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java</url>
-          <line>105</line>
+          <line>100</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/ApiController.java</url>
-          <line>111</line>
+          <line>110</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/ApiController.java</url>
-          <line>46</line>
+          <line>45</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/ApiController.java</url>
-          <line>88</line>
+          <line>87</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/ApiController.java</url>
-          <line>87</line>
+          <line>86</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/ApiController.java</url>
-          <line>73</line>
+          <line>72</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
