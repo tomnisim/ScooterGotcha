@@ -40,13 +40,17 @@ public class Ride {
     private void create_riding_actions(String riding_actions_rp) {
         // TODO - check how the riding action accepted from RP
         this.actions = new ArrayList<>();
-        String[] separated_riding_actions_rp = riding_actions_rp.split(""); // TODO: 03/01/2023 add the separator
+        String[] separated_riding_actions_rp = riding_actions_rp.split(":"); // TODO: 03/01/2023 add the separator
         for (String riding_action_rp : separated_riding_actions_rp)
         {
             // TODO: 03/01/2023 check for the type - brake/sharpTurn
             // crete RidingAction from RP riding action
-            RidingAction ridingAction = new Brake(12.0, 6.0);
-            this.actions.add(ridingAction);
+            if (riding_action_rp.equals("1"))
+            {
+                RidingAction ridingAction = new Brake(12.0, 6.0);
+                this.actions.add(ridingAction);
+            }
+
         }
     }
 
