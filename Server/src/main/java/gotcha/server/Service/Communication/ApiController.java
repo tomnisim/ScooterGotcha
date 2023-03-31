@@ -29,6 +29,11 @@ public class ApiController implements AdminAPI, UserAPI {
 
     }
 
+    @RequestMapping(value = "/test")
+    @CrossOrigin
+    public void test() {
+        System.out.println("Test");
+    }
 
     /**
      * this method will create a new facade for the connection.
