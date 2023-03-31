@@ -1,5 +1,7 @@
 package gotcha.server.Domain.AdvertiseModule;
 
+import gotcha.server.Utils.Utils;
+
 import java.time.LocalDateTime;
 
 public class Advertise {
@@ -36,7 +38,6 @@ public class Advertise {
     }
 
 
-// TODO: 28/12/2022 : check inputs and set ranges, test after it.
 
     public int getId() {
         return id;
@@ -86,7 +87,9 @@ public class Advertise {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(String url) throws Exception {
+        if (!Utils.isValidURL(url))
+            throw new IllegalArgumentException("illegal url");
         this.url = url;
     }
 
@@ -98,7 +101,9 @@ public class Advertise {
         return users_clicks;
     }
 
-    public void setUsers_clicks(int users_clicks) {
+    public void setUsers_clicks(int users_clicks) throws Exception {
+        if (users_clicks < 0)
+            throw new IllegalArgumentException("users clicks must be non-negative");
         this.users_clicks = users_clicks;
     }
 

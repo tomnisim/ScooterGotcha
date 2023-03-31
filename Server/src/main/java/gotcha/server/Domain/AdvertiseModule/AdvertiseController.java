@@ -31,7 +31,7 @@ public class AdvertiseController implements IAdvertiseController {
     }
 
     @Override
-    public void update_advertise(int advertise_id, LocalDateTime final_date, String owner, String message, String photo, String url){
+    public void update_advertise(int advertise_id, LocalDateTime final_date, String owner, String message, String photo, String url) throws Exception {
         Advertise advertise = this.advertise_list.get(advertise_id);
         advertise.setFinal_date(final_date);
         advertise.setOwner(owner);

@@ -4,6 +4,9 @@ import gotcha.server.Utils.Logger.SystemLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
@@ -265,5 +268,14 @@ public class Utils {
 
         //convert String to LocalDate
         return LocalDate.parse(date, formatter);
+    }
+
+    public static boolean isValidURL(String url) {
+        try {
+            new URL(url).toURI();
+            return true;
+        } catch (MalformedURLException | URISyntaxException e) {
+            return false;
+        }
     }
 }

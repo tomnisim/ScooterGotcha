@@ -31,13 +31,9 @@ public class HazardController implements IHazardController {
 
     public void add_hazard(int ride_id, Location location, String city, HazardType type, double size){
         int hazard_id = this.id_counter.incrementAndGet();
-        StationaryHazard hazard = this.find_hazard_if_exist(location, city, type);
-        if (hazard != null)
-            this.update_hazard(hazard, size);
-        else{
-            StationaryHazard hazard_to_add = new StationaryHazard(hazard_id, ride_id, location, city, type, size);
-            this.stationaryHazardsList.put(hazard_id, hazard_to_add);
-        }
+        StationaryHazard hazard_to_add = new StationaryHazard(hazard_id, ride_id, location, city, type, size);
+        this.stationaryHazardsList.put(hazard_id, hazard_to_add);
+
 
     }
 
@@ -104,9 +100,6 @@ public class HazardController implements IHazardController {
     }
 
 
-    // this private method will called from add_hazard / update_hazard and will update hazard type and size - will use Rating Module
-    private void rate_hazard(){}
-
 
 
     private List<StationaryHazard> get_hazards(String city){
@@ -118,10 +111,10 @@ public class HazardController implements IHazardController {
         }
         return list;
     }
-    private List<StationaryHazard> get_hazards(Location location, double radios){
+    private List<StationaryHazard> get_hazards(Location location){
         LinkedList<StationaryHazard> list = new LinkedList<>();
         for (StationaryHazard stationaryHazard : this.stationaryHazardsList.values()){
-            if (stationaryHazard.getLocation().equals(location, radios)){
+            if (stationaryHazard.getLocation().equals(location)){
                 list.add(stationaryHazard);
             }
         }
@@ -129,12 +122,10 @@ public class HazardController implements IHazardController {
     }
 
     public List<StationaryHazard> get_hazards_in_route(Route route) {
-        double radios = 0.0;
-        // TODO: 17/03/2023 : radios
         LinkedList<StationaryHazard> list = new LinkedList<>();
         for (StationaryHazard stationaryHazard : this.stationaryHazardsList.values()){
             for (Location junction : route.getJunctions()){
-                if (stationaryHazard.getLocation().equals(junction, radios)){
+                if (stationaryHazard.getLocation().equals(junction)){
                     list.add(stationaryHazard);
                 }
 

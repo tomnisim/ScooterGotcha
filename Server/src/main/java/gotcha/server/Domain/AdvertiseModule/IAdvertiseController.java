@@ -10,7 +10,7 @@ public interface IAdvertiseController {
 
     void remove_advertise(int advertise_id);
 
-    void update_advertise(int advertise_id, LocalDateTime final_date, String owner, String message, String photo, String url);
+    void update_advertise(int advertise_id, LocalDateTime final_date, String owner, String message, String photo, String url) throws Exception;
 
     List<Advertise> get_all_advertisements_for_admin();
 

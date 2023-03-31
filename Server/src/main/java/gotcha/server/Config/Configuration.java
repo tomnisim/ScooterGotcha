@@ -17,6 +17,7 @@ public class Configuration {
     private String systemEmailPassword;
     private String adminUserName;
     private String adminPassword;
+    private String mapsAdapter;
     private int numberOfRoutes;
     private int minimumPasswordLength;
     private int maximumPasswordLength;
@@ -121,6 +122,13 @@ public class Configuration {
         this.maximumPasswordLength = maximumPasswordLength;
     }
 
+    public String getMapsAdapter(){
+        return mapsAdapter;
+    }
+
+    public void setMapsAdapter(String mapsAdapter){
+        this.mapsAdapter = mapsAdapter;
+    }
     public int getMinimumDistanceAlert() {
         return minimumDistanceAlert;
     }

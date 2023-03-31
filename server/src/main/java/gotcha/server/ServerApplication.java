@@ -20,6 +20,13 @@ public class ServerApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		mainSystem.init_server();
+		try{
+			mainSystem.init_server();
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
 	}
 }

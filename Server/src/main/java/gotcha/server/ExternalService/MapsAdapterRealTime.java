@@ -3,33 +3,36 @@ package gotcha.server.ExternalService;
 import gotcha.server.SafeRouteCalculatorModule.Route;
 import gotcha.server.Utils.Location;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.net.http.HttpClient;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+
 @Component
 
-public class MapsAdapterImpl implements MapsAdapter {
+public class MapsAdapterRealTime implements MapsAdapter {
     final String mode = "bicycling";
     final String apiKey = "AIzaSyAlOyWPS8R9TY9lRqpejdUQvLKOPwDfwsE";
 
     @Override
     public boolean handshake()
     {
-        return true;
+        String origin = "Toronto";
+        String destination = "Montreal";
+        try{
+            Route test_route = this.get_route(origin, destination);
+            return test_route.getJunctions().size()==341;
+        }
+        catch (Exception e){
+            return false;
+        }
     }
 
 
@@ -98,3 +101,4 @@ public class MapsAdapterImpl implements MapsAdapter {
         return route;
     }
 }
+

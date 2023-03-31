@@ -4,6 +4,8 @@ import gotcha.server.Config.Configuration;
 import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.ExternalService.MapsAdapter;
+import gotcha.server.ExternalService.MapsAdapterImpl;
+import gotcha.server.ExternalService.MapsAdapterRealTime;
 import gotcha.server.Utils.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,39 +17,48 @@ public class RoutesRetriever {
     private final MapsAdapter google_maps;
     private final HazardController hazard_controller;
     private final Configuration configuration;
-    private static int NUMBER_OF_ROUTES ; // TODO: 28/12/2022  from config
 
     @Autowired
-    public RoutesRetriever(MapsAdapter maps_implementation,HazardController hazardController, Configuration configuration)
+    public RoutesRetriever(HazardController hazardController, Configuration configuration)
     {
-        this.google_maps = maps_implementation; // TODO - fetch google maps class properly
         this.configuration = configuration;
         this.hazard_controller = hazardController;
+        if (configuration.getMapsAdapter().equals("develop"))
+        {
+            this.google_maps = new MapsAdapterImpl();
+        }
+        else
+        {
+            this.google_maps = new MapsAdapterRealTime();
+        }
 
     }
 
     /**
      *
-     * @param source
-     * @param destination
+     * @param source - location of rider
+     * @param destination - location to navigate.
      * @return List of routs sort by safe rate - index 0 for safest route
      */
-    public List<Route> fetch_safe_routes(Location source, Location destination)
+    public List<Route> fetch_safe_routes(String source, String destination)
     {
-        List<Route> routes = this.google_maps.get_routes(source, destination, NUMBER_OF_ROUTES);
+        List<Route> routes = this.google_maps.get_routes(source, destination, configuration.getNumberOfRoutes());
         return this.rate_routes(routes);
-        //TODO - maybe return the rating for each route to show it to the rider
     }
 
+    /**
+     * @param routes from origin to dest.
+     * @return sorted list of routes by acceding hazards rate order.
+     */
     private List<Route> rate_routes(List<Route> routes) {
 
         Hashtable<Double, Route> routes_by_rating = new Hashtable<Double, Route>();
         for (Route route : routes)
         {
-            Double rate = 0.0;
+            double rate = 0.0;
             List<StationaryHazard> hazards_in_route = this.hazard_controller.get_hazards_in_route(route);
             rate = 0.0;
-            for (StationaryHazard hazard :hazards_in_route )
+            for (StationaryHazard hazard : hazards_in_route)
             {
                 rate += hazard.getRate();
             }
@@ -61,7 +72,5 @@ public class RoutesRetriever {
             sorted_routes_by_safety.add(routes_by_rating.get(rate));
         }
         return sorted_routes_by_safety;
-
-
     }
 }

@@ -8,7 +8,8 @@ gotcha:
   system_email_password: "123456"
   admin_user_name: "admin@gmail.com"
   admin_password: "admin"
-  number_of_routes: 5
+  mapsAdapter: "develop"
+  number_of_routes: 1
   minimum_password_length: 4
   maximum_password_length: 14
   minimum_distance_alert: 20

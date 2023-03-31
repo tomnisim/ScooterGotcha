@@ -3,7 +3,6 @@ package gotcha.server.Service.Communication;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Service.API.AdminAPI;
-import gotcha.server.Service.API.ProgrammerAPI;
 import gotcha.server.Service.API.UserAPI;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
@@ -20,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-public class ApiController implements AdminAPI, UserAPI, ProgrammerAPI {
+public class ApiController implements AdminAPI, UserAPI {
     private final Facade facade;
     private final String USER_CONTEXT_ATTRIBUTE_NAME = "userContext";
 
@@ -105,7 +104,7 @@ public class ApiController implements AdminAPI, UserAPI, ProgrammerAPI {
     @RequestMapping(value = "/get_safe_routes")
     @CrossOrigin
     @Override
-    public Response get_safe_routes(Location origin, Location destination, @SessionAttribute("userContext") UserContext userContext) {
+    public Response get_safe_routes(String origin, String destination, @SessionAttribute("userContext") UserContext userContext) {
         return facade.get_safe_routes(origin, destination, userContext);
     }
 
@@ -251,12 +250,7 @@ public class ApiController implements AdminAPI, UserAPI, ProgrammerAPI {
         return facade.add_award(emails,award, userContext);
     }
 
-    @RequestMapping(value = "/delete_award")
-    @CrossOrigin
-    @Override
-    public Response delete_award(int award_id, @SessionAttribute("userContext") UserContext userContext) {
-        return facade.delete_award(award_id, userContext);
-    }
+
 
 
 
@@ -294,6 +288,10 @@ public class ApiController implements AdminAPI, UserAPI, ProgrammerAPI {
     public Response delete_user(String user_email, @SessionAttribute("userContext") UserContext userContext) {
         return facade.delete_user(user_email, userContext);
     }
+
+
+    // super admin API
+
 
     @RequestMapping(value = "/view_server_logger")
     @CrossOrigin
