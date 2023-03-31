@@ -92,7 +92,7 @@ public class Facade {
             throw new UserException("user is not an admin");
         }
     }
-    
+
     // USER
 
     public Response<Boolean> register(RegisterRequest registerRequest) {
