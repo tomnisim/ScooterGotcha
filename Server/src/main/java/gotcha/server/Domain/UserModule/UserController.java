@@ -142,7 +142,7 @@ public class UserController implements IUserController {
     public void logout(String userEmail) throws Exception {
         var user = userRepository.getUser(userEmail);
         if (user == null) {
-            throw new UserNotFoundException("invalid login: user with email" + userEmail + " not found");
+            throw new UserNotFoundException("invalid logout: user with email" + userEmail + " not found");
         }
         user.logout();
     }
