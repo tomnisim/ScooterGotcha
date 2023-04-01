@@ -14,6 +14,7 @@ export class LoginApi {
           };
         return axios.post(LOGIN_PATH,data)
             .then(async (res) => {
+                alert("test");
                 return new Response(res.data);
             })
             .catch(res => {
