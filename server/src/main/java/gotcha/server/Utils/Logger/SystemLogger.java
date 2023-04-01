@@ -6,32 +6,11 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 @Component
-public class SystemLogger {
+public class SystemLogger extends GeneralLogger {
 
-    /*------------------------------------------------------ FIELDS ------------------------------------------------------*/
-    private final String logger_address = "C:\\Users\\amitm\\Desktop\\SemH\\ScooterGotcha\\Server\\logFiles\\SystemLog.txt";
-
-    private Logger logger;
-    private FileHandler handler;
-
-    /*------------------------------------------------- CLASS CONSTRUCTOR -------------------------------------------------*/
     public SystemLogger() {
-        this.logger = Logger.getLogger("System Logger");
-        try {
-//            this.handler = new FileHandler("SystemLogger.txt");
-            this.handler = new FileHandler(logger_address);
-            handler.setFormatter(new SimpleFormatter());
-            logger.addHandler(handler);
-
-        }
-        catch(Exception e){}
+        super("SystemLog");
     }
-
-    /*-------------------------------------------------- CLASS FUNCTIONS --------------------------------------------------*/
-    public void add_log(String info){
-        this.logger.info(info);
-    }
-
 
 }
 
