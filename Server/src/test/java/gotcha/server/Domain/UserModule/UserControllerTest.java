@@ -62,15 +62,13 @@ class UserControllerTest {
 
     @Test
     void login_userExists_successfullyLoggedIn() {
-        var testEmail = "test@gmail.com";
-        var testPassword = "testPassword";
         var passwordToken = "testToken";
         var user = new Rider();
         user.change_password_token(passwordToken);
-        when(userRepository.getUser(testEmail)).thenReturn(user);
-        when(passwordManager.authenticate(testPassword, passwordToken)).thenReturn(true);
+        when(userRepository.getUser(email)).thenReturn(user);
+        when(passwordManager.authenticate(password, passwordToken)).thenReturn(true);
         try{
-            var userResult = userController.login(testEmail,testPassword);
+            var userResult = userController.login(email,password);
             assertTrue(userResult != null);
             assertTrue(userResult.is_logged_in());
         }
@@ -125,7 +123,7 @@ class UserControllerTest {
     void register_userAlreadyExists_failedRegisration() {
         configureRegisterMockForSuccess();
         try {
-            when(userRepository.getUser(anyString())).thenReturn(new Rider());
+            when(userRepository.addUser(any())).thenReturn(new Rider());
         }
         catch (Exception e) {
             fail("Unexpected exception when configuring the mock: " + e.getMessage());
@@ -215,6 +213,49 @@ class UserControllerTest {
             fail("Unexpected exception when configuring the mock: " + e.getMessage());
         }
         assertThrows(Exception.class, () -> userController.register(email,password,name,lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber));
+    }
+
+    @Test
+    void logout_userNotExisting_FailedLogout() {
+        configureRegisterMockForSuccess();
+        try {
+            var email = "test@gmail.com";
+            when(userRepository.getUser(email)).thenReturn(null);
+            assertThrows(UserNotFoundException.class, () -> userController.logout(email));
+        }
+        catch (Exception e) {
+            fail("unexpected exception");
+        }
+    }
+
+    @Test
+    void logout_userAlreadyLoggedOut_FailedLogout() {
+        configureRegisterMockForSuccess();
+        try {
+            var email = "test@gmail.com";
+            var rider = new Rider();
+            when(userRepository.getUser(email)).thenReturn(rider);
+            assertThrows(Exception.class, () -> userController.logout(email));
+        }
+        catch (Exception e) {
+            fail("unexpected exception");
+        }
+    }
+
+    @Test
+    void logout_validParameters_SuccessfulLogout() {
+        configureRegisterMockForSuccess();
+        try {
+            var rider = new Rider();
+            rider.login();
+            assertTrue(rider.is_logged_in());
+            when(userRepository.getUser(email)).thenReturn(rider);
+            userController.logout(email);
+            assertFalse(rider.is_logged_in());
+        }
+        catch (Exception e) {
+            fail("unexpected exception");
+        }
     }
 
     private void configureRegisterMockForSuccess() {

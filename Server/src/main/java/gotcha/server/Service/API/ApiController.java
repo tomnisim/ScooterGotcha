@@ -64,7 +64,8 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @Override
     public Response logout(HttpSession session, @SessionAttribute("userContext") UserContext userContext) {
         Response response = facade.logout(userContext);
-        session.removeAttribute(USER_CONTEXT_ATTRIBUTE_NAME);
+        if (!response.iswas_exception())
+            session.removeAttribute(USER_CONTEXT_ATTRIBUTE_NAME);
         return response;
     }
 

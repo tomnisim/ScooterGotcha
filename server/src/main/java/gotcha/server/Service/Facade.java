@@ -65,7 +65,7 @@ public class Facade {
     @Autowired
     public Facade(UserController userController, HazardController hazardController, AdvertiseController advertiseController
             ,IAwardsController awards_controller, RidesController ridesController, QuestionController questionController,
-                  ServerLogger serverLogger, ErrorLogger errorLogger, StatisticsManager statisticsManager, Configuration config) {
+                  ServerLogger serverLogger, ErrorLogger errorLogger, StatisticsManager statisticsManager, Configuration config, RoutesRetriever routesRetriever) {
         this.error_logger = errorLogger;
         this.serverLogger = serverLogger;
         this.question_controller = questionController;
@@ -75,7 +75,7 @@ public class Facade {
         this.awards_controller = awards_controller;
         this.hazard_controller = hazardController;
         this.statisticsManager = statisticsManager;
-        this.routes_retriever = new RoutesRetriever(hazardController, config);
+        this.routes_retriever = routesRetriever;
     }
 
 
@@ -92,9 +92,6 @@ public class Facade {
             throw new UserException("user is not an admin");
         }
     }
-
-
-
 
     // USER
 
@@ -154,7 +151,7 @@ public class Facade {
         }
 
         catch (Exception e){
-            response = Utils.createResponse(e);
+            response = new Response<>(e.getMessage(),e);
             error_logger.add_log(e.getMessage());
         }
         return response;
