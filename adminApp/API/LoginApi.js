@@ -1,22 +1,23 @@
 import { Response } from "./Response";
 import {CATCH, CONNECTION_ERROR} from "./AdvertismentsApi"
-const LOGIN_PATH = "http://localhost:8080/login"
+const LOGIN_PATH = "http://localhost:5050/login"
+import axios from '../components/AxiosInstance';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-
-const instance = require('axios');
 
 export class LoginApi {
 
     login(username, password) {
-        return instance.get(LOGIN_PATH,
-        {
-            params:{email: username, password: password}
-        })
-            .then(res => {
+        const data = {
+            email: username,
+            password: password
+          };
+        return axios.post(LOGIN_PATH,data)
+            .then(async (res) => {
                 return new Response(res.data);
             })
             .catch(res => {
+                alert("in catch");
                 return new Response(1);
             });
     }
