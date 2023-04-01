@@ -17,8 +17,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HazardRateCalculator implements IHazardRateCalculator {
 
     private Dictionary<HazardType, Formula> formulas;
-    private final String formulas_txt_file_path = "C:\\Users\\Amit\\Desktop\\ScooterGotcha\\server\\src\\main\\java\\gotcha\\server\\Domain\\RatingModule\\hazard_rate_formulas.txt";
-
+//    private final String formulas_txt_file_path = "C:\\Users\\Amit\\Desktop\\ScooterGotcha\\server\\src\\main\\java\\gotcha\\server\\Domain\\RatingModule\\hazard_rate_formulas.txt";
+//    private final String formulas_txt_file_path = "\\Server\\src\\main\\java\\gotcha\\server\\Domain\\RatingModule\\hazard_rate_formulas.txt";
+    private final String formulas_txt_file_path = "C:\\Users\\amitm\\Desktop\\SemH\\ScooterGotcha\\Server\\src\\main\\java\\gotcha\\server\\Domain\\RatingModule\\hazard_rate_formulas.txt";
     private static class SingletonHolder {
         private static HazardRateCalculator instance = new HazardRateCalculator();
     }

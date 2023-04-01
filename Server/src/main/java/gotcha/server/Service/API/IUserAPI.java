@@ -1,8 +1,6 @@
 package gotcha.server.Service.API;
 
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
-import gotcha.server.Domain.RidesModule.Ride;
-import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
 import gotcha.server.Service.UserContext;
@@ -14,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface UserAPI {
+public interface IUserAPI {
 
 
     Response login(LoginRequest loginRequest, HttpSession session);

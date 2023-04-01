@@ -1,9 +1,7 @@
-package gotcha.server.Service.Communication;
+package gotcha.server.Service.API;
 
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.UserModule.User;
-import gotcha.server.Service.API.AdminAPI;
-import gotcha.server.Service.API.UserAPI;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
 import gotcha.server.Service.Facade;
@@ -19,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-public class ApiController implements AdminAPI, UserAPI {
+public class ApiController implements IAdminAPI, IUserAPI {
     private final Facade facade;
     private final String USER_CONTEXT_ATTRIBUTE_NAME = "userContext";
 
@@ -29,6 +27,11 @@ public class ApiController implements AdminAPI, UserAPI {
 
     }
 
+    @RequestMapping(value = "/test")
+    @CrossOrigin
+    public void test() {
+        System.out.println("Test");
+    }
 
     /**
      * this method will create a new facade for the connection.
