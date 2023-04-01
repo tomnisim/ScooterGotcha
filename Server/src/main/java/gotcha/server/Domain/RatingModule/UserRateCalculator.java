@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class UserRateCalculator implements IUserRateCalculator {
 
-    private final String tables_txt_file_path = "C:\\Users\\Amit\\Desktop\\ScooterGotcha\\server\\src\\main\\java\\gotcha\\server\\Domain\\RatingModule\\user_rate_tables.txt";
+    private final String tables_txt_file_path = "src\\main\\java\\gotcha\\server\\Domain\\RatingModule\\user_rate_tables.txt";
 
     private Dictionary<Integer, Integer> speed_changes_per_minuteTable;
     private Dictionary<Integer, Integer> brakes_per_minuteTable;

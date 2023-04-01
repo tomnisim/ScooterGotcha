@@ -36,7 +36,7 @@ public class ApiController implements IAdminAPI, IUserAPI {
     }
 
 
-    }
+    
 
     /**
      * this method will create a new facade for the connection.
