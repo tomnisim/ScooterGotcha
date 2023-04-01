@@ -1,7 +1,5 @@
 package gotcha.server.Utils;
 
-import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -9,8 +7,8 @@ import java.util.Objects;
 public class Location {
     private final double RADIOS = 0.01; // TODO: 31/03/2023 : move to configuration. 
     
-    private @Getter @Setter BigDecimal longitude;
-    private @Getter @Setter BigDecimal latitude;
+    private BigDecimal longitude;
+    private BigDecimal latitude;
     // TODO: 18/03/2023 : try to add city and country. 
 
     public Location(BigDecimal lng, BigDecimal lat){
@@ -30,6 +28,21 @@ public class Location {
     }
 
 
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public BigDecimal getLongitude() {
+        return longitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
+    }
 
     /**
      *
