@@ -22,8 +22,8 @@ public class UserRepository {
         return allUsers.getOrDefault(userEmail, null);
     }
 
-    public void addUser(User user) {
-        allUsers.put(user.get_email(), user);
+    public User addUser(User user) {
+        return allUsers.putIfAbsent(user.get_email(), user);
     }
 
     public void removeUser(String userEmail) throws Exception {

@@ -1,17 +1,13 @@
 package gotcha.server.Service.API;
 
-import gotcha.server.Domain.UserModule.Admin;
 import gotcha.server.Service.UserContext;
 import gotcha.server.Utils.Response;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public interface AdminAPI {
+public interface IAdminAPI {
 
     Response view_all_open_questions(@SessionAttribute("userContext") UserContext userContext);
     Response answer_user_question(int question_id, String answer, @SessionAttribute("userContext") UserContext userContext);
