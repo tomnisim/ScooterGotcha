@@ -39,6 +39,7 @@ import gotcha.server.Utils.Formula;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.ServerLogger;
+import gotcha.server.Utils.Logger.SystemLogger;
 import gotcha.server.Utils.Response;
 import gotcha.server.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,7 @@ import java.util.*;
 public class Facade {
     private ErrorLogger error_logger;
     private ServerLogger serverLogger;
+    private SystemLogger systemLogger;
     private IQuestionController question_controller;
     private IRidesController rides_controller;
     private IUserController user_controller;
@@ -65,9 +67,11 @@ public class Facade {
     @Autowired
     public Facade(UserController userController, HazardController hazardController, AdvertiseController advertiseController
             ,IAwardsController awards_controller, RidesController ridesController, QuestionController questionController,
-                  ServerLogger serverLogger, ErrorLogger errorLogger, StatisticsManager statisticsManager, Configuration config, RoutesRetriever routesRetriever) {
+
+                  ServerLogger serverLogger, ErrorLogger errorLogger, SystemLogger systemLogger, StatisticsManager statisticsManager, Configuration config, RoutesRetriever routesRetriever) {
         this.error_logger = errorLogger;
         this.serverLogger = serverLogger;
+        this.systemLogger = systemLogger;
         this.question_controller = questionController;
         this.rides_controller = ridesController;
         this.user_controller = userController;
@@ -615,7 +619,11 @@ public class Facade {
 
 
     public void clear() {
-        // TODO: 01/03/2023 : clear all the data in instances. 
+        this.error_logger.add_log("test");
+        this.serverLogger.add_log("test");
+        this.systemLogger.add_log("test");
+
+        // TODO: 01/03/2023 : clear all the data in instances.
 //        this.user_controller.reset();
 //        this.hazard_controller.reset();
 //        this.rides_controller.reset();

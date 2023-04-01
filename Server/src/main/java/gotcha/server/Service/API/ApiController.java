@@ -31,6 +31,11 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @CrossOrigin
     public void test() {
         System.out.println("Test");
+
+        this.facade.clear();
+    }
+
+
     }
 
     /**
