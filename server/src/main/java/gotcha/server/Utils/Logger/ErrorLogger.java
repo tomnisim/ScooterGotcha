@@ -16,7 +16,7 @@ import java.util.logging.SimpleFormatter;
 public class ErrorLogger {
 
     /*------------------------------------------------------ FIELDS ------------------------------------------------------*/
-
+    private final String logger_address = "C:\\Users\\amitm\\Desktop\\SemH\\ScooterGotcha\\Server\\logFiles\\ErrorLog.txt";
     private Logger logger;
     private FileHandler handler;
 
@@ -26,7 +26,7 @@ public class ErrorLogger {
         this.logger = Logger.getLogger("Error Logger");
         try {
 //            this.handler = new FileHandler("ErrorLogger.txt");
-            this.handler = new FileHandler("/LogFiles/ErrorLog.txt");
+            this.handler = new FileHandler(logger_address);
 
             handler.setFormatter(new SimpleFormatter());
             logger.addHandler(handler);

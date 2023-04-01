@@ -10,6 +10,7 @@ public class ServerLogger {
 
     /*------------------------------------------------------ FIELDS ------------------------------------------------------*/
 
+    private final String logger_address = "C:\\Users\\amitm\\Desktop\\SemH\\ScooterGotcha\\Server\\logFiles\\ServerLog.txt";
     private Logger logger;
     private FileHandler handler;
 
@@ -18,7 +19,8 @@ public class ServerLogger {
         this.logger = Logger.getLogger("Server Logger");
         try {
 //            this.handler = new FileHandler("SystemLogger.txt");
-            this.handler = new FileHandler("LogFiles/ServerLogger.txt");
+            this.handler = new FileHandler(logger_address);
+
             handler.setFormatter(new SimpleFormatter());
             logger.addHandler(handler);
 

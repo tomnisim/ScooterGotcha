@@ -9,6 +9,7 @@ import java.util.logging.SimpleFormatter;
 public class SystemLogger {
 
     /*------------------------------------------------------ FIELDS ------------------------------------------------------*/
+    private final String logger_address = "C:\\Users\\amitm\\Desktop\\SemH\\ScooterGotcha\\Server\\logFiles\\SystemLog.txt";
 
     private Logger logger;
     private FileHandler handler;
@@ -18,7 +19,7 @@ public class SystemLogger {
         this.logger = Logger.getLogger("System Logger");
         try {
 //            this.handler = new FileHandler("SystemLogger.txt");
-            this.handler = new FileHandler("LogFiles/System/SystemLog.txt");
+            this.handler = new FileHandler(logger_address);
             handler.setFormatter(new SimpleFormatter());
             logger.addHandler(handler);
 
