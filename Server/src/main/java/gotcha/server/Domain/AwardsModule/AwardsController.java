@@ -1,12 +1,14 @@
 package gotcha.server.Domain.AwardsModule;
 
 import gotcha.server.Domain.AdvertiseModule.Advertise;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Component
 public class AwardsController implements IAwardsController {
     private AtomicInteger id_counter;
     private Map<Integer, Award> award_map;
