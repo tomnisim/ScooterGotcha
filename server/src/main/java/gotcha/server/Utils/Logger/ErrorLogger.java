@@ -9,5 +9,10 @@ public class ErrorLogger extends GeneralLogger {
         super("ErrorLog");
     }
 
+    @Override
+    public void add_log(String message){
+        this.logger.severe(message);
+    }
+
 
 }
