@@ -1,8 +1,12 @@
 import * as React from 'react';
-import { View, Text, Button, StyleSheet, TextInput} from 'react-native';
+import { ImageBackground,View, Text, Button, StyleSheet, TextInput} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AdminApi } from '../API/AdminApi';
+import Table from 'rc-table';
+import Select from 'react-select'
+
+const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
 
 const adminApi = new AdminApi();
 let admins_list = []
@@ -15,6 +19,9 @@ let gender = ""
 
 let user_email_to_remove_appoint = "none"
 
+
+let admins_emails = ""
+
 const get_admins_list = async () => {
   // todo: change 5 to admin id, change params to functions.
   let response = await adminApi.view_admins();
@@ -22,12 +29,26 @@ const get_admins_list = async () => {
     admins_list = response.value
     console.log(response.value)
 
+    admins_emails = admins_list.map((item) => {
+      return (
+        {value: item._email, label: item._email}
+      );
+    })
+
+    
+    
+    console.log(admins_emails)
   }
 }
 
 
+
+
+
+
+get_admins_list()
 export default function AdminsWindow({navigation}) {
-  get_admins_list()
+  get_admins_list();
 
 
   const setText_email_to_appoint = (text) => {
@@ -41,6 +62,9 @@ export default function AdminsWindow({navigation}) {
     }
     const setText_gender = (text) => {
       gender = text;
+      console.log(gender)
+      console.log("gender changed")
+      console.log(gender)
     }
     const setText_birthday = (text) => {
       birthDay = text;
@@ -69,56 +93,69 @@ export default function AdminsWindow({navigation}) {
 
 
   return (
-    <View style={{alignItems: 'center', justifyContent: 'center' }}>
-    <Text style={{fontSize: 30, borderColor: "gray"}}><b>Admins List:</b></Text>
+    <View>
+    <ImageBackground source={background} resizeMode="cover">
+    <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>Admins List:</b></Text>
+
+    <View style={{display: 'flex', flexDirection:'row'}}>
     <View style={styles.container}>
-    {admins_list.map((item) => {
-        return (
-          <View>
-            <Text style={styles.item}>{"email: "+ item._email +", gender: "+ item._gender +", phone: "+ item._phone_number + 
-            " appointed_by: "+ item._appointed_by +", appointmentDate: " + item._appointment_date}</Text>
-          </View>
-          
-        );
-      })}
-    <View style={styles.hairline} />
-    <View style={{alignItems: 'center', justifyContent: 'center' }}>
+    <Table columns={columns} data={admins_list} tableLayout="auto"/>
+    </View>
+    <Text>    </Text>    
+    <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
     
     <TextInput
-          style={{height: 40}}
+          style={styles.textInputer}
           placeholder="User email to appoint"
           onChangeText={newText => setText_email_to_appoint(newText)}
         />
       <TextInput
-        style={{height: 40}}
+        style={styles.textInputer}
         placeholder="Password"
         onChangeText={newText => setText_password(newText)}
       />
       <TextInput
-        style={{height: 40}}
+        style={styles.textInputer}
         placeholder="Phone"
         onChangeText={newText => setText_phone(newText)}
       />
+      <Select
+        placeholder='Gender'
+        options={gender_options}
+        onChange={newText => setText_gender(newText)}
+      ></Select>
       <TextInput
-        style={{height: 40}}
-        placeholder="Gender"
-        onChangeText={newText => setText_gender(newText)}
-      />
-      <TextInput
-        style={{height: 40}}
+        style={styles.textInputer}
         placeholder="Birth Day"
         onChangeText={newText => setText_birthday(newText)}
       />
-      <Button onPress={() => add_admin()} title="Add Admin" color="#007fff"/>
-      <TextInput
-          style={{height: 40}}
-          placeholder="User email to delete appoint"
-          onChangeText={newText => setText_email_to_remove_appoint(newText)}
-        />
-      <Button onPress={() => delete_admin()} title="Delete Admin" color="#007fff"/>
+      <Button onPress={() => add_admin()} title="Add Admin" color="#841584"/>
+      <Text>  </Text>
+      <Text>  </Text>
+      <Text>  </Text>
+      <Text>  </Text>
+      <Text>  </Text>
+      <Select
+        placeholder="User email to delete appoint"
+        options={admins_emails}
+        onChange={newText => setText_gender(newText)}
+      ></Select>
+      <Button onPress={() => delete_admin()} title="Delete Admin" color="#841584"/>
     
   </View>
+  
   </View>
+  <Text> </Text>
+  <Text> </Text>
+  <Text> </Text>
+  <Text> </Text>
+  <Text> </Text>
+  <Text> </Text>
+  <Text> </Text>
+  <Text> </Text>
+  <Text> </Text>
+  <Text> </Text>
+  </ImageBackground>
   </View>
 
 );
@@ -140,27 +177,71 @@ export default function AdminsWindow({navigation}) {
 
 
 
-
-
-
-
-
-
-
-
 }
+const gender_options = [
+  {value: 'male', label: 'male'},
+  {value: 'female', label: 'female'},
+]
+const columns = [
+  {
+    title: "Email",
+    dataIndex: "_email",
+    key: "_email",
+    width: 200,
+  },
+  {
+    title: "Gender",
+    dataIndex: "_gender",
+    key: "_gender",
+    width: 200,
+  },
+  {
+    title: "Phone",
+    dataIndex: "_phone_number",
+    key: "_phone_number",
+    width: 200,
+  },
+  {
+    title: "Appointed By",
+    dataIndex: "_appointed_by",
+    key: "_appointed_by",
+    width:200,
+  },
+    {
+    title: "Appointment Date",
+    dataIndex: "_appointment_date",
+    key: "_appointment_date",
+    width:200,
+  },
+];
+
+
+
+
+
+
+
+
 
 
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 50,
+    width:1200,
+    height:500,
+    padding: 10,
+    opacity:0.5,
+    backgroundColor:'white'
   },
   hairline: {
-    backgroundColor: '#A2A2A2',
+    backgroundColor: 'black',
     height: 2,
-    width: 800
+    width: 200
+  },
+  textInputer: {
+    backgroundColor:'white',
+    opacity:0.8,
+    height: 40
   },
   item: {
     padding: 20,
