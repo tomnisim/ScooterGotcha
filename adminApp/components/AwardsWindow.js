@@ -3,9 +3,10 @@ import {ImageBackground, View, Text, Button, StyleSheet, TextInput } from 'react
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AwardsApi } from '../API/AwardsApi';
+import { UsersApi } from '../API/UsersApi';
+
 import Table from 'rc-table';
 import Select from 'react-select'
-
 
 const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
 
@@ -15,8 +16,32 @@ const awardsAPI = new AwardsApi();
 let awards_list = []
 let awards_ids_list = []
 
-let emails = ""
+let emails = []
 let award_to_add = ""
+
+
+
+
+const usersApi = new UsersApi();
+let users_emails = ""
+
+const get_users_list = async () => {
+  // todo: change 5 to admin id, change params to functions.
+  let response = await usersApi.view_users();
+  if (!response.was_exception){
+    let users_list = response.value
+    users_emails = users_list.map((item) => {
+      return (
+        {value: item._email, label: item._email}
+      );
+    })
+  }
+}
+
+
+
+
+
 
 
 
@@ -37,21 +62,24 @@ const get_awards_list = async () => {
     
 }
 
-
+get_users_list();
 get_awards_list();
 export default function AwardsWindow({navigation}) {
   get_awards_list()
+  get_users_list();
   console.log(awards_list)
 
 
-  const setText_to_emails = (text) => {
-    emails = text
+  
+  const add_to_emails = (text) => {
+    emails.push(text)
   }
   const setText_to_award_to_add = (text) => {
     award_to_add = text
   }
 
   const add_award = () => {
+    // todo : build list , or try to transfer array.
     awardsAPI.add_award(emails, award_to_add)
     get_awards_list()
   }
@@ -69,11 +97,11 @@ export default function AwardsWindow({navigation}) {
     </View>
     <Text>    </Text>    
     <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
-      <TextInput
-        style={styles.textInputer}
+      <Select
         placeholder="emails to award"
-        onChangeText={newText => setText_to_emails(newText)}
-      />
+        options={users_emails}
+        onChange = {nextText => add_to_emails(nextText.value)}>
+      </Select>
       <TextInput
         style={styles.textInputer}
         placeholder="award message"
