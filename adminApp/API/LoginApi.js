@@ -1,13 +1,17 @@
+
 import { Response } from "./Response";
+import {path} from "./Path"
 import {CATCH, CONNECTION_ERROR} from "./AdvertismentsApi"
-const LOGIN_PATH = "http://localhost:5050/login"
-import axios from '../components/AxiosInstance';
+const LOGIN_PATH = path+"login"
+import axios from '../assets/AxiosInstance';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export class LoginApi {
 
     login(username, password) {
+        alert(path)
+        alert(LOGIN_PATH)
         const data = {
             email: username,
             password: password

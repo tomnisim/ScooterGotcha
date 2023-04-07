@@ -1,11 +1,11 @@
 import { Response } from "./Response";
 import {CATCH, CONNECTION_ERROR} from "./AdvertismentsApi"
-import {session_id} from '../components/LoginWindow'
-import axios from '../components/AxiosInstance';
+import axios from '../assets/AxiosInstance';
+import {path} from "./Path"
 
-const EDIT_USER_PATH = "http://localhost:5050/edit_user"
-const DELETE_USER_PATH = "http://localhost:5050/delete_user"
-const VIEW_USER_PATH = "http://localhost:5050/view_users"
+const EDIT_USER_PATH =path+"edit_user"
+const DELETE_USER_PATH = path+"delete_user"
+const VIEW_USER_PATH = path+"view_users"
 
 
 const instance = require('axios');
