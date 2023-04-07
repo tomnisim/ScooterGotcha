@@ -33,11 +33,7 @@ public class DailyStatistic {
     private int start_day__admins;
     private int total_admins;
     private AtomicInteger online_users; // login
-
-
-
-    private AtomicInteger online_guests;
-
+    private AtomicInteger online_guests; // logout
     private AtomicInteger shut_down_events;
     private AtomicInteger reset_events;
 
@@ -302,6 +298,6 @@ public class DailyStatistic {
 
         return new DailyStatisticDAO(this.date, new_admins, total_admins, new_users, total_users, new_advertisements, total_advertisements,
                 new_awards, total_awards, new_rides, total_rides, new_users_questions, total_users_questions,
-                new_admin_answers,total_admin_answers, new_hazards, total_hazards);
+                new_admin_answers,total_admin_answers, new_hazards, total_hazards, this.online_users.get(), this.online_guests.get(),this.shut_down_events.get(),this.reset_events.get());
     }
 }

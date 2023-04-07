@@ -1,6 +1,7 @@
 package gotcha.server.Domain.StatisticsModule;
 
 import java.time.LocalDate;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DailyStatisticDAO {
 
@@ -21,9 +22,15 @@ public class DailyStatisticDAO {
     private int totalAdminAnswers;
     private int newHazards;
     private int totalHazards;
-
-    public DailyStatisticDAO(LocalDate date, int newAdmins, int totalAdmins, int newUsers, int totalUsers, int newAdvertisements, int totalAdvertisements, int newAwards, int totalAwards, int newRides, int totalRides, int newUsersQuestions, int totalUsersQuestions, int newAdminAnswers, int totalAdminAnswers, int newHazards, int totalHazards) {
-        this.date = date;
+    private int loginEvents;
+    private int logoutEvents;
+    private int shutDownEvents;
+    private int resetEvents;
+    public DailyStatisticDAO(LocalDate date, int newAdmins, int totalAdmins, int newUsers, int totalUsers, int newAdvertisements,
+                             int totalAdvertisements, int newAwards, int totalAwards, int newRides, int totalRides,
+                             int newUsersQuestions, int totalUsersQuestions, int newAdminAnswers, int totalAdminAnswers,
+                             int newHazards, int totalHazards, int loginEvents, int logoutEvents, int shutDownEvents, int resetEvents) {
+            this.date = date;
         this.newAdmins = newAdmins;
         this.totalAdmins = totalAdmins;
         this.newUsers = newUsers;
@@ -40,6 +47,10 @@ public class DailyStatisticDAO {
         this.totalAdminAnswers = totalAdminAnswers;
         this.newHazards = newHazards;
         this.totalHazards = totalHazards;
+        this.loginEvents = loginEvents;
+        this.logoutEvents = logoutEvents;
+        this.resetEvents = resetEvents;
+        this.shutDownEvents = shutDownEvents;
     }
 
     public LocalDate getDate() {
@@ -176,5 +187,37 @@ public class DailyStatisticDAO {
 
     public void setTotalHazards(int totalHazards) {
         this.totalHazards = totalHazards;
+    }
+
+    public int getLoginEvents() {
+        return loginEvents;
+    }
+
+    public void setLoginEvents(int loginEvents) {
+        this.loginEvents = loginEvents;
+    }
+
+    public int getLogoutEvents() {
+        return logoutEvents;
+    }
+
+    public void setLogoutEvents(int logoutEvents) {
+        this.logoutEvents = logoutEvents;
+    }
+
+    public int getShutDownEvents() {
+        return shutDownEvents;
+    }
+
+    public void setShutDownEvents(int shutDownEvents) {
+        this.shutDownEvents = shutDownEvents;
+    }
+
+    public int getResetEvents() {
+        return resetEvents;
+    }
+
+    public void setResetEvents(int resetEvents) {
+        this.resetEvents = resetEvents;
     }
 }
