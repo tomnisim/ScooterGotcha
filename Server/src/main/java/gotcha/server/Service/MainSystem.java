@@ -134,6 +134,36 @@ public class MainSystem {
         LocalDate birth_date = LocalDate.now();
         // TODO: 3/26/2023 : Need to add all parameters to config file
         userController.add_first_admin(configuration.getAdminUserName(), "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
+    }
+
+    /**
+     * this method will make the statistics module updated every 24 hours.
+     */
+    private void set_statistics_update_thread() {
+        try{
+            ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+            StatisticsUpdateThread statistics_update_thread = new StatisticsUpdateThread(statisticsManager);
+            executorService.scheduleAtFixedRate(statistics_update_thread, 0, 24, TimeUnit.HOURS);
+        }
+        catch (Exception e) {
+            errorLogger.add_log("fail to update statistics :"+e.getMessage());
+        }
+    }
+
+
+    private void begin_instructions() throws Exception {
+        BigDecimal lng = new BigDecimal("79.536");
+        BigDecimal lat = new BigDecimal("63.258");
+        Location origin = new Location(lng, lat);
+
+        this.hazardController.add_hazard(5, origin, "Tel Aviv", HazardType.PoleTree, 16.5);
+        this.hazardController.add_hazard(5, origin, "Tel Aviv", HazardType.RoadSign, 7);
+        this.hazardController.add_hazard(5, origin, "Tel Aviv", HazardType.RoadSign, 12);
+        this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12);
+        this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14);
+        this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3);
+        LocalDate birth_date = LocalDate.now();
+
         userController.add_first_admin("admin1@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         userController.add_first_admin("admin12@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         userController.add_first_admin("admin123@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
@@ -158,42 +188,6 @@ public class MainSystem {
         userController.add_first_admin("admin34567@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         userController.add_first_admin("admin345678@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         userController.add_first_admin("admin3456789@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-    }
-
-    /**
-     * this method will make the statistics module updated every 24 hours.
-     */
-    private void set_statistics_update_thread() {
-        try{
-            ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-            StatisticsUpdateThread statistics_update_thread = new StatisticsUpdateThread(statisticsManager);
-            executorService.scheduleAtFixedRate(statistics_update_thread, 0, 24, TimeUnit.HOURS);
-        }
-        catch (Exception e) {
-            errorLogger.add_log("fail to update statistics :"+e.getMessage());
-        }
-    }
-
-
-    private void begin_instructions() {
-        String EMAIL = "moskoga@gmail.com";
-        String PASSWORD = "123456Aa";
-        String NAME = "AMIT";
-        String LAST_NAME = "MOSKO";
-        String BIRTH_DATE = "19-04-95";
-        LocalDate BIRTH_DAY = LocalDate.of(1995, 4,19);
-        String PHONE = "0546794211";
-        String GENDER = "MALE";
-        BigDecimal lng = new BigDecimal("0.0");
-        BigDecimal lat = new BigDecimal("0.0");
-        Location origin = new Location(lng, lat);
-        Location dest = new Location(lng, lat);
-        String city = "B7";
-        LocalDateTime start_time = LocalDateTime.now();
-        LocalDateTime end_time = LocalDateTime.now();
-        StationaryHazard hazard = new StationaryHazard(5,6,origin,city, HazardType.PoleTree, 16.5);
-        ArrayList<StationaryHazard> hazards = new ArrayList<>();
-        hazards.add(hazard);
         //
 //        Facade user_facade = new Facade();
 //        Facade admin_facade = new Facade();
