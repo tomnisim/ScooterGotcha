@@ -13,7 +13,10 @@ import gotcha.server.ExternalService.MapsAdapter;
 import gotcha.server.ExternalService.MapsAdapterImpl;
 import gotcha.server.Utils.Exceptions.ExitException;
 import gotcha.server.Utils.Location;
+import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.SystemLogger;
+import gotcha.server.Utils.Threads.ConnectThread;
+import gotcha.server.Utils.Threads.StatisticsUpdateThread;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +27,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class MainSystem {
@@ -34,10 +40,11 @@ public class MainSystem {
     private final AdvertiseController advertiseController;
     private final StatisticsManager statisticsManager;
     private final SystemLogger systemLogger;
+    private final ErrorLogger errorLogger;
     private final MapsAdapter maps_adapter;
 
     @Autowired
-    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, MapsAdapterImpl mapsAdapter, StatisticsManager statisticsManager){
+    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, ErrorLogger errorLogger, MapsAdapterImpl mapsAdapter, StatisticsManager statisticsManager){
         this.configuration = configuration;
         this.userController = userController;
         this.hazardController = hazardController;
@@ -45,6 +52,7 @@ public class MainSystem {
         this.advertiseController = advertiseController;
         this.statisticsManager = statisticsManager;
         this.systemLogger = systemLogger;
+        this.errorLogger = errorLogger;
         this.maps_adapter = mapsAdapter;
     }
 
@@ -56,10 +64,11 @@ public class MainSystem {
         load_database();
         if (configuration.getFirstTimeRunning())
             set_first_admin();
-        this.statisticsManager.inc_connect_system_count();
+        set_statistics_update_thread();
         begin_instructions();
         systemLogger.add_log("Finish Init Server");
     }
+
 
 
 
@@ -125,6 +134,20 @@ public class MainSystem {
         LocalDate birth_date = LocalDate.now();
         // TODO: 3/26/2023 : Need to add all parameters to config file
         userController.add_first_admin(configuration.getAdminUserName(), "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
+    }
+
+    /**
+     * this method will make the statistics module updated every 24 hours.
+     */
+    private void set_statistics_update_thread() {
+        try{
+            ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+            StatisticsUpdateThread statistics_update_thread = new StatisticsUpdateThread();
+            executorService.scheduleAtFixedRate(statistics_update_thread, 0, 24, TimeUnit.HOURS);
+        }
+        catch (Exception e) {
+            errorLogger.add_log("fail to update statistics :"+e.getMessage());
+        }
     }
 
 

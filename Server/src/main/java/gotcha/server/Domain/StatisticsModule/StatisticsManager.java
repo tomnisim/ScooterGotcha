@@ -1,108 +1,136 @@
 package gotcha.server.Domain.StatisticsModule;
 
 
+import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
+import gotcha.server.Domain.AdvertiseModule.IAdvertiseController;
+import gotcha.server.Domain.AwardsModule.AwardsController;
+import gotcha.server.Domain.AwardsModule.IAwardsController;
+import gotcha.server.Domain.HazardsModule.HazardController;
+import gotcha.server.Domain.HazardsModule.IHazardController;
+import gotcha.server.Domain.QuestionsModule.IQuestionController;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
+import gotcha.server.Domain.RidesModule.IRidesController;
+import gotcha.server.Domain.RidesModule.RidesController;
+import gotcha.server.Domain.UserModule.IUserController;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Domain.UserModule.UserController;
-import gotcha.server.Utils.Password.PasswordManagerImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-
 @Component
 public class StatisticsManager implements iStatisticsManager {
+    private Map<LocalDate, DailyStatistic> dailyStatisticMap;
+    private DailyStatistic current_daily_statistic;
+    private GeneralStatistic generalStatistic;
 
-    private Long id;
-    private String init_time;
-    private AtomicInteger login_count;
-    private AtomicInteger logout_count;
-    private AtomicInteger connect_system_count;
-    private AtomicInteger register_count;
+    private QuestionController question_controller;
+    private IRidesController rides_controller;
+    private IUserController user_controller;
+    private IAdvertiseController advertise_controller;
+    private IAwardsController awards_controller;
+    private IHazardController hazard_controller;
 
-    public StatisticsManager() {
-        this.init_time = LocalDateTime.now().toString();
-        this.login_count = new AtomicInteger(0);
-        this.logout_count = new AtomicInteger(0);
-        this.connect_system_count = new AtomicInteger(0);
-        this.register_count = new AtomicInteger(0);
+    @Autowired
+    public StatisticsManager(UserController userController, HazardController hazardController,
+                             AdvertiseController advertiseController, IAwardsController awardsController, RidesController ridesController,
+                             QuestionController questionController) {
+        this.question_controller = questionController;
+        this.user_controller = userController;
+        this.hazard_controller = hazardController;
+        this.rides_controller = ridesController;
+        this.advertise_controller = advertiseController;
+        this.awards_controller = awardsController;
+
+
+        this.current_daily_statistic = new DailyStatistic(user_controller.view_admins().size(), question_controller.getQuestion_ids_counter() - question_controller.get_all_open_questions().size(),
+                advertise_controller.get_all_advertisements_for_admin().size(), awards_controller.view_awards().size(),
+                rides_controller.get_all_rides().size(), hazard_controller.view_hazards().size(), user_controller.get_all_users().size(), question_controller.getQuestion_ids_counter());
+
+        this.generalStatistic = new GeneralStatistic(LocalDateTime.now().toString());
+        this.dailyStatisticMap = new HashMap<>();
+        this.dailyStatisticMap.put(this.current_daily_statistic.getDate(), this.current_daily_statistic);
+
+
     }
 
-    private long get_total_minutes_system_on() {
-        return ChronoUnit.MINUTES.between(LocalDateTime.parse(init_time), LocalDateTime.now());
-    }
 
-    private long get_login_statistics() {
-        long mins = get_total_minutes_system_on();
-        if (login_count.get() == 0)
-            return 0;
-        return mins / login_count.get();
-    }
-
-    private long get_logout_statistics() {
-        long mins = get_total_minutes_system_on();
-        if (logout_count.get() == 0)
-            return 0;
-        return mins / logout_count.get();
-    }
-
-    private long get_connect_system_statistics() {
-        long mins = get_total_minutes_system_on();
-        if (connect_system_count.get() == 0)
-            return 0;
-        return mins / connect_system_count.get();
-    }
-
-    private long get_register_statistics() {
-        long mins = get_total_minutes_system_on();
-        if (register_count.get() == 0)
-            return 0;
-        return mins / register_count.get();
-    }
-
-    public void inc_login_count() {
-        this.login_count.incrementAndGet();
-    }
-
-    public void inc_logout_count() {
-        this.logout_count.incrementAndGet();
-    }
-
-    public void inc_connect_system_count() {
-        this.connect_system_count.incrementAndGet();
-    }
-
-    public void inc_register_count() {
-        this.register_count.incrementAndGet();
-    }
-
-    public Statistic get_system_statistics(List<User> allUsers) {
-        LocalDateTime init_system_time = LocalDateTime.parse(init_time);
-        long login_per_minutes = get_login_statistics();
-        long logout_per_minutes = get_logout_statistics();
-        long connect_per_minutes = get_connect_system_statistics();
-        long register_per_minutes = get_register_statistics();
-        int num_of_users = allUsers.size();
-        int num_of_online_users = 0;
-        for (User user : allUsers){
-            if (user.is_logged_in())
-                num_of_online_users++;
+    /**
+     * this method should be called every day and save the previous daily statistics.
+     */
+    @Override
+    public void update_daily_statistic() {
+        if (!LocalDate.now().isEqual(this.current_daily_statistic.getDate())){
+            // TODO: 07/04/2023 : should give initial daily data // total admins in start day
+            this.current_daily_statistic = new DailyStatistic(user_controller.view_admins().size(), question_controller.getQuestion_ids_counter() - question_controller.get_all_open_questions().size(),
+                    advertise_controller.get_all_advertisements_for_admin().size(), awards_controller.view_awards().size(),
+                    rides_controller.get_all_rides().size(), hazard_controller.view_hazards().size(), user_controller.get_all_users().size(), question_controller.getQuestion_ids_counter());
+            this.dailyStatisticMap.put(LocalDate.now(), this.current_daily_statistic);
         }
-        return new Statistic(init_system_time,login_per_minutes, logout_per_minutes, connect_per_minutes,
-                    register_per_minutes, num_of_users, num_of_online_users);
+        else {
+            this.current_daily_statistic.update(user_controller.view_admins().size(), question_controller.getQuestion_ids_counter() - question_controller.get_all_open_questions().size(),
+                    advertise_controller.get_all_advertisements_for_admin().size(), awards_controller.view_awards().size(),
+                    rides_controller.get_all_rides().size(), hazard_controller.view_hazards().size(), user_controller.get_all_users().size(), question_controller.getQuestion_ids_counter());
+        }
+        this.generalStatistic.update(user_controller.view_admins().size(), question_controller.getQuestion_ids_counter() - question_controller.get_all_open_questions().size(),
+                advertise_controller.get_all_advertisements_for_admin().size(), awards_controller.view_awards().size(),
+                rides_controller.get_all_rides().size(), hazard_controller.view_hazards().size(), user_controller.get_all_users().size(), question_controller.getQuestion_ids_counter());
 
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public DailyStatisticDAO get_current_daily_statistic() {
+        update_daily_statistic();
+        return this.current_daily_statistic.getDAO();
     }
 
-    public Long getId() {
-        return id;
+    @Override
+    public GeneralStatistic get_general_statistic() {
+        update_daily_statistic();
+        return this.generalStatistic;
     }
+
+    @Override
+    public List<DailyStatisticDAO> get_all_daily_statistic() {
+        ArrayList<DailyStatisticDAO> list_to_return = new ArrayList<>();
+        for (DailyStatistic dailyStatistic : this.dailyStatisticMap.values()){
+            list_to_return.add(dailyStatistic.getDAO());
+        }
+        return list_to_return;
+    }
+
+    @Override
+    public void inc_login_count() {
+        this.current_daily_statistic.incOnline_users();
+
+    }
+
+    @Override
+    public void inc_logout_count() {
+        this.current_daily_statistic.incOnline_guests();
+
+    }
+
+
+    @Override
+    public void inc_shut_down_count() {
+        this.current_daily_statistic.incShut_down_events();
+
+    }
+
+    @Override
+    public void inc_reset_count() {
+        this.current_daily_statistic.incReset_events();
+
+    }
+
+
 }

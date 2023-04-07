@@ -7,6 +7,7 @@ import gotcha.server.Utils.Logger.SystemLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -133,6 +134,7 @@ public class HazardController implements IHazardController {
         }
         return list;
     }
+
 
     @Override
     public List<StationaryHazard> view_hazards() {
