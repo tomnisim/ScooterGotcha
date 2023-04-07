@@ -19,4 +19,5 @@ public interface IHazardController {
 //    List<StationaryHazard> get_hazards(HazardType type);
 //    List<StationaryHazard> get_hazards(String city);
 //    List<StationaryHazard> get_hazards(Location location, double radios);
+    List<StationaryHazard> view_hazards();
 }
