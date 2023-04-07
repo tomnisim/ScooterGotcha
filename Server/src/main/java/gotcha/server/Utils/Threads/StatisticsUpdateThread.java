@@ -1,6 +1,7 @@
 package gotcha.server.Utils.Threads;
 
 
+import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Utils.HttpUtility;
 
 import java.io.BufferedReader;
@@ -17,17 +18,14 @@ import static java.net.HttpURLConnection.HTTP_OK;
 
 
 public class StatisticsUpdateThread implements Runnable {
-
-    public StatisticsUpdateThread() {
-
+    private StatisticsManager statisticsManager;
+    public StatisticsUpdateThread(StatisticsManager statisticsManager) {
+        this.statisticsManager = statisticsManager;
     }
 
-    /**
-     * Requirement 6
-     * this thread task is to connect the external services by http post requests, with different parameters.
-     */
     @Override
     public void run() {
+        this.statisticsManager.update_daily_statistic();
     }
 
 

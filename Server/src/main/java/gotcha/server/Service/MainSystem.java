@@ -142,7 +142,7 @@ public class MainSystem {
     private void set_statistics_update_thread() {
         try{
             ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-            StatisticsUpdateThread statistics_update_thread = new StatisticsUpdateThread();
+            StatisticsUpdateThread statistics_update_thread = new StatisticsUpdateThread(statisticsManager);
             executorService.scheduleAtFixedRate(statistics_update_thread, 0, 24, TimeUnit.HOURS);
         }
         catch (Exception e) {
