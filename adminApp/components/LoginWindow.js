@@ -19,7 +19,7 @@ const load_data = async () => {
   await get_questions_list();
   await get_stats();
   await get_hazards_list();
-  // TODO : ADD RIDES & HAZARDS.
+  // TODO : ADD RIDES.
 }
 
 
@@ -63,24 +63,20 @@ export default function LoginWindow({navigation}) {
         
         <View style={{flex:0.75, padding:10}}>
             <ImageBackground source={background} resizeMode="cover" style={styles.image}>
-            <View style={{alignItems: 'left'}}>
-            <Text style={{color:"#841584",padding:10}}><h1>Welcome!</h1></Text>
-            <Text style={{color:'white'}}><h2>Scooter Gotcha Admin Application</h2></Text>
+            <View style={{alignItems: 'center'}}>
+            <Text style={{color:'white', backgroundColor:"#841584", width:350, opacity:0.8, textAlign:'center'}}><h3>Welcome to Gotcha Admin Application!</h3></Text>
             <TextInput
-                style={{color:'white' ,height:40,left:200}}
-                placeholder="                                             User email"
+                style={{color:"#841584",textAlign:'center',width:350, backgroundColor:'white',height:40, opacity:0.8}}
+                placeholder="Enter Email"
                 onChangeText={newText => setText_email(newText)}
                 />
             <TextInput
-                style={{color:'white' ,height:40}}
-                placeholder="                                             User password"
+                style={{color:"#841584",textAlign:'center',width:350, backgroundColor:'white',height:40, opacity:0.8}}
+                placeholder="Enter Password"
                 onChangeText={newText => setText_password(newText)}
                 />
+              <Button onPress={() => login()}  title="Login" color="#841584"/>
             </View>
-            <View style={{paddingStart:30,paddingVertical:5,paddingLeft:50, paddingRight:10, width:100}}>
-            <Button onPress={() => login()}  title="Login" color="#841584"/>
-            </View>
-            
             </ImageBackground>
         </View>
       );
