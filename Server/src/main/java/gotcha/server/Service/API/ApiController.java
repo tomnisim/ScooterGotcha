@@ -209,11 +209,27 @@ public class ApiController implements IAdminAPI, IUserAPI {
 
     }
 
-    @RequestMapping(value = "/view_statistics")
+    @RequestMapping(value = "/view_daily_statistics")
     @CrossOrigin
     @Override
-    public Response view_statistics(@SessionAttribute("userContext") UserContext userContext) {
-        return facade.view_statistics(userContext);
+    public Response view_daily_statistics() {
+        return facade.view_daily_statistics();
+    }
+
+    @RequestMapping(value = "/view_general_statistics")
+    @CrossOrigin
+    @Override
+    public Response view_general_statistics() {
+
+        System.out.println("view general stats");
+        return facade.view_general_statistics();
+    }
+
+    @RequestMapping(value = "/view_all_daily_statistics")
+    @CrossOrigin
+    @Override
+    public Response view_all_daily_statistics() {
+        return facade.view_all_daily_statistics();
     }
 
     @RequestMapping(value = "/view_advertisements")

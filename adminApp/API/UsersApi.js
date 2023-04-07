@@ -1,19 +1,18 @@
 import { Response } from "./Response";
 import {CATCH, CONNECTION_ERROR} from "./AdvertismentsApi"
-import {session_id} from '../components/LoginWindow'
+import axios from '../assets/AxiosInstance';
+import {path} from "./Path"
 
-const EDIT_USER_PATH = "http://localhost:8080/edit_user"
-const DELETE_USER_PATH = "http://localhost:8080/delete_user"
-const VIEW_USER_PATH = "http://localhost:8080/view_users"
+const EDIT_USER_PATH =path+"edit_user"
+const DELETE_USER_PATH = path+"delete_user"
+const VIEW_USER_PATH = path+"view_users"
 
-
-const instance = require('axios');
 
 export class UsersApi {
 
     // todo: complete params
     edit_user() {
-        return instance.get(EDIT_USER_PATH,
+        return axios.get(EDIT_USER_PATH,
         {
             params:{}
         })
@@ -24,9 +23,10 @@ export class UsersApi {
     }
 
     delete_user(user_email) {
-        return instance.get(DELETE_USER_PATH,
+        alert("trying to delete: " + user_email);
+        return axios.post(DELETE_USER_PATH,
         {
-            params:{user_email: user_email, session_id : session_id}
+            params:{user_email: user_email}
         })
             .then(res => {
                 return new Response(res.data);
@@ -35,10 +35,8 @@ export class UsersApi {
     }
 
     view_users(){
-        return instance.get(VIEW_USER_PATH,
-            {
-                params:{session_id : session_id}
-            })
+        alert("in view users");
+        return axios.get(VIEW_USER_PATH)
                 .then(res => {
                     console.log(res);
                     return res.data;

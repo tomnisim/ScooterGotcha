@@ -7,7 +7,7 @@ import HazardsWindow from './components/HazardsWindow'
 import RidesWindow from './components/RidesWindow'
 import AdminsWindow from './components/AdminsWindow'
 import StatisticsWindow from './components/StatisticsWindow'
-import PrizesWindow from './components/PrizesWindow'
+import AwardsWindow from './components/AwardsWindow'
 import AdvertismentsWindow from './components/AdvertismentsWindow'
 import SystemSettingsWindow from './components/SystemSettingsWindow'
 import QuestionsWindow from './components/QuestionsWindow'
@@ -36,7 +36,7 @@ function App() {
         <Stack.Screen name="Rides" component={RidesWindow} />
         <Stack.Screen name="Admins" component={AdminsWindow} />
         <Stack.Screen name="Statistics" component={StatisticsWindow} />
-        <Stack.Screen name="Prizes" component={PrizesWindow} />
+        <Stack.Screen name="Awards" component={AwardsWindow} />
         <Stack.Screen name="Advertisements" component={AdvertismentsWindow} />
         <Stack.Screen name="SystemSettings" component={SystemSettingsWindow} />
         </Stack.Navigator>

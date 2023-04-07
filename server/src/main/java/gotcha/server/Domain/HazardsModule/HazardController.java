@@ -1,17 +1,13 @@
 package gotcha.server.Domain.HazardsModule;
 
-import ch.qos.logback.classic.pattern.ClassOfCallerConverter;
 import gotcha.server.SafeRouteCalculatorModule.Route;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.SystemLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class HazardController implements IHazardController {
@@ -130,5 +126,10 @@ public class HazardController implements IHazardController {
             }
         }
         return list;
+    }
+    @Override
+    public List<StationaryHazard> view_hazards() {
+        // TODO: 03/04/2023 : implement for admin
+        return new LinkedList<>();
     }
 }

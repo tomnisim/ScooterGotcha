@@ -7,37 +7,27 @@ import gotcha.server.Domain.AdvertiseModule.IAdvertiseController;
 import gotcha.server.Domain.AwardsModule.Award;
 import gotcha.server.Domain.AwardsModule.IAwardsController;
 import gotcha.server.Domain.HazardsModule.HazardController;
-import gotcha.server.Domain.HazardsModule.HazardType;
 import gotcha.server.Domain.HazardsModule.IHazardController;
-import gotcha.server.Domain.HazardsModule.StationaryHazard;
-import gotcha.server.Domain.QuestionsModule.IQuestionController;
 import gotcha.server.Domain.Notifications.Notification;
+import gotcha.server.Domain.QuestionsModule.IQuestionController;
 import gotcha.server.Domain.QuestionsModule.Question;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
 import gotcha.server.Domain.RidesModule.IRidesController;
 import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Domain.RidesModule.RidesController;
-import gotcha.server.Domain.UserModule.IUserController;
-import gotcha.server.Domain.StatisticsModule.Statistic;
+import gotcha.server.Domain.StatisticsModule.DailyStatisticDAO;
+import gotcha.server.Domain.StatisticsModule.GeneralStatistic;
 import gotcha.server.Domain.StatisticsModule.StatisticsManager;
-import gotcha.server.Domain.StatisticsModule.iStatisticsManager;
 import gotcha.server.Domain.UserModule.Admin;
+import gotcha.server.Domain.UserModule.IUserController;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Domain.UserModule.UserController;
-import gotcha.server.ExternalService.MapsAdapter;
-import gotcha.server.ExternalService.MapsAdapterImpl;
-import gotcha.server.ExternalService.MapsAdapterRealTime;
 import gotcha.server.SafeRouteCalculatorModule.Route;
 import gotcha.server.SafeRouteCalculatorModule.RoutesRetriever;
-import gotcha.server.Domain.UserModule.User;
-import gotcha.server.Domain.UserModule.UserController;
-import gotcha.server.ExternalService.MapsAdapter;
 import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserException;
-import gotcha.server.Utils.Formula;
-import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.ServerLogger;
 import gotcha.server.Utils.Logger.SystemLogger;
@@ -45,11 +35,12 @@ import gotcha.server.Utils.Response;
 import gotcha.server.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 @Component
 public class Facade {
@@ -80,6 +71,7 @@ public class Facade {
         this.awards_controller = awards_controller;
         this.hazard_controller = hazardController;
         this.statisticsManager = statisticsManager;
+        //        this.statisticsManager = new StatisticsManager(userController, hazardController, advertiseController, awards_controller,ridesController, questionController);
         this.routes_retriever = routesRetriever;
     }
 
@@ -133,16 +125,19 @@ public class Facade {
             var message = String.format("User with email %s Successfully logged in", email);
             serverLogger.add_log(message);
             response = new Response<>(user,message);
-			serverLogger.add_log(message);
+            serverLogger.add_log(message);
 
         }
         catch (Exception e) {
             error_logger.add_log(e.getMessage());
             response = new Response<>(e.getMessage(), e);
         }
+        finally {
+            this.statisticsManager.inc_login_count();
+        }
         return response;
     }
-	
+
     public Response logout(UserContext userContext) {
         Response response;
         try {
@@ -158,6 +153,9 @@ public class Facade {
         catch (Exception e){
             response = new Response<>(e.getMessage(),e);
             error_logger.add_log(e.getMessage());
+        }
+        finally {
+            this.statisticsManager.inc_logout_count();
         }
         return response;
     }
@@ -218,7 +216,7 @@ public class Facade {
         try{
             check_user_is_logged_in(userContext);
             String user_email = userContext.get_email();
-            List<String> questions = question_controller.get_all_user_questions(user_email);
+            List<Question> questions = question_controller.get_all_user_questions(user_email);
             String logger_message = user_email+ " view all user questions";
             response = new Response(questions, logger_message);
             serverLogger.add_log(logger_message);
@@ -336,7 +334,7 @@ public class Facade {
         try{
 
             check_user_is_admin_and_logged_in(userContext);
-            List<String> questions = question_controller.get_all_open_questions();
+            List<Question> questions = question_controller.get_all_open_questions();
             String logger_message = "admin view all user questions";
             response = new Response(questions, logger_message);
             serverLogger.add_log(logger_message);
@@ -402,15 +400,47 @@ public class Facade {
         return response;
     }
 
-    public Response view_statistics(UserContext userContext) {
+    public Response view_daily_statistics() {
         Response response;
         try{
-            check_user_is_admin_and_logged_in(userContext);
-            Statistic statistics = this.statisticsManager.get_system_statistics(user_controller.get_all_users());
-            String logger_message = "admin view statistics";
-            response = new Response(statistics, logger_message);
+//            check_user_is_admin_and_logged_in(userContext); todo : add user context to arguments & in api controller.
+            DailyStatisticDAO daily_statistic = this.statisticsManager.get_current_daily_statistic();
+            String logger_message = "admin view current daily statistics";
+            response = new Response(daily_statistic, logger_message);
             serverLogger.add_log(logger_message);
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
 
+    public Response view_general_statistics() {
+        Response response;
+        try{
+//            check_user_is_admin_and_logged_in(userContext); todo : add user context to arguments & in api controller.
+            GeneralStatistic generalStatistic = this.statisticsManager.get_general_statistic();
+            String logger_message = "admin view current general statistics";
+            response = new Response(generalStatistic, logger_message);
+            serverLogger.add_log(logger_message);
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+
+    public Response view_all_daily_statistics() {
+        Response response;
+        try{
+//            check_user_is_admin_and_logged_in(userContext); todo : add user context to arguments & in api controller.
+            List<DailyStatisticDAO> all_daily_statistic = this.statisticsManager.get_all_daily_statistic();
+            String logger_message = "admin view all daily statistics";
+            response = new Response(all_daily_statistic, logger_message);
+            serverLogger.add_log(logger_message);
         }
         catch (Exception e){
             response = Utils.createResponse(e);
@@ -639,6 +669,9 @@ public class Facade {
             response = Utils.createResponse(e);
             error_logger.add_log(e.getMessage());
         }
+        finally {
+            this.statisticsManager.inc_reset_count();
+        }
         return response;
     }
 
@@ -657,6 +690,9 @@ public class Facade {
         catch (Exception e){
             response = Utils.createResponse(e);
             error_logger.add_log(e.getMessage());
+        }
+        finally {
+            this.statisticsManager.inc_shut_down_count();
         }
         return response;
     }
@@ -726,7 +762,6 @@ public class Facade {
         }
         return response;
     }
-
 
 
 
