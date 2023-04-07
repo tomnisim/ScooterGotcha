@@ -66,10 +66,10 @@ User implements Observer {
     }
 
     public synchronized void login() throws Exception {
-        if (loggedIn) {
-            var message = String.format("User with email %s is already logged in", userEmail);
-            throw new Exception(message);
-        }
+//        if (loggedIn) {
+//            var message = String.format("User with email %s is already logged in", userEmail);
+//            throw new Exception(message);
+//        }
         this.loggedIn = true;
     }
 
