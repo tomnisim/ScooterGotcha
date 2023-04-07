@@ -2,6 +2,7 @@ package gotcha.server.Service.API;
 
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.UserModule.User;
+import gotcha.server.Service.Communication.Requests.AddAwardRequest;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
 import gotcha.server.Service.Facade;
@@ -220,23 +221,21 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @RequestMapping(value = "/view_daily_statistics")
     @CrossOrigin
     @Override
-    public Response view_daily_statistics() {
+    public Response view_daily_statistics(@SessionAttribute("userContext") UserContext userContext) {
         return facade.view_daily_statistics();
     }
 
     @RequestMapping(value = "/view_general_statistics")
     @CrossOrigin
     @Override
-    public Response view_general_statistics() {
-
-        System.out.println("view general stats");
+    public Response view_general_statistics(@SessionAttribute("userContext") UserContext userContext) {
         return facade.view_general_statistics();
     }
 
     @RequestMapping(value = "/view_all_daily_statistics")
     @CrossOrigin
     @Override
-    public Response view_all_daily_statistics() {
+    public Response view_all_daily_statistics(@SessionAttribute("userContext") UserContext userContext) {
         return facade.view_all_daily_statistics();
     }
 
@@ -271,8 +270,10 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @RequestMapping(value = "/add_award")
     @CrossOrigin
     @Override
-    public Response add_award(@SessionAttribute("userContext") UserContext userContext, String[] emails, String award) {
-        return facade.add_award(emails,award, userContext);
+    public Response add_award(@RequestBody AddAwardRequest addAwardRequest, @SessionAttribute("userContext") UserContext userContext) {
+        String[] temp = addAwardRequest.getEmails().toArray(new String[5]);
+        String award = addAwardRequest.getAward();
+        return facade.add_award(temp,award, userContext);
     }
 
 
