@@ -34,6 +34,13 @@ const view_server_logger = async () => {
   }
 }
 
+const view_system_logger = async () => {
+  let response = await settingsApi.view_system_logger()
+  if (!response.was_exception){
+    data = response.value
+  }
+}
+
 export default function SystemSettingsWindow({navigation}) {
 
 
@@ -41,10 +48,6 @@ export default function SystemSettingsWindow({navigation}) {
     settingsApi.shut_down()
   }
 
-  const view_system_logger = () => {
-    settingsApi.view_system_logger()
-  }
-  
   const set_rp_config = () => {
     settingsApi.set_rp_config()
   }

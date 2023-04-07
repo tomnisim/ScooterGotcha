@@ -762,7 +762,7 @@ public class Facade {
         try{
             check_user_is_admin_and_logged_in(userContext);
             String admin_email = userContext.get_email();
-            String logger = serverLogger.toString(); // TODO: 26/03/2023 : change to system logger
+            String logger = systemLogger.toString();
             String logger_message = "admin( "+admin_email+ ") view system logger";
             response = new Response(logger, logger_message);
             serverLogger.add_log(logger_message);

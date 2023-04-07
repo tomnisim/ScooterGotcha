@@ -98,8 +98,8 @@ public class MainSystem {
     private void connect_database() throws ExitException {
         if (configuration.getDatabaseMode().equals("tests")){
             // TODO: 30/12/2022 : have to connect to DB with DB_URL & DB_password.
-            System.out.println(configuration.getDatabaseUrl());
-            System.out.println(configuration.getDatabasePassword());
+//            System.out.println(configuration.getDatabaseUrl());
+//            System.out.println(configuration.getDatabasePassword());
             HibernateUtils.set_tests_mode();
             systemLogger.add_log("Tests Database Connected Successfully");
         }
@@ -127,8 +127,7 @@ public class MainSystem {
     }
 
     private void create_rp_config_file() {
-        System.out.println("Here we should create Config//rp_config.txt File.");
-        System.out.println(configuration.getMinimumDistanceAlert());
+//        System.out.println(configuration.getMinimumDistanceAlert());
     }
     private void set_first_admin() throws Exception {
         LocalDate birth_date = LocalDate.now();
@@ -142,7 +141,7 @@ public class MainSystem {
     private void set_statistics_update_thread() {
         try{
             ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-            StatisticsUpdateThread statistics_update_thread = new StatisticsUpdateThread(statisticsManager);
+            StatisticsUpdateThread statistics_update_thread = new StatisticsUpdateThread(statisticsManager, systemLogger);
             executorService.scheduleAtFixedRate(statistics_update_thread, 0, 24, TimeUnit.HOURS);
         }
         catch (Exception e) {
