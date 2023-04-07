@@ -1,11 +1,13 @@
 package gotcha.server.Service.API;
 
+import gotcha.server.Service.Communication.Requests.AddAwardRequest;
 import gotcha.server.Service.UserContext;
 import gotcha.server.Utils.Response;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface IAdminAPI {
 
@@ -15,16 +17,16 @@ public interface IAdminAPI {
 
     Response view_rides(@SessionAttribute("userContext") UserContext userContext);
 
-    Response view_daily_statistics();
-    Response view_general_statistics();
-    Response view_all_daily_statistics();
+    Response view_daily_statistics(@SessionAttribute("userContext") UserContext userContext);
+    Response view_general_statistics(@SessionAttribute("userContext") UserContext userContext);
+    Response view_all_daily_statistics(@SessionAttribute("userContext") UserContext userContext);
 
     Response view_advertisements(@SessionAttribute("userContext") UserContext userContext);
     Response add_advertisement(LocalDateTime final_date, String owner, String message, String photo, String url,@SessionAttribute("userContext") UserContext userContext);
     Response delete_advertisement(int advertise_id,@SessionAttribute("userContext") UserContext userContext);
 
     Response view_awards(@SessionAttribute("userContext") UserContext userContext);
-    Response add_award(@SessionAttribute("userContext") UserContext userContext, String[] emails, String award);
+    Response add_award(AddAwardRequest addAwardRequest, @SessionAttribute("userContext") UserContext userContext);
 
     Response view_admins( @SessionAttribute("userContext") UserContext userContext);
     Response add_admin(String user_email,String name, String lastName, String user_password, String phoneNumber, LocalDate birthDay, String gender, @SessionAttribute("userContext") UserContext userContext);
