@@ -9,6 +9,7 @@ import { get_awards_list, get_emails_list } from './AwardsWindow';
 import { get_questions_list } from './QuestionsWindow';
 import { get_stats } from './StatisticsWindow';
 import { get_hazards_list } from './HazardsWindow';
+import { get_rides_list } from './RidesWindow';
 
 const load_data = async () => {
   await get_users_list();
@@ -19,6 +20,7 @@ const load_data = async () => {
   await get_questions_list();
   await get_stats();
   await get_hazards_list();
+  await get_rides_list();
   // TODO : ADD RIDES.
 }
 
