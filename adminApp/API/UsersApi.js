@@ -24,7 +24,7 @@ export class UsersApi {
 
     delete_user(user_email) {
         alert("trying to delete: " + user_email);
-        return axios.post(DELETE_USER_PATH,
+        return axios.get(DELETE_USER_PATH,
         {
             params:{user_email: user_email}
         })
@@ -35,7 +35,6 @@ export class UsersApi {
     }
 
     view_users(){
-        alert("in view users");
         return axios.get(VIEW_USER_PATH)
                 .then(res => {
                     console.log(res);
