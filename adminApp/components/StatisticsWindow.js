@@ -3,6 +3,7 @@ import { View, Text, Button, StyleSheet, TextInput} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatisticsApi } from '../API/StatisticsApi';
+import { background } from '../API/Path';
 
 
 
@@ -38,7 +39,6 @@ const get_stats = async () => {
 get_stats()
 
 export default function StatisticsWindow({navigation}) {
-  console.log(data)
   return (
       <View style={{alignItems: 'center', justifyContent: 'center' }}>
       <Text style={{fontSize: 30, borderColor: "gray"}}><b>System Statistics:</b></Text>

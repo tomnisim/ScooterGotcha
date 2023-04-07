@@ -6,9 +6,9 @@ import { UsersApi } from '../API/UsersApi';
 import { useState } from 'react'; 
 import Table from 'rc-table';
 import Select from 'react-select'
+import { background } from '../API/Path';
 
 
-const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
 
   
 

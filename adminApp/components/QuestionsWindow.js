@@ -5,9 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { QuestionsApi } from '../API/QuestionsApi';
 import Table from 'rc-table';
 import Select from 'react-select'
-
-
-const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
+import { background } from '../API/Path';
 
 const questionsApi = new QuestionsApi();
 let questions_list = []

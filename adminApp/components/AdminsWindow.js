@@ -5,8 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AdminApi } from '../API/AdminApi';
 import Table from 'rc-table';
 import Select from 'react-select'
-
-const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
+import { background } from '../API/Path';
 
 const adminApi = new AdminApi();
 let admins_list = []

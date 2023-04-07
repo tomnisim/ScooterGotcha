@@ -1,8 +1,7 @@
 import * as React from 'react';
 import {ImageBackground, View, Text, Button, StyleSheet, TextInput} from 'react-native';
 import {LoginApi } from '../API/LoginApi';
-
-const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
+import { background } from '../API/Path';
 
 
 const loginApi = new LoginApi();

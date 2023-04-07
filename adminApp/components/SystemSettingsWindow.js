@@ -3,7 +3,7 @@ import { ImageBackground, View, Text, Button, StyleSheet, TextInput } from 'reac
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SettingsApi } from '../API/SettingsApi';
-const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
+import { background } from '../API/Path';
 
 
 const settingsApi = new SettingsApi();

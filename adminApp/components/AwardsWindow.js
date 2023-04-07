@@ -4,11 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AwardsApi } from '../API/AwardsApi';
 import { UsersApi } from '../API/UsersApi';
-
 import Table from 'rc-table';
 import Select from 'react-select'
-
-const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
+import { background } from '../API/Path';
 
 const awardsAPI = new AwardsApi();
 

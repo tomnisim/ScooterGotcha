@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Text, Button, ImageBackground } from 'react-native';
-const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
+import { background } from '../API/Path';
 
 
 

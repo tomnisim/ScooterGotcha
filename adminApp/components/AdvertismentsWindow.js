@@ -5,8 +5,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AdvertismentsApi } from '../API/AdvertismentsApi';
 import Table from 'rc-table';
 import Select from 'react-select'
+import { background } from '../API/Path';
 
-const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
+
+
 const advertismentsApi = new AdvertismentsApi();
 let advertisments_list = []
 let advs_ids_list = []
