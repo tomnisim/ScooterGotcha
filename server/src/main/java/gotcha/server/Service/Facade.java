@@ -11,6 +11,7 @@ import gotcha.server.Domain.HazardsModule.IHazardController;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.QuestionsModule.IQuestionController;
 import gotcha.server.Domain.Notifications.Notification;
+import gotcha.server.Domain.QuestionsModule.Question;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
 import gotcha.server.Domain.RidesModule.IRidesController;
 import gotcha.server.Domain.RidesModule.Ride;
@@ -216,7 +217,7 @@ public class Facade {
         try{
             check_user_is_logged_in(userContext);
             String user_email = userContext.get_email();
-            List<String> questions = question_controller.get_all_user_questions(user_email);
+            List<Question> questions = question_controller.get_all_user_questions(user_email);
             String logger_message = user_email+ " view all user questions";
             response = new Response(questions, logger_message);
             serverLogger.add_log(logger_message);
@@ -346,7 +347,7 @@ public class Facade {
         try{
 
             check_user_is_admin_and_logged_in(userContext);
-            List<String> questions = question_controller.get_all_open_questions();
+            List<Question> questions = question_controller.get_all_open_questions();
             String logger_message = "admin view all user questions";
             response = new Response(questions, logger_message);
             serverLogger.add_log(logger_message);

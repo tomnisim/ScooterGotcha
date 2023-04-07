@@ -8,13 +8,11 @@ const DELETE_USER_PATH = path+"delete_user"
 const VIEW_USER_PATH = path+"view_users"
 
 
-const instance = require('axios');
-
 export class UsersApi {
 
     // todo: complete params
     edit_user() {
-        return instance.get(EDIT_USER_PATH,
+        return axios.get(EDIT_USER_PATH,
         {
             params:{}
         })

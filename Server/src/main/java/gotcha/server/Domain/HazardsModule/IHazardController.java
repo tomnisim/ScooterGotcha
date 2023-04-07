@@ -13,7 +13,6 @@ public interface IHazardController {
     void update_hazards(String hazard_info, int ride_id);
     List<StationaryHazard> get_hazards_in_route(Route route);
 
-    Map<Object, Object> view_hazards();
 
 
 //    void update_hazard(StationaryHazard hazard, double size);

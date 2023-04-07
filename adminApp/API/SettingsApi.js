@@ -11,14 +11,14 @@ const SET_RP_CONFIG = path+"set_rp_config"
 const SET_SERVER_CONFIG = path+"set_server_config"
 
 
-const instance = require('axios');
+import axios from '../assets/AxiosInstance';
 
 export class SettingsApi {
 
 
 
     reset() {
-        return instance.get(RESET_PATH,
+        return axios.get(RESET_PATH,
         {
             params:{}
         })
@@ -29,7 +29,7 @@ export class SettingsApi {
     }
 
     shut_down() {
-        return instance.get(SHUT_DOWN_PATH,
+        return axios.get(SHUT_DOWN_PATH,
         {
             params:{}
         })
@@ -40,7 +40,7 @@ export class SettingsApi {
     }
 
     view_server_logger() {
-        return instance.get(VIEW_SERVER_LOGGER_PATH,
+        return axios.get(VIEW_SERVER_LOGGER_PATH,
         {
             params:{}
         })
@@ -51,7 +51,7 @@ export class SettingsApi {
     }
 
     view_error_logger() {
-        return instance.get(VIEW_ERROR_LOGGER_PATH,
+        return axios.get(VIEW_ERROR_LOGGER_PATH,
         {
             params:{}
         })
@@ -62,7 +62,7 @@ export class SettingsApi {
     }
 
     view_system_logger() {
-        return instance.get(VIEW_SYSTEM_LOGGER_PATH,
+        return axios.get(VIEW_SYSTEM_LOGGER_PATH,
         {
             params:{}
         })
@@ -73,7 +73,7 @@ export class SettingsApi {
     }
 
     set_rp_config() {
-        return instance.get(SET_RP_CONFIG,
+        return axios.get(SET_RP_CONFIG,
         {
             params:{}
         })
@@ -84,7 +84,7 @@ export class SettingsApi {
     }
 
     set_server_config() {
-        return instance.get(SET_SERVER_CONFIG,
+        return axios.get(SET_SERVER_CONFIG,
         {
             params:{}
         })
