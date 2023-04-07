@@ -8,6 +8,7 @@ import {get_advertisments_list } from './AdvertismentsWindow';
 import { get_awards_list, get_emails_list } from './AwardsWindow';
 import { get_questions_list } from './QuestionsWindow';
 import { get_stats } from './StatisticsWindow';
+import { get_hazards_list } from './HazardsWindow';
 
 const load_data = async () => {
   await get_users_list();
@@ -17,6 +18,8 @@ const load_data = async () => {
   await get_emails_list();
   await get_questions_list();
   await get_stats();
+  await get_hazards_list();
+  // TODO : ADD RIDES & HAZARDS.
 }
 
 
