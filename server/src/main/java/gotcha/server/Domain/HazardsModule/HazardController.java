@@ -26,10 +26,10 @@ public class HazardController implements IHazardController {
         systemLogger.add_log("Hazard controller loaded successfully");
     }
 
-    public void add_hazard(int ride_id, Location location, String city, HazardType type, double size) throws Exception {
+    private void add_hazard(StationaryHazard hazard) throws Exception {
         int hazard_id = this.id_counter.incrementAndGet();
-        StationaryHazard hazard_to_add = new StationaryHazard(hazard_id, ride_id, location, city, type, size);
-        var result = this.hazardRepository.add_hazard(hazard_to_add);
+        hazard.setId(hazard_id);
+        var result = this.hazardRepository.add_hazard(hazard);
         if (result != null) {
             throw new Exception("hazard with this id already existed");
         }
@@ -75,7 +75,7 @@ public class HazardController implements IHazardController {
             double size = hazard.getSize();
             StationaryHazard current = find_hazard_if_exist(location, city, type);
             if (current == null){
-                add_hazard(ride_id, location, city, type, size);
+                add_hazard(hazard);
             }
             else
                 update_hazard(current, size);
@@ -129,7 +129,6 @@ public class HazardController implements IHazardController {
     }
     @Override
     public List<StationaryHazard> view_hazards() {
-        // TODO: 03/04/2023 : implement for admin
-        return new LinkedList<>();
+        return hazardRepository.getAllHazards();
     }
 }

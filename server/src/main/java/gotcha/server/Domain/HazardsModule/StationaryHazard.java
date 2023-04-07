@@ -1,9 +1,12 @@
 package gotcha.server.Domain.HazardsModule;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import gotcha.server.Domain.RatingModule.HazardRateCalculator;
 import gotcha.server.Utils.Location;
 
 public class StationaryHazard {
+
+    @JsonIgnore
     private int id;
     private int ride_id;
     private Location location;

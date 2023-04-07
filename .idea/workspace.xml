@@ -5,58 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c0e87fe9-84f7-4d38-a9b5-ab0a83852605" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/DailyStatistic.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/DailyStatisticDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/GeneralStatistic.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/CorsConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Threads/StatisticsUpdateThread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/adminApp/API/AwardsApi.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/adminApp/API/Path.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/adminApp/API/StatisticsApi.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/adminApp/assets/AxiosInstance.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/adminApp/assets/background.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/adminApp/assets/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/adminApp/components/AwardsWindow.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/adminApp/components/AxiosInstance.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/IHazardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/IHazardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/QuestionsModule/IQuestionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/QuestionsModule/IQuestionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/HazardRateCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/HazardRateCalculator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/Statistic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/StatisticsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/StatisticsManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/iStatisticsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/iStatisticsManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/ApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/ApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/IAdminAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/IAdminAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/Requests/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/Requests/LoginRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Logger/GeneralLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Logger/GeneralLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/API/AdminApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/API/AdminApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/API/AdvertismentsApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/API/AdvertismentsApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/API/LoginApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/API/LoginApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/API/QuestionsApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/API/QuestionsApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/API/SettingsApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/API/SettingsApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/API/UsersApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/API/UsersApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/components/AdminsWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/AdminsWindow.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/components/AdvertismentsWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/AdvertismentsWindow.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/components/HomeWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/HomeWindow.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/components/LoginWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/LoginWindow.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/components/PrizesWindow.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/components/QuestionsWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/QuestionsWindow.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/components/StatisticsWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/StatisticsWindow.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/components/SystemSettingsWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/SystemSettingsWindow.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/components/UsersWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/UsersWindow.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/raspberryPi/.idea/raspberryPi.iml" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/.idea/raspberryPi.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/HazardsModule/StationaryHazard.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/HazardsModule/StationaryHazard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/QuestionsModule/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/QuestionsModule/Question.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/QuestionsModule/QuestionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/QuestionsModule/QuestionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Service/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Service/Facade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Utils/Logger/ErrorLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Utils/Logger/ErrorLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/HazardsModule/IHazardControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/HazardsModule/IHazardControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +70,39 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.UserControllerTest">
+  <component name="RunManager" selected="JUnit.IHazardControllerTest.updateHazards_HazardExistsInTheLocation_HazardSizeUpdated">
+    <configuration name="IHazardControllerTest.updateHazards_AllHazardsAreNew_AllAdded" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gotcha.server.Domain.HazardsModule.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.HazardsModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.HazardsModule.IHazardControllerTest" />
+      <option name="METHOD_NAME" value="updateHazards_AllHazardsAreNew_AllAdded" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IHazardControllerTest.updateHazards_HazardExistsInTheLocation_HazardSizeUpdated" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gotcha.server.Domain.HazardsModule.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.HazardsModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.HazardsModule.IHazardControllerTest" />
+      <option name="METHOD_NAME" value="updateHazards_HazardExistsInTheLocation_HazardSizeUpdated" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="UserControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
@@ -131,38 +114,6 @@
       <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
       <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserControllerTest.login_userAlreadyLoggedIn_failedLogin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.UserModule.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
-      <option name="METHOD_NAME" value="login_userAlreadyLoggedIn_failedLogin" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserControllerTest.login_userDoesNotExist_failedLogin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.UserModule.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
-      <option name="METHOD_NAME" value="login_userDoesNotExist_failedLogin" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -216,11 +167,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.IHazardControllerTest.updateHazards_HazardExistsInTheLocation_HazardSizeUpdated" />
+        <item itemvalue="JUnit.IHazardControllerTest.updateHazards_AllHazardsAreNew_AllAdded" />
         <item itemvalue="JUnit.UserControllerTest" />
         <item itemvalue="JUnit.UserControllerTest.logout_userAlreadyLoggedOut_FailedLogout" />
         <item itemvalue="JUnit.UserControllerTest.register_userAlreadyExists_failedRegisration" />
-        <item itemvalue="JUnit.UserControllerTest.login_userAlreadyLoggedIn_failedLogin" />
-        <item itemvalue="JUnit.UserControllerTest.login_userDoesNotExist_failedLogin" />
       </list>
     </recent_temporary>
   </component>

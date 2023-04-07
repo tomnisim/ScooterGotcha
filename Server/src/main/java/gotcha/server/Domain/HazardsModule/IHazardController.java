@@ -8,7 +8,6 @@ import java.util.Map;
 
 public interface IHazardController {
     void load();
-    void add_hazard(int ride_id, Location location, String city, HazardType type, double size) throws Exception;
     void remove_hazard(int hazard_id) throws Exception;
     void update_hazards(List<StationaryHazard> hazards, int ride_id) throws Exception;
     List<StationaryHazard> get_hazards_in_route(Route route);
