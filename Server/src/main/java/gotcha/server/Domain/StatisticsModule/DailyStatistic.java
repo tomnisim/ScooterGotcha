@@ -287,17 +287,6 @@ public class DailyStatistic {
     }
 
     public DailyStatisticDAO getDAO() {
-        int new_admins = getNew_admins();
-        int new_users = getNew_users();
-        int new_advertisements = getNew_advertisements();
-        int new_awards = getNew_awards();
-        int new_rides = getNew_rides();
-        int new_users_questions = getNew_users_questions();
-        int new_admin_answers = getNew_admin_answers();
-        int new_hazards = getNew_hazards();
-
-        return new DailyStatisticDAO(this.date, new_admins, total_admins, new_users, total_users, new_advertisements, total_advertisements,
-                new_awards, total_awards, new_rides, total_rides, new_users_questions, total_users_questions,
-                new_admin_answers,total_admin_answers, new_hazards, total_hazards, this.online_users.get(), this.online_guests.get(),this.shut_down_events.get(),this.reset_events.get());
+        return new DailyStatisticDAO(this);
     }
 }

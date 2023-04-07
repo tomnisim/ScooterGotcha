@@ -26,31 +26,29 @@ public class DailyStatisticDAO {
     private int logoutEvents;
     private int shutDownEvents;
     private int resetEvents;
-    public DailyStatisticDAO(LocalDate date, int newAdmins, int totalAdmins, int newUsers, int totalUsers, int newAdvertisements,
-                             int totalAdvertisements, int newAwards, int totalAwards, int newRides, int totalRides,
-                             int newUsersQuestions, int totalUsersQuestions, int newAdminAnswers, int totalAdminAnswers,
-                             int newHazards, int totalHazards, int loginEvents, int logoutEvents, int shutDownEvents, int resetEvents) {
-            this.date = date;
-        this.newAdmins = newAdmins;
-        this.totalAdmins = totalAdmins;
-        this.newUsers = newUsers;
-        this.totalUsers = totalUsers;
-        this.newAdvertisements = newAdvertisements;
-        this.totalAdvertisements = totalAdvertisements;
-        this.newAwards = newAwards;
-        this.totalAwards = totalAwards;
-        this.newRides = newRides;
-        this.totalRides = totalRides;
-        this.newUsersQuestions = newUsersQuestions;
-        this.totalUsersQuestions = totalUsersQuestions;
-        this.newAdminAnswers = newAdminAnswers;
-        this.totalAdminAnswers = totalAdminAnswers;
-        this.newHazards = newHazards;
-        this.totalHazards = totalHazards;
-        this.loginEvents = loginEvents;
-        this.logoutEvents = logoutEvents;
-        this.resetEvents = resetEvents;
-        this.shutDownEvents = shutDownEvents;
+
+    public DailyStatisticDAO(DailyStatistic dailyStatistic) {
+        this.date = dailyStatistic.getDate();
+        this.newAdmins = dailyStatistic.getNew_admins();
+        this.totalAdmins = dailyStatistic.getTotal_admins();
+        this.newUsers = dailyStatistic.getNew_users();
+        this.totalUsers = dailyStatistic.getTotal_users();
+        this.newAdvertisements = dailyStatistic.getNew_advertisements();
+        this.totalAdvertisements = dailyStatistic.getTotal_advertisements();
+        this.newAwards = dailyStatistic.getNew_awards();
+        this.totalAwards = dailyStatistic.getTotal_awards();
+        this.newRides = dailyStatistic.getNew_rides();
+        this.totalRides = dailyStatistic.getTotal_rides();
+        this.newUsersQuestions = dailyStatistic.getNew_users_questions();
+        this.totalUsersQuestions = dailyStatistic.getTotal_users_questions();
+        this.newAdminAnswers = dailyStatistic.getNew_admin_answers();
+        this.totalAdminAnswers = dailyStatistic.getTotal_admin_answers();
+        this.newHazards = dailyStatistic.getNew_hazards();
+        this.totalHazards = dailyStatistic.getTotal_hazards();
+        this.loginEvents = dailyStatistic.getOnline_users();
+        this.logoutEvents = dailyStatistic.getOnline_guests();
+        this.resetEvents = dailyStatistic.getReset_events();
+        this.shutDownEvents = dailyStatistic.getShut_down_events();
     }
 
     public LocalDate getDate() {
