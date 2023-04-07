@@ -4,6 +4,7 @@ import gotcha.server.SafeRouteCalculatorModule.Route;
 import gotcha.server.Utils.Location;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IHazardController {
     void load();
@@ -11,6 +12,8 @@ public interface IHazardController {
     void remove_hazard(int hazard_id);
     void update_hazards(String hazard_info, int ride_id);
     List<StationaryHazard> get_hazards_in_route(Route route);
+
+    Map<Object, Object> view_hazards();
 
 
 //    void update_hazard(StationaryHazard hazard, double size);

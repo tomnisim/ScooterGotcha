@@ -15,7 +15,9 @@ public interface IAdminAPI {
 
     Response view_rides(@SessionAttribute("userContext") UserContext userContext);
 
-    Response view_statistics(@SessionAttribute("userContext") UserContext userContext);
+    Response view_daily_statistics();
+    Response view_general_statistics();
+    Response view_all_daily_statistics();
 
     Response view_advertisements(@SessionAttribute("userContext") UserContext userContext);
     Response add_advertisement(LocalDateTime final_date, String owner, String message, String photo, String url,@SessionAttribute("userContext") UserContext userContext);

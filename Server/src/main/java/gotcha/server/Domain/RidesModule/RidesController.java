@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -18,6 +19,7 @@ public class RidesController implements IRidesController {
 
     public RidesController()
     {
+        this.rides = new HashMap<>();
         this.id_counter = new AtomicInteger(1);
     }
 
