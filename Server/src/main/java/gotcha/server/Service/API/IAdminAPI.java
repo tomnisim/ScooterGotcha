@@ -1,5 +1,6 @@
 package gotcha.server.Service.API;
 
+import gotcha.server.Service.Communication.Requests.AddAdvertisementRequest;
 import gotcha.server.Service.Communication.Requests.AddAwardRequest;
 import gotcha.server.Service.UserContext;
 import gotcha.server.Utils.Response;
@@ -22,7 +23,7 @@ public interface IAdminAPI {
     Response view_all_daily_statistics(@SessionAttribute("userContext") UserContext userContext);
 
     Response view_advertisements(@SessionAttribute("userContext") UserContext userContext);
-    Response add_advertisement(LocalDateTime final_date, String owner, String message, String photo, String url,@SessionAttribute("userContext") UserContext userContext);
+    Response add_advertisement(AddAdvertisementRequest addAdvertisementRequest, @SessionAttribute("userContext") UserContext userContext);
     Response delete_advertisement(int advertise_id,@SessionAttribute("userContext") UserContext userContext);
 
     Response view_awards(@SessionAttribute("userContext") UserContext userContext);

@@ -630,7 +630,7 @@ public class Facade {
         return response;
     }
 
-    public Response add_advertisement(LocalDateTime final_date, String owner, String message, String photo, String url, UserContext userContext) {
+    public Response add_advertisement(LocalDate final_date, String owner, String message, String photo, String url, UserContext userContext) {
         Response response;
         try{
             check_user_is_admin_and_logged_in(userContext);

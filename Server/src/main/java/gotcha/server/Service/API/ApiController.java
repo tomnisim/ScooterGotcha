@@ -2,6 +2,7 @@ package gotcha.server.Service.API;
 
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.UserModule.User;
+import gotcha.server.Service.Communication.Requests.AddAdvertisementRequest;
 import gotcha.server.Service.Communication.Requests.AddAwardRequest;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
@@ -249,7 +250,12 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @RequestMapping(value = "/add_advertisement")
     @CrossOrigin
     @Override
-    public Response add_advertisement(LocalDateTime final_date, String owner, String message, String photo, String url, @SessionAttribute("userContext") UserContext userContext) {
+    public Response add_advertisement(@RequestBody AddAdvertisementRequest addAdvertisementRequest, @SessionAttribute("userContext") UserContext userContext) {
+        String url = addAdvertisementRequest.getUrl();
+        String owner = addAdvertisementRequest.getOwner();
+        String photo = addAdvertisementRequest.getPhoto();
+        String message = addAdvertisementRequest.getMessage();
+        LocalDate final_date = addAdvertisementRequest.getFinal_date();
         return facade.add_advertisement(final_date, owner, message, photo, url, userContext);
     }
 

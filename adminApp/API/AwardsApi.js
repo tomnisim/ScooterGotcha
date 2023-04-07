@@ -33,7 +33,5 @@ export class AwardsApi {
             .catch(res => Response.create(CATCH,true, CONNECTION_ERROR ));
     }
 
-
-
 }
 

@@ -10,7 +10,6 @@ const VIEW_USER_PATH = path+"view_users"
 
 export class UsersApi {
 
-    // todo: complete params
     edit_user() {
         return axios.get(EDIT_USER_PATH,
         {
