@@ -3,23 +3,25 @@ package gotcha.server.Domain.HazardsModule;
 import gotcha.server.Domain.RatingModule.HazardRateCalculator;
 import gotcha.server.Utils.Location;
 
-public class StationaryHazard {
+public class StationaryHazardDAO {
     private int id;
     private int ride_id;
-    private Location location;
+    private String location;
     private String city;
     private HazardType type;
     private double size;
     private double rate;
 
-    public StationaryHazard(int id, int ride_id, Location location, String city, HazardType type, double size) {
-        this.id = id;
-        this.ride_id = ride_id;
-        this.location = location;
-        this.city = city;
-        this.type = type;
-        this.size = size;
-        this.setRate();
+    public StationaryHazardDAO(){}
+
+    public StationaryHazardDAO(StationaryHazard stationaryHazard) {
+        this.id = stationaryHazard.getId();
+        this.ride_id = stationaryHazard.getRide_id();
+        this.location = stationaryHazard.getLocation().toString();
+        this.city = stationaryHazard.getCity();
+        this.type = stationaryHazard.getType();
+        this.size = stationaryHazard.getSize();
+        this.rate = stationaryHazard.getRate();
     }
 
 
@@ -37,10 +39,10 @@ public class StationaryHazard {
         this.ride_id = ride_id;
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
-    public void setLocation(Location location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
@@ -71,13 +73,8 @@ public class StationaryHazard {
     }
 
 
-    public void setRate() {
-        HazardRateCalculator hazardRateCalculator = HazardRateCalculator.get_instance();
-        this.rate = hazardRateCalculator.rate_hazard(this);
+    public void setRate(double rate) {
+        this.rate = rate;
 
-    }
-
-    public StationaryHazardDAO getDAO(){
-        return new StationaryHazardDAO(this);
     }
 }

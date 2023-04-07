@@ -9,6 +9,7 @@ import gotcha.server.Domain.AwardsModule.IAwardsController;
 import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.IHazardController;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
+import gotcha.server.Domain.HazardsModule.StationaryHazardDAO;
 import gotcha.server.Domain.QuestionsModule.IQuestionController;
 import gotcha.server.Domain.Notifications.Notification;
 import gotcha.server.Domain.QuestionsModule.Question;
@@ -498,6 +499,23 @@ public class Facade {
         return response;
     }
 
+    public Response view_hazards(UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            Collection<StationaryHazardDAO> hazards = this.hazard_controller.view_hazards();
+            String logger_message = "admin("+admin_email+") view all hazards";
+            response = new Response(hazards, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
     public Response view_awards(UserContext userContext) {
         Response response;
         try{

@@ -36,6 +36,9 @@ public interface IAdminAPI {
     Response view_users(@SessionAttribute("userContext") UserContext userContext);
     Response delete_user(String user_email, @SessionAttribute("userContext") UserContext userContext);
 
+
+    Response view_hazards( @SessionAttribute("userContext") UserContext userContext);
+
     // super admin
 
     Response set_server_config(UserContext userContext);

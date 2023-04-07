@@ -321,6 +321,13 @@ public class ApiController implements IAdminAPI, IUserAPI {
         return facade.delete_user(user_email, userContext);
     }
 
+    @RequestMapping(value = "/view_hazards")
+    @CrossOrigin
+    @Override
+    public Response view_hazards(@SessionAttribute("userContext") UserContext userContext) {
+        return facade.view_hazards(userContext);
+    }
+
 
     // super admin API
 
