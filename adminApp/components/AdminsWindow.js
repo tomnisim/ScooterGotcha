@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ImageBackground,View, Text, Button, StyleSheet, TextInput} from 'react-native';
+import { ImageBackground,View, Text, Button, StyleSheet, TextInput, ScrollView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AdminApi } from '../API/AdminApi';
@@ -7,9 +7,10 @@ import Table from 'rc-table';
 import Select from 'react-select'
 import { background } from '../API/Path';
 
-const adminApi = new AdminApi();
-let admins_list = []
 
+const adminApi = new AdminApi();
+
+let admins_list = []
 let user_email_to_appoint = "none"
 let password = ""
 let phoneNumber = ""
@@ -17,12 +18,11 @@ let birthDay = ""
 let gender = ""
 
 let user_email_to_remove_appoint = "none"
-
-
 let admins_emails = ""
 
-const get_admins_list = async () => {
-  // todo: change 5 to admin id, change params to functions.
+
+
+export const get_admins_list = async () => {
   let response = await adminApi.view_admins();
   if (!response.was_exception){
     admins_list = response.value
@@ -33,9 +33,6 @@ const get_admins_list = async () => {
         {value: item._email, label: item._email}
       );
     })
-
-    
-    
     console.log(admins_emails)
   }
 }
@@ -45,7 +42,7 @@ const get_admins_list = async () => {
 
 
 
-get_admins_list()
+// get_admins_list()
 export default function AdminsWindow({navigation}) {
   get_admins_list();
 
@@ -97,9 +94,9 @@ export default function AdminsWindow({navigation}) {
     <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>Admins List:</b></Text>
 
     <View style={{display: 'flex', flexDirection:'row'}}>
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
     <Table columns={columns} data={admins_list} tableLayout="auto"/>
-    </View>
+    </ScrollView>
     <Text>    </Text>    
     <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
     
@@ -121,7 +118,7 @@ export default function AdminsWindow({navigation}) {
       <Select
         placeholder='Gender'
         options={gender_options}
-        onChange={newText => setText_gender(newText)}
+        onChange={newText => setText_gender(newText.value)}
       ></Select>
       <TextInput
         style={styles.textInputer}
@@ -137,7 +134,7 @@ export default function AdminsWindow({navigation}) {
       <Select
         placeholder="User email to delete appoint"
         options={admins_emails}
-        onChange={newText => setText_gender(newText)}
+        onChange={newText => setText_email_to_remove_appoint(newText.value)}
       ></Select>
       <Button onPress={() => delete_admin()} title="Delete Admin" color="#841584"/>
     

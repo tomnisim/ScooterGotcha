@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ImageBackground, View, Text, Button, StyleSheet, TextInput } from 'react-native';
+import { ImageBackground, View, Text, Button, StyleSheet, TextInput, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SettingsApi } from '../API/SettingsApi';
@@ -20,21 +20,31 @@ const reset = async () => {
   alert(data)
 }
 
+const view_error_logger = async () => {
+  let response = await settingsApi.view_error_logger()
+  if (!response.was_exception){
+    data = response.value
+  }
+}
+
+const view_server_logger = async () => {
+  let response = await settingsApi.view_server_logger()
+  if (!response.was_exception){
+    data = response.value
+  }
+}
+
 export default function SystemSettingsWindow({navigation}) {
 
 
   const shut_down = () => {
     settingsApi.shut_down()
   }
-  const view_error_logger = () => {
-    settingsApi.view_error_logger()
-  }
+
   const view_system_logger = () => {
     settingsApi.view_system_logger()
   }
-  const view_server_logger = () => {
-    settingsApi.view_server_logger()
-  }
+  
   const set_rp_config = () => {
     settingsApi.set_rp_config()
   }
@@ -50,9 +60,9 @@ return (
   <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>System Window:</b></Text>
 
   <View style={{display: 'flex', flexDirection:'row'}}>
-  <View style={styles.container}>
+  <ScrollView style={styles.container}>
   <Text>{data}</Text>
-  </View>
+  </ScrollView>
   <Text>    </Text>    
   <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
     <Button onPress={() => set_server_config()} title="Set Server Configuration" color="#841584"/>

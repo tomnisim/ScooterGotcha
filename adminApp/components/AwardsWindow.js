@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ImageBackground, View, Text, Button, StyleSheet, TextInput } from 'react-native';
+import {ImageBackground, View, Text, Button, StyleSheet, TextInput, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AwardsApi } from '../API/AwardsApi';
@@ -23,8 +23,7 @@ let award_to_add = ""
 const usersApi = new UsersApi();
 let users_emails = ""
 
-const get_users_list = async () => {
-  // todo: change 5 to admin id, change params to functions.
+export const get_emails_list = async () => {
   let response = await usersApi.view_users();
   if (!response.was_exception){
     let users_list = response.value
@@ -36,14 +35,7 @@ const get_users_list = async () => {
   }
 }
 
-
-
-
-
-
-
-
-const get_awards_list = async () => {
+export const get_awards_list = async () => {
   let response = await awardsAPI.view_awards();
   console.log(response)
   if (!response.was_exception){
@@ -60,11 +52,11 @@ const get_awards_list = async () => {
     
 }
 
-get_users_list();
-get_awards_list();
+// get_emails_list();
+// get_awards_list();
 export default function AwardsWindow({navigation}) {
   get_awards_list()
-  get_users_list();
+  get_emails_list();
   console.log(awards_list)
 
 
@@ -78,6 +70,8 @@ export default function AwardsWindow({navigation}) {
 
   const add_award = () => {
     // todo : build list , or try to transfer array.
+    alert(emails)
+    alert(award_to_add)
     awardsAPI.add_award(emails, award_to_add)
     get_awards_list()
   }
@@ -90,9 +84,9 @@ export default function AwardsWindow({navigation}) {
     <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>Awards List:</b></Text>
 
     <View style={{display: 'flex', flexDirection:'row'}}>
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
     <Table columns={columns} data={awards_list} tableLayout="auto"/>
-    </View>
+    </ScrollView>
     <Text>    </Text>    
     <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
       <Select
@@ -159,8 +153,8 @@ const columns = [
   },
   {
     title: "Award Date",
-    dataIndex: "message_date",
-    key: "message_date",
+    dataIndex: "date",
+    key: "date",
     width: 200,
   },
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Button, StyleSheet, TextInput, ImageBackground} from 'react-native';
+import { View, Text, Button, StyleSheet, TextInput, ImageBackground, ScrollView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { UsersApi } from '../API/UsersApi';
@@ -17,22 +17,16 @@ const usersApi = new UsersApi();
 let users_list = []
 let users_emails = ""
 
-const get_users_list = async () => {
-  // todo: change 5 to admin id, change params to functions.
+export const get_users_list = async () => {
   let response = await usersApi.view_users();
   if (!response.was_exception){
     users_list = response.value
     console.log(users_list)
-
-
     users_emails = users_list.map((item) => {
       return (
         {value: item._email, label: item._email}
       );
     })
-
-
-
   }
 }
 
@@ -50,10 +44,7 @@ const setText_to_delete = (text) => {
   user_email_to_delete = text;
 }
 
-
-
 const edit_user = () => {
-  // usersApi.edit_user();
   console.log(user_email_to_edit);
   alert(user_email_to_edit);
 }
@@ -62,8 +53,7 @@ const delete_user = () => {
   usersApi.delete_user(user_email_to_delete)
 }
 
-
-get_users_list();
+// get_users_list();
 export default function UsersWindow({navigation}) {
   get_users_list();
 
@@ -73,9 +63,9 @@ export default function UsersWindow({navigation}) {
     <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>Users List:</b></Text>
 
     <View style={{display: 'flex', flexDirection:'row'}}>
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
     <Table columns={columns} data={users_list} tableLayout="auto"/>
-    </View>
+    </ScrollView>
     <Text>    </Text>    
     <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
     <Select
@@ -93,7 +83,7 @@ export default function UsersWindow({navigation}) {
       <Select
         placeholder="User email to delete"
         options={users_emails}
-        onChange={newText => setText_to_delete(newText)}
+        onChange={newText => setText_to_delete(newText.value)}
       ></Select>
       <Button onPress={() => delete_user()} title="Delete User" color="#841584"/>
 

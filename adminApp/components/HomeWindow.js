@@ -2,9 +2,6 @@ import * as React from 'react';
 import { View, Text, Button, ImageBackground } from 'react-native';
 import { background } from '../API/Path';
 
-
-
-
 export default function HomeWindow({navigation}) {
     return (
       <View>
