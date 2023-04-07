@@ -11,8 +11,8 @@ import java.util.logging.SimpleFormatter;
 
 public abstract class GeneralLogger {
 
-    private String logger_address;
-    private Logger logger;
+    protected String logger_address;
+    protected Logger logger;
 
     /*------------------------------------------------- CLASS CONSTRUCTOR -------------------------------------------------*/
 
@@ -32,7 +32,7 @@ public abstract class GeneralLogger {
     /*-------------------------------------------------- CLASS FUNCTIONS --------------------------------------------------*/
 
     public void add_log(String message){
-        this.logger.severe(message);
+        this.logger.info(message);
     }
 
     @Override

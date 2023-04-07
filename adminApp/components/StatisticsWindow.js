@@ -34,9 +34,11 @@ const get_stats = async () => {
   console.log(all_daily_data)
 }
 
+
 get_stats()
 
 export default function StatisticsWindow({navigation}) {
+  console.log(data)
   return (
       <View style={{alignItems: 'center', justifyContent: 'center' }}>
       <Text style={{fontSize: 30, borderColor: "gray"}}><b>System Statistics:</b></Text>
@@ -53,6 +55,7 @@ export default function StatisticsWindow({navigation}) {
           </View>
     </View>
     </View>
+
 
   );
 }
@@ -74,3 +77,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
   }
 });
+
+
+
+
+
