@@ -19,7 +19,7 @@ public class StationaryHazard {
         this.city = city;
         this.type = type;
         this.size = size;
-        this.setRate();
+        //this.setRate();
     }
 
 

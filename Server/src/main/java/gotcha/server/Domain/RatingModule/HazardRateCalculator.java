@@ -4,9 +4,11 @@ import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.HazardType;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Utils.Formula;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Map;
@@ -17,9 +19,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HazardRateCalculator implements IHazardRateCalculator {
 
     private Dictionary<HazardType, Formula> formulas;
-//    private final String formulas_txt_file_path = "C:\\Users\\Amit\\Desktop\\ScooterGotcha\\server\\src\\main\\java\\gotcha\\server\\Domain\\RatingModule\\hazard_rate_formulas.txt";
-//    private final String formulas_txt_file_path = "\\Server\\src\\main\\java\\gotcha\\server\\Domain\\RatingModule\\hazard_rate_formulas.txt";
-    private final String formulas_txt_file_path = "C:\\Users\\amitm\\Desktop\\SemH\\ScooterGotcha\\Server\\src\\main\\java\\gotcha\\server\\Domain\\RatingModule\\hazard_rate_formulas.txt";
+    private final String formulas_txt_file_path = "src\\main\\java\\gotcha\\server\\Domain\\RatingModule\\hazard_rate_formulas.txt";
+
     private static class SingletonHolder {
         private static HazardRateCalculator instance = new HazardRateCalculator();
     }
@@ -29,7 +30,7 @@ public class HazardRateCalculator implements IHazardRateCalculator {
 
     public HazardRateCalculator() {
         this.formulas = new Hashtable<HazardType, Formula>();
-        this.set_formulas();
+        //this.set_formulas();
     }
 
 
