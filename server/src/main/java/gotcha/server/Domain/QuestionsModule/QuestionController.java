@@ -6,6 +6,7 @@ import gotcha.server.Domain.UserModule.User;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,6 +34,12 @@ public class QuestionController implements IQuestionController {
 
     @Override
     public void add_user_question(String message, String senderEmail, BiConsumer<String, Integer> update_function) {
+        int id = this.question_ids_counter.getAndIncrement();
+        Question question = new Question(id, message, senderEmail);
+        this.open_questions.put(id, question);
+        List<Question> questionList = this.users_questions.getOrDefault(senderEmail, new LinkedList<>());
+        questionList.add(question);
+
 
     }
 
@@ -72,11 +79,11 @@ public class QuestionController implements IQuestionController {
      * @return open & close questions of the user
      */
     @Override
-    public List<String> get_all_user_questions(String user_email) {
-        ArrayList<String> answer = new ArrayList();
+    public List<Question> get_all_user_questions(String user_email) {
+        ArrayList<Question> answer = new ArrayList();
         List<Question> user_questions = this.users_questions.get(user_email);
         for (Question question : user_questions){
-            answer.add(question.toString_for_user());
+            answer.add(question);
         }
         return answer;
     }
@@ -87,10 +94,10 @@ public class QuestionController implements IQuestionController {
      */
     @Override
 
-    public List<String> get_all_open_questions(){
-        ArrayList<String> answer = new ArrayList<String>();
+    public List<Question> get_all_open_questions(){
+        ArrayList<Question> answer = new ArrayList<Question>();
         for (Question question : this.open_questions.values()){
-            answer.add(question.toString_for_admin());
+            answer.add(question);
         }
         return answer;
     }
