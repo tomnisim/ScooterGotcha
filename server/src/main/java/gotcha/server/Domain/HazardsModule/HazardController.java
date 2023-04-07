@@ -133,4 +133,10 @@ public class HazardController implements IHazardController {
         }
         return list;
     }
+
+    @Override
+    public List<StationaryHazard> view_hazards() {
+        // TODO: 03/04/2023 : implement for admin
+        return new LinkedList<>();
+    }
 }

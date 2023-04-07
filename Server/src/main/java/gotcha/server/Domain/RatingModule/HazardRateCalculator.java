@@ -30,7 +30,7 @@ public class HazardRateCalculator implements IHazardRateCalculator {
 
     public HazardRateCalculator() {
         this.formulas = new Hashtable<HazardType, Formula>();
-        this.set_formulas();
+        //this.set_formulas();
     }
 
 

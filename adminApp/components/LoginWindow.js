@@ -25,6 +25,7 @@ export default function LoginWindow({navigation}) {
 
 
     const login = async () => {
+        alert("login pressed");
         // todo : move only login success
         let response = await loginApi.login(user_email, user_password)
         console.log(response)
