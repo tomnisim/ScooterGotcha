@@ -286,6 +286,7 @@ const styles = StyleSheet.create({
   },
   textInputer: {
     backgroundColor:'white',
+    textAlign:'center',
     opacity:0.8,
     height: 40
   },

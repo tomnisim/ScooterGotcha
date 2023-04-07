@@ -207,6 +207,7 @@ const styles = StyleSheet.create({
   textInputer: {
     backgroundColor:'white',
     opacity:0.8,
+    textAlign:'center',
     height: 40
   },
   item: {

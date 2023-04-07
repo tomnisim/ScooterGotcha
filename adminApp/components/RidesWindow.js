@@ -118,7 +118,7 @@ const columns = [
     width: 200,
   },
   {
-    title: "date",
+    title: "Date",
     dataIndex: "date",
     key: "date",
     width: 200,
@@ -130,25 +130,25 @@ const columns = [
     width:200,
   },
   {
-    title: "start_time",
+    title: "Start Time",
     dataIndex: "start_time",
     key: "start_time",
     width:200,
   },
   {
-    title: "end_time",
+    title: "End Time",
     dataIndex: "end_time",
     key: "end_time",
     width:200,
   },
   {
-    title: "origin",
+    title: "Origin",
     dataIndex: "origin",
     key: "origin",
     width:200,
   },
   {
-    title: "destination",
+    title: "Destination",
     dataIndex: "destination",
     key: "destination",
     width:200,
@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
   textInputer: {
     backgroundColor:'white',
     opacity:0.8,
+    textAlign:'center',
     height: 40
   },
   item: {

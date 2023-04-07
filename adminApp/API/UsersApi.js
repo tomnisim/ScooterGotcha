@@ -3,17 +3,17 @@ import {CATCH, CONNECTION_ERROR} from "./AdvertismentsApi"
 import axios from '../assets/AxiosInstance';
 import {path} from "./Path"
 
-const EDIT_USER_PATH =path+"edit_user"
+const ADD_USER_RP_PATH =path+"add_user_rp"
 const DELETE_USER_PATH = path+"delete_user"
 const VIEW_USER_PATH = path+"view_users"
 
 
 export class UsersApi {
 
-    edit_user() {
-        return axios.get(EDIT_USER_PATH,
+    add_user_rp(user_rp_to_add) {
+        return axios.get(ADD_USER_RP_PATH,
         {
-            params:{}
+            params:{rp_serial_number: user_rp_to_add}
         })
             .then(res => {
                 return new Response(res.data);
@@ -22,7 +22,6 @@ export class UsersApi {
     }
 
     delete_user(user_email) {
-        alert("trying to delete: " + user_email);
         return axios.get(DELETE_USER_PATH,
         {
             params:{user_email: user_email}
@@ -38,7 +37,6 @@ export class UsersApi {
                 .then(res => {
                     console.log(res);
                     return res.data;
-                    // return new Response(res.data);
                 })
                 .catch(res => Response.create(CATCH,true, CONNECTION_ERROR ));
         

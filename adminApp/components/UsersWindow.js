@@ -34,26 +34,24 @@ export const get_users_list = async () => {
 
 
 
-let user_email_to_edit = "none"
-let user_email_to_delete = "none"
+let user_rp_to_add = ""
+let user_email_to_delete = ""
 
-const setText_to_edit = (text) => {  
-  user_email_to_edit = text;
+const setText_to_add = (text) => {  
+  user_rp_to_add = text;
 }
 const setText_to_delete = (text) => {  
   user_email_to_delete = text;
 }
 
-const edit_user = () => {
-  console.log(user_email_to_edit);
-  alert(user_email_to_edit);
+const add_user_rp = () => {
+  usersApi.add_user_rp(user_rp_to_add)
 }
 
 const delete_user = () => {
   usersApi.delete_user(user_email_to_delete)
 }
 
-// get_users_list();
 export default function UsersWindow({navigation}) {
   get_users_list();
 
@@ -68,12 +66,12 @@ export default function UsersWindow({navigation}) {
     </ScrollView>
     <Text>    </Text>    
     <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
-    <Select
-        placeholder="User Email to edit!"
-        options={users_emails}
-        onChange={newText => setText_to_edit(newText)}
-      ></Select>
-      <Button onPress={() => edit_user()} title="Edit User" color="#841584"/>
+    <TextInput
+        style={styles.textInputer}
+        placeholder="RP Serial Number"
+        onChangeText={newText => setText_to_add(newText)}
+      ></TextInput>
+      <Button onPress={() => add_user_rp()} title="Add User RP Serial Number" color="#841584"/>
       <Text>  </Text>
       <Text>  </Text>
       <Text>  </Text>
@@ -168,6 +166,7 @@ const styles = StyleSheet.create({
   textInputer: {
     backgroundColor:'white',
     opacity:0.8,
+    textAlign:'center',
     height: 40
   },
   item: {
