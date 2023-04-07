@@ -1,12 +1,16 @@
 package gotcha.server.Domain.RidesModule;
 
+import gotcha.server.Utils.Location;
+
+import java.time.LocalDateTime;
+
 public class SharpTurn extends RidingAction{
     private Double start_direction;
     private Double final_direction;
     public SharpTurn() {
     }
-    public SharpTurn(Double start_direction, Double final_direction) {
-        // TODO: 27/03/2023 : add super call 
+    public SharpTurn(LocalDateTime time, Location location, Double start_direction, Double final_direction) {
+        super(time,location);
         this.start_direction = start_direction;
         this.final_direction = final_direction;
     }

@@ -50,7 +50,6 @@ public class UserRateCalculator implements IUserRateCalculator {
         new_rate = new_rate + current_ride_rate;
         new_rate = new_rate / number_of_rides;
         rider.setRating(new_rate);
-
     }
 
     @Override
@@ -64,7 +63,7 @@ public class UserRateCalculator implements IUserRateCalculator {
         int on_sidewalkCounter = 0;
 
         for (RidingAction action : ride.getActions()){
-            if (action instanceof Brake)
+            if (action instanceof SpeedChange)
             {
                 brakes_per_minuteCounter++;
             }
@@ -82,8 +81,6 @@ public class UserRateCalculator implements IUserRateCalculator {
             {
                 speed_changes_per_minuteCounter++;
             }
-
-
         }
 
         speed_changes_per_minuteCounter = Math.min(speed_changes_per_minuteCounter, 6);

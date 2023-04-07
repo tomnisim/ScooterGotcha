@@ -2,6 +2,7 @@ package gotcha.server.Service.API;
 
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.UserModule.User;
+import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
 import gotcha.server.Service.Facade;
@@ -139,24 +140,15 @@ public class ApiController implements IAdminAPI, IUserAPI {
 
     /**
      * this method is for RP usage, when user is not have to be logged in.
-     * this method will create a new facade for rp connection and remove it after finish in case of dismiss connection,
-     * and will use an existing facade and not remove him else.
-     * @param userEmail
-     * @param origin
-     * @param destination
-     * @param city
-     * @param start_time
-     * @param end_time
-     * @param hazards
+     * @param finishRideRequest
      * @return
      */
     @RequestMapping(value = "/finish_ride")
     @CrossOrigin
     @Override
-    public Response finish_ride(String userEmail, Location origin, Location destination, String city, LocalDateTime start_time,
-                                LocalDateTime end_time, List<StationaryHazard> hazards) {
+    public Response finish_ride(FinishRideRequest finishRideRequest) {
 
-        Response response = facade.finish_ride(userEmail,origin, destination, city, start_time, end_time, hazards);
+        Response response = facade.finish_ride(finishRideRequest);
         return response;
     }
 

@@ -32,6 +32,7 @@ import gotcha.server.SafeRouteCalculatorModule.RoutesRetriever;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.ExternalService.MapsAdapter;
+import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserException;
@@ -293,32 +294,20 @@ public class Facade {
 
     /**
      * don't check if the user is logged in - can perform without logged in.
-     * @param user_id
-     * @param origin
-     * @param destination
-     * @param city
-     * @param start_time
-     * @param end_time
-     * @param hazards
+     * @param finishRideRequest
      * @return
      */
-     // todo : user id -> RP serial number 
-    public Response finish_ride(String user_id, Location origin, Location destination, String city, LocalDateTime start_time,
-                                LocalDateTime end_time, List<StationaryHazard> hazards) {
-
+    public Response finish_ride(FinishRideRequest finishRideRequest) {
         Response response;
         try{
-            String ride_info="";
-            String hazard_info ="";
-            // TODO: 05/01/2023 : build the info objects
-            // TODO: 04/03/2023 : change user id -> email or serial number ?
-            int number_of_rides = this.rides_controller.get_number_of_rides(user_id);
-            Ride ride = this.rides_controller.add_ride(ride_info);
+            String userEmail = user_controller.get_user_email_by_rp_serial(finishRideRequest.getRpSerialNumber());
+            int number_of_rides = this.rides_controller.get_number_of_rides(userEmail);
+            Ride ride = this.rides_controller.add_ride(finishRideRequest, userEmail);
             int ride_id = ride.getRide_id();
-            user_controller.update_user_rate(user_id, ride, number_of_rides);
-            hazard_controller.update_hazards(hazard_info, ride_id);
+            user_controller.update_user_rate(userEmail, ride, number_of_rides);
+            hazard_controller.update_hazards(finishRideRequest.getHazards(), ride_id);
             String logger_message = "user added new ride";
-            response = new Response("", logger_message);
+            response = new Response(logger_message, logger_message);
             serverLogger.add_log(logger_message);
 
         }

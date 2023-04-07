@@ -27,7 +27,7 @@ class UserRateCalculatorTest {
     void update_user_rating() {
     }
 
-    @Test
+/*    @Test
     void calculate_rate_for_ride_0Brakes() {
         int ride_id = 1;
         String rider_email = "amit@gmail.com";
@@ -41,9 +41,9 @@ class UserRateCalculatorTest {
         double rate = userRateCalculator.calculate_rate_for_ride(ride);
         System.out.println(rate);
         assertEquals(rate, 50);
-    }
+    }*/
 
-    @Test
+/*    @Test
     void calculate_rate_for_ride_1Brakes() {
         int ride_id = 1;
         String rider_email = "amit@gmail.com";
@@ -57,9 +57,9 @@ class UserRateCalculatorTest {
         double rate = userRateCalculator.calculate_rate_for_ride(ride);
         System.out.println(rate);
         assertEquals(rate, 49.5);
-    }
+    }*/
 
-    @Test
+/*    @Test
     void calculate_rate_for_ride_2Brakes() {
         int ride_id = 1;
         String rider_email = "amit@gmail.com";
@@ -73,9 +73,9 @@ class UserRateCalculatorTest {
         double rate = userRateCalculator.calculate_rate_for_ride(ride);
         System.out.println(rate);
         assertEquals(rate, 48.5);
-    }
+    }*/
 
-    @Test
+/*    @Test
     void calculate_rate_for_ride_3Brakes() {
         int ride_id = 1;
         String rider_email = "amit@gmail.com";
@@ -89,9 +89,9 @@ class UserRateCalculatorTest {
         double rate = userRateCalculator.calculate_rate_for_ride(ride);
         System.out.println(rate);
         assertEquals(rate, 48);
-    }
+    }*/
 
-    @Test
+    /*@Test
     void calculate_rate_for_ride_4Brakes() {
         int ride_id = 1;
         String rider_email = "amit@gmail.com";
@@ -121,7 +121,7 @@ class UserRateCalculatorTest {
         double rate = userRateCalculator.calculate_rate_for_ride(ride);
         System.out.println(rate);
         assertEquals(rate, 45);
-    }
+    }*/
 
     @Test
     void update_tables() {

@@ -22,6 +22,9 @@ public class StationaryHazard {
         this.setRate();
     }
 
+    // Default Constructor for deserialization
+    public StationaryHazard() {}
+
 
     public int getId() {
         return id;

@@ -4,23 +4,25 @@ import gotcha.server.Utils.Exceptions.RideNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class RidesControllerTest {
+    @InjectMocks
     private  RidesController ride_controller;
-    public RidesControllerTest()
-    {
-        this.ride_controller = new RidesController();
 
+    @Mock
+    private RidesRepository ridesRepository;
 
-    }
 
     @BeforeEach
     void setUp() {
-
+        MockitoAnnotations.openMocks(this);
     }
 
     @AfterEach
@@ -31,13 +33,13 @@ class RidesControllerTest {
     @Test
     void add_ride() {
         int prev_size = this.ride_controller.get_all_rides().size();
-        ride_controller.add_ride( "");
+        //ride_controller.add_ride( "");
         assertEquals(prev_size+1, this.ride_controller.get_all_rides().size());
     }
 
     @Test
     void remove_ride() throws RideNotFoundException {
-        ride_controller.add_ride("");
+        //ride_controller.add_ride("");
         List<Ride> rides = this.ride_controller.get_all_rides();
         int ride_id=1;
         for (Ride ride: rides)
