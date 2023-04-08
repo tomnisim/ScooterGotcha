@@ -15,7 +15,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 @Component
 public class QuestionController implements IQuestionController {
-    private AtomicInteger question_ids_counter;
     private final QuestionsRepository questionsRepository;
 
     @Autowired
@@ -38,23 +37,15 @@ public class QuestionController implements IQuestionController {
      */
     @Override
     public String answer_user_question(int question_id, String answer, String adminEmail) throws Exception {
-        if (!this.open_questions.containsKey(question_id))
-        {
-            throw new Exception("Question does not exist");
-        }
-        Question question = this.open_questions.get(question_id);
+        var question = this.questionsRepository.getOpenQuestion(question_id);
         question.set_answer(answer, adminEmail);
-        this.open_questions.remove(question_id);
+        questionsRepository.removeOpenQuestion(question_id);
         return question.getSenderEmail();
     }
 
     @Override
     public Question get_question(int question_id) throws Exception {
-        if (!this.open_questions.containsKey(question_id))
-        {
-            throw new Exception("Question does not exist");
-        }
-        return this.open_questions.get(question_id);
+        return questionsRepository.getOpenQuestion(question_id);
     }
 
 
@@ -66,8 +57,7 @@ public class QuestionController implements IQuestionController {
     @Override
     public List<Question> get_all_user_questions(String user_email) {
         ArrayList<Question> answer = new ArrayList();
-        List<Question> user_questions = this.users_questions.get(user_email);
-        for (Question question : user_questions){
+        for (Question question : this.questionsRepository.getUsersQuestions(user_email)){
             answer.add(question);
         }
         return answer;
@@ -81,17 +71,11 @@ public class QuestionController implements IQuestionController {
 
     public List<Question> get_all_open_questions(){
         ArrayList<Question> answer = new ArrayList<Question>();
-        for (Question question : this.open_questions.values()){
+        for (Question question : this.questionsRepository.getAllOpenQuestions()){
             answer.add(question);
         }
         return answer;
     }
-
-    public int getQuestion_ids_counter() {
-        return question_ids_counter.get();
-    }
-
-
     private void notify_admins(String message) {
     }
 }

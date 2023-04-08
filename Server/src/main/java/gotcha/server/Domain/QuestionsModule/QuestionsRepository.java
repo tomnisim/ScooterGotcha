@@ -1,6 +1,5 @@
 package gotcha.server.Domain.QuestionsModule;
 
-import gotcha.server.Domain.AdvertiseModule.Advertise;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -38,20 +37,24 @@ public class QuestionsRepository {
     }
 
 
-    public void removeQuestion(int questionId) throws Exception {
+    public void removeOpenQuestion(int questionId) throws Exception {
         var result = open_questions.remove(questionId);
         if (result == null)
             throw new Exception("question with id:" + questionId + " not found");
-        users_questions.get(result.getSenderEmail()).remove(questionId);
-        questionsJpaRepository.delete(result);
+        // save new state
+        questionsJpaRepository.save(result);
     }
 
-    public Question getQuestion(int questionId) throws Exception {
+    public Question getOpenQuestion(int questionId) throws Exception {
         var result = open_questions.get(questionId);
         if (result == null) {
             return getAdvertiseFromDb(questionId);
         }
         return result;
+    }
+
+    public List<Question> getUsersQuestions(String userEmail) {
+        return new ArrayList<>(users_questions.get(userEmail).values());
     }
 
     private Question getAdvertiseFromDb(int questionId) throws Exception {
@@ -67,8 +70,9 @@ public class QuestionsRepository {
     private void LoadFromDB() {
         var questionsInDb = questionsJpaRepository.findAll();
         for(var question : questionsInDb) {
-            open_questions.put(question.getQuestion_id(), question);
             users_questions.computeIfAbsent(question.getSenderEmail(), k -> new HashMap<>()).putIfAbsent(question.getQuestion_id(), question);
+            if (!question.isHas_answer())
+                open_questions.put(question.getQuestion_id(), question);
         }
     }
 }

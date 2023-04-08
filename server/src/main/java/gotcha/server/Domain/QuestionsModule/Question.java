@@ -3,20 +3,39 @@ package gotcha.server.Domain.QuestionsModule;
 import gotcha.server.Domain.UserModule.Admin;
 import gotcha.server.Domain.UserModule.User;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Entity
+@Table(name="questions")
 public class Question {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected int question_id;
-    protected String message_date;
-    protected String answer_date;
 
+    @Column(name="messageDate")
+    protected LocalDateTime message_date;
+    @Column(name="answerDate")
+    protected LocalDateTime answer_date;
+
+    @Column(name="message", columnDefinition = "TEXT")
     protected String message;
+
+    @Column(name="answer", columnDefinition = "TEXT")
+
     protected String answer;
+
+    @Column(name="hasAnswer")
     protected boolean has_answer;
+
+    @Column(name="senderEmail", columnDefinition = "VARCHAR")
     protected String senderEmail;
+
+    @Column(name="responderEmail", columnDefinition = "VARCHAR")
+
     protected String responderEmail;
 
     // ---------------------- Constructor ---------------------------------------
@@ -32,12 +51,11 @@ public class Question {
         this.message = message;
         this.has_answer = false;
         this.senderEmail = senderEmail;
-        this.message_date = LocalDate.now().toString();
+        this.message_date = LocalDateTime.now();
     }
 
     /**
      * constructor for load questions from DB
-     * @param question_id
      * @param message_date
      * @param answer_date
      * @param message
@@ -46,7 +64,7 @@ public class Question {
      * @param senderEmail
      * @param responderEmail
      */
-    public Question(int question_id, String message_date, String answer_date, String message, String answer, boolean has_answer, String senderEmail, String responderEmail) {
+    public Question(LocalDateTime message_date, LocalDateTime answer_date, String message, String answer, boolean has_answer, String senderEmail, String responderEmail) {
         this.question_id = question_id;
         this.message_date = message_date;
         this.answer_date = answer_date;
@@ -63,7 +81,7 @@ public class Question {
         this.has_answer = true;
         this.responderEmail = responderEmail;
         this.answer = answer;
-        this.answer_date = LocalDate.now().toString();
+        this.answer_date = LocalDateTime.now();
     }
 
 
@@ -100,19 +118,19 @@ public class Question {
         this.question_id = question_id;
     }
 
-    public String getMessage_date() {
+    public LocalDateTime getMessage_date() {
         return message_date;
     }
 
-    public void setMessage_date(String message_date) {
+    public void setMessage_date(LocalDateTime message_date) {
         this.message_date = message_date;
     }
 
-    public String getAnswer_date() {
+    public LocalDateTime getAnswer_date() {
         return answer_date;
     }
 
-    public void setAnswer_date(String answer_date) {
+    public void setAnswer_date(LocalDateTime answer_date) {
         this.answer_date = answer_date;
     }
 
