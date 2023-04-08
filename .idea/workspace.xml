@@ -5,9 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c0e87fe9-84f7-4d38-a9b5-ab0a83852605" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Config/RiderRatingConfiguration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/IHazardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/IHazardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/IUserRateCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/IUserRateCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/UserRateCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/UserRateCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/Rider.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/Rider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/HazardsModule/IHazardControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/HazardsModule/IHazardControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/RatingModule/UserRateCalculatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/RatingModule/UserRateCalculatorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/RidesModule/RidesControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/RidesModule/RidesControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +78,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.IHazardControllerTest.updateHazards_HazardExistsInTheLocation_HazardSizeUpdated">
+  <component name="RunManager" selected="Spring Boot.ServerApplication (1)">
     <configuration name="IHazardControllerTest.updateHazards_AllHazardsAreNew_AllAdded" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
@@ -103,6 +111,38 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="IHazardControllerTest.updateHazards_LocationsAreWithinRadiusDistance_HazardSizeUpdated" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gotcha.server.Domain.HazardsModule.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.HazardsModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.HazardsModule.IHazardControllerTest" />
+      <option name="METHOD_NAME" value="updateHazards_LocationsAreWithinRadiusDistance_HazardSizeUpdated" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RidesControllerTest.addRide_MultipleConcurrentThreads_AllAdded" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gotcha.server.Domain.RidesModule.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.RidesModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.RidesModule.RidesControllerTest" />
+      <option name="METHOD_NAME" value="addRide_MultipleConcurrentThreads_AllAdded" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="UserControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
@@ -114,38 +154,6 @@
       <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
       <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserControllerTest.logout_userAlreadyLoggedOut_FailedLogout" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.UserModule.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
-      <option name="METHOD_NAME" value="logout_userAlreadyLoggedOut_FailedLogout" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserControllerTest.register_userAlreadyExists_failedRegisration" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.UserModule.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
-      <option name="METHOD_NAME" value="register_userAlreadyExists_failedRegisration" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -167,11 +175,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.IHazardControllerTest.updateHazards_LocationsAreWithinRadiusDistance_HazardSizeUpdated" />
+        <item itemvalue="JUnit.RidesControllerTest.addRide_MultipleConcurrentThreads_AllAdded" />
         <item itemvalue="JUnit.IHazardControllerTest.updateHazards_HazardExistsInTheLocation_HazardSizeUpdated" />
         <item itemvalue="JUnit.IHazardControllerTest.updateHazards_AllHazardsAreNew_AllAdded" />
         <item itemvalue="JUnit.UserControllerTest" />
-        <item itemvalue="JUnit.UserControllerTest.logout_userAlreadyLoggedOut_FailedLogout" />
-        <item itemvalue="JUnit.UserControllerTest.register_userAlreadyExists_failedRegisration" />
       </list>
     </recent_temporary>
   </component>
@@ -217,7 +225,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java</url>
-          <line>97</line>
+          <line>100</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -244,6 +252,19 @@
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/ApiController.java</url>
           <line>73</line>
           <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/HazardsModule/IHazardControllerTest.java</url>
+          <line>97</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="46" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

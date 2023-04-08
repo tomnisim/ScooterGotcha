@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserRateCalculatorTest {
-    UserRateCalculator userRateCalculator = UserRateCalculator.get_instance();
+    //UserRateCalculator userRateCalculator = UserRateCalculator.get_instance();
 
 
     @BeforeEach
@@ -125,11 +125,5 @@ class UserRateCalculatorTest {
 
     @Test
     void update_tables() {
-    }
-
-    @Test
-    void set_tables() {
-        userRateCalculator.set_tables();
-        int x = 5;
     }
 }

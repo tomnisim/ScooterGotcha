@@ -36,9 +36,7 @@ public class RidesController implements IRidesController {
         int ride_id = this.id_counter.incrementAndGet();
         Ride ride = new Ride(ride_id, userEmail,finishRideRequest.getCity(), finishRideRequest.getStartTime(), finishRideRequest.getEndTime(),finishRideRequest.getOrigin(), finishRideRequest.getDestination(), finishRideRequest.getRidingActions());
         this.ridesRepository.add_ride(ride, userEmail);
-        String rider_email = ride.getRider_email();
         return ride;
-
     }
 
     @Override

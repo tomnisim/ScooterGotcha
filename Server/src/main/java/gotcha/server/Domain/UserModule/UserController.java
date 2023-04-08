@@ -2,6 +2,7 @@ package gotcha.server.Domain.UserModule;
 
 import gotcha.server.Domain.Notifications.Notification;
 import gotcha.server.Domain.QuestionsModule.IQuestionController;
+import gotcha.server.Domain.RatingModule.UserRateCalculator;
 import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserAlreadyExistsException;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
@@ -20,13 +21,15 @@ public class UserController implements IUserController {
     private final iPasswordManager passwordManager;
     private final UserRepository userRepository;
     private final IQuestionController questionController;
+    private final UserRateCalculator userRateCalculator;
 
     @Autowired
-    public UserController(Utils utils, iPasswordManager passwordManager, IQuestionController questionController, UserRepository userRepository) {
+    public UserController(Utils utils, iPasswordManager passwordManager, IQuestionController questionController, UserRepository userRepository, UserRateCalculator userRateCalculator) {
         this.utils = utils;
         this.passwordManager = passwordManager;
         this.questionController = questionController;
         this.userRepository = userRepository;
+        this.userRateCalculator = userRateCalculator;
     }
 
     public void load() {
@@ -291,7 +294,7 @@ public class UserController implements IUserController {
         if (user == null || !user.is_admin())
             throw new Exception("user not found or is admin");
 
-        ((Rider) user).update_rating(ride, number_of_rides);
+        ((Rider) user).update_rating(ride, number_of_rides, userRateCalculator);
     }
 
     @Override
