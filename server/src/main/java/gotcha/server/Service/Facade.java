@@ -1,246 +1,223 @@
 package gotcha.server.Service;
 
-import gotcha.server.Domain.HazardsModule.HazardType;
+import gotcha.server.Config.Configuration;
+import gotcha.server.Domain.AdvertiseModule.Advertise;
+import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
+import gotcha.server.Domain.AdvertiseModule.IAdvertiseController;
+import gotcha.server.Domain.AwardsModule.Award;
+import gotcha.server.Domain.AwardsModule.IAwardsController;
+import gotcha.server.Domain.HazardsModule.HazardController;
+import gotcha.server.Domain.HazardsModule.IHazardController;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
+import gotcha.server.Domain.QuestionsModule.IQuestionController;
+import gotcha.server.Domain.Notifications.Notification;
+import gotcha.server.Domain.QuestionsModule.Question;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
+import gotcha.server.Domain.RidesModule.IRidesController;
+import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Domain.RidesModule.RidesController;
+import gotcha.server.Domain.StatisticsModule.DailyStatistic;
+import gotcha.server.Domain.StatisticsModule.DailyStatisticDAO;
+import gotcha.server.Domain.StatisticsModule.GeneralStatistic;
+import gotcha.server.Domain.UserModule.IUserController;
+//import gotcha.server.Domain.StatisticsModule.DailyStatistic;
+import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.Admin;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Domain.UserModule.UserController;
-import gotcha.server.Service.API.AdminAPI;
-import gotcha.server.Service.API.ProgrammerAPI;
-import gotcha.server.Service.API.UserAPI;
-import gotcha.server.Utils.Formula;
+import gotcha.server.SafeRouteCalculatorModule.Route;
+import gotcha.server.SafeRouteCalculatorModule.RoutesRetriever;
+import gotcha.server.Service.Communication.Requests.LoginRequest;
+import gotcha.server.Service.Communication.Requests.RegisterRequest;
+import gotcha.server.Utils.Exceptions.UserExceptions.UserException;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.ServerLogger;
+import gotcha.server.Utils.Logger.SystemLogger;
 import gotcha.server.Utils.Response;
 import gotcha.server.Utils.Utils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Dictionary;
-import java.util.List;
+import java.util.*;
 
-public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
+@Component
+public class Facade {
     private ErrorLogger error_logger;
     private ServerLogger serverLogger;
-    private QuestionController question_controller;
-    private RidesController rides_controller;
-    private UserController user_controller;
-    private User loggedUser;
-    // TODO: 30/12/2022 : remove // after open class "Route"
-//    private RoutesRetriever routes_retriever;
+    private SystemLogger systemLogger;
+    private IQuestionController question_controller;
+    private IRidesController rides_controller;
+    private IUserController user_controller;
+    private IAdvertiseController advertise_controller;
+    private IAwardsController awards_controller;
+    private IHazardController hazard_controller;
+    private StatisticsManager statisticsManager;
+    private RoutesRetriever routes_retriever;
+   
+    @Autowired
+    public Facade(UserController userController, HazardController hazardController, AdvertiseController advertiseController
+            ,IAwardsController awards_controller, RidesController ridesController, QuestionController questionController,
 
-    public Facade() {
-        this.error_logger = ErrorLogger.get_instance();
-        this.serverLogger = ServerLogger.get_instance();
-        this.question_controller = QuestionController.get_instance();
-        this.rides_controller = RidesController.get_instance();
-        this.user_controller = UserController.get_instance();
-        // TODO: 30/12/2022 : remove // after open class "Route"
-//        this.routes_retriever = RoutesRetriever.getInstance();
+                  ServerLogger serverLogger, ErrorLogger errorLogger, SystemLogger systemLogger, StatisticsManager statisticsManager, Configuration config, RoutesRetriever routesRetriever) {
+        this.error_logger = errorLogger;
+        this.serverLogger = serverLogger;
+        this.systemLogger = systemLogger;
+        this.question_controller = questionController;
+        this.rides_controller = ridesController;
+        this.user_controller = userController;
+        this.advertise_controller = advertiseController;
+        this.awards_controller = awards_controller;
+        this.hazard_controller = hazardController;
+        this.statisticsManager = statisticsManager;
+        //        this.statisticsManager = new StatisticsManager(userController, hazardController, advertiseController, awards_controller,ridesController, questionController);
+        this.routes_retriever = routesRetriever;
     }
 
 
-     @Override
-    public Response view_all_open_questions() {
-        Response response = null;
-        try{
-            List<String> questions = question_controller.get_all_open_questions();
-            String logger_message = "admin view all user questions";
-            response = new Response(questions, logger_message);
-            serverLogger.add_log(logger_message);
 
+    private void check_user_is_logged_in(UserContext userContext) throws UserException {
+        if (!userContext.isLoggedIn())
+            throw new UserException("user is not logged in");
+    }
+
+
+    private void check_user_is_admin_and_logged_in(UserContext userContext) throws UserException {
+        check_user_is_logged_in(userContext);
+        if (!userContext.isAdmin()){
+            throw new UserException("user is not an admin");
         }
-        catch (Exception e){
-            response = Utils.createResponse(e);
-            error_logger.add_log(e);
-        }
-        return response;
     }
 
+    // USER
 
-     @Override
-    public Response answer_user_question(int question_id, String answer, Admin admin) {
-        Response response = null;
-        try{
-            question_controller.answer_user_question(question_id, answer, admin);
-            String logger_message = "admin answer question : " + question_id;
-            response = new Response("", logger_message);
-            serverLogger.add_log(logger_message);
-
-        }
-        catch (Exception e){
-            response = Utils.createResponse(e);
-            error_logger.add_log(e);
-        }
-        return response;
-    }
-
-     @Override
-    public Response send_message_to_all_users(String message) {
-//        user_controller.send_message_to_all_users(message);
-        return null;
-    }
-
-     @Override
-    public Response view_rides() {
-        return null;
-    }
-
-     @Override
-    public Response view_statistics() {
-        return null;
-    }
-
-     @Override
-    public Response view_awards() {
-        return null;
-    }
-
-     @Override
-    public Response add_award() {
-        return null;
-    }
-
-     @Override
-    public Response delete_award() {
-        return null;
-    }
-
-     @Override
-    public Response view_admins() {
-        return null;
-    }
-
-     @Override
-    public Response add_admin() {
-        return null;
-    }
-
-     @Override
-    public Response delete_admin() {
-        return null;
-    }
-
-     @Override
-    public Response view_users() {
-        return null;
-    }
-
-     @Override
-    public Response edit_user() {
-        return null;
-    }
-
-     @Override
-    public Response delete_user() {
-        return null;
-    }
-
-     @Override
-    public Response set_server_config() {
-        return null;
-    }
-
-     @Override
-    public Response set_rp_config() {
-        return null;
-    }
-
-     @Override
-    public Response view_error_logger() {
-        return null;
-    }
-
-     @Override
-    public Response view_system_logger() {
-        return null;
-    }
-
-     @Override
-    public Response view_server_logger() {
-        return null;
-    }
-
-     @Override
-    public Response reset() {
-        return null;
-    }
-
-     @Override
-    public Response shout_down() {
-        return null;
-    }
-
-     @Override
-    public Response update_user_rate_tables(Dictionary<String, Dictionary<Integer, Integer>> tables) {
-        return null;
-    }
-
-     @Override
-    public Response update_hazard_formula(HazardType type, Formula formula) {
-        return null;
-    }
-
-     @Override
-    public Response register(String email, String password, String name, String last_name, String birth_date, String phone_number, String gender) {
-        return null;
-    }
-
-     @Override
-    public Response login(String email, String password) {
-        return null;
-    }
-
-     @Override
-    public Response logout() {
-        return null;
-    }
-
-     @Override
-    public Response change_password(String old_password, String password) {
-        Response response = null;
+    public Response<Boolean> register(RegisterRequest registerRequest) {
+        Response<Boolean> response = null;
         try {
-//            String email = user_controller.edit_password(loggedUser, old_password, password);
-//            response = new Response<>(password, email + " password has been changed successfully");
-//            serverLogger.add_log("User's (" + email + ")  password has been changed successfully.");
+            var email = registerRequest.getEmail();
+            var password = registerRequest.getPassword();
+            var gender = registerRequest.getGender();
+            var birthDate = registerRequest.getBirthDate();
+            var name = registerRequest.getName();
+            var lastName = registerRequest.getLastName();
+            var phone = registerRequest.getPhoneNumber();
+            var rpSerialNumber = registerRequest.getRaspberrySerialNumber();
+            var scooterType = registerRequest.getScooterType();
+            var licenseIssueDate = registerRequest.getLicenseIssueDate();
+            user_controller.register(email,password,name, lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber);
+            var message = "Successfully registered user with email" + email;
+            serverLogger.add_log(message);
+            response = new Response(true,message);
         }
+        catch (Exception e) {
+            error_logger.add_log(e.getMessage());
+            response = new Response(e.getMessage(), e);
+        }
+        return response;
+    }
+    public Response<User> login(LoginRequest loginRequest) {
+        Response<User> response = null;
+        try {
+            var email = loginRequest.getEmail();
+            var password = loginRequest.getPassword();
+            var user = user_controller.login(email,password);
+            var message = String.format("User with email %s Successfully logged in", email);
+            serverLogger.add_log(message);
+            response = new Response<>(user,message);
+            serverLogger.add_log(message);
 
-        catch (Exception e){
-            response = Utils.createResponse(e);
-            error_logger.add_log(e);
+        }
+        catch (Exception e) {
+            error_logger.add_log(e.getMessage());
+            response = new Response<>(e.getMessage(), e);
+        }
+        finally {
+            this.statisticsManager.inc_login_count();
         }
         return response;
     }
 
-     @Override
-    public Response view_user_rides_history() {
-        return null;
+    public Response logout(UserContext userContext) {
+        Response response;
+        try {
+            String email = userContext.get_email();
+            user_controller.logout(email);
+            String logger_message = "User's (" + email + ")  has been logout successfully.";
+            response = new Response<>("", logger_message);
+            serverLogger.add_log(logger_message);
+            this.statisticsManager.inc_logout_count();
+
+        }
+
+        catch (Exception e){
+            response = new Response<>(e.getMessage(),e);
+            error_logger.add_log(e.getMessage());
+        }
+        finally {
+            this.statisticsManager.inc_logout_count();
+        }
+        return response;
     }
 
-     @Override
-    public Response add_user_question(String message, User sender) {
-        Response response = null;
+     
+    public Response change_password(String old_password, String password, UserContext userContext) {
+        Response response;
+        try {
+            check_user_is_logged_in(userContext);
+            user_controller.change_password(userContext.get_email(), old_password, password);
+            String logger_message = "User's (" + userContext.get_email() + ")  password has been changed successfully.";
+            response = new Response<>(password, logger_message);
+            serverLogger.add_log(logger_message);
+        }
+
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+    public Response view_user_rides_history(UserContext userContext) {
+        Response response;
         try{
-            question_controller.add_user_question(message, sender);
-            String logger_message = sender.get_email() + " add user question";
+            check_user_is_logged_in(userContext);
+            String user_email = userContext.get_email();
+            List<Ride> rides = this.rides_controller.get_rides_by_email(user_email);
+            String logger_message = user_email+ " view rides history";
+            response = new Response(rides, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+    public Response add_user_question(String message, UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_logged_in(userContext);
+            String user_email = userContext.get_email();
+            user_controller.send_question_to_admin(user_email, message);
+            String logger_message = user_email + " add user question";
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);
 
         }
         catch (Exception e){
             response = Utils.createResponse(e);
-            error_logger.add_log(e);
+            error_logger.add_log(e.getMessage());
         }
         return response;
     }
-
-     @Override
-    public Response view_all_user_questions(String user_email) {
-        Response response = null;
+    public Response view_all_user_questions(UserContext userContext) {
+        Response response;
         try{
-            List<String> questions = question_controller.get_all_user_questions(user_email);
+            check_user_is_logged_in(userContext);
+            String user_email = userContext.get_email();
+            List<Question> questions = question_controller.get_all_user_questions(user_email);
             String logger_message = user_email+ " view all user questions";
             response = new Response(questions, logger_message);
             serverLogger.add_log(logger_message);
@@ -248,33 +225,557 @@ public class Facade implements AdminAPI, ProgrammerAPI, UserAPI {
         }
         catch (Exception e){
             response = Utils.createResponse(e);
-            error_logger.add_log(e);
+            error_logger.add_log(e.getMessage());
         }
         return response;
     }
+    public Response view_all_advertisements(UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_logged_in(userContext);
+            List<String> advs = advertise_controller.get_all_advertisements_for_user();
+            String logger_message = "user( "+userContext.get_email()+ ") view all advertisements";
+            response = new Response(advs, logger_message);
+            serverLogger.add_log(logger_message);
 
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
 
     /**
      *
      * @param origin
      * @param destination
-     * @param user
      * @return sorted & suggested routes & ride id
      */
-    @Override
-    public Response start_ride(Location origin, Location destination, User user) {
-//        this.routes_retriever.fetch_safe_routes(origin, destination);
-//        int ride_id = this.rides_controller.start_ride(user);
-         return null;
+
+
+
+    public Response get_safe_routes(String origin, String destination, UserContext userContext) {
+        Response response;
+        // TODO: 03/03/2023 : Tom - have to get 3 routes from Google Maps, find all the hazards in each route,
+        //  sum the rating of each hazard by hazard rate calculator
+        try {
+            check_user_is_logged_in(userContext);
+            List<Route> routeList = this.routes_retriever.fetch_safe_routes(origin, destination);
+            String logger_message = "user( "+userContext.get_email()+ ") got routes from: " + origin.toString() + ", to: "+destination.toString();
+            response = new Response(routeList, logger_message);
+            serverLogger.add_log(logger_message);
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
 
      }
-     @Override
-    public Response finish_ride(Location origin, Location destination, String city, LocalDateTime start_time,
+
+    public Response view_notifications(UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_logged_in(userContext);
+            Collection<Notification> notifications = userContext.get_notifications();
+            String logger_message = "user( "+userContext.get_email()+ ") view his notifications";
+            response = new Response(notifications, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    /**
+     * don't check if the user is logged in - can perform without logged in.
+     * @param user_id
+     * @param origin
+     * @param destination
+     * @param city
+     * @param start_time
+     * @param end_time
+     * @param hazards
+     * @return
+     */
+     // todo : user id -> RP serial number 
+    public Response finish_ride(String user_id, Location origin, Location destination, String city, LocalDateTime start_time,
                                 LocalDateTime end_time, List<StationaryHazard> hazards) {
 
-//        int ride_id = 0;
-//        this.ridesController.finish_ride(ride_id, origin, destination, city, start_time, end_time, hazards);
-         return null;
+        Response response;
+        try{
+            String ride_info="";
+            String hazard_info ="";
+            // TODO: 05/01/2023 : build the info objects
+            // TODO: 04/03/2023 : change user id -> email or serial number ?
+            int number_of_rides = this.rides_controller.get_number_of_rides(user_id);
+            Ride ride = this.rides_controller.add_ride(ride_info);
+            int ride_id = ride.getRide_id();
+            user_controller.update_user_rate(user_id, ride, number_of_rides);
+            hazard_controller.update_hazards(hazard_info, ride_id);
+            String logger_message = "user added new ride";
+            response = new Response("", logger_message);
+            serverLogger.add_log(logger_message);
 
-     }
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // ADMIN
+
+    public Response view_all_open_questions(UserContext userContext) {
+        Response response;
+        try{
+
+            check_user_is_admin_and_logged_in(userContext);
+            List<Question> questions = question_controller.get_all_open_questions();
+            String logger_message = "admin view all user questions";
+            response = new Response(questions, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response answer_user_question(int question_id, String answer, UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            question_controller.answer_user_question(question_id, answer, admin_email);
+            String logger_message = "admin answer question : " + question_id;
+            response = new Response("", logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response send_message_to_all_users(String message, UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            user_controller.notify_all_users(admin_email, message);
+            String logger_message = "admin send message to all users ";
+            response = new Response("", logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response view_rides(UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            List<Ride> rides = rides_controller.get_all_rides();
+            String logger_message = "admin view all rides";
+            response = new Response(rides, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response view_daily_statistics() {
+        Response response;
+        try{
+//            check_user_is_admin_and_logged_in(userContext); todo : add user context to arguments & in api controller.
+            DailyStatisticDAO daily_statistic = this.statisticsManager.get_current_daily_statistic();
+            String logger_message = "admin view current daily statistics";
+            response = new Response(daily_statistic, logger_message);
+            serverLogger.add_log(logger_message);
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response view_general_statistics() {
+        Response response;
+        try{
+//            check_user_is_admin_and_logged_in(userContext); todo : add user context to arguments & in api controller.
+            GeneralStatistic generalStatistic = this.statisticsManager.get_general_statistic();
+            String logger_message = "admin view current general statistics";
+            response = new Response(generalStatistic, logger_message);
+            serverLogger.add_log(logger_message);
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+
+    public Response view_all_daily_statistics() {
+        Response response;
+        try{
+//            check_user_is_admin_and_logged_in(userContext); todo : add user context to arguments & in api controller.
+            List<DailyStatisticDAO> all_daily_statistic = this.statisticsManager.get_all_daily_statistic();
+            String logger_message = "admin view all daily statistics";
+            response = new Response(all_daily_statistic, logger_message);
+            serverLogger.add_log(logger_message);
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response view_advertisements(UserContext userContext) {
+        Response response;
+        try{
+
+            check_user_is_admin_and_logged_in(userContext);
+            List<Advertise> advs = advertise_controller.get_all_advertisements_for_admin();
+
+            String logger_message = "admin view all advertisements";
+            response = new Response(advs, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response delete_advertisement(int advertise_id, UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            advertise_controller.remove_advertise(advertise_id);
+            String logger_message = "admin delete an advertisement with id : " + advertise_id;
+            response = new Response("", logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response view_awards(UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            Collection<Award> awards = this.awards_controller.view_awards();
+            String logger_message = "admin("+admin_email+") view all awards";
+            response = new Response(awards, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+
+    public Response add_award(String[] emails, String award, UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            this.awards_controller.add_award(award, admin_email, emails);
+            user_controller.notify_users(admin_email, emails, award);
+            String logger_message = "admin(\"+admin_email+\") add awards (" + award + ") to users: "+ Arrays.toString(emails);
+            response = new Response("", logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+
+
+
+
+    public Response view_admins(UserContext userContext) {
+        Response response;
+        try{
+
+            check_user_is_admin_and_logged_in(userContext);
+            List<Admin> admins_list = user_controller.view_admins();
+            String logger_message = "admin view all admins list";
+            response = new Response(admins_list, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response add_admin(String user_email, String name, String lastName, String user_password, String phoneNumber, LocalDate birthDay, String gender, UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            user_controller.appoint_new_admin(user_email,name, lastName, user_password, phoneNumber, birthDay, gender, admin_email);
+            String logger_message = "admin (" + admin_email + ")appoint new admin (" + user_email+ ")";
+            response = new Response("", logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+
+    }
+
+    public Response delete_admin(String user_email, UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            user_controller.remove_admin_appointment(user_email, admin_email);
+            String logger_message = "admin (" + admin_email + ")remove appoint of admin (" + user_email + ")";
+            response = new Response("", logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response view_users(UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            List<User> users_list = user_controller.get_all_users();
+            String logger_message = "admin view all users list";
+            response = new Response(users_list, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response delete_user(String user_email, UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            user_controller.delete_user(user_email);
+            String logger_message = "admin (" + admin_email + ") delete the user (" + user_email + ")";
+            response = new Response("", logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response add_advertisement(LocalDateTime final_date, String owner, String message, String photo, String url, UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            Advertise advertise = this.advertise_controller.add_advertise(final_date, owner, message, photo, url);
+            String logger_message = "admin("+admin_email+"" +") add new advertise (" + owner+ ")";
+            response = new Response(advertise.getId(), logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+
+
+    public void clear() {
+        this.error_logger.add_log("test");
+        this.serverLogger.add_log("test");
+        this.systemLogger.add_log("test");
+
+        // TODO: 01/03/2023 : clear all the data in instances.
+//        this.user_controller.reset();
+//        this.hazard_controller.reset();
+//        this.rides_controller.reset();
+//        this.advertise_controller.reset();
+//        this.question_controller.reset();
+    }
+
+
+    // PROGRAMMER
+
+
+
+    public Response reset(UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            clear();
+            String logger_message = "admin ( "+admin_email+ ") reset the system";
+            response = new Response("", logger_message);
+            serverLogger.add_log(logger_message);
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        finally {
+            this.statisticsManager.inc_reset_count();
+        }
+        return response;
+    }
+
+
+    public Response shut_down(UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            System.exit(800);
+            String logger_message = "admin ( "+admin_email+ ") sut down the system";
+            response = new Response("", logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        finally {
+            this.statisticsManager.inc_shut_down_count();
+        }
+        return response;
+    }
+
+    public Response set_server_config(UserContext userContext) {
+        return null;
+    }
+
+
+    public Response set_rp_config(UserContext userContext) {
+        return null;
+    }
+
+
+    public Response view_error_logger(UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            String logger = error_logger.toString();
+            String logger_message = "admin( "+admin_email+ ") view error logger";
+            response = new Response(logger, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+
+    public Response view_system_logger(UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            String logger = serverLogger.toString(); // TODO: 26/03/2023 : change to system logger
+            String logger_message = "admin( "+admin_email+ ") view system logger";
+            response = new Response(logger, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+
+    public Response view_server_logger(UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            String logger = serverLogger.toString();
+            String logger_message = "admin( "+admin_email+ ") view server logger";
+            response = new Response(logger, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+
+
 }

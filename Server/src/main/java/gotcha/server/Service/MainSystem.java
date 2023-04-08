@@ -1,138 +1,82 @@
 package gotcha.server.Service;
 
+import gotcha.server.Config.Configuration;
 import gotcha.server.DAL.HibernateUtils;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
 import gotcha.server.Domain.HazardsModule.HazardController;
+import gotcha.server.Domain.HazardsModule.HazardType;
+import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.RidesModule.RidesController;
+import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.ExternalService.MapsAdapter;
 import gotcha.server.ExternalService.MapsAdapterImpl;
 import gotcha.server.Utils.Exceptions.ExitException;
+import gotcha.server.Utils.Location;
+import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.SystemLogger;
-import gotcha.server.Utils.Utils;
+import gotcha.server.Utils.Threads.ConnectThread;
+import gotcha.server.Utils.Threads.StatisticsUpdateThread;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
+@Component
 public class MainSystem {
-    public static String EXTERNAL_SERVICE_MODE, DATABASE_MODE, DATABASE_URL, DATABASE_PASSWORD, SYSTEM_EMAIL, SYSTEM_EMAIL_PASSWORD, ADMIN_USER_NAME,
-            ADMIN_PASSWORD;
-    public static int MINIMUM_PASSWORD_LENGTH, MAXIMUM_PASSWORD_LENGTH, MINIMUM_DISTANCE_ALERT, NUMBER_OF_ROUTES;
-    public static boolean FIRST_TIME_RUNNING;
+    private final Configuration configuration;
+    private final UserController userController;
+    private final HazardController hazardController;
+    private final RidesController ridesController;
+    private final AdvertiseController advertiseController;
+    private final StatisticsManager statisticsManager;
+    private final SystemLogger systemLogger;
+    private final ErrorLogger errorLogger;
+    private final MapsAdapter maps_adapter;
 
-    private MapsAdapter maps_adapter;
-
-    public MainSystem(String system_config_path) throws ExitException {
-        this.init_server(system_config_path); // TODO: 29/12/2022 : check when we should call init_first_time.
+    @Autowired
+    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, ErrorLogger errorLogger, MapsAdapterImpl mapsAdapter, StatisticsManager statisticsManager){
+        this.configuration = configuration;
+        this.userController = userController;
+        this.hazardController = hazardController;
+        this.ridesController = ridesController;
+        this.advertiseController = advertiseController;
+        this.statisticsManager = statisticsManager;
+        this.systemLogger = systemLogger;
+        this.errorLogger = errorLogger;
+        this.maps_adapter = mapsAdapter;
     }
 
-    public void init_server(String config_file_path) throws ExitException {
-        SystemLogger.getInstance().add_log("Start Init Server");
-        SystemLogger.getInstance().add_log("Configuration File Path: "+config_file_path);
-
-        set_static_vars(config_file_path);
-        set_external_services();
+    public void init_server() throws Exception {
+        systemLogger.add_log("Start Init Server");
         connect_to_external_services();
         create_rp_config_file();
         connect_database();
         load_database();
-        if (FIRST_TIME_RUNNING)
+        if (configuration.getFirstTimeRunning())
             set_first_admin();
+        set_statistics_update_thread();
+        begin_instructions();
+        systemLogger.add_log("Finish Init Server");
     }
 
 
 
-    /**
-     * reading the data from the configuration file.
-     * @param config_file_path the path of the configuration file.
-     * @throws ExitException if the format file is unmatched.
-     */
-
-    public void set_static_vars(String config_file_path) throws ExitException {
-        try {
-            File file = new File(config_file_path);
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                String instruction = scanner.nextLine();
-                String[] instruction_parts = instruction.split(":");
-                switch (instruction_parts[0]){
-                    case "FIRST_TIME_RUNNING":
-                        FIRST_TIME_RUNNING = Utils.string_to_boolean(instruction_parts[1]);
-                        break;
-
-                    case "MINIMUM_PASSWORD_LENGTH":
-                        MINIMUM_PASSWORD_LENGTH = Utils.string_to_int(instruction_parts[1]);
-                        break;
-                    case "MAXIMUM_PASSWORD_LENGTH":
-                        MAXIMUM_PASSWORD_LENGTH = Utils.string_to_int(instruction_parts[1]);
-                        break;
-                    case "MINIMUM_DISTANCE_ALERT":
-                        MINIMUM_DISTANCE_ALERT = Utils.string_to_int(instruction_parts[1]);
-                        break;
-                    case "NUMBER_OF_ROUTES":
-                        NUMBER_OF_ROUTES = Utils.string_to_int(instruction_parts[1]);
-                        break;
-                    case "EXTERNAL_SERVICE_MODE":
-                        EXTERNAL_SERVICE_MODE = instruction_parts[1];
-                        break;
-                    case "DATABASE_MODE":
-                        DATABASE_MODE = instruction_parts[1];
-                        break;
-                    case "DATABASE_URL":
-                        DATABASE_URL = instruction_parts[1];
-                        break;
-                    case "DATABASE_PASSWORD":
-                        DATABASE_PASSWORD = instruction_parts[1];
-                        break;
-                    case "SYSTEM_EMAIL":
-                        SYSTEM_EMAIL = instruction_parts[1];
-                        break;
-                    case "SYSTEM_EMAIL_PASSWORD":
-                        SYSTEM_EMAIL_PASSWORD = instruction_parts[1];
-                        break;
-                    case "ADMIN_USER_NAME":
-                        ADMIN_USER_NAME = instruction_parts[1];
-                        break;
-                    case "ADMIN_PASSWORD":
-                        ADMIN_PASSWORD = instruction_parts[1];
-                        break;
-
-                }
-
-            }
-        }
-        catch (FileNotFoundException e) {throw new ExitException("Config File - File Not Found");}
-        if (EXTERNAL_SERVICE_MODE == null) {throw new ExitException("Config File - Format File Unmatched.");}
-    }
-
-
-
-    /**
-     * this method crate adapters to the external services.
-     * EXTERNAL_SERVICE_MODE - "external_services:demo" or "external_services:real"
-     * @throws ExitException if the input is illegal.
-     */
-    private void set_external_services() throws ExitException {
-        if (EXTERNAL_SERVICE_MODE.equals("tests")){
-            SystemLogger.getInstance().add_log("Set Tests External Services");
-            // TODO: 28/12/2022 : implement here new maps adapter implementation when MapsAdapter interface is ready.
-            this.maps_adapter = new MapsAdapterImpl();
-        }
-        else if (EXTERNAL_SERVICE_MODE.equals("real")){
-            SystemLogger.getInstance().add_log("Set Real External Services");
-            this.maps_adapter = new MapsAdapterImpl();
-        }
-        else {
-            throw new ExitException("System Config File - Illegal External Services Data.");
-        }
-    }
 
     /** Connect the system to the external services after set the services according the configuration file.
      * @throws ExitException if the handshake fail.
      */
     private void connect_to_external_services() throws ExitException {
-        SystemLogger.getInstance().add_log("System Start Connect To External Services");
+        systemLogger.add_log("System Start Connect To External Services");
         boolean connect_to_external_systems = this.maps_adapter.handshake();
         if (!connect_to_external_systems) // have to exit
         {
@@ -152,41 +96,92 @@ public class MainSystem {
 
 
     private void connect_database() throws ExitException {
-        if (DATABASE_MODE.equals("tests")){
+        if (configuration.getDatabaseMode().equals("tests")){
             // TODO: 30/12/2022 : have to connect to DB with DB_URL & DB_password.
-            System.out.println(DATABASE_URL);
-            System.out.println(DATABASE_PASSWORD);
+            System.out.println(configuration.getDatabaseUrl());
+            System.out.println(configuration.getDatabasePassword());
             HibernateUtils.set_tests_mode();
-            SystemLogger.getInstance().add_log("Tests Database Connected Successfully");
+            systemLogger.add_log("Tests Database Connected Successfully");
         }
 
-        else if (DATABASE_MODE.equals("real")){
+        else if (configuration.getDatabaseMode().equals("real")){
             // TODO: 30/12/2022 : have to connect to DB with DB_URL & DB_password.
-            System.out.println(DATABASE_URL);
-            System.out.println(DATABASE_PASSWORD);
+            System.out.println(configuration.getDatabaseUrl());
+            System.out.println(configuration.getDatabasePassword());
             HibernateUtils.set_normal_use();
-            SystemLogger.getInstance().add_log("Real Database Connected Successfully");
+            systemLogger.add_log("Real Database Connected Successfully");
 
         }
         else {
             throw new ExitException("System Config File - Illegal Database Mode.");
         }
     }
+
+    // TODO: Not sure we need to load the database here, Need to create a Repository object according to Spring Boot guidelines to access DB
     private void load_database() {
         // TODO: 29/12/2022 : load all controllers & set admins in the system.
-        UserController.get_instance().load();
-        HazardController.get_instance().load();
-        RidesController.get_instance().load();
-        AdvertiseController.get_instance().load();
+        userController.load();
+        hazardController.load();
+        ridesController.load();
+        advertiseController.load();
     }
 
     private void create_rp_config_file() {
         System.out.println("Here we should create Config//rp_config.txt File.");
-        System.out.println(MINIMUM_DISTANCE_ALERT);
+        System.out.println(configuration.getMinimumDistanceAlert());
     }
-    private void set_first_admin() {
-        // TODO: 30/12/2022 : sasha
-        System.out.println(ADMIN_USER_NAME);
-        System.out.println(ADMIN_PASSWORD);
+    private void set_first_admin() throws Exception {
+        LocalDate birth_date = LocalDate.now();
+        // TODO: 3/26/2023 : Need to add all parameters to config file
+        userController.add_first_admin(configuration.getAdminUserName(), "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
+    }
+
+    /**
+     * this method will make the statistics module updated every 24 hours.
+     */
+    private void set_statistics_update_thread() {
+        try{
+            ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+            StatisticsUpdateThread statistics_update_thread = new StatisticsUpdateThread();
+            executorService.scheduleAtFixedRate(statistics_update_thread, 0, 24, TimeUnit.HOURS);
+        }
+        catch (Exception e) {
+            errorLogger.add_log("fail to update statistics :"+e.getMessage());
+        }
+    }
+
+
+    private void begin_instructions() {
+        String EMAIL = "moskoga@gmail.com";
+        String PASSWORD = "123456Aa";
+        String NAME = "AMIT";
+        String LAST_NAME = "MOSKO";
+        String BIRTH_DATE = "19-04-95";
+        LocalDate BIRTH_DAY = LocalDate.of(1995, 4,19);
+        String PHONE = "0546794211";
+        String GENDER = "MALE";
+        BigDecimal lng = new BigDecimal("0.0");
+        BigDecimal lat = new BigDecimal("0.0");
+        Location origin = new Location(lng, lat);
+        Location dest = new Location(lng, lat);
+        String city = "B7";
+        LocalDateTime start_time = LocalDateTime.now();
+        LocalDateTime end_time = LocalDateTime.now();
+        StationaryHazard hazard = new StationaryHazard(5,6,origin,city, HazardType.PoleTree, 16.5);
+        ArrayList<StationaryHazard> hazards = new ArrayList<>();
+        hazards.add(hazard);
+        //
+//        Facade user_facade = new Facade();
+//        Facade admin_facade = new Facade();
+//        user_facade.register(EMAIL, PASSWORD, NAME, LAST_NAME, BIRTH_DATE, PHONE, GENDER);
+//        user_facade.login(EMAIL, PASSWORD);
+//        admin_facade.login(configuration.getAdminUserName(), configuration.getAdminPassword());
+////        admin_facade.add_advertisement(start_time, "owner", "mes", "photo", "url");
+////        admin_facade.add_advertisement(start_time, "owner2", "mes2", "photo2", "url2");
+////        user_facade.add_user_question("????");
+////        admin_facade.add_admin(EMAIL+"mmm", PASSWORD, PHONE, BIRTH_DAY, GENDER);
+//        admin_facade.logout();
+
+//        user_facade.finish_ride(1, origin, dest, city, start_time, end_time, hazards);
     }
 }

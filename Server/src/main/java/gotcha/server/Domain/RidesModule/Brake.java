@@ -9,11 +9,13 @@ public class Brake extends RidingAction{
     }
 
     public Brake(Double start_speed, Double final_speed) {
+        // TODO: 27/03/2023 : add super call 
         this.start_speed = start_speed;
         this.final_speed = final_speed;
     }
 
 
+    // ------------------------------------------ Getters & Setters ----------------------------------------------------------
 
     public Double getStart_speed() {
         return start_speed;

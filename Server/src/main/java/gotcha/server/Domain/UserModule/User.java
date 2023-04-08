@@ -1,24 +1,30 @@
 package gotcha.server.Domain.UserModule;
 
 import gotcha.server.Domain.Notifications.Notification;
+import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Observer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class User implements Observer {
+public abstract class
+User implements Observer {
 
     private String userEmail;
     private String userPasswordToken;
     private String phoneNumber;
     private String gender;
     private LocalDate birthDay;
+    private String name;
+    private String lastName;
     private Map<Integer, Notification> userNotifications;
-
     private boolean loggedIn;
 
-    public User(String userEmail, String userPasswordToken, String phoneNumber, LocalDate birthDay, String gender) {
+    public User(String userEmail,String name, String lastName, String userPasswordToken, String phoneNumber, LocalDate birthDay, String gender) {
         this.userEmail = userEmail;
         this.userPasswordToken = userPasswordToken;
         this.phoneNumber = phoneNumber;
@@ -26,6 +32,8 @@ public abstract class User implements Observer {
         this.gender = gender;
         this.loggedIn = false;
         this.userNotifications = new HashMap<>();
+        this.name = name;
+        this.lastName = lastName;
     }
 
     // Empty constructor for DB
@@ -40,6 +48,9 @@ public abstract class User implements Observer {
         return this.phoneNumber;
     }
 
+    public void change_password_token(String newToken){
+        this.userPasswordToken = newToken;
+    }
     public String get_gender() {
         return this.gender;
     }
@@ -54,11 +65,20 @@ public abstract class User implements Observer {
         return this.loggedIn;
     }
 
-    public void login(){
+    public synchronized void login() throws Exception {
+        if (loggedIn) {
+            var message = String.format("User with email %s is already logged in", userEmail);
+            throw new Exception(message);
+        }
         this.loggedIn = true;
     }
 
-    public void logout() {
+    public synchronized void logout() throws Exception {
+        if(!loggedIn)
+        {
+            var message = String.format("User with email %s is NOT logged in", userEmail);
+            throw new Exception(message);
+        }
         this.loggedIn = false;
     }
 
@@ -72,7 +92,6 @@ public abstract class User implements Observer {
         if (!wasAdded) {
             return false;
         }
-        // TODO: try to show the user the notification through publisher
         return true;
 
     }
@@ -89,7 +108,15 @@ public abstract class User implements Observer {
         }
     }
 
+    public Collection<Notification> get_notifications(){
+        return this.userNotifications.values();
+    }
     public Boolean is_admin() {
         return false;
+    }
+
+    public void edit_details(String phoneNumber, String gender) {
+        this.phoneNumber = phoneNumber;
+        this.gender = gender;
     }
 }

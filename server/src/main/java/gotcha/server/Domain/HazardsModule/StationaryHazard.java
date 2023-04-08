@@ -19,10 +19,9 @@ public class StationaryHazard {
         this.city = city;
         this.type = type;
         this.size = size;
-        this.setRate();
+        //this.setRate();
     }
 
-    // TODO: 28/12/2022 : input checks - ranges and implement tests after.
 
     public int getId() {
         return id;
@@ -65,6 +64,7 @@ public class StationaryHazard {
     public void setSize(double size) {
         this.size = size;
     }
+
 
     public double getRate() {
         return rate;

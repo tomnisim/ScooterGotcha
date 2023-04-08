@@ -9,8 +9,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Question {
 
-    private static AtomicInteger idCounter = new AtomicInteger();
-
     protected int question_id;
     protected String message_date;
     protected String answer_date;
@@ -30,8 +28,8 @@ public class Question {
      * @param message
      * @param senderEmail
      */
-    public Question(String message, String senderEmail) {
-        this.question_id = idCounter.getAndIncrement();
+    public Question(int question_id, String message, String senderEmail) {
+        this.question_id = question_id;
         this.message = message;
         this.has_answer = false;
         this.senderEmail = senderEmail;

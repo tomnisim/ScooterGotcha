@@ -1,38 +1,29 @@
 package gotcha.server.Domain.AdvertiseModule;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
+import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+@Component
 public class AdvertiseController implements IAdvertiseController {
     private AtomicInteger id_counter;
     private Map<Integer, Advertise> advertise_list;
-
-    private static class SingletonHolder {
-        private static AdvertiseController instance = new AdvertiseController();
-    }
-    public static AdvertiseController get_instance() {
-        return AdvertiseController.SingletonHolder.instance;
-    }
 
     public AdvertiseController() {
         this.id_counter = new AtomicInteger(1);
         this.advertise_list = new HashMap<>();
     }
 
-
-
     @Override
     public void load() {}
 
 
     @Override
-    public void add_advertise(LocalDateTime final_date, String owner, String message, String photo){
+    public Advertise add_advertise(LocalDateTime final_date, String owner, String message, String photo, String url){
         int advertise_id = this.id_counter.incrementAndGet();
-        Advertise advertise = new Advertise(advertise_id, final_date, owner, message, photo);
+        Advertise advertise = new Advertise(advertise_id, final_date, owner, message, photo, url);
         this.advertise_list.put(advertise_id, advertise);
+        return advertise;
     }
     @Override
     public void remove_advertise(int advertise_id){
@@ -40,13 +31,38 @@ public class AdvertiseController implements IAdvertiseController {
     }
 
     @Override
-    public void update_advertise(int advertise_id, LocalDateTime final_date, String owner, String message, String photo){
+    public void update_advertise(int advertise_id, LocalDateTime final_date, String owner, String message, String photo, String url) throws Exception {
         Advertise advertise = this.advertise_list.get(advertise_id);
         advertise.setFinal_date(final_date);
         advertise.setOwner(owner);
         advertise.setMessage(message);
         advertise.setPhoto(photo);
+        advertise.setUrl(url);
+
     }
+
+
+
+    @Override
+    public List<Advertise> get_all_advertisements_for_admin(){
+        List<Advertise> to_return = new LinkedList<>();
+        for (Advertise advertise : this.advertise_list.values())
+        {
+            to_return.add(advertise);
+        }
+        return to_return;
+    }
+
+    @Override
+    public List<String> get_all_advertisements_for_user(){
+        List<String> to_return = new LinkedList<>();
+        for (Advertise advertise : this.advertise_list.values())
+        {
+            to_return.add(advertise.toString_user());
+        }
+        return to_return;
+    }
+
 }
 
 

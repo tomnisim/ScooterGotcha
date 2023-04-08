@@ -1,6 +1,12 @@
 package gotcha.server.Utils;
+import gotcha.server.Config.Configuration;
 import gotcha.server.Utils.Logger.SystemLogger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
@@ -8,15 +14,17 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.regex.Pattern;
 
-import static gotcha.server.Service.MainSystem.MAXIMUM_PASSWORD_LENGTH;
-import static gotcha.server.Service.MainSystem.MINIMUM_PASSWORD_LENGTH;
-
+@Component
 public class Utils {
+    private final Configuration configuration;
+    private final SystemLogger systemLogger;
 
-    public Utils() {
+    @Autowired
+    public Utils(Configuration configuration, SystemLogger systemLogger) {
+        this.configuration = configuration;
+        this.systemLogger = systemLogger;
     }
 
     public static String DateToString(LocalDate d) {
@@ -83,16 +91,16 @@ public class Utils {
         return output;
     }
 
-    public static String LocalDateToString(LocalDate d) {
+    public String LocalDateToString(LocalDate d) {
         return d.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
-    public static Date LocalDateToDate(LocalDate d) {
+    public Date LocalDateToDate(LocalDate d) {
         ZoneId defaultZoneId = ZoneId.systemDefault();
         return Date.from(d.atStartOfDay(defaultZoneId).toInstant());
     }
 
-    public static LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+    public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
         return dateToConvert.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
@@ -105,7 +113,7 @@ public class Utils {
      * @param bound  - the upper bound
      * @return the number that the string represents if the condition stands, or -1 otherwise
      */
-    public static int checkIfInBounds(String number, int bound) {
+    public int checkIfInBounds(String number, int bound) {
         try {
             int num = Integer.parseInt(number);
             return num > 0 && num < bound ? num : -1;
@@ -115,7 +123,7 @@ public class Utils {
     }
 
 
-    public static void emailValidCheck(String email) throws Exception {
+    public void emailValidCheck(String email) throws Exception {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
                 "[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
@@ -128,12 +136,12 @@ public class Utils {
             throw new Exception("Invalid email");
     }
 
-    public static void passwordValidCheck(String pw) throws Exception {
+    public void passwordValidCheck(String pw) throws Exception {
 
         boolean containsNum = false;
         boolean containsUpper = false;
         boolean containsLower = false;
-        if (pw.length() < MINIMUM_PASSWORD_LENGTH  || pw.length() > MAXIMUM_PASSWORD_LENGTH)
+        if (pw.length() < configuration.getMinimumPasswordLength()  || pw.length() > configuration.getMaximumPasswordLength())
             throw new Exception("password length should be in range of 6-12");
         char[] pwArray = pw.toCharArray();
         for (char c : pwArray) {
@@ -150,7 +158,7 @@ public class Utils {
             throw new Exception("password should contain at least one upper & lower letter, and digit");
     }
 
-    public static void nameValidCheck(String name) throws Exception {
+    public void nameValidCheck(String name) throws Exception {
         final int MaxNamesLength = 10;
         if (name == null || name.equals(""))
             throw new Exception("Name cannot be null or empty spaces");
@@ -165,13 +173,13 @@ public class Utils {
         }
     }
 
-    public static void validate_license_issue_date(LocalDate licenceIssueDate) throws Exception {
+    public void validate_license_issue_date(LocalDate licenceIssueDate) throws Exception {
         if (licenceIssueDate.isAfter(LocalDate.now())) {
             throw new Exception("license issue date must be before current date\n");
         }
     }
 
-    public static void validate_scooter_type(String scooterType) throws Exception {
+    public void validate_scooter_type(String scooterType) throws Exception {
         if (scooterType == null) {
             throw new Exception("scooter type can't be null");
         }
@@ -180,7 +188,7 @@ public class Utils {
         }
     }
 
-    public static void validate_gender(String gender) throws Exception {
+    public void validate_gender(String gender) throws Exception {
 
         if (gender == null) {
             throw new Exception("gender can't be null");
@@ -190,14 +198,14 @@ public class Utils {
         }
     }
 
-    public static void validate_birth_date(LocalDate birthDay) throws Exception {
+    public void validate_birth_date(LocalDate birthDay) throws Exception {
         Period p = Period.between(birthDay, LocalDate.now());
         if (p.getYears() < 16) {
             throw new Exception("Rider must be at least 16 years old");
         }
     }
 
-    public static void validate_phone_number(String phoneNumber) throws Exception {
+    public void validate_phone_number(String phoneNumber) throws Exception {
         if (phoneNumber==null) {
             throw new Exception("phone number can't be null");
         }
@@ -213,18 +221,18 @@ public class Utils {
         }
     }
 
-    public static String send_http_post_request(String url, HashMap<String, String> postContent) {
+    public String send_http_post_request(String url, HashMap<String, String> postContent) {
         String answer = HttpUtility.newRequest(url,HttpUtility.METHOD_POST,postContent, new HttpUtility.Callback() {
             @Override
             public String OnSuccess(String response) {
                 // on success
-                SystemLogger.getInstance().add_log("HTTP POST On Success Response= "+response);
+                systemLogger.add_log("HTTP POST On Success Response= "+response);
                 return response;
             }
             @Override
             public String OnError(int status_code, String message) {
                 // on error
-                SystemLogger.getInstance().add_log("HTTP POST On Error Status Code= "+status_code+" Message= "+message);
+                systemLogger.add_log("HTTP POST On Error Status Code= "+status_code+" Message= "+message);
                 return message;
             }
         });
@@ -232,7 +240,7 @@ public class Utils {
     }
 
 
-    public static int string_to_int(String str){
+    public int string_to_int(String str){
         int number = -1;
         number = Integer.parseInt(str);
         return number;
@@ -246,5 +254,28 @@ public class Utils {
     public static boolean string_to_boolean(String str) {
         return str.equals("t") || str.equals("T") || str.equals("true") || str.equals("TRUE") ||
                 str.equals("True") || str.equals("OK") || str.equals("yes") || str.equals("YES") || str.equals("Yes");
+    }
+
+    public String get_rp_config_file_data() {
+        // TODO: 05/01/2023 : implement 
+        return "todo";
+    }
+
+    public static LocalDate StringToLocalDate(String birthDay) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        // TODO: 05/03/2023  
+        String date = "16/08/1995";
+
+        //convert String to LocalDate
+        return LocalDate.parse(date, formatter);
+    }
+
+    public static boolean isValidURL(String url) {
+        try {
+            new URL(url).toURI();
+            return true;
+        } catch (MalformedURLException | URISyntaxException e) {
+            return false;
+        }
     }
 }

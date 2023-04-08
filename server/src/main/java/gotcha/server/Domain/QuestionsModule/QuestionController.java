@@ -3,59 +3,45 @@ package gotcha.server.Domain.QuestionsModule;
 import gotcha.server.DAL.HibernateUtils;
 import gotcha.server.Domain.UserModule.Admin;
 import gotcha.server.Domain.UserModule.User;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
-
+@Component
 public class QuestionController implements IQuestionController {
 
     private Map<Integer, Question> open_questions;
     private Map<String, List<Question>> users_questions;
     private AtomicInteger question_ids_counter;
-
-
-
-    private static class SingletonHolder{
-        private static QuestionController instance = new QuestionController();
-    }
-    public static QuestionController get_instance(){
-        return QuestionController.SingletonHolder.instance;
-    }
-
-    public QuestionController() {
+    public QuestionController(){
         this.open_questions = new ConcurrentHashMap<>();
         this.users_questions = new ConcurrentHashMap<>();
         this.question_ids_counter = new AtomicInteger(1);
     }
 
-    // TODO: 14/12/2022 implement
-    public void load(){
+
+    // TODO: 14/12/2022 Database
+    public void load() {
 //        this.questionsMap = HibernateUtils.get_questions();
         this.question_ids_counter = new AtomicInteger(HibernateUtils.get_max_question_id());
     }
 
 
-    /**
-     * this method for a user who add question to admins, the method notify admins and added the question to the
-     * open questions.
-     * @param message
-     * @param senderEmail
-     */
     @Override
-    public void add_user_question(String message, String senderEmail, BiConsumer<String, Integer> notify_all_admins){
-        Question question_to_add = new Question(message, senderEmail);
-        int question_id = question_to_add.getQuestion_id();
+    public void add_user_question(String message, String senderEmail, BiConsumer<String, Integer> update_function) {
+        int id = this.question_ids_counter.getAndIncrement();
+        Question question = new Question(id, message, senderEmail);
+        this.open_questions.put(id, question);
+        List<Question> questionList = this.users_questions.getOrDefault(senderEmail, new LinkedList<>());
+        questionList.add(question);
 
-        this.open_questions.putIfAbsent(question_id, question_to_add);
-        this.users_questions.computeIfAbsent(senderEmail, k -> new ArrayList<>()).add(question_to_add);
-        notify_all_admins.accept(senderEmail, question_id);
+
     }
-
-
 
     /**
      * this method for an admin who answer user question
@@ -93,11 +79,11 @@ public class QuestionController implements IQuestionController {
      * @return open & close questions of the user
      */
     @Override
-    public List<String> get_all_user_questions(String user_email) {
-        ArrayList<String> answer = new ArrayList<>();
+    public List<Question> get_all_user_questions(String user_email) {
+        ArrayList<Question> answer = new ArrayList();
         List<Question> user_questions = this.users_questions.get(user_email);
         for (Question question : user_questions){
-            answer.add(question.toString_for_user());
+            answer.add(question);
         }
         return answer;
     }
@@ -107,10 +93,11 @@ public class QuestionController implements IQuestionController {
      * @return all the open questions.
      */
     @Override
-    public List<String> get_all_open_questions(){
-        ArrayList<String> answer = new ArrayList<>();
+
+    public List<Question> get_all_open_questions(){
+        ArrayList<Question> answer = new ArrayList<Question>();
         for (Question question : this.open_questions.values()){
-            answer.add(question.toString_for_admin());
+            answer.add(question);
         }
         return answer;
     }
