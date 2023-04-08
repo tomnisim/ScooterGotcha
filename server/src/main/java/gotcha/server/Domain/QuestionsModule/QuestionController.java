@@ -3,6 +3,7 @@ package gotcha.server.Domain.QuestionsModule;
 import gotcha.server.DAL.HibernateUtils;
 import gotcha.server.Domain.UserModule.Admin;
 import gotcha.server.Domain.UserModule.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,33 +15,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 @Component
 public class QuestionController implements IQuestionController {
-
-    private Map<Integer, Question> open_questions;
-    private Map<String, List<Question>> users_questions;
     private AtomicInteger question_ids_counter;
-    public QuestionController(){
-        this.open_questions = new ConcurrentHashMap<>();
-        this.users_questions = new ConcurrentHashMap<>();
-        this.question_ids_counter = new AtomicInteger(1);
+    private final QuestionsRepository questionsRepository;
+
+    @Autowired
+    public QuestionController(QuestionsRepository questionsRepository){
+        this.questionsRepository = questionsRepository;
     }
-
-
-    // TODO: 14/12/2022 Database
-    public void load() {
-//        this.questionsMap = HibernateUtils.get_questions();
-        this.question_ids_counter = new AtomicInteger(HibernateUtils.get_max_question_id());
-    }
-
-
     @Override
-    public void add_user_question(String message, String senderEmail, BiConsumer<String, Integer> update_function) {
-        int id = this.question_ids_counter.getAndIncrement();
-        Question question = new Question(id, message, senderEmail);
-        this.open_questions.put(id, question);
-        List<Question> questionList = this.users_questions.getOrDefault(senderEmail, new LinkedList<>());
-        questionList.add(question);
-
-
+    public void add_user_question(String message, String senderEmail, BiConsumer<String, Integer> update_function) throws Exception {
+        Question question = new Question(message, senderEmail);
+        this.questionsRepository.addQuestion(question);
     }
 
     /**

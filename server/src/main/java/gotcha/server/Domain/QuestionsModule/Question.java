@@ -28,8 +28,7 @@ public class Question {
      * @param message
      * @param senderEmail
      */
-    public Question(int question_id, String message, String senderEmail) {
-        this.question_id = question_id;
+    public Question(String message, String senderEmail) {
         this.message = message;
         this.has_answer = false;
         this.senderEmail = senderEmail;

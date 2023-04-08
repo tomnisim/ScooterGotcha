@@ -13,10 +13,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HazardController implements IHazardController {
     private final SystemLogger systemLogger;
     private final HazardRepository hazardRepository;
-    private AtomicInteger id_counter;
     @Autowired
     public HazardController(SystemLogger systemLogger, HazardRepository hazardRepository) {
-        this.id_counter = new AtomicInteger(1);
         this.systemLogger = systemLogger;
         this.hazardRepository = hazardRepository;
     }
@@ -27,12 +25,7 @@ public class HazardController implements IHazardController {
     }
 
     private void add_hazard(StationaryHazard hazard) throws Exception {
-        int hazard_id = this.id_counter.incrementAndGet();
-        hazard.setId(hazard_id);
-        var result = this.hazardRepository.add_hazard(hazard);
-        if (result != null) {
-            throw new Exception("hazard with this id already existed");
-        }
+        this.hazardRepository.addHazard(hazard);
     }
 
     private void update_hazard(StationaryHazard hazard, double size) {

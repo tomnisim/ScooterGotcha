@@ -4,7 +4,7 @@ import java.util.function.BiConsumer;
 
 
 public interface IQuestionController {
-    void add_user_question(String message, String senderEmail, BiConsumer<String,Integer> update_function);
+    void add_user_question(String message, String senderEmail, BiConsumer<String,Integer> update_function) throws Exception;
     String answer_user_question(int question_id, String answer, String adminEmail) throws Exception;
 
     Question get_question(int question_id) throws Exception;

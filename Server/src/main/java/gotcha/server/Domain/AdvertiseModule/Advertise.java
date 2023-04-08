@@ -2,20 +2,40 @@ package gotcha.server.Domain.AdvertiseModule;
 
 import gotcha.server.Utils.Utils;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+
+@Entity
+@Table(name = "advertises")
 public class Advertise {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @Column(name="startDate")
     private LocalDateTime start_date;
+
+    @Column(name="finalDate")
     private LocalDateTime final_date;
+
+    @Column(name = "owner", columnDefinition = "VARCHAR")
     private String owner;
+
+    @Column(name = "message", columnDefinition = "TEXT")
     private String message;
+
+    @Column(name = "photo", columnDefinition = "TEXT")
     private String photo;
+
+    @Column(name = "url", columnDefinition = "VARCHAR")
     private String url;
+
+    @Column(name = "userClicks")
     private int users_clicks;
 
-    public Advertise(int id, LocalDateTime final_date, String owner, String message, String photo, String url) {
-        this.id = id;
+    public Advertise(LocalDateTime final_date, String owner, String message, String photo, String url) {
         this.final_date = final_date;
         this.owner = owner;
         this.message = message;
@@ -36,6 +56,8 @@ public class Advertise {
         this.url = url;
         this.users_clicks = users_clicks;
     }
+
+    public Advertise(){}
 
 
 

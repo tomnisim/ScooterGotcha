@@ -23,12 +23,13 @@ class IHazardControllerTest {
     @Mock
     private SystemLogger systemLogger;
 
-    private HazardRepository hazardRepository = new HazardRepository();
+    //private HazardRepository hazardRepository = new HazardRepository();
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        hazardController = new HazardController(systemLogger, hazardRepository);
+        // TODO: 4/8/2023 : add mocks for the JpaRepository 
+        //hazardController = new HazardController(systemLogger, hazardRepository);
     }
 
     @AfterEach
