@@ -2,14 +2,21 @@ package gotcha.server.Domain.RidesModule;
 
 import gotcha.server.Utils.Location;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "rides")
 public class Ride {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int ride_id;
+    @Column(name="riderEmail")
     private String rider_email;
     private LocalDate date;
     private String city;

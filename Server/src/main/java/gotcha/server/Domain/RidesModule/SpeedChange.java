@@ -4,8 +4,15 @@ import gotcha.server.Utils.Location;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.*;
+
+@Entity
+@DiscriminatorValue("SpeedChange")
 public class SpeedChange extends RidingAction{
+
+    @Column(name="startSpeed")
     private Double start_speed;
+    @Column(name="finalSpeed")
     private Double final_speed;
 
     public SpeedChange() {
