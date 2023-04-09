@@ -15,19 +15,25 @@ import { background } from '../API/Path';
 
 const usersApi = new UsersApi();
 let users_list = []
+let rp_waiting_list = []
 let users_emails = ""
 
 export const get_users_list = async () => {
   let response = await usersApi.view_users();
   if (!response.was_exception){
     users_list = response.value
-    console.log(users_list)
     users_emails = users_list.map((item) => {
       return (
         {value: item._email, label: item._email}
       );
     })
   }
+  let response1 = await usersApi.view_waiting_rp();
+  if (!response1.was_exception){
+    rp_waiting_list = response1.value
+  }
+  console.log(response1)
+
 }
 
 
@@ -58,12 +64,21 @@ export default function UsersWindow({navigation}) {
   return (
     <View>
     <ImageBackground source={background} resizeMode="cover">
-    <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>Users List:</b></Text>
 
     <View style={{display: 'flex', flexDirection:'row'}}>
+
+    <View style={{display: 'flex', flexDirection:'column'}}>
+    <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>Riders List:</b></Text>
+
     <ScrollView style={styles.container}>
-    <Table columns={columns} data={users_list} tableLayout="auto"/>
+    <Table columns={riders_columns} data={users_list} tableLayout="auto"/>
     </ScrollView>
+    <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>Waiting RP List:</b></Text>
+
+    <ScrollView style={styles.container1}>
+    <Table columns={waiting_columns} data={rp_waiting_list} tableLayout="auto"/>
+    </ScrollView>
+    </View>
     <Text>    </Text>    
     <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
     <TextInput
@@ -109,42 +124,88 @@ export default function UsersWindow({navigation}) {
 
 
 
-const columns = [
+const riders_columns = [
   {
     title: "Email",
-    dataIndex: "_email",
-    key: "_email",
+    dataIndex: "userEmail",
+    key: "userEmail",
     width: 200,
+  },
+
+  {
+    title: "Rating",
+    dataIndex: "rating",
+    key: "rating",
+    width:200,
+  },
+  {
+    title: "Scooter Type",
+    dataIndex: "scooterType",
+    key: "scooterType",
+    width:200,
+  },
+  {
+    title: "RP Serial #",
+    dataIndex: "raspberryPiSerialNumber",
+    key: "raspberryPiSerialNumber",
+    width:200,
+  },
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+    width:200,
+  },
+  {
+    title: "Last Name",
+    dataIndex: "lastName",
+    key: "lastName",
+    width:200,
   },
   {
     title: "Gender",
-    dataIndex: "_gender",
-    key: "_gender",
+    dataIndex: "gender",
+    key: "gender",
     width: 200,
   },
   {
     title: "Phone",
-    dataIndex: "_phone_number",
-    key: "_phone_number",
+    dataIndex: "phoneNumber",
+    key: "phoneNumber",
     width: 200,
   },
   {
-    title: "Rating",
-    dataIndex: "_rating",
-    key: "_rating",
-    width:200,
+    title: "Birth Date",
+    dataIndex: "birthDay",
+    key: "birthDay",
+    width: 200,
   },
   {
-    title: "Admin",
-    dataIndex: "_admin",
-    key: "_admin",
+    title: "Licence Issue Date",
+    dataIndex: "licenceIssueDate",
+    key: "licenceIssueDate",
     width:200,
   },
   {
     title: "Online",
-    dataIndex: "_logged_in",
-    key: "_logged_in",
+    dataIndex: "loggedIn",
+    key: "loggedIn",
     width:200,
+  },
+];
+
+const waiting_columns = [
+  {
+    title: "ID",
+    dataIndex: "id",
+    key: "id",
+    width: 200,
+  },
+  {
+    title: "Raspberry Pi Serial Code",
+    dataIndex: "rp_serial_number",
+    key: "rp_serial_number",
+    width: 200,
   },
 ];
 
@@ -153,7 +214,14 @@ const columns = [
 const styles = StyleSheet.create({
   container: {
     width:1200,
-    height:500,
+    height:400,
+    padding: 10,
+    opacity:0.5,
+    backgroundColor:'white'
+  },
+  container1: {
+    width:1200,
+    height:180,
     padding: 10,
     opacity:0.5,
     backgroundColor:'white'
