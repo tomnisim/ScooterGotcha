@@ -61,6 +61,14 @@ User implements Observer {
 
     public String get_password_token() {return  this.userPasswordToken;}
 
+    public String getName() {
+        return name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
     public boolean is_logged_in() {
         return this.loggedIn;
     }

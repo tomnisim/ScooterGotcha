@@ -42,4 +42,16 @@ public class Rider extends User{
     public void setRating(double rating) {
         this.rating = rating;
     }
+
+    public String getScooterType() {
+        return scooterType;
+    }
+
+    public LocalDate getLicenceIssueDate() {
+        return licenceIssueDate;
+    }
+
+    public String getRaspberryPiSerialNumber() {
+        return raspberryPiSerialNumber;
+    }
 }
