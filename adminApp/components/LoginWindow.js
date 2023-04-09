@@ -10,8 +10,10 @@ import { get_questions_list } from './QuestionsWindow';
 import { get_stats } from './StatisticsWindow';
 import { get_hazards_list } from './HazardsWindow';
 import { get_rides_list } from './RidesWindow';
+import { get_notifications_list } from './HomeWindow';
 
 const load_data = async () => {
+  await get_notifications_list();
   await get_users_list();
   await get_admins_list();
   await get_advertisments_list();
@@ -21,7 +23,6 @@ const load_data = async () => {
   await get_stats();
   await get_hazards_list();
   await get_rides_list();
-  // TODO : ADD RIDES.
 }
 
 
@@ -55,7 +56,7 @@ export default function LoginWindow({navigation}) {
         }
         else
         {
-            load_data();
+            await load_data();
             navigation.navigate('Home')
         }
         

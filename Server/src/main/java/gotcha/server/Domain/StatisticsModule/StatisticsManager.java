@@ -69,7 +69,6 @@ public class StatisticsManager implements iStatisticsManager {
     @Override
     public void update_daily_statistic() {
         if (!LocalDate.now().isEqual(this.current_daily_statistic.getDate())){
-            // TODO: 07/04/2023 : should give initial daily data // total admins in start day
             this.current_daily_statistic = new DailyStatistic(user_controller.view_admins().size(), question_controller.getQuestion_ids_counter() - question_controller.get_all_open_questions().size(),
                     advertise_controller.get_all_advertisements_for_admin().size(), awards_controller.view_awards().size(),
                     rides_controller.get_all_rides().size(), hazard_controller.view_hazards().size(), user_controller.get_all_users().size(), question_controller.getQuestion_ids_counter());

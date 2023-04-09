@@ -1,13 +1,27 @@
 import * as React from 'react';
-import { View, Text, Button, ImageBackground } from 'react-native';
+import { ScrollView ,View, Text, Button, ImageBackground, StyleSheet} from 'react-native';
+import Table from 'rc-table';
 import { background } from '../API/Path';
+import { LoginApi } from '../API/LoginApi';
+
+const loginApi = new LoginApi();
+let notifications_list = []
+
+export const get_notifications_list = async () => {
+  let response = await loginApi.view_notifications();
+  if (!response.was_exception){
+    notifications_list = response.value
+  }
+  console.log(response)
+}
 
 export default function HomeWindow({navigation}) {
     return (
       <View>
         <ImageBackground source={background} resizeMode="cover">
-        <Text style={{paddinRight:'300',right:100,marginRight:50, color:'#841584'}}><h1>     Home Screen</h1></Text>
+        <View style={{display: 'flex', flexDirection:'row', width: 550}}>
         <View style={{width:750}}>
+        <Text style={{textAlign:'center', color:'#841584', backgroundColor:'white', opacity:0.8, width: 350}}><h1>Home Screen</h1></Text>
         <Button onPress={() => navigation.navigate('Users')} title="Users Window" color='#00000000'/>
         <Button onPress={() => navigation.navigate('Admins')} title="Admins Window" color='#00000000'/>
         <Button onPress={() => navigation.navigate('Advertisements')} title="Advertisements Window" color='#00000000'/>
@@ -18,7 +32,54 @@ export default function HomeWindow({navigation}) {
         <Button onPress={() => navigation.navigate('Awards')} title="Awards Window" color='#00000000'/>
         <Button onPress={() => navigation.navigate('SystemSettings')} title="System settings Window" color='#00000000'/>
         </View>
+        <View style={{display: 'flex', flexDirection:'column', width: 550}}>
+        <Text style={{textAlign:'center', color:'#841584', backgroundColor:'white', opacity:0.8}}><h1>Notifications</h1></Text>
+        <ScrollView style={styles.container}>
+        <Table columns={columns} data={notifications_list} tableLayout="auto"/>
+        </ScrollView>
+        </View>
+
+
+        </View>
         </ImageBackground>
       </View>
     );
   }
+
+
+  const columns = [
+    {
+      title: " ",
+      dataIndex: "_message",
+      key: "_message",
+      width: 200,
+    },
+  ];
+  
+  
+  
+  const styles = StyleSheet.create({
+    container: {
+      width:550,
+      height:350,
+      padding: 10,
+      opacity:0.5,
+      backgroundColor:'white'
+    },
+    hairline: {
+      backgroundColor: 'black',
+      height: 2,
+      width: 200
+    },
+    textInputer: {
+      backgroundColor:'white',
+      opacity:0.8,
+      textAlign:'center',
+      height: 40
+    },
+    item: {
+      padding: 20,
+      fontSize: 15,
+      marginTop: 5,
+    }
+  });
