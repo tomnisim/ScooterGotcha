@@ -172,7 +172,7 @@ public class UserController implements IUserController {
         if (newAdmin != null) {
             throw new Exception("appointed admin email: " + appointingAdminEmail + " already exists");
         }
-        verify_user_information(newAdminEmail, password, phoneNumber, birthDay, gender);
+//        verify_user_information(newAdminEmail, password, phoneNumber, birthDay, gender); // TODO: 09/04/2023 : fix bug with extra params. 
         var appointingAdmin = userRepository.getUser(appointingAdminEmail);
         if (appointingAdmin == null) {
             throw new UserNotFoundException("appointing admin email: " + appointingAdminEmail + " does NOT exists");
@@ -264,13 +264,14 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public List<Admin> view_admins() {
+    public List<AdminDAO> view_admins() {
 
-        var adminsList = new ArrayList<Admin>();
+        var adminsList = new ArrayList<AdminDAO>();
         var allUsers = userRepository.getAllUsers();
         for (var user : allUsers) {
             if (user.is_admin()) {
-                adminsList.add((Admin) user);
+                AdminDAO to_add = new AdminDAO((Admin) user);
+                adminsList.add(to_add);
             }
         }
         return adminsList;
@@ -352,7 +353,7 @@ public class UserController implements IUserController {
     }
     // change all users
 
-    public void notify_users(String senderEmail, String[] emails, String message) {
+    public void notify_users(String senderEmail, List<String> emails, String message) {
         Notification notification = new Notification(senderEmail, message);
         List<User> allUsers = userRepository.getAllUsers();
         for (String email : emails) {

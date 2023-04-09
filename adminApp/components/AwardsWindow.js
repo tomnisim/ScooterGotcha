@@ -29,7 +29,7 @@ export const get_emails_list = async () => {
     let users_list = response.value
     users_emails = users_list.map((item) => {
       return (
-        {value: item._email, label: item._email}
+        {value: item.userEmail, label: item.userEmail}
       );
     })
   }
@@ -52,8 +52,6 @@ export const get_awards_list = async () => {
     
 }
 
-// get_emails_list();
-// get_awards_list();
 export default function AwardsWindow({navigation}) {
   get_awards_list()
   get_emails_list();
@@ -69,9 +67,6 @@ export default function AwardsWindow({navigation}) {
   }
 
   const add_award = () => {
-    // todo : build list , or try to transfer array.
-    alert(emails)
-    alert(award_to_add)
     awardsAPI.add_award(emails, award_to_add)
     get_awards_list()
   }

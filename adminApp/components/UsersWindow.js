@@ -24,7 +24,7 @@ export const get_users_list = async () => {
     users_list = response.value
     users_emails = users_list.map((item) => {
       return (
-        {value: item._email, label: item._email}
+        {value: item.userEmail, label: item.userEmail}
       );
     })
   }

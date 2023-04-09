@@ -26,14 +26,12 @@ export const get_admins_list = async () => {
   let response = await adminApi.view_admins();
   if (!response.was_exception){
     admins_list = response.value
-    console.log(response.value)
 
     admins_emails = admins_list.map((item) => {
       return (
-        {value: item._email, label: item._email}
+        {value: item.userEmail, label: item.userEmail}
       );
     })
-    console.log(admins_emails)
   }
 }
 
@@ -42,7 +40,6 @@ export const get_admins_list = async () => {
 
 
 
-// get_admins_list()
 export default function AdminsWindow({navigation}) {
   get_admins_list();
 
@@ -181,33 +178,51 @@ const gender_options = [
 const columns = [
   {
     title: "Email",
-    dataIndex: "_email",
-    key: "_email",
+    dataIndex: "userEmail",
+    key: "userEmail",
+    width: 200,
+  },
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+    width: 200,
+  },
+  {
+    title: "Last Name",
+    dataIndex: "lastName",
+    key: "namlastName",
     width: 200,
   },
   {
     title: "Gender",
-    dataIndex: "_gender",
-    key: "_gender",
+    dataIndex: "gender",
+    key: "gender",
     width: 200,
   },
   {
     title: "Phone",
-    dataIndex: "_phone_number",
-    key: "_phone_number",
+    dataIndex: "phoneNumber",
+    key: "phoneNumber",
     width: 200,
   },
   {
     title: "Appointed By",
-    dataIndex: "_appointed_by",
-    key: "_appointed_by",
+    dataIndex: "appointedBy",
+    key: "appointedBy",
     width:200,
   },
     {
     title: "Appointment Date",
-    dataIndex: "_appointment_date",
-    key: "_appointment_date",
+    dataIndex: "appointmentDate",
+    key: "appointmentDate",
     width:200,
+  },
+  {
+    title: "Online",
+    dataIndex: "loggedIn",
+    key: "loggedIn",
+    width: 200,
   },
 ];
 

@@ -2,6 +2,9 @@ package gotcha.server.Domain.HazardsModule;
 
 import gotcha.server.Domain.RatingModule.HazardRateCalculator;
 import gotcha.server.Utils.Location;
+/**
+ * this DAO is for Admin application.
+ */
 
 public class StationaryHazardDAO {
     private int id;

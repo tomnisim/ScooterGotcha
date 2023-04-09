@@ -1,7 +1,9 @@
 package gotcha.server.Domain.UserModule;
 
 import java.time.LocalDate;
-
+/**
+ * this DAO is for RIDER & ADMIN applications.
+ */
 public class RiderDAO {
     private double rating;
     private String scooterType;

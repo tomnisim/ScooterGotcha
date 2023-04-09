@@ -14,11 +14,12 @@ export class AdvertismentsApi {
 
     add_advertisement(final_date, owner, message, photo, url) {
         const data = {
-            url: url,
             owner: owner,
             photo: photo,
             message: message,
-            final_date: final_date
+            final_date: final_date,
+            url: url,
+
         };
         return axios.post(ADD_ADVERTISE_PATH,data)
             .then(res => {

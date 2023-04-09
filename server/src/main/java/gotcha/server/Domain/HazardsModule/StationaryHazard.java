@@ -5,7 +5,7 @@ import gotcha.server.Utils.Location;
 
 public class StationaryHazard {
     private int id;
-    private int ride_id;
+    private int ride_id; // will be -1 if the hazard added by admin.
     private Location location;
     private String city;
     private HazardType type;

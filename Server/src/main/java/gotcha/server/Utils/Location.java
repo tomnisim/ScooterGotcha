@@ -16,6 +16,11 @@ public class Location {
         this.latitude = lat;
     }
 
+    public Location(String lng, String lat) {
+        this.longitude = new BigDecimal(lng);
+        this.latitude = new BigDecimal(lat);
+    }
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

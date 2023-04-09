@@ -62,7 +62,6 @@ export default function AdvertismentsWindow({navigation}) {
   }
 
   const delete_advertise = () => {
-    alert(advertise_id_to_delete)
     advertismentsApi.delete_advertisement(advertise_id_to_delete)
     get_advertisments_list();
   }
@@ -108,7 +107,7 @@ export default function AdvertismentsWindow({navigation}) {
       <TextInput
         style={styles.textInputer}
         placeholder="enter Advertise url"
-          onChangeText={newText => setText_to_url(newText.value)}
+          onChangeText={newText => setText_to_url(newText)}
       />
       <Button onPress={() => add_advertisement()} title="Add Advertise" color="#841584"/>
 

@@ -12,12 +12,18 @@ const hazardsApi = new HazardsApi();
 
 let hazards_list = []
 let hazards_ids_list = []
+
+let hazards_types_list = [{value: "pothole", label:"Pothole"}, {value: "PoleTree", label:"Pole Tree"}, {value: "RoadSign", label:"Road Sign"}]
+let cities_list = [{value: "Tel Aviv", label:"Tel Aviv"}, {value: "Haifa", label:"Haifa"}, {value: "Beersheba", label:"Beersheba"},]
+
 let lng = ""
 let lat = ""
 let city = ""
 let type = ""
 let size = ""
+
 let hazard_to_remove = ""
+let hazard_to_report = ""
 
 export const get_hazards_list = async () => {
   let response = await hazardsApi.view_hazards();
@@ -61,14 +67,36 @@ export default function HazardsWindow({navigation}) {
     hazard_to_remove = text
   }
 
+  const setText_to_report_hazard = (text) => {
+    hazard_to_report = text
+  }
+
   const add_hazard = () => {
-    hazardsApi.add_hazard(lng, lat, city, type, type, size)
+    hazardsApi.add_hazard(lng, lat, city, type, size)
     get_hazards_list();
   }
 
   const delete_hazard = () => {
-    advertismentsApi.delete_hazard(hazard_to_remove)
+    if (hazard_to_remove == "")
+      {
+        alert("Please choose Hazard")
+      }
+      else
+      {
+        advertismentsApi.delete_hazard(hazard_to_remove)
+      }
     get_hazards_list();
+  }
+  // let hazard_to_remove = ""
+  // let hazard_to_report = ""
+  const report_hazard = () => {
+    if (hazard_to_report == ""){
+      alert("Please choose Hazard")
+    }
+    else{
+      alert("Report to OR YARUK about hazard : "+hazard_to_report)
+    }
+    
   }
 
 
@@ -93,16 +121,16 @@ export default function HazardsWindow({navigation}) {
           placeholder="Hazard Location lat"
           onChangeText={newText => setText_to_lat(newText)}
         />
-        <TextInput
-          style={styles.textInputer}
+        <Select
           placeholder="Hazard City"
-          onChangeText={newText => setText_to_city(newText)}
-        />
-        <TextInput
-          style={styles.textInputer}
+          options={cities_list}
+            onChange={newText => setText_to_city(newText.value)}
+        ></Select>
+        <Select
           placeholder="Hazard Type"
-          onChangeText={newText => setText_to_type(newText)}
-        />
+          options={hazards_types_list}
+            onChange={newText => setText_to_type(newText.value)}
+        ></Select>
         <TextInput
           style={styles.textInputer}
           placeholder="Hazard Size"
@@ -114,14 +142,21 @@ export default function HazardsWindow({navigation}) {
       <Text>  </Text>
       <Text>  </Text>
       <Text>  </Text>
-      <Text>  </Text>
-      <Text>  </Text>
+
       <Select
         placeholder="Hazard ID to delete"
         options={hazards_ids_list}
         onChange={newText => setText_to_remove_hazard(newText.value)}
       ></Select>
       <Button onPress={() => delete_hazard()} title="Delete Hazard" color="#841584"/>
+      <Text>  </Text>
+      <Text>  </Text>
+      <Select
+        placeholder="Hazard ID to Report"
+        options={hazards_ids_list}
+        onChange={newText => setText_to_report_hazard(newText.value)}
+      ></Select>
+      <Button onPress={() => report_hazard()} title="Report 'OR Yaruk'" color="green"/>
     
   </View>
   

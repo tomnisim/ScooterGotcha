@@ -223,21 +223,21 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @CrossOrigin
     @Override
     public Response view_daily_statistics(@SessionAttribute("userContext") UserContext userContext) {
-        return facade.view_daily_statistics();
+        return facade.view_daily_statistics(userContext);
     }
 
     @RequestMapping(value = "/view_general_statistics")
     @CrossOrigin
     @Override
     public Response view_general_statistics(@SessionAttribute("userContext") UserContext userContext) {
-        return facade.view_general_statistics();
+        return facade.view_general_statistics(userContext);
     }
 
     @RequestMapping(value = "/view_all_daily_statistics")
     @CrossOrigin
     @Override
     public Response view_all_daily_statistics(@SessionAttribute("userContext") UserContext userContext) {
-        return facade.view_all_daily_statistics();
+        return facade.view_all_daily_statistics(userContext);
     }
 
     @RequestMapping(value = "/view_advertisements")
@@ -277,9 +277,9 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @CrossOrigin
     @Override
     public Response add_award(@RequestBody AddAwardRequest addAwardRequest, @SessionAttribute("userContext") UserContext userContext) {
-        String[] temp = addAwardRequest.getEmails().toArray(new String[5]);
+        List<String> emails = addAwardRequest.getEmails();
         String award = addAwardRequest.getAward();
-        return facade.add_award(temp,award, userContext);
+        return facade.add_award(emails,award, userContext);
     }
 
 
@@ -296,7 +296,7 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @RequestMapping(value = "/add_admin")
     @CrossOrigin
     @Override
-    public Response add_admin(String user_email,String name, String lastName, String user_password, String phoneNumber, LocalDate birthDay, String gender, @SessionAttribute("userContext") UserContext userContext) {
+    public Response add_admin(String user_email,String name, String lastName, String user_password, String phoneNumber, String birthDay, String gender, @SessionAttribute("userContext") UserContext userContext) {
         return facade.add_admin(user_email,name, lastName, user_password, phoneNumber, birthDay, gender, userContext);
     }
 
@@ -339,6 +339,13 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @Override
     public Response view_hazards(@SessionAttribute("userContext") UserContext userContext) {
         return facade.view_hazards(userContext);
+    }
+
+    @RequestMapping(value = "/add_hazard")
+    @CrossOrigin
+    @Override
+    public Response add_hazard(String lng, String lat, String city, String type, Double size, UserContext userContext) {
+        return facade.add_hazard(lng, lat, city, type, size, userContext);
     }
 
 

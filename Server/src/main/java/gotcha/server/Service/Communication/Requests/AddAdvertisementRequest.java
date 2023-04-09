@@ -3,24 +3,23 @@ package gotcha.server.Service.Communication.Requests;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class AddAdvertisementRequest {
     private String url;
     private String owner;
     private String photo;
     private String message;
-    // TODO: 07/04/2023 : BUG when we try to transfer LocalDate / LocalDateTime 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-
     private LocalDate final_date;
     public AddAdvertisementRequest(){}
 
-    public AddAdvertisementRequest(String url, String owner, String photo, String message, LocalDate final_date) {
+    public AddAdvertisementRequest(String url, String owner, String photo, String message, String final_date) {
         this.url = url;
         this.owner = owner;
         this.photo = photo;
         this.message = message;
-        this.final_date = final_date;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.final_date = LocalDate.parse(final_date, formatter);
     }
 
     public String getUrl() {

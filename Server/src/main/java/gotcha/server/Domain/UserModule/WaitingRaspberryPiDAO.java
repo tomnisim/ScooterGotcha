@@ -1,5 +1,7 @@
 package gotcha.server.Domain.UserModule;
-
+/**
+ * this DAO is for ADMIN application.
+ */
 public class WaitingRaspberryPiDAO {
     private int id;
     private String rp_serial_number;
