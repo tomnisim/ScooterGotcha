@@ -161,33 +161,28 @@ public class MainSystem {
         this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12);
         this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14);
         this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3);
-        LocalDate birth_date = LocalDate.now();
+        LocalDate birth_date = LocalDate.of(1995, 05 , 05);
+        String password = "AaAa12345";
+        userController.add_rp_serial_number("first");
+        userController.add_rp_serial_number("first1");
+        userController.add_rp_serial_number("first12");
+        userController.add_rp_serial_number("first123");
+        userController.add_rp_serial_number("first1234");
+        userController.add_rp_serial_number("first12345");
+
+        userController.register("email@gmail.com", password, "name", "last", "0546794211",
+                birth_date, "male", "type", birth_date, "first");
+        userController.register("email1@gmail.com", password, "name", "last", "0546794211",
+                birth_date, "male", "type", birth_date, "first1");
+        userController.register("email12@gmail.com", password, "name", "last", "0546794211",
+                birth_date, "male", "type", birth_date, "first12");
+        userController.register("email123@gmail.com", password, "name", "last", "0546794211",
+                birth_date, "male", "type", birth_date, "first123");
 
         userController.add_first_admin("admin1@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         userController.add_first_admin("admin12@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         userController.add_first_admin("admin123@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin1234@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin12345@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin123456@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin1234567@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin12345678@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin123456789@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin2@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin23@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin234@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin2345@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin23456@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin234567@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin2345678@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin23456789@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin3@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin34@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin345@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin3456@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin34567@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin345678@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin3456789@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        //
+
 //        Facade user_facade = new Facade();
 //        Facade admin_facade = new Facade();
 //        user_facade.register(EMAIL, PASSWORD, NAME, LAST_NAME, BIRTH_DATE, PHONE, GENDER);
