@@ -313,12 +313,25 @@ public class ApiController implements IAdminAPI, IUserAPI {
     public Response view_users(@SessionAttribute("userContext") UserContext userContext) {
         return facade.view_users(userContext);
     }
+    @RequestMapping(value = "/view_waiting_rp")
+    @CrossOrigin
+    @Override
+    public Response view_waiting_rp(@SessionAttribute("userContext") UserContext userContext) {
+        return facade.view_waiting_rp(userContext);
+    }
+
 
     @RequestMapping(value = "/delete_user")
     @CrossOrigin
     @Override
     public Response delete_user(String user_email, @SessionAttribute("userContext") UserContext userContext) {
         return facade.delete_user(user_email, userContext);
+    }
+    @RequestMapping(value = "/add_rp_serial_number")
+    @CrossOrigin
+    @Override
+    public Response add_rp_serial_number(String rp_serial, UserContext userContext) {
+        return facade.add_rp_serial_number(rp_serial, userContext);
     }
 
     @RequestMapping(value = "/view_hazards")
