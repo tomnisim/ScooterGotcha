@@ -106,8 +106,8 @@ public class MainSystem {
 
         else if (configuration.getDatabaseMode().equals("real")){
             // TODO: 30/12/2022 : have to connect to DB with DB_URL & DB_password.
-            System.out.println(configuration.getDatabaseUrl());
-            System.out.println(configuration.getDatabasePassword());
+//            System.out.println(configuration.getDatabaseUrl());
+//            System.out.println(configuration.getDatabasePassword());
             HibernateUtils.set_normal_use();
             systemLogger.add_log("Real Database Connected Successfully");
 
