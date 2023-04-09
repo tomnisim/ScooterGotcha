@@ -1,6 +1,7 @@
 package gotcha.server.Domain.HazardsModule;
 
 import ch.qos.logback.classic.pattern.ClassOfCallerConverter;
+import gotcha.server.ExternalService.ReporterAdapter;
 import gotcha.server.SafeRouteCalculatorModule.Route;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.SystemLogger;
@@ -18,11 +19,13 @@ public class HazardController implements IHazardController {
     private Map<Integer, StationaryHazard> stationaryHazardsList;
     private final SystemLogger systemLogger;
     private AtomicInteger id_counter;
+    private ReporterAdapter reporterAdapter;
     @Autowired
-    public HazardController(SystemLogger systemLogger) {
+    public HazardController(SystemLogger systemLogger, ReporterAdapter reporterAdapter) {
         this.stationaryHazardsList = new ConcurrentHashMap();
         this.id_counter = new AtomicInteger(1);
         this.systemLogger = systemLogger;
+        this.reporterAdapter = reporterAdapter;
     }
 
     @Override
@@ -140,5 +143,17 @@ public class HazardController implements IHazardController {
     public List<StationaryHazard> view_hazards() {
         // TODO: 03/04/2023 : implement for admin
         return new LinkedList<>();
+    }
+
+    @Override
+    public void report_hazard(int hazardId) throws Exception {
+        StationaryHazard stationaryHazard = this.stationaryHazardsList.get(hazardId);
+        this.getReporterAdapter().report(stationaryHazard);
+
+    }
+
+
+    public ReporterAdapter getReporterAdapter() {
+        return reporterAdapter;
     }
 }

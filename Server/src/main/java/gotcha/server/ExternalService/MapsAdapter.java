@@ -38,7 +38,7 @@ public abstract class MapsAdapter {
     }
 
     /**
-     * this method call google maps API
+     * this method call Google Maps API
      * @param origin_destination after covert to Location object, location of rider
      * @param destination_input after covert to Location object
      * @return a route from @origin to @destination
