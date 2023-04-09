@@ -34,7 +34,9 @@ public interface IAdminAPI {
     Response delete_admin(String user_email, @SessionAttribute("userContext") UserContext userContext);
 
     Response view_users(@SessionAttribute("userContext") UserContext userContext);
+    Response view_waiting_rp(@SessionAttribute("userContext") UserContext userContext);
     Response delete_user(String user_email, @SessionAttribute("userContext") UserContext userContext);
+    Response add_rp_serial_number(String rp_serial, @SessionAttribute("userContext") UserContext userContext);
 
 
     Response view_hazards( @SessionAttribute("userContext") UserContext userContext);

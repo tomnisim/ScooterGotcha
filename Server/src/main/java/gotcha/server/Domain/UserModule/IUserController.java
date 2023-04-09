@@ -6,6 +6,7 @@ import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
 import gotcha.server.Utils.Observable;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 public interface IUserController extends Observable {
@@ -18,6 +19,9 @@ public interface IUserController extends Observable {
     void reply_to_user_question(String adminEmail, String reply, int question_id) throws Exception;
     void send_question_to_admin(String userEmail, String message) throws Exception;
     List<Admin> view_admins();
+    List<RiderDAO> get_all_riders();
+    List<WaitingRaspberryPiDAO> get_waiting_rp();
+    void add_rp_serial_number(String rpSerial) throws Exception;
     void change_password(String userEmail, String oldPassword, String newPassword) throws Exception;
     void remove_admin_appointment(String user_email, String admin_email) throws Exception;
     void delete_user(String user_email) throws Exception ;

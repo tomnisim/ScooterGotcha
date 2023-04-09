@@ -20,12 +20,9 @@ import gotcha.server.Domain.RidesModule.RidesController;
 import gotcha.server.Domain.StatisticsModule.DailyStatistic;
 import gotcha.server.Domain.StatisticsModule.DailyStatisticDAO;
 import gotcha.server.Domain.StatisticsModule.GeneralStatistic;
-import gotcha.server.Domain.UserModule.IUserController;
+import gotcha.server.Domain.UserModule.*;
 //import gotcha.server.Domain.StatisticsModule.DailyStatistic;
 import gotcha.server.Domain.StatisticsModule.StatisticsManager;
-import gotcha.server.Domain.UserModule.Admin;
-import gotcha.server.Domain.UserModule.User;
-import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.SafeRouteCalculatorModule.Route;
 import gotcha.server.SafeRouteCalculatorModule.RoutesRetriever;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
@@ -46,6 +43,7 @@ import java.util.*;
 
 @Component
 public class Facade {
+    final int SUCCESS_OPCODE = 400;
     private ErrorLogger error_logger;
     private ServerLogger serverLogger;
     private SystemLogger systemLogger;
@@ -617,9 +615,42 @@ public class Facade {
         Response response;
         try{
             check_user_is_admin_and_logged_in(userContext);
-            List<User> users_list = user_controller.get_all_users();
+            List<RiderDAO> users_list = user_controller.get_all_riders();
             String logger_message = "admin view all users list";
             response = new Response(users_list, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response view_waiting_rp(UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            List<WaitingRaspberryPiDAO> waiting_rp_list = user_controller.get_waiting_rp();
+            String logger_message = String.format("admin (%s), view all waiting Raspberry Pi list",userContext.get_email());
+            response = new Response(waiting_rp_list, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+    public Response add_rp_serial_number(String rpSerial, UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            user_controller.add_rp_serial_number(rpSerial);
+            String logger_message = String.format("Admin: %s, add new Raspberry Pi: %s to system.", userContext.get_email(),rpSerial);
+            response = new Response(SUCCESS_OPCODE, logger_message);
             serverLogger.add_log(logger_message);
 
         }
