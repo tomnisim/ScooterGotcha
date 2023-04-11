@@ -1,6 +1,7 @@
 package gotcha.server.Domain.AdvertiseModule;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -19,7 +20,7 @@ public class AdvertiseController implements IAdvertiseController {
 
 
     @Override
-    public Advertise add_advertise(LocalDateTime final_date, String owner, String message, String photo, String url){
+    public Advertise add_advertise(LocalDate final_date, String owner, String message, String photo, String url){
         int advertise_id = this.id_counter.incrementAndGet();
         Advertise advertise = new Advertise(advertise_id, final_date, owner, message, photo, url);
         this.advertise_list.put(advertise_id, advertise);
@@ -31,7 +32,7 @@ public class AdvertiseController implements IAdvertiseController {
     }
 
     @Override
-    public void update_advertise(int advertise_id, LocalDateTime final_date, String owner, String message, String photo, String url) throws Exception {
+    public void update_advertise(int advertise_id, LocalDate final_date, String owner, String message, String photo, String url) throws Exception {
         Advertise advertise = this.advertise_list.get(advertise_id);
         advertise.setFinal_date(final_date);
         advertise.setOwner(owner);

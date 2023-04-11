@@ -8,10 +8,7 @@ import gotcha.server.Utils.Logger.SystemLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 @Component
@@ -140,9 +137,12 @@ public class HazardController implements IHazardController {
 
 
     @Override
-    public List<StationaryHazard> view_hazards() {
-        // TODO: 03/04/2023 : implement for admin
-        return new LinkedList<>();
+    public Collection<StationaryHazardDAO> view_hazards() {
+        Collection<StationaryHazardDAO> list_to_return = new ArrayList<>();
+        for (StationaryHazard stationaryHazard : this.stationaryHazardsList.values()){
+            list_to_return.add(stationaryHazard.getDAO());
+        }
+        return list_to_return;
     }
 
     @Override

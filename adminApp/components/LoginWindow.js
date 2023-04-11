@@ -1,12 +1,32 @@
 import * as React from 'react';
 import {ImageBackground, View, Text, Button, StyleSheet, TextInput} from 'react-native';
 import {LoginApi } from '../API/LoginApi';
+import { background } from '../API/Path';
+import {get_users_list} from './UsersWindow';
+import {get_admins_list} from './AdminsWindow';
+import {get_advertisments_list } from './AdvertismentsWindow';
+import { get_awards_list, get_emails_list } from './AwardsWindow';
+import { get_questions_list } from './QuestionsWindow';
+import { get_stats } from './StatisticsWindow';
+import { get_hazards_list } from './HazardsWindow';
+import { get_rides_list } from './RidesWindow';
+import { get_notifications_list } from './HomeWindow';
 
-const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
+const load_data = async () => {
+  await get_notifications_list();
+  await get_users_list();
+  await get_admins_list();
+  await get_advertisments_list();
+  await get_awards_list();
+  await get_emails_list();
+  await get_questions_list();
+  await get_stats();
+  await get_hazards_list();
+  await get_rides_list();
+}
 
 
 const loginApi = new LoginApi();
-export let session_id = 0;
 
 
 
@@ -26,8 +46,6 @@ export default function LoginWindow({navigation}) {
 
 
     const login = async () => {
-        alert("login pressed");
-        // todo : move only login success
         let response = await loginApi.login(user_email, user_password)
         console.log(response)
         if (response.was_exception || response.was_exception == undefined){
@@ -38,8 +56,7 @@ export default function LoginWindow({navigation}) {
         }
         else
         {
-            session_id = response.value;
-            console.log(session_id);
+            await load_data();
             navigation.navigate('Home')
         }
         
@@ -49,24 +66,20 @@ export default function LoginWindow({navigation}) {
         
         <View style={{flex:0.75, padding:10}}>
             <ImageBackground source={background} resizeMode="cover" style={styles.image}>
-            <View style={{alignItems: 'left'}}>
-            <Text style={{color:"#841584",padding:10}}><h1>Welcome!</h1></Text>
-            <Text style={{color:'white'}}><h2>Scooter Gotcha Admin Application</h2></Text>
+            <View style={{alignItems: 'center'}}>
+            <Text style={{color:'white', backgroundColor:"#841584", width:350, opacity:0.8, textAlign:'center'}}><h3>Welcome to Gotcha Admin Application!</h3></Text>
             <TextInput
-                style={{color:'white' ,height:40,left:200}}
-                placeholder="                                             User email"
+                style={{color:"#841584",textAlign:'center',width:350, backgroundColor:'white',height:40, opacity:0.8}}
+                placeholder="Enter Email"
                 onChangeText={newText => setText_email(newText)}
                 />
             <TextInput
-                style={{color:'white' ,height:40}}
-                placeholder="                                             User password"
+                style={{color:"#841584",textAlign:'center',width:350, backgroundColor:'white',height:40, opacity:0.8}}
+                placeholder="Enter Password"
                 onChangeText={newText => setText_password(newText)}
                 />
+              <Button onPress={() => login()}  title="Login" color="#841584"/>
             </View>
-            <View style={{paddingStart:30,paddingVertical:5,paddingLeft:50, paddingRight:10, width:100}}>
-            <Button onPress={() => login()}  title="Login" color="#841584"/>
-            </View>
-            
             </ImageBackground>
         </View>
       );
