@@ -1,6 +1,5 @@
 package gotcha.server.Domain.RidesModule;
 
-import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Utils.Exceptions.RideNotFoundException;
 import org.springframework.stereotype.Component;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
@@ -35,7 +33,7 @@ public class RidesController implements IRidesController {
     public Ride add_ride(FinishRideRequest finishRideRequest, String userEmail) throws Exception {
         int ride_id = this.id_counter.incrementAndGet();
         Ride ride = new Ride(ride_id, userEmail,finishRideRequest.getCity(), finishRideRequest.getStartTime(), finishRideRequest.getEndTime(),finishRideRequest.getOrigin(), finishRideRequest.getDestination(), finishRideRequest.getRidingActions());
-        this.ridesRepository.add_ride(ride, userEmail);
+        this.ridesRepository.addRide(ride, userEmail);
         return ride;
     }
 

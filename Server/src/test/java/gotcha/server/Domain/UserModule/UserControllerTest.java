@@ -60,7 +60,13 @@ class UserControllerTest {
         var passwordToken = "testToken";
         var user = new Rider();
         user.change_password_token(passwordToken);
-        when(userRepository.getUserByEmail(email)).thenReturn(user);
+        try{
+
+            when(userRepository.getUserByEmail(email)).thenReturn(user);
+        }
+        catch (UserNotFoundException ex) {
+            fail("shouldn't happen");
+        }
         when(passwordManager.authenticate(password, passwordToken)).thenReturn(true);
         try{
             var userResult = userController.login(email,password);
@@ -74,13 +80,14 @@ class UserControllerTest {
 
     @Test
     void login_userDoesNotExist_failedLogin() {
-        var testEmail = "test@gmail.com";
-        var testPassword = "testPassword";
-        //user.change_password_token(passwordToken);
-        when(userRepository.getUserByEmail(testEmail)).thenReturn(null);
-        //when(passwordManager.authenticate(testPassword, passwordToken)).thenReturn(true);
+        try{
+            when(userRepository.getUserByEmail(email)).thenReturn(null);
+        }
+        catch (UserNotFoundException ex) {
+            fail("shouldn't happen");
+        }        //when(passwordManager.authenticate(testPassword, passwordToken)).thenReturn(true);
         assertThrows(UserNotFoundException.class, () -> {
-            userController.login(testEmail,testPassword);
+            userController.login(email,password);
         });
     }
 
@@ -91,7 +98,13 @@ class UserControllerTest {
         var passwordToken = "testToken";
         var user = new Rider();
         user.change_password_token(passwordToken);
-        when(userRepository.getUserByEmail(testEmail)).thenReturn(user);
+        try{
+
+            when(userRepository.getUserByEmail(testEmail)).thenReturn(user);
+        }
+        catch (UserNotFoundException ex) {
+            fail("shouldn't happen");
+        }
         when(passwordManager.authenticate(testPassword, passwordToken)).thenReturn(false);
         assertThrows(Exception.class, () -> {
             userController.login(testEmail,testPassword);

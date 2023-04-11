@@ -3,10 +3,8 @@ package gotcha.server.Domain.RidesModule;
 import gotcha.server.Utils.Location;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,12 +16,33 @@ public class Ride {
     private int ride_id;
     @Column(name="riderEmail")
     private String rider_email;
+
+    @Column(name="ride")
     private LocalDate date;
+
+    @Column(name="city")
+
     private String city;
+
+    @Column(name="startTime")
+
     private LocalDateTime start_time;
+
+    @Column(name="endTime")
+
     private LocalDateTime end_time;
+
+    @Column(name="origin")
+    @Embedded
+
     private Location origin;
+
+    @Column(name="destination")
+    @Embedded
     private Location destination;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ride_id")
     private List<RidingAction> actions;
 
     public Ride()

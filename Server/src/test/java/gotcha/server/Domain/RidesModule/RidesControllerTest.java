@@ -25,11 +25,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class RidesControllerTest {
     private  RidesController ride_controller;
 
-    private RidesRepository ridesRepository = new RidesRepository();
+    @Mock
+    private IRidesRepository ridesJpaRepository;
+
+    private RidesRepository ridesRepository;
 
 
     @BeforeEach
     void setUp() {
+        MockitoAnnotations.openMocks(this);
+        ridesRepository = new RidesRepository(ridesJpaRepository);
         ride_controller = new RidesController(ridesRepository);
     }
 

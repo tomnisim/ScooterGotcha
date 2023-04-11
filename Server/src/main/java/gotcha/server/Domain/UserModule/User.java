@@ -1,27 +1,52 @@
 package gotcha.server.Domain.UserModule;
 
 import gotcha.server.Domain.Notifications.Notification;
-import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Observer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "user_type")
 public abstract class
 User implements Observer {
 
+    @Id
+    @Column(name="email")
     private String userEmail;
+
+    @Column(name="password", columnDefinition = "VARCHAR")
     private String userPasswordToken;
+    @Column(name="phoneNumber", columnDefinition = "VARCHAR")
+
     private String phoneNumber;
+    @Column(name="gender", columnDefinition = "VARCHAR")
+
     private String gender;
+
+    @Column(name="birthDay")
+
     private LocalDate birthDay;
+
+    @Column(name="name", columnDefinition = "VARCHAR")
+
     private String name;
+    @Column(name="lastName", columnDefinition = "VARCHAR")
+
     private String lastName;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(
+            name = "users_notifications",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "notification_id")
+    )
     private Map<Integer, Notification> userNotifications;
+
+    @Column(name="loggedIn")
     private boolean loggedIn;
 
     public User(String userEmail,String name, String lastName, String userPasswordToken, String phoneNumber, LocalDate birthDay, String gender) {
@@ -93,7 +118,7 @@ User implements Observer {
      * @return
      */
     public boolean notify_user(Notification notification) {
-        boolean wasAdded = userNotifications.putIfAbsent(notification.get_id(), notification) == null;
+        boolean wasAdded = userNotifications.putIfAbsent(notification.getId(), notification) == null;
         if (!wasAdded) {
             return false;
         }
@@ -107,7 +132,7 @@ User implements Observer {
      */
     public void notify_user() throws Exception {
         for(var notification : userNotifications.values()) {
-            if (!notification.is_seen()) {
+            if (!notification.isWasSeen()) {
                 notify_user(notification);
             }
         }

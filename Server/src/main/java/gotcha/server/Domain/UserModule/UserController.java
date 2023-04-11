@@ -108,7 +108,6 @@ public class UserController implements IUserController {
             throw new Exception(String.format("rp with serial number: %s is already associated to a user", raspberryPiSerialNumber));
         }
         this.availableRaspberryPiSerials.remove(raspberryPiSerialNumber);
-        // TODO: need to add available rp serial numbers and check if its one of them before adding
         return true;
     }
 
@@ -337,7 +336,7 @@ public class UserController implements IUserController {
     @Override
     public void update_user_rate(String userEmail, Ride ride, int number_of_rides) throws Exception {
         var user = userRepository.getUserByEmail(userEmail);
-        if (user == null || !user.is_admin())
+        if (user == null || user.is_admin())
             throw new Exception("user not found or is admin");
 
         ((Rider) user).update_rating(ride, number_of_rides, userRateCalculator);
@@ -362,7 +361,7 @@ public class UserController implements IUserController {
     }
     // change all users
 
-    public void notify_users(String senderEmail, List<String> emails, String message) {
+    public void notify_users(String senderEmail, List<String> emails, String message) throws UserNotFoundException {
         Notification notification = new Notification(senderEmail, message);
         List<User> allUsers = userRepository.getAllUsers();
         for (String email : emails) {

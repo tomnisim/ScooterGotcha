@@ -17,6 +17,7 @@ public class StationaryHazard {
     @Column(name="rideId")
     private int ride_id;
 
+    @Column(name="location")
     @Embedded
     private Location location;
 
