@@ -7,11 +7,13 @@ import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.HazardType;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.RidesModule.RidesController;
+import gotcha.server.Domain.RidesModule.RidingAction;
 import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.ExternalService.MapsAdapter;
 import gotcha.server.ExternalService.MapsAdapterImpl;
 import gotcha.server.ExternalService.ReporterAdapter;
+import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Utils.Exceptions.ExitException;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.ErrorLogger;
@@ -161,10 +163,26 @@ public class MainSystem {
 
 
     private void begin_instructions() throws Exception {
-        BigDecimal lng = new BigDecimal("79.536");
-        BigDecimal lat = new BigDecimal("63.258");
+        BigDecimal lng = new BigDecimal("34.801402");
+        BigDecimal lat = new BigDecimal("31.265106");
         Location origin = new Location(lng, lat);
 
+        BigDecimal lng1 = new BigDecimal("34.797558");
+        BigDecimal lat1 = new BigDecimal("31.267604");
+        Location dest = new Location(lng1, lat1);
+
+
+        BigDecimal lng111 = new BigDecimal("34.80283154");
+        BigDecimal lat111 = new BigDecimal("32.1246251");
+        Location origin111 = new Location(lng111, lat111);
+
+        BigDecimal lng222 = new BigDecimal("34.79586550");
+        BigDecimal lat222 = new BigDecimal("32.11289542");
+        Location dest222 = new Location(lng222, lat222);
+
+        ArrayList hazards = new ArrayList();
+
+        LocalDateTime start_time = LocalDateTime.now();
         this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5);
         this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 7);
         this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 12);
@@ -188,6 +206,12 @@ public class MainSystem {
                 birth_date, "male", "type", birth_date, "first12");
         userController.register("email123@gmail.com", password, "name", "last", "0546794211",
                 birth_date, "male", "type", birth_date, "first123");
+//        (String rpSerialNumber, Location origin, Location destination, String city, LocalDateTime startTime, LocalDateTime endTime, List<StationaryHazard> hazards, List< RidingAction > ridingActions) {
+//            this.rpSerialNumber = rpSerialNumber;
+        FinishRideRequest finishRideReq = new FinishRideRequest("first", origin, dest, "Netanya", start_time, start_time, hazards, new ArrayList<>());
+        FinishRideRequest finishRideReq2 = new FinishRideRequest("first", origin111, dest222, "Tel-Aviv", start_time, start_time, hazards, new ArrayList<>());
+        ridesController.add_ride(finishRideReq, "email@gmail.com");
+        ridesController.add_ride(finishRideReq2, "email@gmail.com");
 
         userController.add_first_admin("admin1@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         userController.add_first_admin("admin12@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");

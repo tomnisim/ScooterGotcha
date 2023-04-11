@@ -338,7 +338,7 @@ public class UserController implements IUserController {
     @Override
     public void update_user_rate(String userEmail, Ride ride, int number_of_rides) throws Exception {
         var user = userRepository.getUserByEmail(userEmail);
-        if (user == null || !user.is_admin())
+        if (user == null || user.is_admin())
             throw new Exception("user not found or is admin");
 
         ((Rider) user).update_rating(ride, number_of_rides, userRateCalculator);

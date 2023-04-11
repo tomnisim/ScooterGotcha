@@ -55,8 +55,23 @@ export default function HazardsWindow({navigation}) {
 
 
   const add_hazard = async () => {
-    await hazardsApi.add_hazard(lng, lat, city, type, size)
-    get_hazards_list();
+    if (lng == "" || lat == "" || city == "" || type == "" || size == ""){
+      alert("Please Enter Details.")
+    }
+    else
+    {
+      let response = await hazardsApi.add_hazard(lng, lat, city, type, size);
+      if (response.was_exception){
+        alert("The system cant complete your request, please try again later.")
+      }
+      else
+      {
+        alert("Hazard has been successfully added to the system.");
+        get_hazards_list();
+
+      }
+    }
+    
   }
 
   const delete_hazard = async () => {
@@ -66,10 +81,19 @@ export default function HazardsWindow({navigation}) {
       }
       else
       {
-        await hazardsApi.delete_hazard(hazard_to_remove)
-        get_hazards_list();
+        let response = await hazardsApi.delete_hazard(hazard_to_remove);
+        if (response.was_exception){
+          alert("The system cant complete your request, please try again later.")
+        }
+        else
+        {
+          alert("Hazard has been successfully deleted from the system.");
+          get_hazards_list();
+  
+        }
 
       }
+    get_hazards_list();
   }
 
   const report_hazard = async () => {
@@ -77,8 +101,16 @@ export default function HazardsWindow({navigation}) {
       alert("Please choose Hazard")
     }
     else{
-      await hazardsApi.report_hazard(hazard_to_report)
+      let response = await hazardsApi.report_hazard(hazard_to_report)
+      if (response.was_exception){
+        alert("The system cant complete your request, please try again later.")
+      }
+      else
+      {
+        alert("Hazard has been successfully reported.");
         get_hazards_list();
+
+      }
     }
     
   }

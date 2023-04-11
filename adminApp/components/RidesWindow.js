@@ -5,18 +5,57 @@ import Table from 'rc-table';
 import Select from 'react-select'
 import { background } from '../API/Path';
 import { RidesApi } from '../API/RidesApi';
+import {set_junctions} from './VisualRoute';
+
 
 const ridesApi = new RidesApi();
 
 
-
 export default function RidesWindow({navigation}) {
   const [rides_list, setRides_list] = useState([])
+  const [rides_ids_list, setRides_ids_list] = useState([])
+  const [ride_to_show, setRide_to_show] = useState("")
+
+  const show_visual = async () => {
+    if (ride_to_show == ""){
+      alert("Please Chose a Ride.")
+    }
+    else
+    {
+      let foundItem = null;
+      rides_list.forEach(function(value, key) {
+      if (value.ride_id === ride_to_show) {
+        foundItem = { key, value };
+      }
+    });
+    let ride = foundItem.value;
+  
+     let junctions = [
+        { id: 0, name: 'Origin', lat: ride.origin_lat, lng: ride.origin_lng},
+        { id: 1, name: 'Destination', lat: ride.destination_lat, lng: ride.destination_lng},
+      ];
+      await set_junctions(junctions);
+      navigation.navigate('VisualRoute');
+    }
+
+
+  }
+  
 
   async function get_rides_list(){
     let response = await ridesApi.view_rides();
+    console.log(response.value)
     if (!response.was_exception){
       setRides_list(response.value)
+      let temp = response.value
+      let temp1 = temp.map((item) => {
+        return (
+          {key: item.ride_id}
+        );
+      })
+      let list_temp = []
+      temp1.map((item) => list_temp.push({value: item.key, label: item.key}))
+      setRides_ids_list(list_temp)
     }
   }
 
@@ -37,45 +76,13 @@ export default function RidesWindow({navigation}) {
     </ScrollView>
     <Text>    </Text>    
     <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
-      {/* <TextInput
-          style={styles.textInputer}
-          placeholder="Hazard Location lng"
-          onChangeText={newText => setText_to_lng(newText)}
-        />
-        <TextInput
-          style={styles.textInputer}
-          placeholder="Hazard Location lat"
-          onChangeText={newText => setText_to_lat(newText)}
-        />
-        <TextInput
-          style={styles.textInputer}
-          placeholder="Hazard City"
-          onChangeText={newText => setText_to_city(newText)}
-        />
-        <TextInput
-          style={styles.textInputer}
-          placeholder="Hazard Type"
-          onChangeText={newText => setText_to_type(newText)}
-        />
-        <TextInput
-          style={styles.textInputer}
-          placeholder="Hazard Size"
-          onChangeText={newText => setText_to_size(newText)}
-        />
-      <Button onPress={() => add_hazard()} title="Add Hazard" color="#841584"/>
-
-
-      <Text>  </Text>
-      <Text>  </Text>
-      <Text>  </Text>
-      <Text>  </Text>
-      <Text>  </Text>
-      <Select
-        placeholder="Hazard ID to delete"
+    <Select
+        placeholder="ride ID to show"
         options={rides_ids_list}
-        onChange={newText => setText_to_remove_hazard(newText.value)}
+        onChange={newText => setRide_to_show(newText.value)}
       ></Select>
-      <Button onPress={() => delete_hazard()} title="Delete Hazard" color="#841584"/> */}
+      <Button onPress={() => show_visual()}       
+       title="Show Visual" color="#841584"/>
     
   </View>
   
@@ -98,8 +105,8 @@ export default function RidesWindow({navigation}) {
 
 
   
-}
 
+  }
 
 
 

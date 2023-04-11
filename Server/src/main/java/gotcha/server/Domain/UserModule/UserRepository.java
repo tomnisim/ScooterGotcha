@@ -40,7 +40,7 @@ public class UserRepository {
     }
 
     public User getUserByRpSerialNumber(String rpSerialNumber) throws Exception {
-        var userEmail = usersEmailByRaspberryPi.getOrDefault(rpSerialNumber, null);
+        var userEmail = usersEmailByRaspberryPi.getOrDefault(rpSerialNumber, "");
         if (userEmail == null) {
             throw new Exception(String.format("rp with serial number: %s is not associated to no one", rpSerialNumber));
         }

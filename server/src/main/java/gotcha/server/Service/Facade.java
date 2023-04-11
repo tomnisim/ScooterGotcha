@@ -16,6 +16,7 @@ import gotcha.server.Domain.QuestionsModule.Question;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
 import gotcha.server.Domain.RidesModule.IRidesController;
 import gotcha.server.Domain.RidesModule.Ride;
+import gotcha.server.Domain.RidesModule.RideDTO;
 import gotcha.server.Domain.RidesModule.RidesController;
 import gotcha.server.Domain.StatisticsModule.DailyStatisticDAO;
 import gotcha.server.Domain.StatisticsModule.GeneralStatistic;
@@ -387,7 +388,7 @@ public class Facade {
         Response response;
         try{
             check_user_is_admin_and_logged_in(userContext);
-            List<Ride> rides = rides_controller.get_all_rides();
+            List<RideDTO> rides = rides_controller.get_all_rides();
             String logger_message = "admin view all rides";
             response = new Response(rides, logger_message);
             serverLogger.add_log(logger_message);

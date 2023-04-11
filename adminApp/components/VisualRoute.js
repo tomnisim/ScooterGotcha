@@ -1,19 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import L, { icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { async } from 'q';
 
 
-const junctions = [
+let junctions = [
     { id: 0, name: 'Junction 0', lat: 31.265106, lng: 34.801402 },
     { id: 1, name: 'Junction 1', lat: 31.267134, lng: 34.800485 },
-    { id: 2, name: 'Junction 2', lat: 31.267604, lng: 34.7975587 },
-  ];
+    { id: 2, name: 'Junction 2', lat: 31.267604, lng: 34.7975587 },]
+
+
+
+
+export const set_junctions = async (val) => {
+    junctions = val
+  }
 
   const myIcon = L.icon({
     iconUrl: 'C:/Users/amitm/Desktop/SemH/ScooterGotcha/adminApp/assets/icon.png',
   });
 
-export default function VisualRoute({navigation}) {
+export default function VisualRoute({}) {
 
     useEffect(() => {
         // Calculate the center of the junctions
