@@ -12,7 +12,7 @@ const hazardsApi = new HazardsApi();
 
 
 const hazards_types_list = [{value: "pothole", label:"Pothole"}, {value: "PoleTree", label:"Pole Tree"}, {value: "RoadSign", label:"Road Sign"}]
-const cities_list = [{value: "Tel Aviv", label:"Tel Aviv"}, {value: "Haifa", label:"Haifa"}, {value: "Beersheba", label:"Beersheba"},]
+const cities_list = [{value: "Tel-Aviv", label:"Tel Aviv"}, {value: "Haifa", label:"Haifa"}, {value: "Beersheba", label:"Beersheba"},{value: "Netanya", label:"Netanya"}]
 
 
 
@@ -43,7 +43,7 @@ export default function HazardsWindow({navigation}) {
         );
       })
       let list_temp = []
-      temp1.map((item) => list_temp.push({value: item.key, label: item.key}))
+      temp1.map((item) => list_temp.push({value: parseInt(item.key), label: item.key}))
       setHazards_ids_list(list_temp)
     }
   }
@@ -66,7 +66,7 @@ export default function HazardsWindow({navigation}) {
       }
       else
       {
-        await advertismentsApi.delete_hazard(hazard_to_remove)
+        await hazardsApi.delete_hazard(hazard_to_remove)
         get_hazards_list();
 
       }
@@ -77,7 +77,8 @@ export default function HazardsWindow({navigation}) {
       alert("Please choose Hazard")
     }
     else{
-      alert("Report to OR YARUK about hazard : "+hazard_to_report)
+      await hazardsApi.report_hazard(hazard_to_report)
+        get_hazards_list();
     }
     
   }
@@ -208,6 +209,12 @@ const columns = [
     title: "Hazard Rate",
     dataIndex: "rate",
     key: "rate",
+    width:200,
+  },
+  {
+    title: "Reported",
+    dataIndex: "report",
+    key: "report",
     width:200,
   },
 ];
