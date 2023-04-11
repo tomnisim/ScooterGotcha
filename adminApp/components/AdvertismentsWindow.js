@@ -39,6 +39,10 @@ async function get_advertisments_list(){
   }
 }
 
+useEffect(() => {
+  get_advertisments_list();
+}, {})
+
   const delete_advertise = async () => {
     await advertismentsApi.delete_advertisement(advertise_id_to_delete)
     get_advertisments_list();
