@@ -2,13 +2,27 @@
 
 import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, TouchableOpacity, Text } from 'react-native';
+import { UserApi } from '../API/UserApi';
+
+const userApi = new UserApi();
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    // Handle login logic here
+  const handleLogin = async () => {
+    alert("login")
+    let response = await userApi.login(email, password)
+    if (response.was_exception || response.was_exception == undefined){
+        if (response.was_exception == undefined)
+            alert("no connection")
+        else
+            alert(response.message)
+    }
+    else
+    {
+        alert("navigate('Home')")
+    }
   };
 
   const handleForgotPassword = () => {
@@ -55,6 +69,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderWidth: 1,
     borderRadius: 5,
+    backgroundColor:'white'
   },
   button: {
     backgroundColor: '#3498db',
@@ -73,6 +88,7 @@ const styles = StyleSheet.create({
   },
   
   title: {
+    color: 'white',
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,

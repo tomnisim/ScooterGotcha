@@ -2,42 +2,49 @@
 
 import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, TouchableOpacity, Text } from 'react-native';
+import { UserApi } from '../API/UserApi';
+
+const userApi = new UserApi();
 
 const StartRideScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [Origin, setOrigin] = useState('');
+  const [Destination, setDestination] = useState('');
+  const [RoutesData, setRoutesData] = useState('');
 
-  const handleLogin = () => {
-    // Handle login logic here
+  const handleStartRide = async () => {
+    let response = await userApi.get_routes()
+    if (response.was_exception || response.was_exception == null){
+        setRoutesData("null")
+    }
+    else
+    {
+      setRoutesData(response.value)
+    }
+
   };
 
-  const handleForgotPassword = () => {
-    // Handle forgot password logic here
-  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Hey! Please Login</Text>
+      <Text style={styles.title}>Lets Start Ride!</Text>
 
       <TextInput
         style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
+        placeholder="Origin"
+        value={Origin}
+        onChangeText={setOrigin}
       />
       <TextInput
         style={styles.input}
-        placeholder="Password"
+        placeholder="Destination"
         secureTextEntry={true}
-        value={password}
-        onChangeText={setPassword}
+        value={Destination}
+        onChangeText={setDestination}
       />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
+      <TouchableOpacity style={styles.button} onPress={handleStartRide}>
+        <Text style={styles.buttonText}>Get Routes</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleForgotPassword}>
-        <Text style={styles.forgotPassword}>Forgot Password?</Text>
-      </TouchableOpacity>
+      <Text style={styles.title}>{RoutesData}</Text>
     </View>
   );
 };
@@ -49,6 +56,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
+    backgroundColor:'white',
     width: '80%',
     height: 50,
     padding: 10,
@@ -66,13 +74,14 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
   },
-  forgotPassword: {
+  forgotDestination: {
     marginTop: 10,
     color: '#3498db',
     textDecorationLine: 'underline',
   },
   
   title: {
+    color:'white',
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
