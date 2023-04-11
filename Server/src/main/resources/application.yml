@@ -14,6 +14,11 @@ gotcha:
   maximum_password_length: 14
   minimum_distance_alert: 20
   number_of_coordinates: 8
+  orYarukEmail: "or_yaruk@gmail.com"
+  cities_emails:
+      "Tel-Aviv": "tel_aviv@gmail.com"
+      "beersheba": "beersheba@gmail.com"
+      "Haifa": "haifa@gmail.com"
   Server:
     default:
       host: "8000"

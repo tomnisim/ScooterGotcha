@@ -2,6 +2,11 @@ package gotcha.server.Service.API;
 
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Service.Communication.Requests.*;
+import gotcha.server.Service.Communication.Requests.FinishRideRequest;
+import gotcha.server.Service.Communication.Requests.AddAdvertisementRequest;
+import gotcha.server.Service.Communication.Requests.AddAwardRequest;
+import gotcha.server.Service.Communication.Requests.LoginRequest;
+import gotcha.server.Service.Communication.Requests.RegisterRequest;
 import gotcha.server.Service.Facade;
 import gotcha.server.Service.UserContext;
 import gotcha.server.Utils.Response;
@@ -13,7 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-public class ApiController implements IAdminAPI,IUserAPI {
+public class ApiController implements IAdminAPI, IUserAPI {
     private final Facade facade;
     private final String USER_CONTEXT_ATTRIBUTE_NAME = "userContext";
 
@@ -358,6 +363,18 @@ public class ApiController implements IAdminAPI,IUserAPI {
     public Response shut_down(@SessionAttribute("userContext") UserContext userContext) {
         return facade.shut_down(userContext);
     }
+
+    @RequestMapping(value = "/delete_hazard")
+    @CrossOrigin
+    @Override    public Response delete_hazard(int hazard_id, UserContext userContext) {
+        return this.facade.delete_hazard(hazard_id, userContext);
+    }
+    @RequestMapping(value = "/report_hazard")
+    @CrossOrigin
+    @Override    public Response report_hazard(int hazard_id, UserContext userContext) {
+        return this.facade.report_hazard(hazard_id, userContext);
+    }
+
 
     @RequestMapping(value = "/set_server_config")
     @CrossOrigin

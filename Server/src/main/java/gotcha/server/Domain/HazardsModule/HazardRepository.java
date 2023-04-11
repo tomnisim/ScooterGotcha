@@ -65,4 +65,8 @@ public class HazardRepository {
         }
     }
 
+    public StationaryHazard getHazardById(int hazardId) {
+        return stationaryHazardsList.getOrDefault(hazardId, null);
+    }
+
 }

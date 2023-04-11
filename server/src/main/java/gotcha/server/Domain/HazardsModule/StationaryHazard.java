@@ -41,6 +41,18 @@ public class StationaryHazard {
         this.size = size;
         this.setRate();
     }
+
+
+    public StationaryHazard(int id,int ride_id, Location location, String city, HazardType type, double size) {
+        this.id = id;
+        this.ride_id = ride_id;
+        this.location = location;
+        this.city = city;
+        this.type = type;
+        this.size = size;
+        this.setRate();
+    }
+
     // Default Constructor for deserialization
     public StationaryHazard() {}
 

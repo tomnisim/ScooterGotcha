@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
+    "@projectstorm/react-diagrams": "^7.0.2",
     "@react-native-async-storage/async-storage": "^1.18.1",
     "@react-navigation/native": "^6.1.1",
     "@react-navigation/native-stack": "^6.9.7",
@@ -18,9 +19,8 @@
     "expo-status-bar": "~1.4.2",
     "pod": "^0.9.0",
     "rc-table": "^7.31.1",
-    "react": "18.1.0",
-    "react-bootstrap-table": "^4.3.1",
     "react": "18.2.0",
+    "react-bootstrap-table": "^4.3.1",
     "react-dom": "^18.2.0",
     "react-native": "0.70.5",
     "react-native-cookie": "^0.3.0",

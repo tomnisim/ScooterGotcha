@@ -1,24 +1,33 @@
 package gotcha.server.Domain.HazardsModule;
 
+import gotcha.server.ExternalService.ReporterAdapter;
 import gotcha.server.SafeRouteCalculatorModule.Route;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.SystemLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
 @Component
 public class HazardController implements IHazardController {
     private final SystemLogger systemLogger;
     private final HazardRepository hazardRepository;
+    private final ReporterAdapter reporterAdapter;
+    private AtomicInteger idCounter;
+
+
     @Autowired
-    public HazardController(SystemLogger systemLogger, HazardRepository hazardRepository) {
+    public HazardController(SystemLogger systemLogger, HazardRepository hazardRepository, ReporterAdapter reporterAdapter) {
         this.systemLogger = systemLogger;
         this.hazardRepository = hazardRepository;
+        this.reporterAdapter = reporterAdapter;
+        // TODO: 4/11/2023 : remove it once Hibernate is merged
+        idCounter = new AtomicInteger(1);
     }
 
     @Override
@@ -28,9 +37,9 @@ public class HazardController implements IHazardController {
 
 
     @Override
-    public void add_hazard(int ride_id,Location location, String city, HazardType hazardType, double size) throws Exception {
-        var hazard = new StationaryHazard(ride_id, location, city, hazardType, size);
-        this.hazardRepository.addHazard(hazard);
+    public void add_hazard(int rideId, Location location, String city, HazardType type, double size) throws Exception {
+        var newHazard = new StationaryHazard(idCounter.incrementAndGet(),rideId, location, city, type, size);
+        this.hazardRepository.addHazard(newHazard);
     }
 
     private void update_hazard(StationaryHazard hazard, double size) {
@@ -133,5 +142,17 @@ public class HazardController implements IHazardController {
             list_to_return.add(stationaryHazard.getDAO());
         }
         return list_to_return;
+    }
+
+    @Override
+    public void report_hazard(int hazardId) throws Exception {
+        StationaryHazard stationaryHazard = hazardRepository.getHazardById(hazardId);
+        this.getReporterAdapter().report(stationaryHazard);
+
+    }
+
+
+    public ReporterAdapter getReporterAdapter() {
+        return reporterAdapter;
     }
 }

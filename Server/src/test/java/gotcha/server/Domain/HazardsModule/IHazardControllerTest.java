@@ -1,5 +1,6 @@
 package gotcha.server.Domain.HazardsModule;
 
+import gotcha.server.ExternalService.ReporterAdapter;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.SystemLogger;
 import org.junit.jupiter.api.AfterEach;
@@ -22,14 +23,19 @@ class IHazardControllerTest {
 
     @Mock
     private SystemLogger systemLogger;
+    @Mock
+    private ReporterAdapter reporterAdapter;
 
-    //private HazardRepository hazardRepository = new HazardRepository();
+    @Mock
+    private IHazardRepository iHazardRepository;
+
+    private HazardRepository hazardRepository;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        // TODO: 4/8/2023 : add mocks for the JpaRepository 
-        //hazardController = new HazardController(systemLogger, hazardRepository);
+        hazardRepository = new HazardRepository(iHazardRepository);
+        hazardController = new HazardController(systemLogger, hazardRepository, reporterAdapter);
     }
 
     @AfterEach
@@ -43,8 +49,8 @@ class IHazardControllerTest {
         var location1 = new Location(new BigDecimal(20), new BigDecimal(20));
         var location2 = new Location(new BigDecimal(40), new BigDecimal(40));
         var hazards = new ArrayList<>(Arrays.asList(
-                new StationaryHazard(1,location1,City,Type,20),
-                new StationaryHazard(1,location2,City,Type,20)
+                new StationaryHazard(1,1,location1,City,Type,20),
+                new StationaryHazard(2,1,location2,City,Type,20)
         ));
         assertDoesNotThrow(() -> hazardController.update_hazards(hazards,1));
         assertTrue(hazardController.view_hazards().size() == hazards.size());
@@ -55,8 +61,8 @@ class IHazardControllerTest {
         final String City = "beersheva";
         final HazardType Type = HazardType.pothole;
         var location1 = new Location(new BigDecimal(20), new BigDecimal(20));
-        var hazard1 = new StationaryHazard(1,location1,City,Type,20);
-        var hazard2 = new StationaryHazard(2,location1,City,Type,40);
+        var hazard1 = new StationaryHazard(1,1,location1,City,Type,20);
+        var hazard2 = new StationaryHazard(2,1,location1,City,Type,40);
         var hazards1 = new ArrayList<>(Arrays.asList(
                 hazard1
         ));
@@ -64,11 +70,14 @@ class IHazardControllerTest {
                 hazard2
         ));
         assertDoesNotThrow(() -> hazardController.update_hazards(hazards1,1));
-        assertTrue(hazardController.view_hazards().size() == hazards1.size());
-        assertTrue(hazard1.getSize() == 20);
+        var actualHazards = hazardController.view_hazards();
+        assertTrue(actualHazards.size() == hazards1.size());
+        assertTrue(actualHazards.iterator().next().getSize() == 20);
         assertDoesNotThrow(() -> hazardController.update_hazards(hazards2,1));
-        assertTrue(hazardController.view_hazards().size() == hazards1.size());
-        assertTrue(hazard1.getSize() == 40);
+        var actualHazards2 = hazardController.view_hazards();
+
+        assertTrue(actualHazards2.size() == actualHazards.size());
+        assertTrue(actualHazards2.iterator().next().getSize() == 40);
     }
 
     @Test
@@ -85,8 +94,8 @@ class IHazardControllerTest {
 
         Location location1 = new Location(longitude1, latitude1);
         Location location2 = new Location(longitude2, latitude2);
-        var hazard1 = new StationaryHazard(1,location1,City,Type,20);
-        var hazard2 = new StationaryHazard(2,location2,City,Type,40);
+        var hazard1 = new StationaryHazard(1,1,location1,City,Type,20);
+        var hazard2 = new StationaryHazard(2,1,location2,City,Type,40);
         var hazards1 = new ArrayList<>(Arrays.asList(
                 hazard1
         ));
@@ -94,11 +103,14 @@ class IHazardControllerTest {
                 hazard2
         ));
         assertDoesNotThrow(() -> hazardController.update_hazards(hazards1,1));
-        assertTrue(hazardController.view_hazards().size() == hazards1.size());
-        assertTrue(hazard1.getSize() == 20);
+        var actualHazards = hazardController.view_hazards();
+        assertTrue(actualHazards.size() == hazards1.size());
+        assertTrue(actualHazards.iterator().next().getSize() == 20);
         assertDoesNotThrow(() -> hazardController.update_hazards(hazards2,1));
-        assertTrue(hazardController.view_hazards().size() == hazards1.size());
-        assertTrue(hazard1.getSize() == 40);
+        var actualHazards2 = hazardController.view_hazards();
+
+        assertTrue(actualHazards2.size() == actualHazards.size());
+        assertTrue(actualHazards2.iterator().next().getSize() == 40);
     }
 
     @Test

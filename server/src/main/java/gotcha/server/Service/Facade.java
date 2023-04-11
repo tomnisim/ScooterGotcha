@@ -837,5 +837,39 @@ public class Facade {
     }
 
 
+    public Response delete_hazard(int hazardId, UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            hazard_controller.remove_hazard(hazardId);
+            String logger_message = String.format("admin (%s) delete hazard with id : %s", admin_email, hazardId);
+            response = new Response(SUCCESS_OPCODE, logger_message);
+            serverLogger.add_log(logger_message);
 
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response report_hazard(int hazardId, UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            hazard_controller.report_hazard(hazardId);
+            String logger_message = String.format("admin (%s) report hazard with id : %s", admin_email, hazardId);
+            response = new Response(SUCCESS_OPCODE, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
 }
