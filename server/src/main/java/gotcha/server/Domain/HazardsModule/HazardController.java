@@ -8,15 +8,15 @@ import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class HazardController implements IHazardController {
     private final SystemLogger systemLogger;
     private final HazardRepository hazardRepository;
-    private AtomicInteger id_counter;
     @Autowired
     public HazardController(SystemLogger systemLogger, HazardRepository hazardRepository) {
-        this.id_counter = new AtomicInteger(1);
         this.systemLogger = systemLogger;
         this.hazardRepository = hazardRepository;
     }
@@ -26,13 +26,11 @@ public class HazardController implements IHazardController {
         systemLogger.add_log("Hazard controller loaded successfully");
     }
 
-    private void add_hazard(StationaryHazard hazard) throws Exception {
-        int hazard_id = this.id_counter.incrementAndGet();
-        hazard.setId(hazard_id);
-        var result = this.hazardRepository.add_hazard(hazard);
-        if (result != null) {
-            throw new Exception("hazard with this id already existed");
-        }
+
+    @Override
+    public void add_hazard(int ride_id,Location location, String city, HazardType hazardType, double size) throws Exception {
+        var hazard = new StationaryHazard(ride_id, location, city, hazardType, size);
+        this.hazardRepository.add_hazard(hazard);
     }
 
     private void update_hazard(StationaryHazard hazard, double size) {
@@ -75,7 +73,7 @@ public class HazardController implements IHazardController {
             double size = hazard.getSize();
             StationaryHazard current = find_hazard_if_exist(location, city, type);
             if (current == null){
-                add_hazard(hazard);
+                add_hazard(hazard.getRide_id(), hazard.getLocation(), hazard.getCity(), hazard.getType(), hazard.getSize());
             }
             else
                 update_hazard(current, size);
@@ -128,7 +126,12 @@ public class HazardController implements IHazardController {
         return list;
     }
     @Override
-    public List<StationaryHazard> view_hazards() {
-        return hazardRepository.getAllHazards();
+
+    public Collection<StationaryHazardDAO> view_hazards() {
+        Collection<StationaryHazardDAO> list_to_return = new ArrayList<>();
+        for (StationaryHazard stationaryHazard : hazardRepository.getAllHazards()){
+            list_to_return.add(stationaryHazard.getDAO());
+        }
+        return list_to_return;
     }
 }

@@ -1,86 +1,83 @@
-import * as React from 'react';
-import {ImageBackground, View, Text, Button, StyleSheet, TextInput } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React,{ useState } from 'react';
+import { useEffect } from 'react';
+import {ImageBackground, View, Text, Button, StyleSheet, TextInput, ScrollView } from 'react-native';
 import { AwardsApi } from '../API/AwardsApi';
 import { UsersApi } from '../API/UsersApi';
-
 import Table from 'rc-table';
 import Select from 'react-select'
-
-const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
+import { background } from '../API/Path';
 
 const awardsAPI = new AwardsApi();
-
-
-let awards_list = []
-let awards_ids_list = []
-
-let emails = []
-let award_to_add = ""
-
-
-
-
 const usersApi = new UsersApi();
-let users_emails = ""
-
-const get_users_list = async () => {
-  // todo: change 5 to admin id, change params to functions.
-  let response = await usersApi.view_users();
-  if (!response.was_exception){
-    let users_list = response.value
-    users_emails = users_list.map((item) => {
-      return (
-        {value: item._email, label: item._email}
-      );
-    })
-  }
-}
 
 
 
 
-
-
-
-
-const get_awards_list = async () => {
-  let response = await awardsAPI.view_awards();
-  console.log(response)
-  if (!response.was_exception){
-    awards_list = response.value
-
-
-    awards_ids_list = awards_list.map((item) => {
-      return (
-        {value: item.id, label: item.id}
-      );
-    })
-  }
-  console.log(awards_list)
-    
-}
-
-get_users_list();
-get_awards_list();
 export default function AwardsWindow({navigation}) {
-  get_awards_list()
-  get_users_list();
-  console.log(awards_list)
+  const [awards_list, setAwards_list] = useState([])
+  const [awards_ids_list, setAwards_ids_list] = useState([])
+  const [emails, setEmails] = useState([])
+  const [award_to_add, setText_to_award_to_add] = useState('')
+  const [users_emails, setUsers_emails] = useState('')
+  
+  async function get_emails_list (){
+    let response = await usersApi.view_users();
+    if (!response.was_exception){
+      let temp = response.value
+      let temp1 = temp.map((item) => {
+        return (
+          {key: item.userEmail}
+        );
+      })
+      let list_temp = []
+      temp1.map((item) => list_temp.push({value: item.key, label: item.key}))
+      setUsers_emails(list_temp)
 
+      
+    }
+  }
+  
+  async function get_awards_list(){
+    let response = await awardsAPI.view_awards();
+    console.log(response)
+    if (!response.was_exception){
+      setAwards_list(response.value)  
+      let temp = response.value
+      let temp1 = temp.map((item) => {
+        return (
+          {key: item.id}
+        );
+      })
+      let list_temp = []
+      temp1.map((item) => list_temp.push({value: item.key, label: item.key}))
+      setAwards_ids_list(list_temp)
+
+
+    }      
+  }
+
+  useEffect(() => {
+    get_emails_list();
+    get_awards_list();
+  }, {})
 
   
   const add_to_emails = (text) => {
-    emails.push(text)
-  }
-  const setText_to_award_to_add = (text) => {
-    award_to_add = text
+    if (emails.includes(text)){
+      const new_list = emails.filter(item => item !== text)
+      setEmails(new_list)
+    }
+    else{
+      setEmails(emails.concat(text))
+    }
+    
+    // emails.push(text)
   }
 
-  const add_award = () => {
-    // todo : build list , or try to transfer array.
-    awardsAPI.add_award(emails, award_to_add)
+
+  const add_award = async() => {
+    alert(emails)
+    await awardsAPI.add_award(emails, award_to_add)
     get_awards_list()
   }
 
@@ -92,22 +89,26 @@ export default function AwardsWindow({navigation}) {
     <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>Awards List:</b></Text>
 
     <View style={{display: 'flex', flexDirection:'row'}}>
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
     <Table columns={columns} data={awards_list} tableLayout="auto"/>
-    </View>
+    </ScrollView>
     <Text>    </Text>    
     <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
+    <TextInput
+        style={styles.textInputer}
+        placeholder="award message"
+        onChangeText={newText => setText_to_award_to_add(newText)}
+      />
       <Select
         placeholder="emails to award"
         options={users_emails}
         onChange = {nextText => add_to_emails(nextText.value)}>
       </Select>
-      <TextInput
-        style={styles.textInputer}
-        placeholder="award message"
-        onChangeText={newText => setText_to_award_to_add(newText)}
-      />
-    <Button onPress={() => add_award()} title="Add Award" color="#841584"/>
+      <Button onPress={() => add_award()} title="Add Award" color="#841584"/>
+      <Text><h3>Emails:</h3></Text>
+      <Text>{emails}</Text>
+      
+    
 
     
   </View>
@@ -161,8 +162,8 @@ const columns = [
   },
   {
     title: "Award Date",
-    dataIndex: "message_date",
-    key: "message_date",
+    dataIndex: "date",
+    key: "date",
     width: 200,
   },
 
@@ -186,6 +187,7 @@ const styles = StyleSheet.create({
   textInputer: {
     backgroundColor:'white',
     opacity:0.8,
+    textAlign:'center',
     height: 40
   },
   item: {

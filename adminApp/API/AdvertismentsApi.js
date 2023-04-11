@@ -13,14 +13,19 @@ const VIEW_ADVERTISES_PATH = path + "view_advertisements"
 export class AdvertismentsApi {
 
     add_advertisement(final_date, owner, message, photo, url) {
-        return axios.get(ADD_ADVERTISE_PATH,
-        {
-            params:{final_date: final_date, owner: owner, message: message, photo: photo, url: url }
-        })
+        const data = {
+            owner: owner,
+            photo: photo,
+            message: message,
+            final_date: final_date,
+            url: url,
+
+        };
+        return axios.post(ADD_ADVERTISE_PATH,data)
             .then(res => {
                 return new Response(res.data);
             })
-            .catch(res => Response.create(CATCH,true, CONNECTION_ERROR ));
+            .catch(res => Response.create(CATCH,true, CONNECTION_ERROR));
     }
 
     delete_advertisement(advertise_id) {
@@ -44,9 +49,8 @@ export class AdvertismentsApi {
                     return res.data;
                     // return new Response(res.data);
                 })
-                .catch(res => Response.create(CATCH,true, CONNECTION_ERROR ));
-        
+                .catch(res => Response.create(CATCH,true, CONNECTION_ERROR ));        
     }
-
-
 }
+
+

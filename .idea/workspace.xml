@@ -4,18 +4,68 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c0e87fe9-84f7-4d38-a9b5-ab0a83852605" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Config/RiderRatingConfiguration.java" afterDir="false" />
+    <list default="true" id="e8394b8d-4a9c-44d1-8624-56aa6c7f6cdf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/AdvertiseDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/StationaryHazardDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/QuestionsModule/QuestionDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/AdminDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/RiderDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/WaitingRaspberryPiDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/Requests/AddAdvertisementRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/Requests/AddAwardRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Exceptions/UserExceptions/UnavailableRPserialException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adminApp/API/HazardsApi.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adminApp/API/RidesApi.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adminApp/assets/adaptive-icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adminApp/assets/favicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adminApp/assets/icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adminApp/assets/splash.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/IUserRateCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/IUserRateCalculator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/UserRateCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/UserRateCalculator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/Advertise.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/Advertise.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/AdvertiseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/AdvertiseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/IAdvertiseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/IAdvertiseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AwardsModule/Award.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AwardsModule/Award.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AwardsModule/AwardsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AwardsModule/AwardsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AwardsModule/IAwardsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AwardsModule/IAwardsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/IHazardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/IHazardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/HazardRateCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/HazardRateCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/DailyStatistic.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/DailyStatistic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/DailyStatisticDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/DailyStatisticDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/StatisticsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/StatisticsManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/IUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/IUserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/Rider.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/Rider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/HazardsModule/IHazardControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/HazardsModule/IHazardControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/RatingModule/UserRateCalculatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/RatingModule/UserRateCalculatorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/RidesModule/RidesControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/RidesModule/RidesControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/ApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/ApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/IAdminAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/IAdminAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Logger/GeneralLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Logger/GeneralLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Threads/StatisticsUpdateThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Threads/StatisticsUpdateThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/API/AdminApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/API/AdminApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/API/AdvertismentsApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/API/AdvertismentsApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/API/AwardsApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/API/AwardsApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/API/LoginApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/API/LoginApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/API/Path.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/API/Path.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/API/StatisticsApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/API/StatisticsApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/API/UsersApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/API/UsersApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/components/AdminsWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/AdminsWindow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/components/AdvertismentsWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/AdvertismentsWindow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/components/AwardsWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/AwardsWindow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/components/HazardsWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/HazardsWindow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/components/HomeWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/HomeWindow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/components/LoginWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/LoginWindow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/components/QuestionsWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/QuestionsWindow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/components/RidesWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/RidesWindow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/components/StatisticsWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/StatisticsWindow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/components/SystemSettingsWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/SystemSettingsWindow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/components/UsersWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/UsersWindow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/HazardsModule/StationaryHazard.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/HazardsModule/StationaryHazard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/QuestionsModule/QuestionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/QuestionsModule/QuestionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Service/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Service/Facade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Utils/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,7 +275,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java</url>
-          <line>100</line>
+          <line>112</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
