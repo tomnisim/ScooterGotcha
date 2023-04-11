@@ -1,26 +1,19 @@
 package gotcha.server.Service.API;
 
-import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.UserModule.User;
-import gotcha.server.Service.Communication.Requests.FinishRideRequest;
-import gotcha.server.Service.Communication.Requests.AddAdvertisementRequest;
-import gotcha.server.Service.Communication.Requests.AddAwardRequest;
-import gotcha.server.Service.Communication.Requests.LoginRequest;
-import gotcha.server.Service.Communication.Requests.RegisterRequest;
+import gotcha.server.Service.Communication.Requests.*;
 import gotcha.server.Service.Facade;
 import gotcha.server.Service.UserContext;
-import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-public class ApiController implements IAdminAPI, IUserAPI {
+public class ApiController implements IAdminAPI,IUserAPI {
     private final Facade facade;
     private final String USER_CONTEXT_ATTRIBUTE_NAME = "userContext";
 

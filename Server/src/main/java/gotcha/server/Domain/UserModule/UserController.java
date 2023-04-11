@@ -305,7 +305,7 @@ public class UserController implements IUserController {
 
     @Override
     public void add_rp_serial_number(String rpSerial) throws Exception {
-        if (this.availableRaspberryPiSerials.contains(rpSerial) || (this.usersEmailByRaspberryPi.containsKey(rpSerial))){
+        if (this.availableRaspberryPiSerials.contains(rpSerial) || (userRepository.getUserByRpSerialNumber(rpSerial) != null)){
             throw new Exception(String.format("Raspberry Pi Serial Number: %s is already exists in the system!", rpSerial));
         }
         this.availableRaspberryPiSerials.add(rpSerial);

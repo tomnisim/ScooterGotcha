@@ -12,8 +12,8 @@ public interface IHazardController {
     void remove_hazard(int hazard_id) throws Exception;
     void update_hazards(List<StationaryHazard> hazards, int ride_id) throws Exception;
     List<StationaryHazard> get_hazards_in_route(Route route);
-
     Collection<StationaryHazardDAO> view_hazards();
+    void add_hazard(int ride_Id,Location location, String city, HazardType hazardType, double size) throws Exception;
 
 
 //    void update_hazard(StationaryHazard hazard, double size);

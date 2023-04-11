@@ -66,13 +66,16 @@ public class StatisticsManager implements iStatisticsManager {
     @Override
     public void update_daily_statistic(){
         int admins = user_controller.view_admins().size();
-        int admins_answers = question_controller.getQuestion_ids_counter() - question_controller.get_all_open_questions().size();
+        // TODO: 4/11/2023 : Add function in repository to fetch latest id
+        //int admins_answers = question_controller.getQuestion_ids_counter() - question_controller.get_all_open_questions().size();
+        int admins_answers = 5;
         int advertisements = advertise_controller.get_all_advertisements_for_admin().size();
         int awards = awards_controller.view_awards().size();
         int rides = rides_controller.get_all_rides().size();
         int hazards = hazard_controller.view_hazards().size();
         int riders = user_controller.get_all_riders().size();
-        int users_questions = question_controller.getQuestion_ids_counter();
+        //int users_questions = question_controller.getQuestion_ids_counter();
+        int users_questions = 5;
         if (this.current_daily_statistic == null || !LocalDate.now().isEqual(this.current_daily_statistic.getDate())) {
             this.current_daily_statistic = new DailyStatistic(admins, admins_answers, advertisements, awards, rides, hazards, riders, users_questions);
             this.dailyStatisticMap.put(LocalDate.now(), this.current_daily_statistic);

@@ -26,7 +26,10 @@ public class HazardController implements IHazardController {
         systemLogger.add_log("Hazard controller loaded successfully");
     }
 
-    private void add_hazard(StationaryHazard hazard) throws Exception {
+
+    @Override
+    public void add_hazard(int ride_id,Location location, String city, HazardType hazardType, double size) throws Exception {
+        var hazard = new StationaryHazard(ride_id, location, city, hazardType, size);
         this.hazardRepository.addHazard(hazard);
     }
 
@@ -70,7 +73,7 @@ public class HazardController implements IHazardController {
             double size = hazard.getSize();
             StationaryHazard current = find_hazard_if_exist(location, city, type);
             if (current == null){
-                add_hazard(hazard);
+                add_hazard(hazard.getRide_id(), hazard.getLocation(), hazard.getCity(), hazard.getType(), hazard.getSize());
             }
             else
                 update_hazard(current, size);

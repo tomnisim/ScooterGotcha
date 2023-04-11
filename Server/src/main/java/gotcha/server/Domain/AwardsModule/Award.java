@@ -27,13 +27,11 @@ public class Award {
 
     /**
      * BL Constructor for new Award, create time -> now().
-     * @param id
      * @param message
      * @param admin_email
      * @param emails
      */
-    public Award(int id, String message, String admin_email, List<String> emails){
-        this.id = id;
+    public Award(String message, String admin_email, List<String> emails){
         this.message = message;
         this.admin_email = admin_email;
         this.emails = emails;
@@ -42,14 +40,12 @@ public class Award {
 
     /**
      * Constructor for loading DB.
-     * @param id
      * @param message
      * @param admin_email
      * @param emails
      * @param date
      */
-    public Award(int id, String message, String admin_email, List<String> emails, LocalDate date){
-        this.id = id;
+    public Award(String message, String admin_email, List<String> emails, LocalDate date){
         this.message = message;
         this.admin_email = admin_email;
         this.emails = emails;

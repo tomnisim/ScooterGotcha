@@ -33,8 +33,7 @@ public class StationaryHazard {
     @Column(name="rate")
     private double rate;
 
-    public StationaryHazard(int id, int ride_id, Location location, String city, HazardType type, double size) {
-        this.id = id;
+    public StationaryHazard(int ride_id, Location location, String city, HazardType type, double size) {
         this.ride_id = ride_id;
         this.location = location;
         this.city = city;

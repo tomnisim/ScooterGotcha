@@ -39,11 +39,8 @@ public class UserRepository {
         return usersEmailByRaspberryPi.putIfAbsent(raspberryPiSerialNumber, userEmail);
     }
 
-    public User getUserByRpSerialNumber(String rpSerialNumber) throws Exception {
+    public User getUserByRpSerialNumber(String rpSerialNumber) {
         var userEmail = usersEmailByRaspberryPi.getOrDefault(rpSerialNumber, null);
-        if (userEmail == null) {
-            throw new Exception(String.format("rp with serial number: %s is not associated to no one", rpSerialNumber));
-        }
         return allUsers.getOrDefault(userEmail,null);
     }
 }
