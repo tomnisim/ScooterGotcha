@@ -1,65 +1,61 @@
-import * as React from 'react';
+import React,{ useState } from 'react';
 import { View, Text, Button, StyleSheet, TextInput, ImageBackground, ScrollView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { UsersApi } from '../API/UsersApi';
-import { useState } from 'react'; 
 import Table from 'rc-table';
 import Select from 'react-select'
 import { background } from '../API/Path';
-
-
-
-  
-
+import { useEffect } from 'react';
 
 const usersApi = new UsersApi();
-let users_list = []
-let rp_waiting_list = []
-let users_emails = ""
 
-export const get_users_list = async () => {
-  let response = await usersApi.view_users();
-  if (!response.was_exception){
-    users_list = response.value
-    users_emails = users_list.map((item) => {
-      return (
-        {value: item.userEmail, label: item.userEmail}
-      );
-    })
-  }
-  let response1 = await usersApi.view_waiting_rp();
-  if (!response1.was_exception){
-    rp_waiting_list = response1.value
-  }
-  console.log(response1)
-
-}
-
-
-
-
-
-let user_rp_to_add = ""
-let user_email_to_delete = ""
-
-const setText_to_add = (text) => {  
-  user_rp_to_add = text;
-}
-const setText_to_delete = (text) => {  
-  user_email_to_delete = text;
-}
-
-const add_user_rp = () => {
-  usersApi.add_user_rp(user_rp_to_add)
-}
-
-const delete_user = () => {
-  usersApi.delete_user(user_email_to_delete)
-}
 
 export default function UsersWindow({navigation}) {
-  get_users_list();
+
+  const [users_list, setUsers_list] = useState([]);
+  const [rp_waiting_list, setRP_waiting_list] = useState([]);
+  const [users_emails, setUsers_emails] = useState([]);
+  const [user_rp_to_add, setUser_rp_to_add] = useState([]);
+  const [user_email_to_delete, setUser_email_to_delete] = useState([]);
+
+  async function get_users_list() {
+    let response = await usersApi.view_users();
+    if (!response.was_exception){
+      setUsers_list(response.value)
+      let temp = response.value
+      let temp1 = temp.map((item) => {
+        return (
+          {key: item.userEmail}
+        );
+      })
+      let list_temp = []
+      temp1.map((item) => list_temp.push({value: item.key, label: item.key}))
+      setUsers_emails(list_temp)
+
+
+    }
+
+    let response1 = await usersApi.view_waiting_rp();
+    if (!response1.was_exception){
+      setRP_waiting_list(response1.value)
+    }
+  
+  }
+
+  useEffect(() => {
+    get_users_list();
+  }, {})
+
+  const add_user_rp = async () => {
+    await usersApi.add_user_rp(user_rp_to_add)
+    get_users_list();
+  }
+  
+  const delete_user = async () => {
+    await usersApi.delete_user(user_email_to_delete);
+    get_users_list();
+  }
 
   return (
     <View>
@@ -84,7 +80,7 @@ export default function UsersWindow({navigation}) {
     <TextInput
         style={styles.textInputer}
         placeholder="RP Serial Number"
-        onChangeText={newText => setText_to_add(newText)}
+        onChangeText={newText => setUser_rp_to_add(newText)}
       ></TextInput>
       <Button onPress={() => add_user_rp()} title="Add User RP Serial Number" color="#841584"/>
       <Text>  </Text>
@@ -96,7 +92,7 @@ export default function UsersWindow({navigation}) {
       <Select
         placeholder="User email to delete"
         options={users_emails}
-        onChange={newText => setText_to_delete(newText.value)}
+        onChange={newText => setUser_email_to_delete(newText.value)}
       ></Select>
       <Button onPress={() => delete_user()} title="Delete User" color="#841584"/>
 
@@ -120,8 +116,6 @@ export default function UsersWindow({navigation}) {
 );
 
 }
-
-
 
 
 const riders_columns = [
