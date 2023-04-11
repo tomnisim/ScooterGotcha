@@ -95,14 +95,15 @@ public class UserController implements IUserController {
      */
     public Boolean register(String userEmail, String password, String name, String lastName, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate, String raspberryPiSerialNumber) throws Exception {
         verify_user_information(userEmail, password, phoneNumber, birthDay, gender, scooterType, licenceIssueDate);
+        if (!this.availableRaspberryPiSerials.contains(raspberryPiSerialNumber)){
+            throw new UnavailableRPserialException(String.format("Raspberry Pi: %s is unavailable", raspberryPiSerialNumber));
+        }
         String passwordToken = passwordManager.hash(password);
         var user = new Rider(userEmail, name, lastName, passwordToken, phoneNumber, birthDay, gender, scooterType, licenceIssueDate, raspberryPiSerialNumber);
         var addResult = userRepository.addUser(user);
         if (addResult != null)
             throw new UserAlreadyExistsException(String.format("user with email: %s is already registered in the system", userEmail));
-        if (!this.availableRaspberryPiSerials.contains(raspberryPiSerialNumber)){
-            throw new UnavailableRPserialException(String.format("Raspberry Pi: %s is unavailable", raspberryPiSerialNumber));
-        }
+
         var rpAddResult = userRepository.assignRpToUser(raspberryPiSerialNumber, userEmail);
         if (rpAddResult != null) {
             throw new Exception(String.format("rp with serial number: %s is already associated to a user", raspberryPiSerialNumber));

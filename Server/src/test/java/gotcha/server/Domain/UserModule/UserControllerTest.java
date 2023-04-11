@@ -108,6 +108,7 @@ class UserControllerTest {
     @Test
     void register_userAlreadyExists_failedRegisration() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
         try {
             when(userRepository.addUser(any())).thenReturn(new Rider());
         }
@@ -120,6 +121,7 @@ class UserControllerTest {
     @Test
     void register_invalidEmail_failedRegistration() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
         try {
             doThrow(Exception.class).when(utils).emailValidCheck(anyString());
         }
@@ -132,6 +134,7 @@ class UserControllerTest {
     @Test
     void register_invalidPassword_failedRegistration() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
         try {
             doThrow(Exception.class).when(utils).passwordValidCheck(anyString());
         }
@@ -144,6 +147,7 @@ class UserControllerTest {
     @Test
     void register_invalidPhoneNumber_failedRegistration() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
         try {
             doThrow(Exception.class).when(utils).validate_phone_number(anyString());
         }
@@ -156,6 +160,8 @@ class UserControllerTest {
     @Test
     void register_invalidBirthDate_failedRegistration() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
+
         try {
             doThrow(Exception.class).when(utils).validate_birth_date(any());
         }
@@ -168,6 +174,8 @@ class UserControllerTest {
     @Test
     void register_invalidGender_failedRegistration() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
+
         try {
             doThrow(Exception.class).when(utils).validate_gender(anyString());
         }
@@ -180,6 +188,8 @@ class UserControllerTest {
     @Test
     void register_invalidScooterType_failedRegistration() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
+
         try {
             doThrow(Exception.class).when(utils).validate_scooter_type(anyString());
         }
@@ -192,6 +202,8 @@ class UserControllerTest {
     @Test
     void register_invalidLicenseIssueDate_failedRegistration() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
+
         try {
             doThrow(Exception.class).when(utils).validate_license_issue_date(any());
         }
