@@ -44,8 +44,5 @@ export class AdminApi {
                     // return new Response(res.data);
                 })
                 .catch(res => Response.create(CATCH,true, CONNECTION_ERROR ));
-        
     }
-
-
 }

@@ -256,18 +256,10 @@ public class Utils {
                 str.equals("True") || str.equals("OK") || str.equals("yes") || str.equals("YES") || str.equals("Yes");
     }
 
-    public String get_rp_config_file_data() {
-        // TODO: 05/01/2023 : implement 
-        return "todo";
-    }
-
     public static LocalDate StringToLocalDate(String birthDay) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-        // TODO: 05/03/2023  
-        String date = "16/08/1995";
-
-        //convert String to LocalDate
-        return LocalDate.parse(date, formatter);
+        // Convert String to LocalDate
+        return LocalDate.parse(birthDay, formatter);
     }
 
     public static boolean isValidURL(String url) {

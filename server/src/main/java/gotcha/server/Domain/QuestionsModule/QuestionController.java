@@ -21,7 +21,7 @@ public class QuestionController implements IQuestionController {
     public QuestionController(){
         this.open_questions = new ConcurrentHashMap<>();
         this.users_questions = new ConcurrentHashMap<>();
-        this.question_ids_counter = new AtomicInteger(1);
+        this.question_ids_counter = new AtomicInteger(0);
     }
 
 

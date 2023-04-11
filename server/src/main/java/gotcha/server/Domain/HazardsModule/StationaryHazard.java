@@ -5,7 +5,7 @@ import gotcha.server.Utils.Location;
 
 public class StationaryHazard {
     private int id;
-    private int ride_id;
+    private int ride_id; // will be -1 if the hazard added by admin.
     private Location location;
     private String city;
     private HazardType type;
@@ -19,7 +19,7 @@ public class StationaryHazard {
         this.city = city;
         this.type = type;
         this.size = size;
-        //this.setRate();
+        this.setRate();
     }
 
 
@@ -75,5 +75,9 @@ public class StationaryHazard {
         HazardRateCalculator hazardRateCalculator = HazardRateCalculator.get_instance();
         this.rate = hazardRateCalculator.rate_hazard(this);
 
+    }
+
+    public StationaryHazardDAO getDAO(){
+        return new StationaryHazardDAO(this);
     }
 }

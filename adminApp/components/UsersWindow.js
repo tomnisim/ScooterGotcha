@@ -1,89 +1,88 @@
-import * as React from 'react';
-import { View, Text, Button, StyleSheet, TextInput, ImageBackground} from 'react-native';
+import React,{ useState } from 'react';
+import { View, Text, Button, StyleSheet, TextInput, ImageBackground, ScrollView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { UsersApi } from '../API/UsersApi';
-import { useState } from 'react'; 
 import Table from 'rc-table';
 import Select from 'react-select'
-
-
-const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
-
-  
-
+import { background } from '../API/Path';
+import { useEffect } from 'react';
 
 const usersApi = new UsersApi();
-let users_list = []
-let users_emails = ""
-
-const get_users_list = async () => {
-  // todo: change 5 to admin id, change params to functions.
-  let response = await usersApi.view_users();
-  if (!response.was_exception){
-    users_list = response.value
-    console.log(users_list)
 
 
-    users_emails = users_list.map((item) => {
-      return (
-        {value: item._email, label: item._email}
-      );
-    })
-
-
-
-  }
-}
-
-
-
-
-
-let user_email_to_edit = "none"
-let user_email_to_delete = "none"
-
-const setText_to_edit = (text) => {  
-  user_email_to_edit = text;
-}
-const setText_to_delete = (text) => {  
-  user_email_to_delete = text;
-}
-
-
-
-const edit_user = () => {
-  // usersApi.edit_user();
-  console.log(user_email_to_edit);
-  alert(user_email_to_edit);
-}
-
-const delete_user = () => {
-  usersApi.delete_user(user_email_to_delete)
-}
-
-
-get_users_list();
 export default function UsersWindow({navigation}) {
-  get_users_list();
+
+  const [users_list, setUsers_list] = useState([]);
+  const [rp_waiting_list, setRP_waiting_list] = useState([]);
+  const [users_emails, setUsers_emails] = useState([]);
+  const [user_rp_to_add, setUser_rp_to_add] = useState([]);
+  const [user_email_to_delete, setUser_email_to_delete] = useState([]);
+
+  async function get_users_list() {
+    let response = await usersApi.view_users();
+    if (!response.was_exception){
+      setUsers_list(response.value)
+      let temp = response.value
+      let temp1 = temp.map((item) => {
+        return (
+          {key: item.userEmail}
+        );
+      })
+      let list_temp = []
+      temp1.map((item) => list_temp.push({value: item.key, label: item.key}))
+      setUsers_emails(list_temp)
+
+
+    }
+
+    let response1 = await usersApi.view_waiting_rp();
+    if (!response1.was_exception){
+      setRP_waiting_list(response1.value)
+    }
+  
+  }
+
+  useEffect(() => {
+    get_users_list();
+  }, {})
+
+  const add_user_rp = async () => {
+    await usersApi.add_user_rp(user_rp_to_add)
+    get_users_list();
+  }
+  
+  const delete_user = async () => {
+    await usersApi.delete_user(user_email_to_delete);
+    get_users_list();
+  }
 
   return (
     <View>
     <ImageBackground source={background} resizeMode="cover">
-    <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>Users List:</b></Text>
 
     <View style={{display: 'flex', flexDirection:'row'}}>
-    <View style={styles.container}>
-    <Table columns={columns} data={users_list} tableLayout="auto"/>
+
+    <View style={{display: 'flex', flexDirection:'column'}}>
+    <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>Riders List:</b></Text>
+
+    <ScrollView style={styles.container}>
+    <Table columns={riders_columns} data={users_list} tableLayout="auto"/>
+    </ScrollView>
+    <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>Waiting RP List:</b></Text>
+
+    <ScrollView style={styles.container1}>
+    <Table columns={waiting_columns} data={rp_waiting_list} tableLayout="auto"/>
+    </ScrollView>
     </View>
     <Text>    </Text>    
     <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
-    <Select
-        placeholder="User Email to edit!"
-        options={users_emails}
-        onChange={newText => setText_to_edit(newText)}
-      ></Select>
-      <Button onPress={() => edit_user()} title="Edit User" color="#841584"/>
+    <TextInput
+        style={styles.textInputer}
+        placeholder="RP Serial Number"
+        onChangeText={newText => setUser_rp_to_add(newText)}
+      ></TextInput>
+      <Button onPress={() => add_user_rp()} title="Add User RP Serial Number" color="#841584"/>
       <Text>  </Text>
       <Text>  </Text>
       <Text>  </Text>
@@ -93,7 +92,7 @@ export default function UsersWindow({navigation}) {
       <Select
         placeholder="User email to delete"
         options={users_emails}
-        onChange={newText => setText_to_delete(newText)}
+        onChange={newText => setUser_email_to_delete(newText.value)}
       ></Select>
       <Button onPress={() => delete_user()} title="Delete User" color="#841584"/>
 
@@ -119,44 +118,88 @@ export default function UsersWindow({navigation}) {
 }
 
 
-
-
-const columns = [
+const riders_columns = [
   {
     title: "Email",
-    dataIndex: "_email",
-    key: "_email",
+    dataIndex: "userEmail",
+    key: "userEmail",
     width: 200,
+  },
+
+  {
+    title: "Rating",
+    dataIndex: "rating",
+    key: "rating",
+    width:200,
+  },
+  {
+    title: "Scooter Type",
+    dataIndex: "scooterType",
+    key: "scooterType",
+    width:200,
+  },
+  {
+    title: "RP Serial #",
+    dataIndex: "raspberryPiSerialNumber",
+    key: "raspberryPiSerialNumber",
+    width:200,
+  },
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+    width:200,
+  },
+  {
+    title: "Last Name",
+    dataIndex: "lastName",
+    key: "lastName",
+    width:200,
   },
   {
     title: "Gender",
-    dataIndex: "_gender",
-    key: "_gender",
+    dataIndex: "gender",
+    key: "gender",
     width: 200,
   },
   {
     title: "Phone",
-    dataIndex: "_phone_number",
-    key: "_phone_number",
+    dataIndex: "phoneNumber",
+    key: "phoneNumber",
     width: 200,
   },
   {
-    title: "Rating",
-    dataIndex: "_rating",
-    key: "_rating",
-    width:200,
+    title: "Birth Date",
+    dataIndex: "birthDay",
+    key: "birthDay",
+    width: 200,
   },
   {
-    title: "Admin",
-    dataIndex: "_admin",
-    key: "_admin",
+    title: "Licence Issue Date",
+    dataIndex: "licenceIssueDate",
+    key: "licenceIssueDate",
     width:200,
   },
   {
     title: "Online",
-    dataIndex: "_logged_in",
-    key: "_logged_in",
+    dataIndex: "loggedIn",
+    key: "loggedIn",
     width:200,
+  },
+];
+
+const waiting_columns = [
+  {
+    title: "ID",
+    dataIndex: "id",
+    key: "id",
+    width: 200,
+  },
+  {
+    title: "Raspberry Pi Serial Code",
+    dataIndex: "rp_serial_number",
+    key: "rp_serial_number",
+    width: 200,
   },
 ];
 
@@ -165,7 +208,14 @@ const columns = [
 const styles = StyleSheet.create({
   container: {
     width:1200,
-    height:500,
+    height:400,
+    padding: 10,
+    opacity:0.5,
+    backgroundColor:'white'
+  },
+  container1: {
+    width:1200,
+    height:180,
     padding: 10,
     opacity:0.5,
     backgroundColor:'white'
@@ -178,6 +228,7 @@ const styles = StyleSheet.create({
   textInputer: {
     backgroundColor:'white',
     opacity:0.8,
+    textAlign:'center',
     height: 40
   },
   item: {

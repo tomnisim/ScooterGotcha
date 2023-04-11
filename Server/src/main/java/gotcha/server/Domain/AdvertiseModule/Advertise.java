@@ -2,31 +2,31 @@ package gotcha.server.Domain.AdvertiseModule;
 
 import gotcha.server.Utils.Utils;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Advertise {
     private int id;
-    private LocalDateTime start_date;
-    private LocalDateTime final_date;
+    private LocalDate start_date;
+    private LocalDate final_date;
     private String owner;
     private String message;
     private String photo;
     private String url;
     private int users_clicks;
 
-    public Advertise(int id, LocalDateTime final_date, String owner, String message, String photo, String url) {
+    public Advertise(int id, LocalDate final_date, String owner, String message, String photo, String url) {
         this.id = id;
         this.final_date = final_date;
         this.owner = owner;
         this.message = message;
         this.photo = photo;
-        this.start_date = LocalDateTime.now();
+        this.start_date = LocalDate.now();
         this.url = url;
         this.users_clicks = 0;
     }
 
     // load
-    public Advertise(int id, LocalDateTime start_date, LocalDateTime final_date, String owner, String message, String photo,String url, int users_clicks) {
+    public Advertise(int id, LocalDate start_date, LocalDate final_date, String owner, String message, String photo,String url, int users_clicks) {
         this.id = id;
         this.start_date = start_date;
         this.final_date = final_date;
@@ -47,19 +47,19 @@ public class Advertise {
         this.id = id;
     }
 
-    public LocalDateTime getStart_date() {
+    public LocalDate getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(LocalDateTime start_date) {
+    public void setStart_date(LocalDate start_date) {
         this.start_date = start_date;
     }
 
-    public LocalDateTime getFinal_date() {
+    public LocalDate getFinal_date() {
         return final_date;
     }
 
-    public void setFinal_date(LocalDateTime final_date) {
+    public void setFinal_date(LocalDate final_date) {
         this.final_date = final_date;
     }
 
