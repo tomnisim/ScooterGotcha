@@ -1,21 +1,26 @@
-import * as React from 'react';
+import React,{ useState } from 'react';
+import { useEffect } from 'react';
 import { ScrollView ,View, Text, Button, ImageBackground, StyleSheet} from 'react-native';
 import Table from 'rc-table';
 import { background } from '../API/Path';
 import { LoginApi } from '../API/LoginApi';
 
 const loginApi = new LoginApi();
-let notifications_list = []
 
-export const get_notifications_list = async () => {
-  let response = await loginApi.view_notifications();
-  if (!response.was_exception){
-    notifications_list = response.value
-  }
-  console.log(response)
-}
 
 export default function HomeWindow({navigation}) {
+  const [notifications_list, setNotifications_list] = useState([])
+  
+  async function get_notifications_list(){
+    let response = await loginApi.view_notifications();
+    if (!response.was_exception){
+      setNotifications_list(response.value)
+    }
+  }
+  useEffect(() => {
+    get_notifications_list();
+  }, {})
+
     return (
       <View>
         <ImageBackground source={background} resizeMode="cover">

@@ -29,4 +29,8 @@ public class HazardRepository {
             throw new Exception("hazard with id:" + hazardId + " not found");
     }
 
+    public StationaryHazard getHazardById(int hazardId) {
+        return stationaryHazardsList.getOrDefault(hazardId, null);
+    }
+
 }

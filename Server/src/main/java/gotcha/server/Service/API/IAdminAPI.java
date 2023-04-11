@@ -65,4 +65,7 @@ public interface IAdminAPI {
 //    Response update_user_rate_tables(Dictionary<String, Dictionary<Integer, Integer>> tables, UserContext userContext);
 //    Response update_hazard_formula(HazardType type, Formula formula, UserContext userContext);
 
+    Response delete_hazard(int hazard_id,@SessionAttribute("userContext") UserContext userContext);
+    Response report_hazard(int hazard_id,@SessionAttribute("userContext") UserContext userContext);
+
 }

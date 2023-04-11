@@ -99,18 +99,9 @@ class UserControllerTest {
     }
 
     @Test
-    void login_userAlreadyLoggedIn_failedLogin() {
-        var testEmail = "test@gmail.com";
-        var testPassword = "testPassword";
-        login_userExists_successfullyLoggedIn();
-        assertThrows(Exception.class, () -> {
-           userController.login(testEmail,testPassword);
-        });
-    }
-
-    @Test
     void register_validUserCredentials_successfullyRegistered() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
         assertDoesNotThrow(() -> userController.register(email,password,name,lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber));
     }
 

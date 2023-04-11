@@ -11,6 +11,7 @@ import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.ExternalService.MapsAdapter;
 import gotcha.server.ExternalService.MapsAdapterImpl;
+import gotcha.server.ExternalService.ReporterAdapter;
 import gotcha.server.Utils.Exceptions.ExitException;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.ErrorLogger;
@@ -65,11 +66,20 @@ public class MainSystem {
         if (configuration.getFirstTimeRunning())
             set_first_admin();
         set_statistics_update_thread();
+        set_reporter_engine();
         begin_instructions();
         systemLogger.add_log("Finish Init Server");
     }
 
+    private void set_reporter_engine() {
+        ReporterAdapter reporterAdapter = hazardController.getReporterAdapter();
+        reporterAdapter.setSystem_email(configuration.getSystemEmail());
+        reporterAdapter.setSystem_email_password(configuration.getSystemEmailPassword());
+        reporterAdapter.setOR_YARUK_email(configuration.getOrYarukEmail());
+        reporterAdapter.setCities_emails(configuration.getCities_emails());
+        systemLogger.add_log("Finish Loading Reporter Engine");
 
+    }
 
 
     /** Connect the system to the external services after set the services according the configuration file.

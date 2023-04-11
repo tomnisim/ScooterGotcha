@@ -1,5 +1,6 @@
 package gotcha.server.Domain.HazardsModule;
 
+import gotcha.server.ExternalService.ReporterAdapter;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.SystemLogger;
 import org.junit.jupiter.api.AfterEach;
@@ -22,13 +23,15 @@ class IHazardControllerTest {
 
     @Mock
     private SystemLogger systemLogger;
+    @Mock
+    private ReporterAdapter reporterAdapter;
 
     private HazardRepository hazardRepository = new HazardRepository();
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        hazardController = new HazardController(systemLogger, hazardRepository);
+        hazardController = new HazardController(systemLogger, hazardRepository, reporterAdapter);
     }
 
     @AfterEach
@@ -63,11 +66,14 @@ class IHazardControllerTest {
                 hazard2
         ));
         assertDoesNotThrow(() -> hazardController.update_hazards(hazards1,1));
-        assertTrue(hazardController.view_hazards().size() == hazards1.size());
-        assertTrue(hazard1.getSize() == 20);
+        var actualHazards = hazardController.view_hazards();
+        assertTrue(actualHazards.size() == hazards1.size());
+        assertTrue(actualHazards.iterator().next().getSize() == 20);
         assertDoesNotThrow(() -> hazardController.update_hazards(hazards2,1));
-        assertTrue(hazardController.view_hazards().size() == hazards1.size());
-        assertTrue(hazard1.getSize() == 40);
+        var actualHazards2 = hazardController.view_hazards();
+
+        assertTrue(actualHazards2.size() == actualHazards.size());
+        assertTrue(actualHazards2.iterator().next().getSize() == 40);
     }
 
     @Test
@@ -93,11 +99,14 @@ class IHazardControllerTest {
                 hazard2
         ));
         assertDoesNotThrow(() -> hazardController.update_hazards(hazards1,1));
-        assertTrue(hazardController.view_hazards().size() == hazards1.size());
-        assertTrue(hazard1.getSize() == 20);
+        var actualHazards = hazardController.view_hazards();
+        assertTrue(actualHazards.size() == hazards1.size());
+        assertTrue(actualHazards.iterator().next().getSize() == 20);
         assertDoesNotThrow(() -> hazardController.update_hazards(hazards2,1));
-        assertTrue(hazardController.view_hazards().size() == hazards1.size());
-        assertTrue(hazard1.getSize() == 40);
+        var actualHazards2 = hazardController.view_hazards();
+
+        assertTrue(actualHazards2.size() == actualHazards.size());
+        assertTrue(actualHazards2.iterator().next().getSize() == 40);
     }
 
     @Test

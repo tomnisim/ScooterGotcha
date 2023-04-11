@@ -1,7 +1,6 @@
-import * as React from 'react';
+import React,{ useState } from 'react';
+import { useEffect } from 'react';
 import { ImageBackground, View, Text, Button, StyleSheet, TextInput, ScrollView} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Table from 'rc-table';
 import Select from 'react-select'
 import { background } from '../API/Path';
@@ -10,86 +9,70 @@ import { HazardsApi } from '../API/HazardsApi';
 
 const hazardsApi = new HazardsApi();
 
-let hazards_list = []
-let hazards_ids_list = []
 
-let hazards_types_list = [{value: "pothole", label:"Pothole"}, {value: "PoleTree", label:"Pole Tree"}, {value: "RoadSign", label:"Road Sign"}]
-let cities_list = [{value: "Tel Aviv", label:"Tel Aviv"}, {value: "Haifa", label:"Haifa"}, {value: "Beersheba", label:"Beersheba"},]
 
-let lng = ""
-let lat = ""
-let city = ""
-let type = ""
-let size = ""
+const hazards_types_list = [{value: "pothole", label:"Pothole"}, {value: "PoleTree", label:"Pole Tree"}, {value: "RoadSign", label:"Road Sign"}]
+const cities_list = [{value: "Tel Aviv", label:"Tel Aviv"}, {value: "Haifa", label:"Haifa"}, {value: "Beersheba", label:"Beersheba"},]
 
-let hazard_to_remove = ""
-let hazard_to_report = ""
 
-export const get_hazards_list = async () => {
-  let response = await hazardsApi.view_hazards();
-  if (!response.was_exception){
-    hazards_list = response.value
-    hazards_ids_list = hazards_list.map((item) => {
-      return (
-        {value: item.id, label: item.id}
-      );
-    })
-  }
-}
 
 
 
 export default function HazardsWindow({navigation}) {
-  get_hazards_list();
+
+  const [hazards_list, setHazards_list] = useState([])
+  const [hazards_ids_list, setHazards_ids_list] = useState([])
+  const [lng, setText_to_lng] = useState("")
+  const [lat, setText_to_lat] = useState("")
+  const [city, setText_to_city] = useState("")
+  const [type, setText_to_type] = useState("")
+  const [size, setText_to_size] = useState("")
+  const [hazard_to_remove, setText_to_remove_hazard] = useState("")
+  const [hazard_to_report, setText_to_report_hazard] = useState("")
 
 
-  const setText_to_lng = (text) => {
-    lng = text
+
+  async function get_hazards_list(){
+    let response = await hazardsApi.view_hazards();
+    if (!response.was_exception){
+      setHazards_list(response.value)
+      let temp = response.value
+      let temp1 = temp.map((item) => {
+        return (
+          {key: item.id}
+        );
+      })
+      let list_temp = []
+      temp1.map((item) => list_temp.push({value: item.key, label: item.key}))
+      setHazards_ids_list(list_temp)
+    }
   }
 
-  const setText_to_lat = (text) => {
-    lat = text
-  }
+  useEffect(() => {
+    get_hazards_list();
+  }, {})
 
-  const setText_to_city = (text) => {
-    city = text
-  }
 
-  const setText_to_type = (text) => {
-    type = text
-  }
 
-  const setText_to_size = (text) => {
-    size = text
-  }
-
-  const setText_to_remove_hazard = (text) => {
-    hazard_to_remove = text
-  }
-
-  const setText_to_report_hazard = (text) => {
-    hazard_to_report = text
-  }
-
-  const add_hazard = () => {
-    hazardsApi.add_hazard(lng, lat, city, type, size)
+  const add_hazard = async () => {
+    await hazardsApi.add_hazard(lng, lat, city, type, size)
     get_hazards_list();
   }
 
-  const delete_hazard = () => {
+  const delete_hazard = async () => {
     if (hazard_to_remove == "")
       {
         alert("Please choose Hazard")
       }
       else
       {
-        advertismentsApi.delete_hazard(hazard_to_remove)
+        await advertismentsApi.delete_hazard(hazard_to_remove)
+        get_hazards_list();
+
       }
-    get_hazards_list();
   }
-  // let hazard_to_remove = ""
-  // let hazard_to_report = ""
-  const report_hazard = () => {
+
+  const report_hazard = async () => {
     if (hazard_to_report == ""){
       alert("Please choose Hazard")
     }

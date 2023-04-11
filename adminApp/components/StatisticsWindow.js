@@ -1,7 +1,6 @@
-import * as React from 'react';
+import React,{ useState } from 'react';
+import { useEffect } from 'react';
 import { ImageBackground, View, Text, Button, StyleSheet, TextInput, ScrollView} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatisticsApi } from '../API/StatisticsApi';
 import { background } from '../API/Path';
 import Table from 'rc-table';
@@ -9,35 +8,36 @@ import Table from 'rc-table';
 
 const statsApi = new StatisticsApi();
 
-let all_daily_data = []
-let daily_data = []
-let general_data = []
 
-
-export const get_stats = async () => {
-  let response = await statsApi.view_daily_statistics();
-  if (!response.was_exception){
-    daily_data.push(response.value)
-    // daily_data = response.value
-  }
-  let response1 = await statsApi.view_general_statistics();
-  console.log(response1)
-  if (!response1.was_exception){
-    console.log(response1)
-    general_data.push(response1.value)
-    // general_data = response1.value
-  }
-  let response2 = await statsApi.view_all_daily_statistics();
-  if (!response2.was_exception){
-    all_daily_data = response2.value
-  }
-}
-
-
-
-// get_stats()
 export default function StatisticsWindow({navigation}) {
-  get_stats();
+  const [daily_data, setDailyData] = useState([])
+  const [general_data, setGeneralData] = useState([])
+  const [all_daily_data, setAllDailyData] = useState([])
+
+
+  async function get_stats(){
+    let response = await statsApi.view_daily_statistics();
+    if (!response.was_exception){
+      let temp = []
+      temp.push(response.value)
+      setDailyData(temp)
+    }
+    let response1 = await statsApi.view_general_statistics();
+    console.log(response1)
+    if (!response1.was_exception){
+      let temp = []
+      temp.push(response1.value)
+      setGeneralData(temp)
+    }
+    let response2 = await statsApi.view_all_daily_statistics();
+    if (!response2.was_exception){
+      setAllDailyData(response2.value)
+    }
+  }
+
+  useEffect(() => {
+    get_stats();
+  }, {})
 
 return (
   <View>

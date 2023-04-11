@@ -366,6 +366,18 @@ public class ApiController implements IAdminAPI, IUserAPI {
         return facade.shut_down(userContext);
     }
 
+    @RequestMapping(value = "/delete_hazard")
+    @CrossOrigin
+    @Override    public Response delete_hazard(int hazard_id, UserContext userContext) {
+        return this.facade.delete_hazard(hazard_id, userContext);
+    }
+    @RequestMapping(value = "/report_hazard")
+    @CrossOrigin
+    @Override    public Response report_hazard(int hazard_id, UserContext userContext) {
+        return this.facade.report_hazard(hazard_id, userContext);
+    }
+
+
     @RequestMapping(value = "/set_server_config")
     @CrossOrigin
     @Override
