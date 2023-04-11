@@ -14,6 +14,10 @@ public class StationaryHazard {
     private HazardType type;
     private double size;
     private double rate;
+    private boolean report;
+
+
+
 
     public StationaryHazard(int id, int ride_id, Location location, String city, HazardType type, double size) {
         this.id = id;
@@ -22,6 +26,7 @@ public class StationaryHazard {
         this.city = city;
         this.type = type;
         this.size = size;
+        this.report = false;
         this.setRate();
     }
 
@@ -91,6 +96,14 @@ public class StationaryHazard {
         HazardRateCalculator hazardRateCalculator = HazardRateCalculator.get_instance();
         this.rate = hazardRateCalculator.rate_hazard(this);
 
+    }
+
+    public boolean isReport() {
+        return report;
+    }
+
+    public void setReport(boolean report) {
+        this.report = report;
     }
 
     public StationaryHazardDAO getDAO(){

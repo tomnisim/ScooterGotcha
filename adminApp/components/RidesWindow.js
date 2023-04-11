@@ -1,30 +1,29 @@
-import * as React from 'react';
+import React,{ useState } from 'react';
+import { useEffect } from 'react';
 import { ImageBackground, View, Text, Button, StyleSheet, TextInput, ScrollView} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Table from 'rc-table';
 import Select from 'react-select'
 import { background } from '../API/Path';
 import { RidesApi } from '../API/RidesApi';
 
-
 const ridesApi = new RidesApi();
-
-let rides_list = []
-
-export const get_rides_list = async () => {
-  let response = await ridesApi.view_rides();
-  if (!response.was_exception){
-    rides_list = response.value
-  }
-  console.log(rides_list)
-}
 
 
 
 export default function RidesWindow({navigation}) {
-  get_rides_list();
+  const [rides_list, setRides_list] = useState([])
 
+  async function get_rides_list(){
+    let response = await ridesApi.view_rides();
+    if (!response.was_exception){
+      setRides_list(response.value)
+    }
+  }
+
+  useEffect(() => {
+    get_rides_list();
+  }, {})
+  
 
 
   return (

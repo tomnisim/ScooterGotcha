@@ -36,6 +36,7 @@ export default function HomeWindow({navigation}) {
         <Button onPress={() => navigation.navigate('Statistics')} title="Statistics Window" color='#00000000'/>
         <Button onPress={() => navigation.navigate('Awards')} title="Awards Window" color='#00000000'/>
         <Button onPress={() => navigation.navigate('SystemSettings')} title="System settings Window" color='#00000000'/>
+        <Button onPress={() => navigation.navigate('VisualRoute')} title="Visual Window" color='#00000000'/>
         </View>
         <View style={{display: 'flex', flexDirection:'column', width: 550}}>
         <Text style={{textAlign:'center', color:'#841584', backgroundColor:'white', opacity:0.8}}><h1>Notifications</h1></Text>

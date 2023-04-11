@@ -147,6 +147,7 @@ public class HazardController implements IHazardController {
     public void report_hazard(int hazardId) throws Exception {
         StationaryHazard stationaryHazard = hazardRepository.getHazardById(hazardId);
         this.getReporterAdapter().report(stationaryHazard);
+        stationaryHazard.setReport(true);
 
     }
 

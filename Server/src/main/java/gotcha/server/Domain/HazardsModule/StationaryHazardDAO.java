@@ -14,6 +14,7 @@ public class StationaryHazardDAO {
     private HazardType type;
     private double size;
     private double rate;
+    private String report;
 
     public StationaryHazardDAO(){}
 
@@ -25,6 +26,12 @@ public class StationaryHazardDAO {
         this.type = stationaryHazard.getType();
         this.size = stationaryHazard.getSize();
         this.rate = stationaryHazard.getRate();
+        if (stationaryHazard.isReport()){
+            this.report = "Yes";
+        }
+        else {
+            this.report = "No";
+        }
     }
 
 
@@ -79,5 +86,13 @@ public class StationaryHazardDAO {
     public void setRate(double rate) {
         this.rate = rate;
 
+    }
+
+    public String getReport() {
+        return report;
+    }
+
+    public void setReport(String report) {
+        this.report = report;
     }
 }

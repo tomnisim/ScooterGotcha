@@ -165,9 +165,9 @@ public class MainSystem {
         BigDecimal lat = new BigDecimal("63.258");
         Location origin = new Location(lng, lat);
 
-        this.hazardController.add_hazard(5, origin, "Tel Aviv", HazardType.PoleTree, 16.5);
-        this.hazardController.add_hazard(5, origin, "Tel Aviv", HazardType.RoadSign, 7);
-        this.hazardController.add_hazard(5, origin, "Tel Aviv", HazardType.RoadSign, 12);
+        this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5);
+        this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 7);
+        this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 12);
         this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12);
         this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14);
         this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3);
