@@ -1,7 +1,6 @@
-import * as React from 'react';
+import React,{ useState } from 'react';
+import { useEffect } from 'react';
 import {ImageBackground, View, Text, Button, StyleSheet, TextInput, ScrollView} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { QuestionsApi } from '../API/QuestionsApi';
 import Table from 'rc-table';
 import Select from 'react-select'
@@ -10,57 +9,46 @@ import { background } from '../API/Path';
 
 const questionsApi = new QuestionsApi();
 
-let questions_list = []
-let question_id_to_answer = ""
-let admin_answer = ""
-let message_to_send = ""
-
-let questions_ids_list = []
 
 
-export const get_questions_list = async () => {
-    // todo: change 5 to admin id, change params to functions.
-  let response = await questionsApi.view_all_open_questions();
-  console.log(response)
-  if (!response.was_exception){
-    questions_list = response.value
+export default function QuestionsWindow({navigation}) {
+
+  const [questions_list, setQuestions_list] = useState([]);
+  const [questions_ids_list, setQuestions_ids_list] = useState([]);
+  const [question_id_to_answer, setText_to_question_id_to_answer] = useState('');
+  const [admin_answer, setText_to_admin_answer] = useState('');
+  const [message_to_send, setText_to_message_to_send] = useState('');
 
 
-    questions_ids_list = questions_list.map((item) => {
-      return (
-        {value: item.question_id, label: item.question_id}
-      );
-    })
-  }
-  console.log(questions_list)
-    
+  async function get_questions_list(){
+    let response = await questionsApi.view_all_open_questions();
+    if (!response.was_exception){
+      setQuestions_list(response.value)
+      let temp = response.value
+      let temp1 = temp.map((item) => {
+        return (
+          {key: item.question_id}
+        );
+      })
+      let list_temp = []
+      temp1.map((item) => list_temp.push({value: item.key, label: item.key}))
+      setQuestions_ids_list(list_temp)
+    }    
 }
 
+useEffect(() => {
+  get_questions_list();
+}, {})
 
-// get_questions_list();
-export default function QuestionsWindow({navigation}) {
-  get_questions_list()
-  console.log(questions_list)
 
-  const setText_to_question_id_to_answer = (text) => {
-    question_id_to_answer = text
-  }
-  const setText_to_admin_answer = (text) => {
-    admin_answer = text
-  }
-  const setText_to_message_to_send = (text) => {
-    message_to_send = text
+  const answer_question = async () => {
+    await questionsApi.answer_question(question_id_to_answer, admin_answer);
+    get_questions_list();
   }
 
-  const answer_question = () => {
-    alert(question_id_to_answer)
-    alert(admin_answer)
-    questionsApi.answer_question(question_id_to_answer, admin_answer)
-  }
-
-  const send_message_to_all_users = () => {
-    alert(message_to_send)
-    questionsApi.send_message_to_all_users(message_to_send)
+  const send_message_to_all_users = async () => {
+    await questionsApi.send_message_to_all_users(message_to_send);
+    get_questions_list();
   }
 
 

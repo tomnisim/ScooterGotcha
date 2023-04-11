@@ -1,29 +1,7 @@
-import * as React from 'react';
+import React,{ useState } from 'react';
 import {ImageBackground, View, Text, Button, StyleSheet, TextInput} from 'react-native';
 import {LoginApi } from '../API/LoginApi';
 import { background } from '../API/Path';
-import {get_users_list} from './UsersWindow';
-import {get_admins_list} from './AdminsWindow';
-import {get_advertisments_list } from './AdvertismentsWindow';
-import { get_awards_list, get_emails_list } from './AwardsWindow';
-import { get_questions_list } from './QuestionsWindow';
-import { get_stats } from './StatisticsWindow';
-import { get_hazards_list } from './HazardsWindow';
-import { get_rides_list } from './RidesWindow';
-import { get_notifications_list } from './HomeWindow';
-
-const load_data = async () => {
-  await get_notifications_list();
-  await get_users_list();
-  await get_admins_list();
-  await get_advertisments_list();
-  await get_awards_list();
-  await get_emails_list();
-  await get_questions_list();
-  await get_stats();
-  await get_hazards_list();
-  await get_rides_list();
-}
 
 
 const loginApi = new LoginApi();
@@ -31,19 +9,9 @@ const loginApi = new LoginApi();
 
 
 export default function LoginWindow({navigation}) {
-
-    // todo: change details
-    let user_email = "admin@gmail.com"
-    let user_password = "admin"
-
-    const setText_email = (text) => {
-        user_email = text;
-        }
-
-    const setText_password = (text) => {
-        user_password = text;
-        }
-
+  // todo: change default
+  const [user_email, setText_email] = useState("admin@gmail.com");
+  const [user_password, setText_password] = useState("admin")
 
     const login = async () => {
         let response = await loginApi.login(user_email, user_password)
@@ -56,7 +24,6 @@ export default function LoginWindow({navigation}) {
         }
         else
         {
-            await load_data();
             navigation.navigate('Home')
         }
         
