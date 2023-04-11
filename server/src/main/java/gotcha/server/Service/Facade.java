@@ -503,6 +503,24 @@ public class Facade {
         }
         return response;
     }
+
+    public Response get_hazards_in_city(String city, UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            Collection<StationaryHazardDAO> hazards = this.hazard_controller.get_hazards(city);
+            String logger_message = String.format("admin(%s) view all hazards in city: %s", admin_email, city);
+            response = new Response(hazards, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
     public Response view_awards(UserContext userContext) {
         Response response;
         try{
@@ -873,4 +891,6 @@ public class Facade {
         }
         return response;
     }
+
+
 }

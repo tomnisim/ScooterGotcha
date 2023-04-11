@@ -102,11 +102,11 @@ public class HazardController implements IHazardController {
 
 
 
-    private List<StationaryHazard> get_hazards(String city){
-        LinkedList<StationaryHazard> list = new LinkedList<>();
+    public List<StationaryHazardDAO> get_hazards(String city){
+        LinkedList<StationaryHazardDAO> list = new LinkedList<>();
         for (StationaryHazard stationaryHazard : hazardRepository.getAllHazards()){
             if (stationaryHazard.getCity().equals(city)){
-                list.add(stationaryHazard);
+                list.add(new StationaryHazardDAO(stationaryHazard));
             }
         }
         return list;

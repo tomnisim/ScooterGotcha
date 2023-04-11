@@ -49,7 +49,10 @@ public interface IAdminAPI {
     // Hazards
     Response view_hazards( @SessionAttribute("userContext") UserContext userContext);
     Response add_hazard(String lng, String lat, String city, String type, Double size, @SessionAttribute("userContext") UserContext userContext);
+    Response delete_hazard(int hazard_id,@SessionAttribute("userContext") UserContext userContext);
+    Response report_hazard(int hazard_id,@SessionAttribute("userContext") UserContext userContext);
 
+    Response get_hazards_in_city(String city,@SessionAttribute("userContext") UserContext userContext);
     // SUPER admin
 
     Response set_server_config(UserContext userContext);
@@ -65,7 +68,6 @@ public interface IAdminAPI {
 //    Response update_user_rate_tables(Dictionary<String, Dictionary<Integer, Integer>> tables, UserContext userContext);
 //    Response update_hazard_formula(HazardType type, Formula formula, UserContext userContext);
 
-    Response delete_hazard(int hazard_id,@SessionAttribute("userContext") UserContext userContext);
-    Response report_hazard(int hazard_id,@SessionAttribute("userContext") UserContext userContext);
+
 
 }

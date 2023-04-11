@@ -37,8 +37,6 @@ export default function RidesWindow({navigation}) {
       await set_junctions(junctions);
       navigation.navigate('VisualRoute');
     }
-
-
   }
   
 

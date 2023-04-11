@@ -5,6 +5,7 @@ import Table from 'rc-table';
 import Select from 'react-select'
 import { background } from '../API/Path';
 import { HazardsApi } from '../API/HazardsApi';
+import {set_junctions} from './VisualRoute';
 
 
 const hazardsApi = new HazardsApi();
@@ -29,6 +30,7 @@ export default function HazardsWindow({navigation}) {
   const [size, setText_to_size] = useState("")
   const [hazard_to_remove, setText_to_remove_hazard] = useState("")
   const [hazard_to_report, setText_to_report_hazard] = useState("")
+  const [city_to_show, setCity_to_show] = useState("")
 
 
 
@@ -115,12 +117,40 @@ export default function HazardsWindow({navigation}) {
     
   }
 
+  const show_visual = async () => {
+    if (city_to_show == ""){
+      alert("Please Chose a Ride.")
+    }
+    let response = await hazardsApi.get_hazards_in_city(city_to_show);
+    let hazards_by_city = response.value;
+    console.log(hazards_by_city);
+    //  let junctions = [
+    //     { id: 0, name: 'Origin', lat: ride.origin_lat, lng: ride.origin_lng},
+    //     { id: 1, name: 'Destination', lat: ride.destination_lat, lng: ride.destination_lng},
+    //   ];
+
+    
+    let junctions = []
+    hazards_by_city.map((item)=>{
+      junctions.push({id:item.id, name: 'amit', lat:item.lat, lng:item.lng})
+    })
+    if (junctions == ""){
+      alert("There is no Hazards in "+city_to_show);
+    }
+    else
+    {
+      await set_junctions(junctions);
+      navigation.navigate('VisualRoute');
+    }   
+    
+  }
+
 
   return (
     <View>
     <ImageBackground source={background} resizeMode="cover">
     <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>Hazards List:</b></Text>
-
+    <View style={{display: 'flex', flexDirection:'column'}}>
     <View style={{display: 'flex', flexDirection:'row'}}>
     <ScrollView style={styles.container}>
     <Table columns={columns} data={hazards_list} tableLayout="auto"/>
@@ -176,6 +206,15 @@ export default function HazardsWindow({navigation}) {
     
   </View>
   
+  </View>
+  <View style={{display: 'flex', flexDirection:'row', width:300}}>
+  <Select
+        placeholder="City"
+        options={cities_list}
+        onChange={newText => setCity_to_show(newText.value)}
+      ></Select>
+      <Button onPress={() => show_visual()} title="VISUAL SHOW" color="#841584"/>
+  </View>
   </View>
   <Text> </Text>
   <Text> </Text>

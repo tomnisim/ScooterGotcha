@@ -368,13 +368,22 @@ public class ApiController implements IAdminAPI, IUserAPI {
 
     @RequestMapping(value = "/delete_hazard")
     @CrossOrigin
-    @Override    public Response delete_hazard(int hazard_id, UserContext userContext) {
+    @Override
+    public Response delete_hazard(int hazard_id, UserContext userContext) {
         return this.facade.delete_hazard(hazard_id, userContext);
     }
     @RequestMapping(value = "/report_hazard")
     @CrossOrigin
-    @Override    public Response report_hazard(int hazard_id, UserContext userContext) {
+    @Override
+    public Response report_hazard(int hazard_id, UserContext userContext) {
         return this.facade.report_hazard(hazard_id, userContext);
+    }
+
+    @RequestMapping(value = "/get_hazards_in_city")
+    @CrossOrigin
+    @Override
+    public Response get_hazards_in_city(String city, UserContext userContext) {
+        return this.facade.get_hazards_in_city(city, userContext);
     }
 
 
