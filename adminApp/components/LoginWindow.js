@@ -13,16 +13,16 @@ import { get_rides_list } from './RidesWindow';
 import { get_notifications_list } from './HomeWindow';
 
 const load_data = async () => {
-  await get_notifications_list();
-  await get_users_list();
-  await get_admins_list();
-  await get_advertisments_list();
-  await get_awards_list();
-  await get_emails_list();
-  await get_questions_list();
-  await get_stats();
-  await get_hazards_list();
-  await get_rides_list();
+  // await get_notifications_list();
+  // await get_users_list();
+  // await get_admins_list();
+  // await get_advertisments_list();
+  // await get_awards_list();
+  // await get_emails_list();
+  // await get_questions_list();
+  // await get_stats();
+  // await get_hazards_list();
+  // await get_rides_list();
 }
 
 
