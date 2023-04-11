@@ -22,9 +22,8 @@ public class Rider extends User{
 
     public Rider(){}
 
-    public void update_rating(Ride ride, int number_of_rides) {
-        UserRateCalculator userRateCalculator = new UserRateCalculator();
-        userRateCalculator.update_user_rating(this, ride, number_of_rides);
+    public void update_rating(Ride ride, int number_of_rides,UserRateCalculator calculator ) {
+        calculator.update_user_rating(this, ride, number_of_rides);
     }
 
     public void update_scooter_type(String scooterType) {

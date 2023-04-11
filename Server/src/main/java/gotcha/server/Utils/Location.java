@@ -21,10 +21,11 @@ public class Location {
         this.latitude = new BigDecimal(lat);
     }
 
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Location location = (Location) o;
+    // Default constructor for deserialization
+    public Location() {}
+
+    public boolean equals(Location location) {
+        if (this == location) return true;
         double distanceTo = this.distanceTo(location);
         if (distanceTo <= RADIOS)
             return true;

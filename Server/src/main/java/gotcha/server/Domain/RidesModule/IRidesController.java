@@ -1,5 +1,6 @@
 package gotcha.server.Domain.RidesModule;
 
+import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Utils.Exceptions.RideNotFoundException;
 
 import java.time.LocalDate;
@@ -8,7 +9,7 @@ import java.util.List;
 public interface IRidesController {
     void load();
 
-    Ride add_ride(String ride_info);
+    Ride add_ride(FinishRideRequest finishRideRequest, String userEmail) throws Exception;
 
     void remove_ride(int ride_id) throws RideNotFoundException;
 

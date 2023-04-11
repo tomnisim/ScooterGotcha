@@ -6,22 +6,24 @@ import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
 import gotcha.server.Domain.AdvertiseModule.IAdvertiseController;
 import gotcha.server.Domain.AwardsModule.Award;
 import gotcha.server.Domain.AwardsModule.IAwardsController;
-import gotcha.server.Domain.HazardsModule.*;
-import gotcha.server.Domain.QuestionsModule.IQuestionController;
+import gotcha.server.Domain.HazardsModule.HazardController;
+import gotcha.server.Domain.HazardsModule.HazardType;
+import gotcha.server.Domain.HazardsModule.IHazardController;
+import gotcha.server.Domain.HazardsModule.StationaryHazardDAO;
 import gotcha.server.Domain.Notifications.Notification;
+import gotcha.server.Domain.QuestionsModule.IQuestionController;
 import gotcha.server.Domain.QuestionsModule.Question;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
 import gotcha.server.Domain.RidesModule.IRidesController;
 import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Domain.RidesModule.RidesController;
-import gotcha.server.Domain.StatisticsModule.DailyStatistic;
 import gotcha.server.Domain.StatisticsModule.DailyStatisticDAO;
 import gotcha.server.Domain.StatisticsModule.GeneralStatistic;
-import gotcha.server.Domain.UserModule.*;
-//import gotcha.server.Domain.StatisticsModule.DailyStatistic;
 import gotcha.server.Domain.StatisticsModule.StatisticsManager;
+import gotcha.server.Domain.UserModule.*;
 import gotcha.server.SafeRouteCalculatorModule.Route;
 import gotcha.server.SafeRouteCalculatorModule.RoutesRetriever;
+import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserException;
@@ -35,9 +37,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
 @Component
 public class Facade {
@@ -290,32 +292,20 @@ public class Facade {
 
     /**
      * don't check if the user is logged in - can perform without logged in.
-     * @param user_id
-     * @param origin
-     * @param destination
-     * @param city
-     * @param start_time
-     * @param end_time
-     * @param hazards
+     * @param finishRideRequest
      * @return
      */
-     // todo : user id -> RP serial number 
-    public Response finish_ride(String user_id, Location origin, Location destination, String city, LocalDateTime start_time,
-                                LocalDateTime end_time, List<StationaryHazard> hazards) {
-
+    public Response finish_ride(FinishRideRequest finishRideRequest) {
         Response response;
         try{
-            String ride_info="";
-            String hazard_info ="";
-            // TODO: 05/01/2023 : build the info objects
-            // TODO: 04/03/2023 : change user id -> email or serial number ?
-            int number_of_rides = this.rides_controller.get_number_of_rides(user_id);
-            Ride ride = this.rides_controller.add_ride(ride_info);
+            String userEmail = user_controller.get_user_email_by_rp_serial(finishRideRequest.getRpSerialNumber());
+            int number_of_rides = this.rides_controller.get_number_of_rides(userEmail);
+            Ride ride = this.rides_controller.add_ride(finishRideRequest, userEmail);
             int ride_id = ride.getRide_id();
-            user_controller.update_user_rate(user_id, ride, number_of_rides);
-            hazard_controller.update_hazards(hazard_info, ride_id);
+            user_controller.update_user_rate(userEmail, ride, number_of_rides);
+            hazard_controller.update_hazards(finishRideRequest.getHazards(), ride_id);
             String logger_message = "user added new ride";
-            response = new Response("", logger_message);
+            response = new Response(logger_message, logger_message);
             serverLogger.add_log(logger_message);
 
         }
@@ -601,7 +591,7 @@ public class Facade {
             Location location = new Location(lng, lat);
             HazardType hazard_type = HazardType.valueOf(type);
             double hazard_size = size.doubleValue();
-            hazard_controller.add_hazard(-1, location, city, hazard_type, hazard_size);
+            hazard_controller.add_hazard(-1,location, city, hazard_type, hazard_size);
             String logger_message = String.format("admin (%s) add new hazard: (%s, %s, %f)", admin_email, location, type, size);
             response = new Response(SUCCESS_OPCODE, logger_message);
             serverLogger.add_log(logger_message);
