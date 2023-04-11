@@ -14,8 +14,8 @@ import QuestionsWindow from './components/QuestionsWindow'
 import HomeWindow from './components/HomeWindow'
 import LoginWindow from './components/LoginWindow'
 import VisualRouteWindow from './components/VisualRoute' 
-
-
+import VisualHazardsWindow from './components/VisualHazards' 
+import SetConfigurationWindow from './components/SetConfigurationWindow'
 
 
 
@@ -40,6 +40,9 @@ function App() {
         <Stack.Screen name="Advertisements" component={AdvertismentsWindow} />
         <Stack.Screen name="SystemSettings" component={SystemSettingsWindow} />
         <Stack.Screen name="VisualRoute" component={VisualRouteWindow} />
+        <Stack.Screen name="VisualHazards" component={VisualHazardsWindow} />
+        <Stack.Screen name="SetConfiguration" component={SetConfigurationWindow} />
+
         </Stack.Navigator>
     </NavigationContainer>
 

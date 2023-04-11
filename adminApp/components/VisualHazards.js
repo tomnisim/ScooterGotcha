@@ -20,7 +20,7 @@ export const set_junctions = async (val) => {
     iconUrl: 'C:/Users/amitm/Desktop/SemH/ScooterGotcha/adminApp/assets/icon.png',
   });
 
-export default function VisualRoute({}) {
+export default function VisualHazards({}) {
 
     useEffect(() => {
         // Calculate the center of the junctions
@@ -30,7 +30,7 @@ export default function VisualRoute({}) {
         const centerLng = (Math.min(...longitudes) + Math.max(...longitudes)) / 2;
     
         // Initialize the Leaflet map
-        const map = L.map('map').setView([centerLat, centerLng], 13);
+        const map = L.map('map').setView([centerLat, centerLng], 15);
     
         // Add the tile layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -45,22 +45,8 @@ export default function VisualRoute({}) {
             // TODO : handle title & icon.
           const marker = L.marker([junction.lat, junction.lng]);
           marker.addTo(map);
-          if (index == 0){
-            marker.bindPopup(`<b><div style='background-color:orange'>Origin</div><b>`);
-            markers.push(marker);
-          }
-          else{
-            if (index == junctions.length-1){
-                marker.bindPopup(`<b><div style='background-color:orange'>Destination</div><b>`);
-
-            }
-            else
-            {
-              marker.bindPopup(`<b>${junction.name}</b>`);
-
-  
-            }
-          }
+          marker.bindPopup(`<b><div style='background-color:orange'>${junction.name}</div></b>`);
+          markers.push(marker)
 
 
           // Draw the polyline between the current junction and the previous junction
@@ -71,7 +57,7 @@ export default function VisualRoute({}) {
                 [previousJunction.lat, previousJunction.lng],
                 [junction.lat, junction.lng],
               ],
-              { color: 'red' }
+              { color: 'green' }
             ).addTo(map);
           }
     

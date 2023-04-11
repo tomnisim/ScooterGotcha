@@ -5,7 +5,7 @@ import Table from 'rc-table';
 import Select from 'react-select'
 import { background } from '../API/Path';
 import { HazardsApi } from '../API/HazardsApi';
-import {set_junctions} from './VisualRoute';
+import {set_junctions} from './VisualHazards';
 
 
 const hazardsApi = new HazardsApi();
@@ -53,7 +53,6 @@ export default function HazardsWindow({navigation}) {
   useEffect(() => {
     get_hazards_list();
   }, {})
-
 
 
   const add_hazard = async () => {
@@ -119,29 +118,27 @@ export default function HazardsWindow({navigation}) {
 
   const show_visual = async () => {
     if (city_to_show == ""){
-      alert("Please Chose a Ride.")
-    }
-    let response = await hazardsApi.get_hazards_in_city(city_to_show);
-    let hazards_by_city = response.value;
-    console.log(hazards_by_city);
-    //  let junctions = [
-    //     { id: 0, name: 'Origin', lat: ride.origin_lat, lng: ride.origin_lng},
-    //     { id: 1, name: 'Destination', lat: ride.destination_lat, lng: ride.destination_lng},
-    //   ];
-
-    
-    let junctions = []
-    hazards_by_city.map((item)=>{
-      junctions.push({id:item.id, name: 'amit', lat:item.lat, lng:item.lng})
-    })
-    if (junctions == ""){
-      alert("There is no Hazards in "+city_to_show);
+      alert("Please Chose a City.")
     }
     else
     {
-      await set_junctions(junctions);
-      navigation.navigate('VisualRoute');
-    }   
+      let response = await hazardsApi.get_hazards_in_city(city_to_show);
+      let hazards_by_city = response.value;
+     
+      let junctions = []
+      hazards_by_city.map((item)=>{
+        junctions.push({id:item.id, name: 'amit', lat:item.lat, lng:item.lng})
+      })
+      if (junctions == ""){
+        alert("There is no Hazards in "+city_to_show);
+      }
+      else
+      {
+        await set_junctions(junctions);
+        navigation.navigate('VisualHazards');
+      }   
+    }
+    
     
   }
 

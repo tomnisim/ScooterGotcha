@@ -18,7 +18,7 @@ export default function LoginWindow({navigation}) {
         console.log(response)
         if (response.was_exception || response.was_exception == undefined){
             if (response.was_exception == undefined)
-                alert("no connection")
+                alert("No Connection, Please come back later.")
             else
                 alert(response.message)
         }

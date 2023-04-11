@@ -730,9 +730,9 @@ public class Facade {
 
 
     public void clear() {
-        this.error_logger.add_log("test");
-        this.serverLogger.add_log("test");
-        this.systemLogger.add_log("test");
+        this.error_logger.add_log("clear");
+        this.serverLogger.add_log("claer");
+        this.systemLogger.add_log("clear");
 
         // TODO: 01/03/2023 : clear all the data in instances.
 //        this.user_controller.reset();
