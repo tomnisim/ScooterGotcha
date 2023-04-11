@@ -4,6 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class AwardsController implements IAwardsController {
@@ -14,7 +18,7 @@ public class AwardsController implements IAwardsController {
     }
 
     @Override
-    public void add_award(String message, String admin_email, String[] emails) throws Exception {
+    public void add_award(String message, String admin_email, List<String> emails) throws Exception {
         Award award = new Award(message, admin_email, emails);
         awardsRepository.addAward(award);
     }

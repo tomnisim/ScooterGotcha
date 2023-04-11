@@ -3,6 +3,8 @@ package gotcha.server.Service.API;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Service.Communication.Requests.FinishRideRequest;
+import gotcha.server.Service.Communication.Requests.AddAdvertisementRequest;
+import gotcha.server.Service.Communication.Requests.AddAwardRequest;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
 import gotcha.server.Service.Facade;
@@ -212,24 +214,22 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @RequestMapping(value = "/view_daily_statistics")
     @CrossOrigin
     @Override
-    public Response view_daily_statistics() {
-        return facade.view_daily_statistics();
+    public Response view_daily_statistics(@SessionAttribute("userContext") UserContext userContext) {
+        return facade.view_daily_statistics(userContext);
     }
 
     @RequestMapping(value = "/view_general_statistics")
     @CrossOrigin
     @Override
-    public Response view_general_statistics() {
-
-        System.out.println("view general stats");
-        return facade.view_general_statistics();
+    public Response view_general_statistics(@SessionAttribute("userContext") UserContext userContext) {
+        return facade.view_general_statistics(userContext);
     }
 
     @RequestMapping(value = "/view_all_daily_statistics")
     @CrossOrigin
     @Override
-    public Response view_all_daily_statistics() {
-        return facade.view_all_daily_statistics();
+    public Response view_all_daily_statistics(@SessionAttribute("userContext") UserContext userContext) {
+        return facade.view_all_daily_statistics(userContext);
     }
 
     @RequestMapping(value = "/view_advertisements")
@@ -242,7 +242,12 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @RequestMapping(value = "/add_advertisement")
     @CrossOrigin
     @Override
-    public Response add_advertisement(LocalDateTime final_date, String owner, String message, String photo, String url, @SessionAttribute("userContext") UserContext userContext) {
+    public Response add_advertisement(@RequestBody AddAdvertisementRequest addAdvertisementRequest, @SessionAttribute("userContext") UserContext userContext) {
+        String url = addAdvertisementRequest.getUrl();
+        String owner = addAdvertisementRequest.getOwner();
+        String photo = addAdvertisementRequest.getPhoto();
+        String message = addAdvertisementRequest.getMessage();
+        LocalDate final_date = addAdvertisementRequest.getFinal_date();
         return facade.add_advertisement(final_date, owner, message, photo, url, userContext);
     }
 
@@ -263,7 +268,9 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @RequestMapping(value = "/add_award")
     @CrossOrigin
     @Override
-    public Response add_award(@SessionAttribute("userContext") UserContext userContext, String[] emails, String award) {
+    public Response add_award(@RequestBody AddAwardRequest addAwardRequest, @SessionAttribute("userContext") UserContext userContext) {
+        List<String> emails = addAwardRequest.getEmails();
+        String award = addAwardRequest.getAward();
         return facade.add_award(emails,award, userContext);
     }
 
@@ -281,7 +288,7 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @RequestMapping(value = "/add_admin")
     @CrossOrigin
     @Override
-    public Response add_admin(String user_email,String name, String lastName, String user_password, String phoneNumber, LocalDate birthDay, String gender, @SessionAttribute("userContext") UserContext userContext) {
+    public Response add_admin(String user_email,String name, String lastName, String user_password, String phoneNumber, String birthDay, String gender, @SessionAttribute("userContext") UserContext userContext) {
         return facade.add_admin(user_email,name, lastName, user_password, phoneNumber, birthDay, gender, userContext);
     }
 
@@ -298,12 +305,39 @@ public class ApiController implements IAdminAPI, IUserAPI {
     public Response view_users(@SessionAttribute("userContext") UserContext userContext) {
         return facade.view_users(userContext);
     }
+    @RequestMapping(value = "/view_waiting_rp")
+    @CrossOrigin
+    @Override
+    public Response view_waiting_rp(@SessionAttribute("userContext") UserContext userContext) {
+        return facade.view_waiting_rp(userContext);
+    }
+
 
     @RequestMapping(value = "/delete_user")
     @CrossOrigin
     @Override
     public Response delete_user(String user_email, @SessionAttribute("userContext") UserContext userContext) {
         return facade.delete_user(user_email, userContext);
+    }
+    @RequestMapping(value = "/add_rp_serial_number")
+    @CrossOrigin
+    @Override
+    public Response add_rp_serial_number(String rp_serial, UserContext userContext) {
+        return facade.add_rp_serial_number(rp_serial, userContext);
+    }
+
+    @RequestMapping(value = "/view_hazards")
+    @CrossOrigin
+    @Override
+    public Response view_hazards(@SessionAttribute("userContext") UserContext userContext) {
+        return facade.view_hazards(userContext);
+    }
+
+    @RequestMapping(value = "/add_hazard")
+    @CrossOrigin
+    @Override
+    public Response add_hazard(String lng, String lat, String city, String type, Double size, UserContext userContext) {
+        return facade.add_hazard(lng, lat, city, type, size, userContext);
     }
 
 

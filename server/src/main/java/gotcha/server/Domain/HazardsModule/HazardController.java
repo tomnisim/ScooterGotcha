@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class HazardController implements IHazardController {
@@ -121,7 +123,12 @@ public class HazardController implements IHazardController {
         return list;
     }
     @Override
-    public List<StationaryHazard> view_hazards() {
-        return hazardRepository.getAllHazards();
+
+    public Collection<StationaryHazardDAO> view_hazards() {
+        Collection<StationaryHazardDAO> list_to_return = new ArrayList<>();
+        for (StationaryHazard stationaryHazard : hazardRepository.getAllHazards()){
+            list_to_return.add(stationaryHazard.getDAO());
+        }
+        return list_to_return;
     }
 }

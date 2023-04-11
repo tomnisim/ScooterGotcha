@@ -4,6 +4,7 @@ import gotcha.server.Utils.Utils;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 
 @Entity
@@ -13,12 +14,10 @@ public class Advertise {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
     @Column(name="startDate")
-    private LocalDateTime start_date;
-
+    private LocalDate start_date;
     @Column(name="finalDate")
-    private LocalDateTime final_date;
+    private LocalDate final_date;
 
     @Column(name = "owner", columnDefinition = "VARCHAR")
     private String owner;
@@ -35,18 +34,18 @@ public class Advertise {
     @Column(name = "userClicks")
     private int users_clicks;
 
-    public Advertise(LocalDateTime final_date, String owner, String message, String photo, String url) {
+    public Advertise(LocalDate final_date, String owner, String message, String photo, String url) {
         this.final_date = final_date;
         this.owner = owner;
         this.message = message;
         this.photo = photo;
-        this.start_date = LocalDateTime.now();
+        this.start_date = LocalDate.now();
         this.url = url;
         this.users_clicks = 0;
     }
 
     // load
-    public Advertise(int id, LocalDateTime start_date, LocalDateTime final_date, String owner, String message, String photo,String url, int users_clicks) {
+    public Advertise(int id, LocalDate start_date, LocalDate final_date, String owner, String message, String photo,String url, int users_clicks) {
         this.id = id;
         this.start_date = start_date;
         this.final_date = final_date;
@@ -69,19 +68,19 @@ public class Advertise {
         this.id = id;
     }
 
-    public LocalDateTime getStart_date() {
+    public LocalDate getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(LocalDateTime start_date) {
+    public void setStart_date(LocalDate start_date) {
         this.start_date = start_date;
     }
 
-    public LocalDateTime getFinal_date() {
+    public LocalDate getFinal_date() {
         return final_date;
     }
 
-    public void setFinal_date(LocalDateTime final_date) {
+    public void setFinal_date(LocalDate final_date) {
         this.final_date = final_date;
     }
 

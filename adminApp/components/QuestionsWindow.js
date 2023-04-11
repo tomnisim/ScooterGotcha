@@ -1,15 +1,15 @@
 import * as React from 'react';
-import {ImageBackground, View, Text, Button, StyleSheet, TextInput } from 'react-native';
+import {ImageBackground, View, Text, Button, StyleSheet, TextInput, ScrollView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { QuestionsApi } from '../API/QuestionsApi';
 import Table from 'rc-table';
 import Select from 'react-select'
+import { background } from '../API/Path';
 
-
-const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
 
 const questionsApi = new QuestionsApi();
+
 let questions_list = []
 let question_id_to_answer = ""
 let admin_answer = ""
@@ -18,7 +18,7 @@ let message_to_send = ""
 let questions_ids_list = []
 
 
-const get_questions_list = async () => {
+export const get_questions_list = async () => {
     // todo: change 5 to admin id, change params to functions.
   let response = await questionsApi.view_all_open_questions();
   console.log(response)
@@ -37,7 +37,7 @@ const get_questions_list = async () => {
 }
 
 
-get_questions_list();
+// get_questions_list();
 export default function QuestionsWindow({navigation}) {
   get_questions_list()
   console.log(questions_list)
@@ -70,19 +70,19 @@ export default function QuestionsWindow({navigation}) {
     <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>Questions List:</b></Text>
 
     <View style={{display: 'flex', flexDirection:'row'}}>
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
     <Table columns={columns} data={questions_list} tableLayout="auto"/>
-    </View>
+    </ScrollView>
     <Text>    </Text>    
     <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
     <Select
-        placeholder="question id to answer"
+        placeholder="Question ID to answer"
         options={questions_ids_list}
         onChange={newText => setText_to_question_id_to_answer(newText.value)}
       ></Select>
       <TextInput
         style={styles.textInputer}
-        placeholder="admin answer"
+        placeholder="Admin Answer"
         onChangeText={newText => setText_to_admin_answer(newText)}
       />
     <Button onPress={() => answer_question()} title="Answer Question" color="#841584"/>
@@ -183,6 +183,7 @@ const styles = StyleSheet.create({
   textInputer: {
     backgroundColor:'white',
     opacity:0.8,
+    textAlign:'center',
     height: 40
   },
   item: {

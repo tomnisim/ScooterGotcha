@@ -1,17 +1,10 @@
 package gotcha.server.Domain.QuestionsModule;
 
-import gotcha.server.DAL.HibernateUtils;
-import gotcha.server.Domain.UserModule.Admin;
-import gotcha.server.Domain.UserModule.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 @Component
 public class QuestionController implements IQuestionController {
@@ -20,6 +13,7 @@ public class QuestionController implements IQuestionController {
     @Autowired
     public QuestionController(QuestionsRepository questionsRepository){
         this.questionsRepository = questionsRepository;
+
     }
     @Override
     public void add_user_question(String message, String senderEmail, BiConsumer<String, Integer> update_function) throws Exception {

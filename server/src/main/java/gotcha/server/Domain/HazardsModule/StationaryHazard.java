@@ -14,7 +14,6 @@ public class StationaryHazard {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
     @Column(name="rideId")
     private int ride_id;
 
@@ -41,7 +40,7 @@ public class StationaryHazard {
         this.city = city;
         this.type = type;
         this.size = size;
-        //this.setRate();
+        this.setRate();
     }
     // Default Constructor for deserialization
     public StationaryHazard() {}
@@ -99,5 +98,9 @@ public class StationaryHazard {
         HazardRateCalculator hazardRateCalculator = HazardRateCalculator.get_instance();
         this.rate = hazardRateCalculator.rate_hazard(this);
 
+    }
+
+    public StationaryHazardDAO getDAO(){
+        return new StationaryHazardDAO(this);
     }
 }

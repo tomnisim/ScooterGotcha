@@ -1,9 +1,10 @@
 import { Response } from "./Response";
 import {CATCH, CONNECTION_ERROR} from "./AdvertismentsApi"
 import axios from '../assets/AxiosInstance';
+import {path} from "./Path"
 
-const VIEW_AWARDS_PATH = "http://localhost:8080/view_awards"
-const ADD_AWARD_PATH = "http://localhost:8080/add_award"
+const VIEW_AWARDS_PATH = path + "view_awards"
+const ADD_AWARD_PATH = path + "add_award"
 
 
 
@@ -21,16 +22,16 @@ export class AwardsApi {
     }
 
     add_award(emails, award) {
-        return axios.get(ADD_AWARD_PATH,
-        {
-            params:{emails: emails, award: award}
-        })
+        const data = {
+            emails: emails,
+            award: award
+          };
+        return axios.post(ADD_AWARD_PATH,data)
             .then(res => {
                 return new Response(res.data);
             })
             .catch(res => Response.create(CATCH,true, CONNECTION_ERROR ));
     }
 
-
-
 }
+

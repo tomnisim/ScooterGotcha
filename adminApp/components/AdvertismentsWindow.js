@@ -1,26 +1,26 @@
 import * as React from 'react';
-import { ImageBackground, View, Text, Button, StyleSheet, TextInput} from 'react-native';
+import { ImageBackground, View, Text, Button, StyleSheet, TextInput, ScrollView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AdvertismentsApi } from '../API/AdvertismentsApi';
 import Table from 'rc-table';
 import Select from 'react-select'
+import { background } from '../API/Path';
 
-const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
+
+
 const advertismentsApi = new AdvertismentsApi();
+
 let advertisments_list = []
 let advs_ids_list = []
-
 let advertise_id_to_delete = ""
-
 let final_date = ""
 let owner = ""
 let message = ""
 let photo = ""
 let url = ""
 
-const get_advertisments_list = async () => {
-  // todo: change 5 to advertisment id, change params to functions.
+export const get_advertisments_list = async () => {
   let response = await advertismentsApi.view_advertisements();
   if (!response.was_exception){
     advertisments_list = response.value
@@ -33,7 +33,7 @@ const get_advertisments_list = async () => {
   }
 }
 
-get_advertisments_list()
+// get_advertisments_list()
 export default function AdvertismentsWindow({navigation}) {
   get_advertisments_list()
 
@@ -62,7 +62,6 @@ export default function AdvertismentsWindow({navigation}) {
   }
 
   const delete_advertise = () => {
-    alert(advertise_id_to_delete)
     advertismentsApi.delete_advertisement(advertise_id_to_delete)
     get_advertisments_list();
   }
@@ -80,9 +79,9 @@ export default function AdvertismentsWindow({navigation}) {
     <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>Advertisments List:</b></Text>
 
     <View style={{display: 'flex', flexDirection:'row'}}>
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
     <Table columns={columns} data={advertisments_list} tableLayout="auto"/>
-    </View>
+    </ScrollView>
     <Text>    </Text>    
     <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
       <TextInput
@@ -207,6 +206,7 @@ const styles = StyleSheet.create({
   textInputer: {
     backgroundColor:'white',
     opacity:0.8,
+    textAlign:'center',
     height: 40
   },
   item: {

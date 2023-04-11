@@ -1,7 +1,10 @@
 package gotcha.server.Domain.StatisticsModule;
 
 import java.time.LocalDate;
-
+import java.util.concurrent.atomic.AtomicInteger;
+/**
+ * this DAO is for ADMIN application.
+ */
 public class DailyStatisticDAO {
 
     private LocalDate date;
@@ -21,25 +24,33 @@ public class DailyStatisticDAO {
     private int totalAdminAnswers;
     private int newHazards;
     private int totalHazards;
+    private int loginEvents;
+    private int logoutEvents;
+    private int shutDownEvents;
+    private int resetEvents;
 
-    public DailyStatisticDAO(LocalDate date, int newAdmins, int totalAdmins, int newUsers, int totalUsers, int newAdvertisements, int totalAdvertisements, int newAwards, int totalAwards, int newRides, int totalRides, int newUsersQuestions, int totalUsersQuestions, int newAdminAnswers, int totalAdminAnswers, int newHazards, int totalHazards) {
-        this.date = date;
-        this.newAdmins = newAdmins;
-        this.totalAdmins = totalAdmins;
-        this.newUsers = newUsers;
-        this.totalUsers = totalUsers;
-        this.newAdvertisements = newAdvertisements;
-        this.totalAdvertisements = totalAdvertisements;
-        this.newAwards = newAwards;
-        this.totalAwards = totalAwards;
-        this.newRides = newRides;
-        this.totalRides = totalRides;
-        this.newUsersQuestions = newUsersQuestions;
-        this.totalUsersQuestions = totalUsersQuestions;
-        this.newAdminAnswers = newAdminAnswers;
-        this.totalAdminAnswers = totalAdminAnswers;
-        this.newHazards = newHazards;
-        this.totalHazards = totalHazards;
+    public DailyStatisticDAO(DailyStatistic dailyStatistic) {
+        this.date = dailyStatistic.getDate();
+        this.newAdmins = dailyStatistic.getNew_admins();
+        this.totalAdmins = dailyStatistic.getTotal_admins();
+        this.newUsers = dailyStatistic.getNew_users();
+        this.totalUsers = dailyStatistic.getTotal_users();
+        this.newAdvertisements = dailyStatistic.getNew_advertisements();
+        this.totalAdvertisements = dailyStatistic.getTotal_advertisements();
+        this.newAwards = dailyStatistic.getNew_awards();
+        this.totalAwards = dailyStatistic.getTotal_awards();
+        this.newRides = dailyStatistic.getNew_rides();
+        this.totalRides = dailyStatistic.getTotal_rides();
+        this.newUsersQuestions = dailyStatistic.getNew_users_questions();
+        this.totalUsersQuestions = dailyStatistic.getTotal_users_questions();
+        this.newAdminAnswers = dailyStatistic.getNew_admin_answers();
+        this.totalAdminAnswers = dailyStatistic.getTotal_admin_answers();
+        this.newHazards = dailyStatistic.getNew_hazards();
+        this.totalHazards = dailyStatistic.getTotal_hazards();
+        this.loginEvents = dailyStatistic.getOnline_users();
+        this.logoutEvents = dailyStatistic.getOnline_guests();
+        this.resetEvents = dailyStatistic.getReset_events();
+        this.shutDownEvents = dailyStatistic.getShut_down_events();
     }
 
     public LocalDate getDate() {
@@ -176,5 +187,37 @@ public class DailyStatisticDAO {
 
     public void setTotalHazards(int totalHazards) {
         this.totalHazards = totalHazards;
+    }
+
+    public int getLoginEvents() {
+        return loginEvents;
+    }
+
+    public void setLoginEvents(int loginEvents) {
+        this.loginEvents = loginEvents;
+    }
+
+    public int getLogoutEvents() {
+        return logoutEvents;
+    }
+
+    public void setLogoutEvents(int logoutEvents) {
+        this.logoutEvents = logoutEvents;
+    }
+
+    public int getShutDownEvents() {
+        return shutDownEvents;
+    }
+
+    public void setShutDownEvents(int shutDownEvents) {
+        this.shutDownEvents = shutDownEvents;
+    }
+
+    public int getResetEvents() {
+        return resetEvents;
+    }
+
+    public void setResetEvents(int resetEvents) {
+        this.resetEvents = resetEvents;
     }
 }

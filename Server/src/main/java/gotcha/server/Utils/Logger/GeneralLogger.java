@@ -18,7 +18,7 @@ public abstract class GeneralLogger {
 
     public GeneralLogger(String loggerName) {
 
-        this.logger_address = "C:\\Users\\amitm\\Desktop\\SemH\\ScooterGotcha\\Server\\logFiles\\" + loggerName + ".txt";
+        this.logger_address = "logFiles\\" + loggerName + ".txt";
         this.logger = Logger.getLogger(loggerName);
         try {
             FileHandler handler = new FileHandler(logger_address);
