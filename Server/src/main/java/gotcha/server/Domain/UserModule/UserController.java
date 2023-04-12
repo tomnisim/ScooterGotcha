@@ -132,6 +132,13 @@ public class UserController implements IUserController {
         return user;
     }
 
+    public String resetPassword(String userEmail) throws UserNotFoundException {
+        var newPassword = utils.generateRandomPassword();
+        var newPasswordToken = passwordManager.hash(newPassword);
+        userRepository.changeUserPassword(userEmail, newPasswordToken);
+        return newPassword;
+    }
+
     public void change_password(String userEmail, String oldPassword, String newPassword) throws Exception {
 
         var user = userRepository.getUserByEmail(userEmail);

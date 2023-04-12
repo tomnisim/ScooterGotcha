@@ -20,6 +20,8 @@ public interface IUserAPI {
     Response logout(HttpSession session, UserContext userContext);
     Response register(RegisterRequest registerRequest);
 
+    Response reset_password(String userEmail);
+
     // MOBILE API
     Response view_notifications(@SessionAttribute("userContext") UserContext userContext);
     Response change_password(String old_password, String password, @SessionAttribute("userContext") UserContext userContext);

@@ -1,14 +1,9 @@
 package gotcha.server.Service.API;
-
 import gotcha.server.Service.Communication.Requests.AddAdvertisementRequest;
 import gotcha.server.Service.Communication.Requests.AddAwardRequest;
 import gotcha.server.Service.UserContext;
 import gotcha.server.Utils.Response;
 import org.springframework.web.bind.annotation.SessionAttribute;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
 public interface IAdminAPI {
 

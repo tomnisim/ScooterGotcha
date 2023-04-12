@@ -314,10 +314,22 @@ public class Facade {
             error_logger.add_log(e.getMessage());
         }
         return response;
-
     }
 
-
+    public Response<String> reset_password(String userEmail) {
+        Response<String> response;
+        try {
+            String newPassword = user_controller.resetPassword(userEmail);
+            var loggerMessage = "Successfully changed password of user with email: "+ userEmail;
+            response = new Response<>(newPassword, loggerMessage);
+            serverLogger.add_log(loggerMessage);
+        }
+        catch (Exception e) {
+            error_logger.add_log(e.getMessage());
+            response = Utils.createResponse(e);
+        }
+        return response;
+    }
 
 
 
