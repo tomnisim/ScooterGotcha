@@ -77,7 +77,7 @@ public class ReporterAdapter {
                 "Size: " + size + "\n" +
                 "Photos: " + photos + "\n" +
 //        messageBuilder.delete(messageBuilder.length() - 2, messageBuilder.length()); // remove the last comma and space
-                "Please take necessary precautions and stay safe!" +
+                "Please take necessary precautions and stay safe!" + "\n" +
                 "Gotcha Team.";
         return messageBuilder;
     }

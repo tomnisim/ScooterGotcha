@@ -12,8 +12,8 @@ import AdvertismentsWindow from './components/AdvertismentsWindow'
 import SystemSettingsWindow from './components/SystemSettingsWindow'
 import QuestionsWindow from './components/QuestionsWindow'
 import HomeWindow from './components/HomeWindow'
-import LoginWindow from './components/LoginWindow' 
-
+import LoginWindow from './components/LoginWindow'
+import VisualRouteWindow from './components/VisualRoute' 
 
 
 
@@ -39,6 +39,7 @@ function App() {
         <Stack.Screen name="Awards" component={AwardsWindow} />
         <Stack.Screen name="Advertisements" component={AdvertismentsWindow} />
         <Stack.Screen name="SystemSettings" component={SystemSettingsWindow} />
+        <Stack.Screen name="VisualRoute" component={VisualRouteWindow} />
         </Stack.Navigator>
     </NavigationContainer>
 
