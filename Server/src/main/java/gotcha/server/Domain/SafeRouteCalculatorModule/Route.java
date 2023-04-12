@@ -1,4 +1,4 @@
-package gotcha.server.SafeRouteCalculatorModule;
+package gotcha.server.Domain.SafeRouteCalculatorModule;
 
 import gotcha.server.Utils.Location;
 import org.json.JSONObject;

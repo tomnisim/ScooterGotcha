@@ -1,12 +1,11 @@
-package gotcha.server.SafeRouteCalculatorModule;
+package gotcha.server.Domain.SafeRouteCalculatorModule;
 
 import gotcha.server.Config.Configuration;
 import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
-import gotcha.server.ExternalService.MapsAdapter;
-import gotcha.server.ExternalService.MapsAdapterImpl;
-import gotcha.server.ExternalService.MapsAdapterRealTime;
-import gotcha.server.Utils.Location;
+import gotcha.server.Domain.ExternalService.MapsAdapter;
+import gotcha.server.Domain.ExternalService.MapsAdapterImpl;
+import gotcha.server.Domain.ExternalService.MapsAdapterRealTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

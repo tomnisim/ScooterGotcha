@@ -3,9 +3,20 @@ import { useEffect } from 'react';
 import { ImageBackground, View, Text, Button, StyleSheet, TextInput, ScrollView } from 'react-native';
 import { SettingsApi } from '../API/SettingsApi';
 import { background } from '../API/Path';
+import Select from 'react-select'
 
 
 const settingsApi = new SettingsApi();
+const time_unit_options = [{value:"HOURS",label:"HOURS"},{value:"MINUTES",label:"MINUTES"},{value:"SECONDS",label:"SECONDS"}]
+const number_of_routes_options = [{value:3,label:"3"},{value:4,label:"4"},{value:5,label:"5"},{value:6,label:"6"}]
+const min_password_options = [{value:3,label:"3"},{value:4,label:"4"},{value:5,label:"5"},{value:6,label:"6"}]
+const max_password_options = [{value:8,label:"8"},{value:12,label:"12"},{value:14,label:"14"},{value:16,label:"16"}]
+const treshold_options = [{value:80,label:"80"},{value:85,label:"85"},{value:90,label:"90"},{value:95,label:"95"}]
+const time_optinos = [{value:8,label:"8"},{value:12,label:"12"},{value:14,label:"14"},{value:16,label:"16"}]
+const voice_options =  [{value:"MAN",label:"MAN"},{value:"WOMAN",label:"WOMAN"}]
+const alert_options = [{value:"Vocal",label:"Vocal"},{value:"Verbal",label:"Verbal"},{value:"Visual",label:"Visual"}]
+const words_options =  [{value:"Be Careful",label:"Be Careful"},{value:"Watch Out",label:"Watch Out"}]
+
 
 export default function SetConfigurationWindow({navigation}) {
 
@@ -43,24 +54,24 @@ return (
   <ScrollView style={styles.container}>
   <View style={{display: 'flex', flexDirection:'row'}}>
 
-  <Text>                                                             </Text>
-  <View style={{display: 'flex', flexDirection:'column'}}>
+  <Text>                                 </Text>
+  <View style={{display: 'flex', flexDirection:'column', width: 400}}>
     <Text><h3>     Server:</h3></Text>
-    <TextInput
-          style={styles.textInputer}
-          placeholder="Number Of Routes"
-          onChangeText={newText => alert(newText)}
-        />
-      <TextInput
-        style={styles.textInputer}
+        <Select
+        placeholder="Number Of Routes"
+        options={number_of_routes_options}
+        onChange={newText => alert(newText.value)}
+      ></Select>
+      <Select
         placeholder="Minimum Password Length"
-        onChangeText={newText => alert(newText)}
-      />
-      <TextInput
-        style={styles.textInputer}
+        options={min_password_options}
+        onChange={newText => alert(newText.value)}
+      ></Select>
+      <Select
         placeholder="Maximum Password Length"
-        onChangeText={newText => alert(newText)}
-      />
+        options={max_password_options}
+        onChange={newText => alert(newText.value)}
+      ></Select>
       <TextInput
         style={styles.textInputer}
         placeholder="System Email"
@@ -76,41 +87,68 @@ return (
         placeholder="Or Yaruk Email"
         onChangeText={newText => alert(newText)}
       />
-      <TextInput
-        style={styles.textInputer}
+      <Select
         placeholder="Number Of Coordinates"
-        onChangeText={newText => alert(newText)}
-      />
+        options={max_password_options}
+        onChange={newText => alert(newText.value)}
+      ></Select>
+      <Select
+        placeholder="Hazards Rate Treshold for Automatic Report"
+        options={treshold_options}
+        onChange={newText => alert(newText.value)}
+      ></Select>
+      <Select
+        placeholder="Hazards Time To Report Automatically"
+        options={time_optinos}
+        onChange={newText => alert(newText.value)}
+      ></Select>
+      <Select
+        placeholder="Hazards Time Unit To Report Automatically"
+        options={time_unit_options}
+        onChange={newText => alert(newText.value)}
+      ></Select>
+      <Select
+        placeholder="Statistics Time To Update Automatically"
+        options={time_optinos}
+        onChange={newText => alert(newText.value)}
+      ></Select>
+      <Select
+        placeholder="Statistics Time Unit To Update Automatically"
+        options={time_unit_options}
+        onChange={newText => alert(newText.value)}
+      ></Select>
     </View>
-<Text>                                                                                                      </Text>
+    
+<Text>                                                         </Text>
 
   <View style={{display: 'flex', flexDirection:'column'}}>
     <Text><h3>     Raspberry Pi:</h3></Text>
-    <TextInput
-          style={styles.textInputer}
-          placeholder="Alert Type"
-          onChangeText={newText => alert(newText)}
-        />
-      <TextInput
-        style={styles.textInputer}
-        placeholder="Minimum Distance Alert"
-        onChangeText={newText => alert(newText)}
-      />
-      <TextInput
-        style={styles.textInputer}
+    <Select
+        placeholder="Alert Type"
+        options={alert_options}
+        onChange={newText => alert(newText.value)}
+      ></Select>
+      <Select
+        placeholder="Minimum Distance Alert [Meter]"
+        options={min_password_options}
+        onChange={newText => alert(newText.value)}
+      ></Select>
+      <Select
         placeholder="Duration"
-        onChangeText={newText => alert(newText)}
-      />
-      <TextInput
-        style={styles.textInputer}
+        options={min_password_options}
+        onChange={newText => alert(newText.value)}
+      ></Select>
+      <Select
         placeholder="Voice"
-        onChangeText={newText => alert(newText)}
-      />
-      <TextInput
-        style={styles.textInputer}
+        options={voice_options}
+        onChange={newText => alert(newText.value)}
+      ></Select>
+      <Select
         placeholder="Verbal Words"
-        onChangeText={newText => alert(newText)}
-      />
+        options={words_options}
+        onChange={newText => alert(newText.value)}
+      ></Select>
+      
     </View>
     </View>
   
@@ -147,7 +185,7 @@ container: {
   width:1200,
   height:500,
   padding: 10,
-  opacity:0.5,
+  opacity:0.7,
   backgroundColor:'white'
 },
 hairline: {
@@ -157,7 +195,7 @@ hairline: {
 },
 textInputer: {
   backgroundColor:'white',
-  opacity:0.8,
+  opacity:1,
   height: 40
 },
 item: {

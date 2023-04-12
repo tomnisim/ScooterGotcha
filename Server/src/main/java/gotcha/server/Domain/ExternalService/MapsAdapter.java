@@ -1,6 +1,6 @@
-package gotcha.server.ExternalService;
+package gotcha.server.Domain.ExternalService;
 
-import gotcha.server.SafeRouteCalculatorModule.Route;
+import gotcha.server.Domain.SafeRouteCalculatorModule.Route;
 import gotcha.server.Utils.Location;
 import org.json.JSONArray;
 import org.json.JSONObject;
