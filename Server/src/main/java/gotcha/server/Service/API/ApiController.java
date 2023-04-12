@@ -90,8 +90,8 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @RequestMapping(value = "/change_password")
     @CrossOrigin
     @Override
-    public Response change_password(String old_password, String password, @SessionAttribute("userContext") UserContext userContext) {
-        return facade.change_password(old_password, password, userContext);
+    public Response change_password(ChangePasswordRequest changePasswordRequest, @SessionAttribute("userContext") UserContext userContext) {
+        return facade.change_password(changePasswordRequest, userContext);
     }
 
     @RequestMapping(value = "/view_user_rides_history")

@@ -146,11 +146,11 @@ public class UserController implements IUserController {
             throw new UserNotFoundException("user email: " + userEmail + " not found");
         }
         if (!passwordManager.authenticate(oldPassword, user.get_password_token())) {
-            throw new Exception("Invalid password");
+            throw new Exception("Invalid old password");
         }
-        utils.passwordValidCheck(oldPassword);
+        utils.passwordValidCheck(newPassword);
         String passwordToken = passwordManager.hash(newPassword);
-        user.change_password_token(passwordToken);
+        userRepository.changeUserPassword(userEmail, passwordToken);
     }
 
     /**

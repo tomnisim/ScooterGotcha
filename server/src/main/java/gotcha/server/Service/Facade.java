@@ -23,6 +23,7 @@ import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.*;
 import gotcha.server.SafeRouteCalculatorModule.Route;
 import gotcha.server.SafeRouteCalculatorModule.RoutesRetriever;
+import gotcha.server.Service.Communication.Requests.ChangePasswordRequest;
 import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
@@ -161,13 +162,13 @@ public class Facade {
     }
 
      
-    public Response change_password(String old_password, String password, UserContext userContext) {
+    public Response change_password(ChangePasswordRequest changePasswordRequest, UserContext userContext) {
         Response response;
         try {
             check_user_is_logged_in(userContext);
-            user_controller.change_password(userContext.get_email(), old_password, password);
+            user_controller.change_password(userContext.get_email(), changePasswordRequest.getOldPassword(), changePasswordRequest.getNewPassword());
             String logger_message = "User's (" + userContext.get_email() + ")  password has been changed successfully.";
-            response = new Response<>(password, logger_message);
+            response = new Response<>("", logger_message);
             serverLogger.add_log(logger_message);
         }
 

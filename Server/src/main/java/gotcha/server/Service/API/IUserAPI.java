@@ -1,6 +1,7 @@
 package gotcha.server.Service.API;
 
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
+import gotcha.server.Service.Communication.Requests.ChangePasswordRequest;
 import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
@@ -22,9 +23,10 @@ public interface IUserAPI {
 
     Response reset_password(String userEmail);
 
+    Response change_password(ChangePasswordRequest changePasswordRequest, @SessionAttribute("userContext") UserContext userContext);
+
     // MOBILE API
     Response view_notifications(@SessionAttribute("userContext") UserContext userContext);
-    Response change_password(String old_password, String password, @SessionAttribute("userContext") UserContext userContext);
     Response view_user_rides_history(@SessionAttribute("userContext") UserContext userContext);
     Response add_user_question(String message, @SessionAttribute("userContext") UserContext userContext);
     Response view_all_user_questions(@SessionAttribute("userContext") UserContext userContext);
