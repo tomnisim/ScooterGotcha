@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e8394b8d-4a9c-44d1-8624-56aa6c7f6cdf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/ServerConfigurationApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/ServerConfigurationApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Utils/LocationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Utils/LocationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +69,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.All in server">
+  <component name="RunManager" selected="JUnit.ServerConfigurationApplicationTests">
     <configuration name="AdvertiseTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
@@ -110,16 +109,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RidesControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ServerConfigurationApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.RidesModule.*" />
+          <option name="PATTERN" value="gotcha.server.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.RidesModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.RidesModule.RidesControllerTest" />
+      <option name="PACKAGE_NAME" value="gotcha.server" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.ServerConfigurationApplicationTests" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -157,11 +156,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ServerConfigurationApplicationTests" />
         <item itemvalue="JUnit.All in server" />
         <item itemvalue="JUnit.LocationTest.equals_radios" />
         <item itemvalue="JUnit.AdvertiseTest" />
         <item itemvalue="JUnit.UserControllerTest" />
-        <item itemvalue="JUnit.RidesControllerTest" />
       </list>
     </recent_temporary>
   </component>
@@ -236,11 +235,6 @@
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java</url>
-          <line>70</line>
-          <option name="timeStamp" value="46" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java</url>
           <line>56</line>
           <option name="timeStamp" value="48" />
@@ -264,9 +258,9 @@
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardRepository.java</url>
-          <line>18</line>
-          <option name="timeStamp" value="54" />
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java</url>
+          <line>60</line>
+          <option name="timeStamp" value="56" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
