@@ -333,7 +333,6 @@ public class UserController implements IUserController {
         if (((Admin) admin).get_appointed_by() != null) {
             throw new Exception("only master admin can remove appointment");
         }
-
         userRepository.removeUser(user_email);
     }
 

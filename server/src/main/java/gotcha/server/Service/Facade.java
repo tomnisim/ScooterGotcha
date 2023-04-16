@@ -33,6 +33,7 @@ import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.ServerLogger;
 import gotcha.server.Utils.Logger.SystemLogger;
 import gotcha.server.Utils.Response;
+import gotcha.server.Utils.Threads.SendEmailThread;
 import gotcha.server.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -321,6 +322,9 @@ public class Facade {
         Response<String> response;
         try {
             String newPassword = user_controller.resetPassword(userEmail);
+            var emailMessage = "You are receiving this since you asked to reset your password.\n your new password is:" + newPassword;
+            var sendEmailThread = new SendEmailThread("adminEmail", "adminEmailPassword", userEmail, emailMessage);
+            sendEmailThread.run();
             var loggerMessage = "Successfully changed password of user with email: "+ userEmail;
             response = new Response<>(newPassword, loggerMessage);
             serverLogger.add_log(loggerMessage);
