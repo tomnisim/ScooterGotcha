@@ -5,10 +5,18 @@ import Table from 'rc-table';
 import { background } from '../API/Path';
 import { LoginApi } from '../API/LoginApi';
 
+
+
 const loginApi = new LoginApi();
 
 
 export default function HomeWindow({navigation}) {
+  const [showTextBox, setShowTextBox] = useState(false);
+
+  const handleButtonClick = () => {
+    setShowTextBox(!showTextBox);
+  }
+
   const [notifications_list, setNotifications_list] = useState([])
   
   async function get_notifications_list(){
@@ -19,7 +27,7 @@ export default function HomeWindow({navigation}) {
   }
   useEffect(() => {
     get_notifications_list();
-  }, {})
+  }, [])
 
     return (
       <View>
@@ -38,12 +46,21 @@ export default function HomeWindow({navigation}) {
         <Button onPress={() => navigation.navigate('SystemSettings')} title="System settings Window" color='#00000000'/>
         {/* <Button onPress={() => navigation.navigate('VisualRoute')} title="Visual Window" color='#00000000'/> */}
         </View>
-        <View style={{display: 'flex', flexDirection:'column', width: 550}}>
+        {/* <View style={{display: 'flex', flexDirection:'column', width: 450}}>
+        {showTextBox &&
+                  <ScrollView style={styles.container}>
+                                      <Text style={{textAlign:'center', color:'#841584', backgroundColor:'white', opacity:0.8}}><h1>Notifications</h1></Text>
+                  <Table columns={columns} data={notifications_list} tableLayout="auto"/>
+                  </ScrollView>
+         
+      }
+      </View> */}
+        {/* <View style={{display: 'flex', flexDirection:'column', width: 550}}>
         <Text style={{textAlign:'center', color:'#841584', backgroundColor:'white', opacity:0.8}}><h1>Notifications</h1></Text>
         <ScrollView style={styles.container}>
         <Table columns={columns} data={notifications_list} tableLayout="auto"/>
         </ScrollView>
-        </View>
+        </View> */}
 
 
         </View>
@@ -89,3 +106,6 @@ export default function HomeWindow({navigation}) {
       marginTop: 5,
     }
   });
+
+
+

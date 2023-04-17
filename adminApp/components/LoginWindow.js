@@ -2,7 +2,8 @@ import React,{ useState } from 'react';
 import {ImageBackground, View, Text, Button, StyleSheet, TextInput} from 'react-native';
 import {LoginApi } from '../API/LoginApi';
 import { background } from '../API/Path';
-
+import App from '../App';
+import { get_notifications_list } from '../App';
 
 const loginApi = new LoginApi();
 
@@ -24,6 +25,7 @@ export default function LoginWindow({navigation}) {
         }
         else
         {
+            await get_notifications_list();
             navigation.navigate('Home')
         }
         
