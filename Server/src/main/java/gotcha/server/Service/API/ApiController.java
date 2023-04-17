@@ -2,11 +2,7 @@ package gotcha.server.Service.API;
 
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.UserModule.User;
-import gotcha.server.Service.Communication.Requests.FinishRideRequest;
-import gotcha.server.Service.Communication.Requests.AddAdvertisementRequest;
-import gotcha.server.Service.Communication.Requests.AddAwardRequest;
-import gotcha.server.Service.Communication.Requests.LoginRequest;
-import gotcha.server.Service.Communication.Requests.RegisterRequest;
+import gotcha.server.Service.Communication.Requests.*;
 import gotcha.server.Service.Facade;
 import gotcha.server.Service.UserContext;
 import gotcha.server.Utils.Location;
@@ -387,18 +383,18 @@ public class ApiController implements IAdminAPI, IUserAPI {
     }
 
 
-    @RequestMapping(value = "/set_server_config")
+    @RequestMapping(value = "/set_config")
     @CrossOrigin
     @Override
-    public Response set_server_config(@SessionAttribute("userContext") UserContext userContext) {
-        return facade.set_server_config(userContext);
+    public Response set_config(SetConfigRequest request, @SessionAttribute("userContext") UserContext userContext) {
+        return facade.set_config(request, userContext);
     }
 
-    @RequestMapping(value = "/set_rp_config")
+    @RequestMapping(value = "/get_config")
     @CrossOrigin
     @Override
-    public Response set_rp_config(@SessionAttribute("userContext") UserContext userContext) {
-        return facade.set_rp_config(userContext);
+    public Response get_config(@SessionAttribute("userContext") UserContext userContext) {
+        return facade.get_config(userContext);
     }
 
     @RequestMapping(value = "/view_error_logger")

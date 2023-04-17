@@ -2,6 +2,7 @@ package gotcha.server.Service.API;
 
 import gotcha.server.Service.Communication.Requests.AddAdvertisementRequest;
 import gotcha.server.Service.Communication.Requests.AddAwardRequest;
+import gotcha.server.Service.Communication.Requests.SetConfigRequest;
 import gotcha.server.Service.UserContext;
 import gotcha.server.Utils.Response;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -55,8 +56,8 @@ public interface IAdminAPI {
     Response get_hazards_in_city(String city,@SessionAttribute("userContext") UserContext userContext);
     // SUPER admin
 
-    Response set_server_config(UserContext userContext);
-    Response set_rp_config(UserContext userContext);
+    Response get_config(UserContext userContext);
+    Response set_config(SetConfigRequest request, UserContext userContext);
 
     Response view_error_logger(UserContext userContext);
     Response view_system_logger(UserContext userContext);

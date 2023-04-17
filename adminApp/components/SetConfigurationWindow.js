@@ -20,12 +20,27 @@ const words_options =  [{value:"Be Careful",label:"Be Careful"},{value:"Watch Ou
 
 export default function SetConfigurationWindow({navigation}) {
 
-  const [data, setData] = useState([])
+  const [data, setData] = useState({})
 
-      const set_rp_config = async () => {
-      let response = await settingsApi.set_rp_config()
+      const set_config = async () => {
+      let response = await settingsApi.set_config()
       if (!response.was_exception){
+        alert("System Configurations has been successfully Changed.");
+        get_config();
+
+      }
+      else
+      {
+        alert("The system cant complete your request, please try again later.")
+      }
+    }
+
+    async function get_config() {
+      let response = await settingsApi.get_config()
+      if (!response.was_exception){
+        console.log(response.value)
         setData(response.value)
+        console.log(data)
       }
       else
       {
@@ -33,16 +48,9 @@ export default function SetConfigurationWindow({navigation}) {
       }
     }
 
-    const set_server_config = async () => {
-      let response = await settingsApi.set_server_config()
-      if (!response.was_exception){
-        setData(response.value)
-      }
-      else
-      {
-        alert("cant complete this.")
-      }
-    }
+    useEffect(() => {
+      get_config();
+    }, {})
 
 
 

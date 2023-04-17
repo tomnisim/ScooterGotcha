@@ -27,6 +27,7 @@ import gotcha.server.Domain.SafeRouteCalculatorModule.RoutesRetriever;
 import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
+import gotcha.server.Service.Communication.Requests.SetConfigRequest;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserException;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.ErrorLogger;
@@ -56,11 +57,11 @@ public class Facade {
     private IHazardController hazard_controller;
     private StatisticsManager statisticsManager;
     private RoutesRetriever routes_retriever;
+    private Configuration configuration;
    
     @Autowired
     public Facade(UserController userController, HazardController hazardController, AdvertiseController advertiseController
             ,IAwardsController awards_controller, RidesController ridesController, QuestionController questionController,
-
                   ServerLogger serverLogger, ErrorLogger errorLogger, SystemLogger systemLogger, StatisticsManager statisticsManager, Configuration config, RoutesRetriever routesRetriever) {
         this.error_logger = errorLogger;
         this.serverLogger = serverLogger;
@@ -74,6 +75,7 @@ public class Facade {
         this.statisticsManager = statisticsManager;
         //        this.statisticsManager = new StatisticsManager(userController, hazardController, advertiseController, awards_controller,ridesController, questionController);
         this.routes_retriever = routesRetriever;
+        this.configuration = config;
     }
 
 
@@ -521,6 +523,44 @@ public class Facade {
         }
         return response;
     }
+
+    public Response delete_hazard(int hazardId, UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            hazard_controller.remove_hazard(hazardId);
+            String logger_message = String.format("admin (%s) delete hazard with id : %s", admin_email, hazardId);
+            response = new Response(SUCCESS_OPCODE, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+    public Response report_hazard(int hazardId, UserContext userContext) {
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            hazard_controller.report_hazard(hazardId);
+            String logger_message = String.format("admin (%s) report hazard with id : %s", admin_email, hazardId);
+            response = new Response(SUCCESS_OPCODE, logger_message);
+            serverLogger.add_log(logger_message);
+
+        }
+        catch (Exception e){
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
+    }
+
+
     public Response view_awards(UserContext userContext) {
         Response response;
         try{
@@ -789,15 +829,6 @@ public class Facade {
         return response;
     }
 
-    public Response set_server_config(UserContext userContext) {
-        return null;
-    }
-
-
-    public Response set_rp_config(UserContext userContext) {
-        return null;
-    }
-
 
     public Response view_error_logger(UserContext userContext) {
         Response response;
@@ -856,14 +887,13 @@ public class Facade {
     }
 
 
-    public Response delete_hazard(int hazardId, UserContext userContext) {
+    public Response get_config(UserContext userContext) {
         Response response;
         try{
             check_user_is_admin_and_logged_in(userContext);
             String admin_email = userContext.get_email();
-            hazard_controller.remove_hazard(hazardId);
-            String logger_message = String.format("admin (%s) delete hazard with id : %s", admin_email, hazardId);
-            response = new Response(SUCCESS_OPCODE, logger_message);
+            String logger_message = String.format("admin(%s) view system configuration.",admin_email);
+            response = new Response(configuration, logger_message);
             serverLogger.add_log(logger_message);
 
         }
@@ -874,23 +904,8 @@ public class Facade {
         return response;
     }
 
-    public Response report_hazard(int hazardId, UserContext userContext) {
-        Response response;
-        try{
-            check_user_is_admin_and_logged_in(userContext);
-            String admin_email = userContext.get_email();
-            hazard_controller.report_hazard(hazardId);
-            String logger_message = String.format("admin (%s) report hazard with id : %s", admin_email, hazardId);
-            response = new Response(SUCCESS_OPCODE, logger_message);
-            serverLogger.add_log(logger_message);
-
-        }
-        catch (Exception e){
-            response = Utils.createResponse(e);
-            error_logger.add_log(e.getMessage());
-        }
-        return response;
+    public Response set_config(SetConfigRequest request, UserContext userContext) {
+        // TODO: 12/04/2023  
+        return null;
     }
-
-
 }
