@@ -14,6 +14,9 @@ import RegisterScreen from './screens/Register';
 import ProfileScreen from './screens/Profile';
 import ChangePasswordScreen from './screens/ChangePassword';
 import MyRidesScreen from './screens/MyRides';
+import MyQuestionsScreen from './screens/MyQuestions';
+
+
 //   function Navigation({ navigation }: RootTabScreenProps<'Home'>) {
 //   return (
 //     <NavigationContainer
@@ -51,6 +54,7 @@ export default function App() {
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
         <Stack.Screen name="MyRides" component={MyRidesScreen} />
+        <Stack.Screen name="Questions" component={MyQuestionsScreen} />
         
 
         </Stack.Navigator>

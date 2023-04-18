@@ -32,7 +32,8 @@ export default function HomeScreen({navigation}) {
 
 
         <Button onPress={() => navigation.navigate('ContactUs')} title="Contact Us" color='#00000000'/>
-        <Button onPress={() => navigation.navigate('Messages')} title="My Messages" title_color='black' color='#00000000'/>
+        {/* <Button onPress={() => navigation.navigate('Messages')} title="My Messages" title_color='black' color='#00000000'/> */}
+        <Button onPress={() => navigation.navigate('Questions')} title="My Questions" title_color='black' color='#00000000'/>
 
         {/* <Button onPress={() => navigation.navigate('Hazards')} title="Hazards Window" color='#00000000'/>
         <Button onPress={() => navigation.navigate('Rides')} title="Rides Window" color='#00000000'/>

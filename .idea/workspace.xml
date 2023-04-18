@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e8394b8d-4a9c-44d1-8624-56aa6c7f6cdf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiderApp/API/LoginApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/API/LoginApi.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RiderApp/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiderApp/screens/MyRides.js" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/screens/MyRides.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiderApp/screens/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/screens/Home.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -240,7 +239,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java</url>
-          <line>75</line>
+          <line>80</line>
           <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -270,6 +269,11 @@
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/ApiController.java</url>
           <line>209</line>
           <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/ApiController.java</url>
+          <line>112</line>
+          <option name="timeStamp" value="65" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
