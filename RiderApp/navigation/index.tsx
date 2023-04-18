@@ -23,9 +23,13 @@ import MyRides from '../screens/MyRides';
 import ChangePassword from '../screens/ChangePassword';
 import Register from '../screens/Register';
 
+
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import StartRide from '../screens/StartRide';
+import HomeWindow from '../screens/HomeWindow';
+import ContactUs from '../screens/ContactUs';
+
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -57,7 +61,6 @@ function RootNavigator() {
       headerRight: () => (
         <Button
           onPress={() => {
-            log_in()
           }}
           title="Log In"
         />
@@ -182,6 +185,22 @@ function BottomTabNavigator() {
         component={StartRide}
         options={{
           title: 'StartRide',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="HomeWindow"
+        component={HomeWindow}
+        options={{
+          title: 'HomeWindow',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="ContactUs"
+        component={ContactUs}
+        options={{
+          title: 'ContactUs',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
