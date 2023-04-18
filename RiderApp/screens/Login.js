@@ -4,8 +4,10 @@ import React, { useState } from 'react';
 import { UserApi } from '../API/UserApi';
 import {ImageBackground, View, Text, Button, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
 import { background } from '../API/Paths';
+import { Utils } from '../Utils/Utils';
+import { User } from '../Objects/User';
 const userApi = new UserApi();
-
+const utils = new Utils();
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('tom@gmail.com');
   const [password, setPassword] = useState('Tn12345678');
@@ -20,7 +22,9 @@ const LoginScreen = ({navigation}) => {
     }
     else
     {
-        console.log(response.message)
+        console.log(response)
+        var user = new User(response.value);
+        utils.storeData('connected_user', user)
         navigation.navigate('Home')
     }
   };

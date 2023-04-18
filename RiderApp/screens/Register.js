@@ -49,7 +49,7 @@ export default function RegisterScreen({navigation}) {
     else
     {
         console.log(response.message)
-        navigation.navigate('Home')
+        navigation.navigate('Login')
 
       }
   };

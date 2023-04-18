@@ -7,12 +7,29 @@ export default function ChangePasswordScreen() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
-  const handlePress = () => {
+  const change_password = async () => {
     // handle password change logic here
     console.log('currentPassword:', currentPassword);
     console.log('newPassword:', newPassword);
     console.log('confirmNewPassword:', confirmNewPassword);
-  };
+    
+      let response = await userApi.change_password(currentPassword, newPassword)
+      if (response.was_exception || response.was_exception == undefined){
+          if (response.was_exception == undefined)
+              alert("no connection")
+          else{
+  
+          }
+              
+      }
+      else
+      {
+          console.log(response.message)
+          navigation.navigate('Profile')
+  
+        }
+    };
+
 
   return (
         
@@ -35,7 +52,7 @@ export default function ChangePasswordScreen() {
             placeholder="Confirm New Password"
             onChangeText={newText => setConfirmNewPassword(newText)}
             />
-          <Button onPress={() => handlePress()}  title="Send" color="#841584"/>
+          <Button onPress={() => change_password()}  title="Send" color="#841584"/>
         </View>
         </ImageBackground>
     </View>

@@ -3,10 +3,9 @@ import { useEffect } from 'react';
 import { ScrollView ,View, Text, Button, ImageBackground, StyleSheet} from 'react-native';
 import Table from 'rc-table';
 import { background } from '../API/Paths';
-// import { LoginApi } from '../API/LoginApi';
+import { LoginApi } from '../API/LoginApi';
 
-// const loginApi = new LoginApi();
-
+const loginApi = new LoginApi();
 
 export default function HomeScreen({navigation}) {
   const [notifications_list, setNotifications_list] = useState([])
@@ -17,9 +16,9 @@ export default function HomeScreen({navigation}) {
       setNotifications_list(response.value)
     }
   }
-  useEffect(() => {
-    get_notifications_list();
-  }, {})
+  // useEffect(() => {
+  //   get_notifications_list();
+  // }, {})
 
     return (
       <View>

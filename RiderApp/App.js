@@ -11,7 +11,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screens/Home';
 import LoginScreen from './screens/Login';
 import RegisterScreen from './screens/Register';
-
+import ProfileScreen from './screens/Profile';
+import ChangePasswordScreen from './screens/ChangePassword';
 //   function Navigation({ navigation }: RootTabScreenProps<'Home'>) {
 //   return (
 //     <NavigationContainer
@@ -46,6 +47,8 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
         
         {/* <Stack.Screen name="Users" component={UsersWindow} />
         <Stack.Screen name="Questions" component={QuestionsWindow} />
