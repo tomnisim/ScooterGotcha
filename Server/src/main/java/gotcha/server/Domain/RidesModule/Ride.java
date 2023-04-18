@@ -2,10 +2,10 @@ package gotcha.server.Domain.RidesModule;
 
 import gotcha.server.Utils.Location;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Ride {
@@ -23,7 +23,7 @@ public class Ride {
     {
 
     }
-    public Ride(int ride_id, String rider_email, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, String actions) {
+    public Ride(int ride_id, String rider_email, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, List<RidingAction> actions) {
         this.ride_id = ride_id;
         this.rider_email = rider_email;
         this.date = LocalDate.now();
@@ -32,34 +32,9 @@ public class Ride {
         this.end_time = end_time;
         this.origin = origin;
         this.destination = destination;
+        this.actions = actions;
 
-        this.create_riding_actions(actions);
     }
-
-
-    private void create_riding_actions(String riding_actions_rp) {
-        // TODO - check how the riding action accepted from RP
-        this.actions = new ArrayList<>();
-        String[] separated_riding_actions_rp = riding_actions_rp.split(":"); // TODO: 03/01/2023 add the separator
-        for (String riding_action_rp : separated_riding_actions_rp)
-        {
-            // TODO: 03/01/2023 check for the type - brake/sharpTurn
-            // crete RidingAction from RP riding action
-            if (riding_action_rp.equals("1"))
-            {
-                RidingAction ridingAction = new Brake(12.0, 6.0);
-                this.actions.add(ridingAction);
-            }
-
-        }
-    }
-
-
-
-
-
-
-
 
     // ------------------------------------------ Getters & Setters ----------------------------------------------------------
 

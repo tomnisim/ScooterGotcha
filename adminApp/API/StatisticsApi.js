@@ -3,10 +3,9 @@ import {CATCH, CONNECTION_ERROR} from "./AdvertismentsApi"
 import {path} from "./Path"
 import axios from '../assets/AxiosInstance';
 
-const VIEW_STATS_PATH = path+"view_statistics"
-const VIEW_DAILY_STATS_PATH = "http://localhost:8080/view_daily_statistics"
-const VIEW_GENERAL_STATS_PATH = "http://localhost:8080/view_general_statistics"
-const VIEW_ALL_DAILY_STATS_PATH = "http://localhost:8080/view_all_daily_statistics"
+const VIEW_DAILY_STATS_PATH = path + "view_daily_statistics"
+const VIEW_GENERAL_STATS_PATH = path + "view_general_statistics"
+const VIEW_ALL_DAILY_STATS_PATH = path + "view_all_daily_statistics"
 
 
 

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -19,7 +20,7 @@ public class AwardsController implements IAwardsController {
     }
 
     @Override
-    public void add_award(String message, String admin_email, String[] emails) {
+    public void add_award(String message, String admin_email, List<String> emails) {
         int award_id = this.id_counter.incrementAndGet();
         Award award = new Award(award_id, message, admin_email, emails);
         this.award_map.put(award_id, award);

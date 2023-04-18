@@ -61,15 +61,20 @@ User implements Observer {
 
     public String get_password_token() {return  this.userPasswordToken;}
 
+    public String getName() {
+        return name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
     public boolean is_logged_in() {
         return this.loggedIn;
     }
 
-    public synchronized void login() throws Exception {
-        if (loggedIn) {
-            var message = String.format("User with email %s is already logged in", userEmail);
-            throw new Exception(message);
-        }
+
+    public synchronized void login(){
         this.loggedIn = true;
     }
 

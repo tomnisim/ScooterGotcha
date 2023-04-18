@@ -14,8 +14,55 @@ gotcha:
   maximum_password_length: 14
   minimum_distance_alert: 20
   number_of_coordinates: 8
+  orYarukEmail: "or_yaruk@gmail.com"
+  cities_emails:
+      "Tel-Aviv": "tel_aviv@gmail.com"
+      "Beersheba": "beersheba@gmail.com"
+      "Haifa": "haifa@gmail.com"
+      "Netanya": "netanya@gmail.com"
   Server:
     default:
       host: "8000"
       port: "8080"
       protocol: "TCP"
+
+rate-config:
+  speed_changes_per_minute:
+    0: 100
+    1: 95
+    2: 85
+    3: 80
+    4: 70
+    5: 60
+    6: 50
+
+  brakes_per_minute:
+    0: 100
+    1: 95
+    2: 85
+    3: 80
+    4: 70
+    5: 50
+
+  sharp_turns_per_minute:
+    0: 100
+    1: 85
+    2: 80
+    3: 70
+    4: 50
+
+  alerts_per_minute:
+    0: 100
+    1: 95
+    2: 90
+    3: 80
+    4: 75
+    5: 70
+    6: 50
+
+  on_sidewalk:
+    0: 100
+    10: 85
+    20: 75
+    30: 60
+    40: 50

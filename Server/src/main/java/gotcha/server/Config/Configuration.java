@@ -23,6 +23,11 @@ public class Configuration {
     private int maximumPasswordLength;
     private int minimumDistanceAlert;
     private int numberOfCoordinates;
+    private String orYarukEmail;
+    private Map<String, String> cities_emails;
+
+
+
     private Map<String, ServerConfiguration> server;
 
     // <editor-fold desc="Accessor Methods">
@@ -148,7 +153,25 @@ public class Configuration {
     public Map<String, ServerConfiguration> getServer() {
         return server;
     }
+    public boolean isFirstTimeRunning() {
+        return firstTimeRunning;
+    }
 
+    public String getOrYarukEmail() {
+        return orYarukEmail;
+    }
+
+    public void setOrYarukEmail(String orYarukEmail) {
+        this.orYarukEmail = orYarukEmail;
+    }
+
+    public Map<String, String> getCities_emails() {
+        return cities_emails;
+    }
+
+    public void setCities_emails(Map<String, String> cities_emails) {
+        this.cities_emails = cities_emails;
+    }
     public void setServer(Map<String, ServerConfiguration> server) {
         this.server = server;
     }

@@ -1,75 +1,55 @@
-import * as React from 'react';
-import { ImageBackground, View, Text, Button, StyleSheet, TextInput} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React,{ useState } from 'react';
+import { useEffect } from 'react';
+import { ImageBackground, View, Text, Button, StyleSheet, TextInput, ScrollView} from 'react-native';
 import { AdvertismentsApi } from '../API/AdvertismentsApi';
 import Table from 'rc-table';
 import Select from 'react-select'
+import { background } from '../API/Path';
 
-const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
+
 const advertismentsApi = new AdvertismentsApi();
-let advertisments_list = []
-let advs_ids_list = []
 
-let advertise_id_to_delete = ""
 
-let final_date = ""
-let owner = ""
-let message = ""
-let photo = ""
-let url = ""
 
-const get_advertisments_list = async () => {
-  // todo: change 5 to advertisment id, change params to functions.
+export default function AdvertismentsWindow({navigation}) {
+
+const [advertisments_list, setAdvertisments_list] = useState([])
+const [advs_ids_list, setAdvs_ids_list] = useState([])
+const [advertise_id_to_delete, setText_to_delete_advertise] = useState('')
+const [final_date, setText_to_final_date] = useState('')
+const [owner, setText_to_owner] = useState('')
+const [message, setText_to_message] = useState('')
+const [photo, setText_to_photo] = useState('')
+const [url, setText_to_url] = useState('')
+
+async function get_advertisments_list(){
   let response = await advertismentsApi.view_advertisements();
   if (!response.was_exception){
-    advertisments_list = response.value
+    setAdvertisments_list(response.value)
 
-    advs_ids_list = advertisments_list.map((item) => {
+    let temp = response.value
+    let temp1 = temp.map((item) => {
       return (
-        {value: item.id, label: item.id}
+        {key: item.id}
       );
     })
+    let list_temp = []
+    temp1.map((item) => list_temp.push({value: item.key, label: item.key}))
+    setAdvs_ids_list(list_temp)
   }
 }
 
-get_advertisments_list()
-export default function AdvertismentsWindow({navigation}) {
-  get_advertisments_list()
+useEffect(() => {
+  get_advertisments_list();
+}, {})
 
-  const setText_to_final_date = (text) => {
-    final_date = text
-  }
-
-  const setText_to_owner = (text) => {
-    owner = text
-  }
-
-  const setText_to_message = (text) => {
-    message = text
-  }
-
-  const setText_to_photo = (text) => {
-    photo = text
-  }
-
-  const setText_to_url = (text) => {
-    url = text
-  }
-
-  const setText_to_delete_advertise = (text) => {
-    advertise_id_to_delete = text
-  }
-
-  const delete_advertise = () => {
-    alert(advertise_id_to_delete)
-    advertismentsApi.delete_advertisement(advertise_id_to_delete)
+  const delete_advertise = async () => {
+    await advertismentsApi.delete_advertisement(advertise_id_to_delete)
     get_advertisments_list();
   }
 
-  const add_advertisement = () => {
-    final_date, owner, message, photo, url, 
-    advertismentsApi.add_advertisement(final_date, owner, message, photo, url)
+  const add_advertisement = async () => {
+    await advertismentsApi.add_advertisement(final_date, owner, message, photo, url)
     get_advertisments_list();
   }
 
@@ -80,9 +60,9 @@ export default function AdvertismentsWindow({navigation}) {
     <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>Advertisments List:</b></Text>
 
     <View style={{display: 'flex', flexDirection:'row'}}>
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
     <Table columns={columns} data={advertisments_list} tableLayout="auto"/>
-    </View>
+    </ScrollView>
     <Text>    </Text>    
     <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
       <TextInput
@@ -207,6 +187,7 @@ const styles = StyleSheet.create({
   textInputer: {
     backgroundColor:'white',
     opacity:0.8,
+    textAlign:'center',
     height: 40
   },
   item: {

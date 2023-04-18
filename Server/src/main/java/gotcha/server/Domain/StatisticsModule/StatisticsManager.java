@@ -51,40 +51,40 @@ public class StatisticsManager implements iStatisticsManager {
         this.awards_controller = awardsController;
 
 
-        this.current_daily_statistic = new DailyStatistic(user_controller.view_admins().size(), question_controller.getQuestion_ids_counter() - question_controller.get_all_open_questions().size(),
-                advertise_controller.get_all_advertisements_for_admin().size(), awards_controller.view_awards().size(),
-                rides_controller.get_all_rides().size(), hazard_controller.view_hazards().size(), user_controller.get_all_users().size(), question_controller.getQuestion_ids_counter());
-
         this.generalStatistic = new GeneralStatistic(LocalDateTime.now().toString());
         this.dailyStatisticMap = new HashMap<>();
+        update_daily_statistic();
+
         this.dailyStatisticMap.put(this.current_daily_statistic.getDate(), this.current_daily_statistic);
 
 
     }
 
-
     /**
      * this method should be called every day and save the previous daily statistics.
      */
     @Override
-    public void update_daily_statistic() {
-        if (!LocalDate.now().isEqual(this.current_daily_statistic.getDate())){
-            // TODO: 07/04/2023 : should give initial daily data // total admins in start day
-            this.current_daily_statistic = new DailyStatistic(user_controller.view_admins().size(), question_controller.getQuestion_ids_counter() - question_controller.get_all_open_questions().size(),
-                    advertise_controller.get_all_advertisements_for_admin().size(), awards_controller.view_awards().size(),
-                    rides_controller.get_all_rides().size(), hazard_controller.view_hazards().size(), user_controller.get_all_users().size(), question_controller.getQuestion_ids_counter());
+    public void update_daily_statistic(){
+        int admins = user_controller.view_admins().size();
+        int admins_answers = question_controller.getQuestion_ids_counter() - question_controller.get_all_open_questions().size();
+        int advertisements = advertise_controller.get_all_advertisements_for_admin().size();
+        int awards = awards_controller.view_awards().size();
+        int rides = rides_controller.get_all_rides().size();
+        int hazards = hazard_controller.view_hazards().size();
+        int riders = user_controller.get_all_riders().size();
+        int users_questions = question_controller.getQuestion_ids_counter();
+        if (this.current_daily_statistic == null || !LocalDate.now().isEqual(this.current_daily_statistic.getDate())) {
+            this.current_daily_statistic = new DailyStatistic(admins, admins_answers, advertisements, awards, rides, hazards, riders, users_questions);
             this.dailyStatisticMap.put(LocalDate.now(), this.current_daily_statistic);
         }
         else {
-            this.current_daily_statistic.update(user_controller.view_admins().size(), question_controller.getQuestion_ids_counter() - question_controller.get_all_open_questions().size(),
-                    advertise_controller.get_all_advertisements_for_admin().size(), awards_controller.view_awards().size(),
-                    rides_controller.get_all_rides().size(), hazard_controller.view_hazards().size(), user_controller.get_all_users().size(), question_controller.getQuestion_ids_counter());
+            this.current_daily_statistic.update(admins, admins_answers, advertisements, awards, rides, hazards, riders, users_questions);
         }
-        this.generalStatistic.update(user_controller.view_admins().size(), question_controller.getQuestion_ids_counter() - question_controller.get_all_open_questions().size(),
-                advertise_controller.get_all_advertisements_for_admin().size(), awards_controller.view_awards().size(),
-                rides_controller.get_all_rides().size(), hazard_controller.view_hazards().size(), user_controller.get_all_users().size(), question_controller.getQuestion_ids_counter());
-
+        this.generalStatistic.update(admins, admins_answers, advertisements, awards, rides, hazards, riders, users_questions);
     }
+
+
+
 
     @Override
     public DailyStatisticDAO get_current_daily_statistic() {

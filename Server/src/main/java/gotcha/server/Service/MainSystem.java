@@ -11,6 +11,7 @@ import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.ExternalService.MapsAdapter;
 import gotcha.server.ExternalService.MapsAdapterImpl;
+import gotcha.server.ExternalService.ReporterAdapter;
 import gotcha.server.Utils.Exceptions.ExitException;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.ErrorLogger;
@@ -65,11 +66,20 @@ public class MainSystem {
         if (configuration.getFirstTimeRunning())
             set_first_admin();
         set_statistics_update_thread();
+        set_reporter_engine();
         begin_instructions();
         systemLogger.add_log("Finish Init Server");
     }
 
+    private void set_reporter_engine() {
+        ReporterAdapter reporterAdapter = hazardController.getReporterAdapter();
+        reporterAdapter.setSystem_email(configuration.getSystemEmail());
+        reporterAdapter.setSystem_email_password(configuration.getSystemEmailPassword());
+        reporterAdapter.setOR_YARUK_email(configuration.getOrYarukEmail());
+        reporterAdapter.setCities_emails(configuration.getCities_emails());
+        systemLogger.add_log("Finish Loading Reporter Engine");
 
+    }
 
 
     /** Connect the system to the external services after set the services according the configuration file.
@@ -98,16 +108,16 @@ public class MainSystem {
     private void connect_database() throws ExitException {
         if (configuration.getDatabaseMode().equals("tests")){
             // TODO: 30/12/2022 : have to connect to DB with DB_URL & DB_password.
-            System.out.println(configuration.getDatabaseUrl());
-            System.out.println(configuration.getDatabasePassword());
+//            System.out.println(configuration.getDatabaseUrl());
+//            System.out.println(configuration.getDatabasePassword());
             HibernateUtils.set_tests_mode();
             systemLogger.add_log("Tests Database Connected Successfully");
         }
 
         else if (configuration.getDatabaseMode().equals("real")){
             // TODO: 30/12/2022 : have to connect to DB with DB_URL & DB_password.
-            System.out.println(configuration.getDatabaseUrl());
-            System.out.println(configuration.getDatabasePassword());
+//            System.out.println(configuration.getDatabaseUrl());
+//            System.out.println(configuration.getDatabasePassword());
             HibernateUtils.set_normal_use();
             systemLogger.add_log("Real Database Connected Successfully");
 
@@ -127,8 +137,7 @@ public class MainSystem {
     }
 
     private void create_rp_config_file() {
-        System.out.println("Here we should create Config//rp_config.txt File.");
-        System.out.println(configuration.getMinimumDistanceAlert());
+//        System.out.println(configuration.getMinimumDistanceAlert());
     }
     private void set_first_admin() throws Exception {
         LocalDate birth_date = LocalDate.now();
@@ -142,7 +151,7 @@ public class MainSystem {
     private void set_statistics_update_thread() {
         try{
             ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-            StatisticsUpdateThread statistics_update_thread = new StatisticsUpdateThread();
+            StatisticsUpdateThread statistics_update_thread = new StatisticsUpdateThread(statisticsManager, systemLogger);
             executorService.scheduleAtFixedRate(statistics_update_thread, 0, 24, TimeUnit.HOURS);
         }
         catch (Exception e) {
@@ -151,26 +160,39 @@ public class MainSystem {
     }
 
 
-    private void begin_instructions() {
-        String EMAIL = "moskoga@gmail.com";
-        String PASSWORD = "123456Aa";
-        String NAME = "AMIT";
-        String LAST_NAME = "MOSKO";
-        String BIRTH_DATE = "19-04-95";
-        LocalDate BIRTH_DAY = LocalDate.of(1995, 4,19);
-        String PHONE = "0546794211";
-        String GENDER = "MALE";
-        BigDecimal lng = new BigDecimal("0.0");
-        BigDecimal lat = new BigDecimal("0.0");
+    private void begin_instructions() throws Exception {
+        BigDecimal lng = new BigDecimal("79.536");
+        BigDecimal lat = new BigDecimal("63.258");
         Location origin = new Location(lng, lat);
-        Location dest = new Location(lng, lat);
-        String city = "B7";
-        LocalDateTime start_time = LocalDateTime.now();
-        LocalDateTime end_time = LocalDateTime.now();
-        StationaryHazard hazard = new StationaryHazard(5,6,origin,city, HazardType.PoleTree, 16.5);
-        ArrayList<StationaryHazard> hazards = new ArrayList<>();
-        hazards.add(hazard);
-        //
+
+        this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5);
+        this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 7);
+        this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 12);
+        this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12);
+        this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14);
+        this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3);
+        LocalDate birth_date = LocalDate.of(1995, 05 , 05);
+        String password = "AaAa12345";
+        userController.add_rp_serial_number("first");
+        userController.add_rp_serial_number("first1");
+        userController.add_rp_serial_number("first12");
+        userController.add_rp_serial_number("first123");
+        userController.add_rp_serial_number("first1234");
+        userController.add_rp_serial_number("first12345");
+
+        userController.register("email@gmail.com", password, "name", "last", "0546794211",
+                birth_date, "male", "type", birth_date, "first");
+        userController.register("email1@gmail.com", password, "name", "last", "0546794211",
+                birth_date, "male", "type", birth_date, "first1");
+        userController.register("email12@gmail.com", password, "name", "last", "0546794211",
+                birth_date, "male", "type", birth_date, "first12");
+        userController.register("email123@gmail.com", password, "name", "last", "0546794211",
+                birth_date, "male", "type", birth_date, "first123");
+
+        userController.add_first_admin("admin1@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
+        userController.add_first_admin("admin12@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
+        userController.add_first_admin("admin123@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
+
 //        Facade user_facade = new Facade();
 //        Facade admin_facade = new Facade();
 //        user_facade.register(EMAIL, PASSWORD, NAME, LAST_NAME, BIRTH_DATE, PHONE, GENDER);

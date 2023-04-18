@@ -1,46 +1,91 @@
-import * as React from 'react';
-import { ImageBackground, View, Text, Button, StyleSheet, TextInput } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React,{ useState } from 'react';
+import { useEffect } from 'react';
+import { ImageBackground, View, Text, Button, StyleSheet, TextInput, ScrollView } from 'react-native';
 import { SettingsApi } from '../API/SettingsApi';
-const background = {uri: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/adminAppDesign/adminApp/assets/background.png'};
+import { background } from '../API/Path';
 
 
 const settingsApi = new SettingsApi();
-let data = ""
-
-
-const reset = async () => {
-  console.log("reset")
-  let response = await settingsApi.reset()
-  console.log(response)
-  if (!response.was_exception){
-    data = response.value
-  }
-  alert(data)
-}
 
 export default function SystemSettingsWindow({navigation}) {
 
+  const [data, setData] = useState([])
 
-  const shut_down = () => {
-    settingsApi.shut_down()
+  const reset = async () => {
+    let response = await settingsApi.reset()
+    if (!response.was_exception){
+      setData(response.value)
+    }
+    else
+    {
+      alert("cant complete this.")
+    }
   }
-  const view_error_logger = () => {
-    settingsApi.view_error_logger()
+
+  const view_error_logger = async () => {
+    let response = await settingsApi.view_error_logger()
+    if (!response.was_exception){
+      setData(response.value)
+    }
+    else
+    {
+      alert("cant complete this.")
+    }
   }
-  const view_system_logger = () => {
-    settingsApi.view_system_logger()
+
+  const view_server_logger = async () => {
+    let response = await settingsApi.view_server_logger()
+    if (!response.was_exception){
+      setData(response.value)
+    }
+    else
+    {
+      alert("cant complete this.")
+    }
   }
-  const view_server_logger = () => {
-    settingsApi.view_server_logger()
+
+  const view_system_logger = async () => {
+    let response = await settingsApi.view_system_logger()
+    if (!response.was_exception){
+      setData(response.value)
+    }
+    else
+    {
+      alert("cant complete this.")
+    }
   }
-  const set_rp_config = () => {
-    settingsApi.set_rp_config()
-  }
-  const set_server_config = () => {
-    settingsApi.set_server_config()
-  }
+    const shut_down = async () => {
+      let response = await settingsApi.shut_down()
+      if (!response.was_exception){
+        setData(response.value)
+      }
+      else
+      {
+        alert("cant complete this.")
+      }
+    }
+
+    const set_rp_config = async () => {
+      let response = await settingsApi.set_rp_config()
+      if (!response.was_exception){
+        setData(response.value)
+      }
+      else
+      {
+        alert("cant complete this.")
+      }
+    }
+
+    const set_server_config = async () => {
+      let response = await settingsApi.set_server_config()
+      if (!response.was_exception){
+        setData(response.value)
+      }
+      else
+      {
+        alert("cant complete this.")
+      }
+    }
 
 
 
@@ -50,9 +95,9 @@ return (
   <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>System Window:</b></Text>
 
   <View style={{display: 'flex', flexDirection:'row'}}>
-  <View style={styles.container}>
+  <ScrollView style={styles.container}>
   <Text>{data}</Text>
-  </View>
+  </ScrollView>
   <Text>    </Text>    
   <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
     <Button onPress={() => set_server_config()} title="Set Server Configuration" color="#841584"/>

@@ -1,21 +1,16 @@
 package gotcha.server.Domain.UserModule;
 
-import gotcha.server.Config.Configuration;
 import gotcha.server.Domain.QuestionsModule.IQuestionController;
-import gotcha.server.Domain.QuestionsModule.QuestionController;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserAlreadyExistsException;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
 import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.ServerLogger;
-import gotcha.server.Utils.Password.PasswordManagerImpl;
 import gotcha.server.Utils.Password.iPasswordManager;
 import gotcha.server.Utils.Utils;
-import org.assertj.core.api.Fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
@@ -65,7 +60,7 @@ class UserControllerTest {
         var passwordToken = "testToken";
         var user = new Rider();
         user.change_password_token(passwordToken);
-        when(userRepository.getUser(email)).thenReturn(user);
+        when(userRepository.getUserByEmail(email)).thenReturn(user);
         when(passwordManager.authenticate(password, passwordToken)).thenReturn(true);
         try{
             var userResult = userController.login(email,password);
@@ -82,7 +77,7 @@ class UserControllerTest {
         var testEmail = "test@gmail.com";
         var testPassword = "testPassword";
         //user.change_password_token(passwordToken);
-        when(userRepository.getUser(testEmail)).thenReturn(null);
+        when(userRepository.getUserByEmail(testEmail)).thenReturn(null);
         //when(passwordManager.authenticate(testPassword, passwordToken)).thenReturn(true);
         assertThrows(UserNotFoundException.class, () -> {
             userController.login(testEmail,testPassword);
@@ -96,7 +91,7 @@ class UserControllerTest {
         var passwordToken = "testToken";
         var user = new Rider();
         user.change_password_token(passwordToken);
-        when(userRepository.getUser(testEmail)).thenReturn(user);
+        when(userRepository.getUserByEmail(testEmail)).thenReturn(user);
         when(passwordManager.authenticate(testPassword, passwordToken)).thenReturn(false);
         assertThrows(Exception.class, () -> {
             userController.login(testEmail,testPassword);
@@ -104,24 +99,16 @@ class UserControllerTest {
     }
 
     @Test
-    void login_userAlreadyLoggedIn_failedLogin() {
-        var testEmail = "test@gmail.com";
-        var testPassword = "testPassword";
-        login_userExists_successfullyLoggedIn();
-        assertThrows(Exception.class, () -> {
-           userController.login(testEmail,testPassword);
-        });
-    }
-
-    @Test
     void register_validUserCredentials_successfullyRegistered() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
         assertDoesNotThrow(() -> userController.register(email,password,name,lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber));
     }
 
     @Test
     void register_userAlreadyExists_failedRegisration() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
         try {
             when(userRepository.addUser(any())).thenReturn(new Rider());
         }
@@ -134,6 +121,7 @@ class UserControllerTest {
     @Test
     void register_invalidEmail_failedRegistration() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
         try {
             doThrow(Exception.class).when(utils).emailValidCheck(anyString());
         }
@@ -146,6 +134,7 @@ class UserControllerTest {
     @Test
     void register_invalidPassword_failedRegistration() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
         try {
             doThrow(Exception.class).when(utils).passwordValidCheck(anyString());
         }
@@ -158,6 +147,7 @@ class UserControllerTest {
     @Test
     void register_invalidPhoneNumber_failedRegistration() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
         try {
             doThrow(Exception.class).when(utils).validate_phone_number(anyString());
         }
@@ -170,6 +160,8 @@ class UserControllerTest {
     @Test
     void register_invalidBirthDate_failedRegistration() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
+
         try {
             doThrow(Exception.class).when(utils).validate_birth_date(any());
         }
@@ -182,6 +174,8 @@ class UserControllerTest {
     @Test
     void register_invalidGender_failedRegistration() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
+
         try {
             doThrow(Exception.class).when(utils).validate_gender(anyString());
         }
@@ -194,6 +188,8 @@ class UserControllerTest {
     @Test
     void register_invalidScooterType_failedRegistration() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
+
         try {
             doThrow(Exception.class).when(utils).validate_scooter_type(anyString());
         }
@@ -206,6 +202,8 @@ class UserControllerTest {
     @Test
     void register_invalidLicenseIssueDate_failedRegistration() {
         configureRegisterMockForSuccess();
+        assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
+
         try {
             doThrow(Exception.class).when(utils).validate_license_issue_date(any());
         }
@@ -220,7 +218,7 @@ class UserControllerTest {
         configureRegisterMockForSuccess();
         try {
             var email = "test@gmail.com";
-            when(userRepository.getUser(email)).thenReturn(null);
+            when(userRepository.getUserByEmail(email)).thenReturn(null);
             assertThrows(UserNotFoundException.class, () -> userController.logout(email));
         }
         catch (Exception e) {
@@ -234,7 +232,7 @@ class UserControllerTest {
         try {
             var email = "test@gmail.com";
             var rider = new Rider();
-            when(userRepository.getUser(email)).thenReturn(rider);
+            when(userRepository.getUserByEmail(email)).thenReturn(rider);
             assertThrows(Exception.class, () -> userController.logout(email));
         }
         catch (Exception e) {
@@ -249,7 +247,7 @@ class UserControllerTest {
             var rider = new Rider();
             rider.login();
             assertTrue(rider.is_logged_in());
-            when(userRepository.getUser(email)).thenReturn(rider);
+            when(userRepository.getUserByEmail(email)).thenReturn(rider);
             userController.logout(email);
             assertFalse(rider.is_logged_in());
         }
@@ -267,7 +265,7 @@ class UserControllerTest {
             doNothing().when(utils).validate_gender(anyString());
             doNothing().when(utils).validate_scooter_type(anyString());
             doNothing().when(utils).validate_license_issue_date(any());
-            when(userRepository.getUser(anyString())).thenReturn(null);
+            when(userRepository.getUserByEmail(anyString())).thenReturn(null);
         }
         catch (Exception e) {
             fail("Unexpected exception when configuring the mock: " + e.getMessage());
