@@ -1,4 +1,6 @@
 package gotcha.server.Utils.Threads;
+import gotcha.server.Utils.Logger.EmailsLogger;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -11,12 +13,16 @@ public class SendEmailThread implements Runnable {
     private String send_to;
     private String message;
     private String password;
-    
-    public SendEmailThread(String send_from, String system_email_password, String send_to, String message) {
+    private EmailsLogger emailsLogger;
+
+
+    public SendEmailThread(String send_from, String system_email_password, String send_to, String message, EmailsLogger emailsLogger) {
         this.send_from = send_from;
         this.send_to = send_to;
         this.message = message;
         this.password = system_email_password;
+        this.emailsLogger = emailsLogger;
+
     }
 
     @Override
@@ -69,7 +75,7 @@ public class SendEmailThread implements Runnable {
 //        }
 //    }
     public void run(){
-        System.out.println(String.format("Send email! from: [%s], to: [%s], message:[%s]",send_from, send_to, message));
+        this.emailsLogger.add_log(String.format(" \n-- Sent email from: [%s], to: [%s], message:\n[%s] \n -------------------------------------------------- \n",send_from, send_to, message));
     }
 }
 

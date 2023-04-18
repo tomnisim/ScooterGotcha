@@ -42,13 +42,42 @@ useEffect(() => {
 
 
   const answer_question = async () => {
-    await questionsApi.answer_question(question_id_to_answer, admin_answer);
-    get_questions_list();
+    if (question_id_to_answer == "" || admin_answer == ""){
+      alert("Please Enter Answer and Chose ID.")
+    }
+    else{
+      let response = await questionsApi.answer_question(question_id_to_answer, admin_answer);
+      if (response.was_exception){
+        alert("The system cant complete your request, please try again later.")
+      }
+      else
+      {
+        alert("Your Answer has been successfully added to the system.");
+        get_questions_list();
+
+      }
+    }
+    
   }
 
   const send_message_to_all_users = async () => {
-    await questionsApi.send_message_to_all_users(message_to_send);
-    get_questions_list();
+    if (message_to_send == ""){
+      alert("Please Enter A Message.")
+    }
+    else
+    {
+      let response = await questionsApi.send_message_to_all_users(message_to_send);
+      if (response.was_exception){
+        alert("The system cant complete your request, please try again later.")
+      }
+      else
+      {
+        alert("Your Message has been successfully added to the system.");
+        get_questions_list();
+
+      }
+    }
+    
   }
 
 

@@ -5,6 +5,7 @@ import Table from 'rc-table';
 import Select from 'react-select'
 import { background } from '../API/Path';
 import { HazardsApi } from '../API/HazardsApi';
+import {set_junctions} from './VisualHazards';
 
 
 const hazardsApi = new HazardsApi();
@@ -29,6 +30,7 @@ export default function HazardsWindow({navigation}) {
   const [size, setText_to_size] = useState("")
   const [hazard_to_remove, setText_to_remove_hazard] = useState("")
   const [hazard_to_report, setText_to_report_hazard] = useState("")
+  const [city_to_show, setCity_to_show] = useState("")
 
 
 
@@ -53,10 +55,24 @@ export default function HazardsWindow({navigation}) {
   }, {})
 
 
-
   const add_hazard = async () => {
-    await hazardsApi.add_hazard(lng, lat, city, type, size)
-    get_hazards_list();
+    if (lng == "" || lat == "" || city == "" || type == "" || size == ""){
+      alert("Please Enter Details.")
+    }
+    else
+    {
+      let response = await hazardsApi.add_hazard(lng, lat, city, type, size);
+      if (response.was_exception){
+        alert("The system cant complete your request, please try again later.")
+      }
+      else
+      {
+        alert("Hazard has been successfully added to the system.");
+        get_hazards_list();
+
+      }
+    }
+    
   }
 
   const delete_hazard = async () => {
@@ -66,10 +82,19 @@ export default function HazardsWindow({navigation}) {
       }
       else
       {
-        await hazardsApi.delete_hazard(hazard_to_remove)
-        get_hazards_list();
+        let response = await hazardsApi.delete_hazard(hazard_to_remove);
+        if (response.was_exception){
+          alert("The system cant complete your request, please try again later.")
+        }
+        else
+        {
+          alert("Hazard has been successfully deleted from the system.");
+          get_hazards_list();
+  
+        }
 
       }
+    get_hazards_list();
   }
 
   const report_hazard = async () => {
@@ -77,9 +102,43 @@ export default function HazardsWindow({navigation}) {
       alert("Please choose Hazard")
     }
     else{
-      await hazardsApi.report_hazard(hazard_to_report)
+      let response = await hazardsApi.report_hazard(hazard_to_report)
+      if (response.was_exception){
+        alert("The system cant complete your request, please try again later.")
+      }
+      else
+      {
+        alert("Hazard has been successfully reported.");
         get_hazards_list();
+
+      }
     }
+    
+  }
+
+  const show_visual = async () => {
+    if (city_to_show == ""){
+      alert("Please Chose a City.")
+    }
+    else
+    {
+      let response = await hazardsApi.get_hazards_in_city(city_to_show);
+      let hazards_by_city = response.value;
+     
+      let junctions = []
+      hazards_by_city.map((item)=>{
+        junctions.push({id:item.id, name: 'amit', lat:item.lat, lng:item.lng})
+      })
+      if (junctions == ""){
+        alert("There is no Hazards in "+city_to_show);
+      }
+      else
+      {
+        await set_junctions(junctions);
+        navigation.navigate('VisualHazards');
+      }   
+    }
+    
     
   }
 
@@ -88,7 +147,7 @@ export default function HazardsWindow({navigation}) {
     <View>
     <ImageBackground source={background} resizeMode="cover">
     <Text style={{fontSize: 30, borderColor: "gray", color:"#841584"}}><b>Hazards List:</b></Text>
-
+    <View style={{display: 'flex', flexDirection:'column'}}>
     <View style={{display: 'flex', flexDirection:'row'}}>
     <ScrollView style={styles.container}>
     <Table columns={columns} data={hazards_list} tableLayout="auto"/>
@@ -144,6 +203,15 @@ export default function HazardsWindow({navigation}) {
     
   </View>
   
+  </View>
+  <View style={{display: 'flex', flexDirection:'row', width:300}}>
+  <Select
+        placeholder="City"
+        options={cities_list}
+        onChange={newText => setCity_to_show(newText.value)}
+      ></Select>
+      <Button onPress={() => show_visual()} title="VISUAL SHOW" color="#841584"/>
+  </View>
   </View>
   <Text> </Text>
   <Text> </Text>

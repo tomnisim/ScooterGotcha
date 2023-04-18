@@ -369,28 +369,37 @@ public class ApiController implements IAdminAPI, IUserAPI {
 
     @RequestMapping(value = "/delete_hazard")
     @CrossOrigin
-    @Override    public Response delete_hazard(int hazard_id, UserContext userContext) {
+    @Override
+    public Response delete_hazard(int hazard_id, UserContext userContext) {
         return this.facade.delete_hazard(hazard_id, userContext);
     }
     @RequestMapping(value = "/report_hazard")
     @CrossOrigin
-    @Override    public Response report_hazard(int hazard_id, UserContext userContext) {
+    @Override
+    public Response report_hazard(int hazard_id, UserContext userContext) {
         return this.facade.report_hazard(hazard_id, userContext);
     }
 
-
-    @RequestMapping(value = "/set_server_config")
+    @RequestMapping(value = "/get_hazards_in_city")
     @CrossOrigin
     @Override
-    public Response set_server_config(@SessionAttribute("userContext") UserContext userContext) {
-        return facade.set_server_config(userContext);
+    public Response get_hazards_in_city(String city, UserContext userContext) {
+        return this.facade.get_hazards_in_city(city, userContext);
     }
 
-    @RequestMapping(value = "/set_rp_config")
+
+    @RequestMapping(value = "/set_config")
     @CrossOrigin
     @Override
-    public Response set_rp_config(@SessionAttribute("userContext") UserContext userContext) {
-        return facade.set_rp_config(userContext);
+    public Response set_config(SetConfigRequest request, @SessionAttribute("userContext") UserContext userContext) {
+        return facade.set_config(request, userContext);
+    }
+
+    @RequestMapping(value = "/get_config")
+    @CrossOrigin
+    @Override
+    public Response get_config(@SessionAttribute("userContext") UserContext userContext) {
+        return facade.get_config(userContext);
     }
 
     @RequestMapping(value = "/view_error_logger")

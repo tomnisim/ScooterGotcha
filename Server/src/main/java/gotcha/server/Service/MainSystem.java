@@ -5,29 +5,26 @@ import gotcha.server.DAL.HibernateUtils;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
 import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.HazardType;
-import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.RidesModule.RidesController;
 import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.UserController;
-import gotcha.server.ExternalService.MapsAdapter;
-import gotcha.server.ExternalService.MapsAdapterImpl;
-import gotcha.server.ExternalService.ReporterAdapter;
+import gotcha.server.Domain.ExternalService.MapsAdapter;
+import gotcha.server.Domain.ExternalService.MapsAdapterImpl;
+import gotcha.server.Domain.HazardsModule.ReporterAdapter;
+import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Utils.Exceptions.ExitException;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.SystemLogger;
-import gotcha.server.Utils.Threads.ConnectThread;
+import gotcha.server.Utils.Threads.HazardsReporterThread;
 import gotcha.server.Utils.Threads.StatisticsUpdateThread;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -67,6 +64,7 @@ public class MainSystem {
             set_first_admin();
         set_statistics_update_thread();
         set_reporter_engine();
+        this.hazardController.setHAZARD_THRESHOLD_RATE(configuration.getHazards_rate_threshold());
         begin_instructions();
         systemLogger.add_log("Finish Init Server");
     }
@@ -77,6 +75,15 @@ public class MainSystem {
         reporterAdapter.setSystem_email_password(configuration.getSystemEmailPassword());
         reporterAdapter.setOR_YARUK_email(configuration.getOrYarukEmail());
         reporterAdapter.setCities_emails(configuration.getCities_emails());
+        try{
+            ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+            HazardsReporterThread hazardsReporterThread = new HazardsReporterThread(hazardController, systemLogger);
+            // TODO: change seconds -> minutes
+            executorService.scheduleAtFixedRate(hazardsReporterThread, 0, configuration.getHazards_time_to_report_in_minutes(), TimeUnit.SECONDS);
+        }
+        catch (Exception e) {
+            errorLogger.add_log("fail to update statistics :"+e.getMessage());
+        }
         systemLogger.add_log("Finish Loading Reporter Engine");
 
     }
@@ -146,13 +153,14 @@ public class MainSystem {
     }
 
     /**
-     * this method will make the statistics module updated every 24 hours.
+     * this method will make the statistics module updated every STATISTIC_TIME_TO_UPDATE minutes.
      */
     private void set_statistics_update_thread() {
         try{
             ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
             StatisticsUpdateThread statistics_update_thread = new StatisticsUpdateThread(statisticsManager, systemLogger);
-            executorService.scheduleAtFixedRate(statistics_update_thread, 0, 24, TimeUnit.HOURS);
+            // TODO: change seconds -> minutes
+            executorService.scheduleAtFixedRate(statistics_update_thread, 0, configuration.getStatistics_time_to_update_in_minutes(), TimeUnit.SECONDS);
         }
         catch (Exception e) {
             errorLogger.add_log("fail to update statistics :"+e.getMessage());
@@ -161,10 +169,26 @@ public class MainSystem {
 
 
     private void begin_instructions() throws Exception {
-        BigDecimal lng = new BigDecimal("79.536");
-        BigDecimal lat = new BigDecimal("63.258");
+        BigDecimal lng = new BigDecimal("34.801402");
+        BigDecimal lat = new BigDecimal("31.265106");
         Location origin = new Location(lng, lat);
 
+        BigDecimal lng1 = new BigDecimal("34.797558");
+        BigDecimal lat1 = new BigDecimal("31.267604");
+        Location dest = new Location(lng1, lat1);
+
+
+        BigDecimal lng111 = new BigDecimal("34.80283154");
+        BigDecimal lat111 = new BigDecimal("32.1246251");
+        Location origin111 = new Location(lng111, lat111);
+
+        BigDecimal lng222 = new BigDecimal("34.79586550");
+        BigDecimal lat222 = new BigDecimal("32.11289542");
+        Location dest222 = new Location(lng222, lat222);
+
+        ArrayList hazards = new ArrayList();
+
+        LocalDateTime start_time = LocalDateTime.now();
         this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5);
         this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 7);
         this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 12);
@@ -188,6 +212,12 @@ public class MainSystem {
                 birth_date, "male", "type", birth_date, "first12");
         userController.register("email123@gmail.com", password, "name", "last", "0546794211",
                 birth_date, "male", "type", birth_date, "first123");
+//        (String rpSerialNumber, Location origin, Location destination, String city, LocalDateTime startTime, LocalDateTime endTime, List<StationaryHazard> hazards, List< RidingAction > ridingActions) {
+//            this.rpSerialNumber = rpSerialNumber;
+        FinishRideRequest finishRideReq = new FinishRideRequest("first", origin, dest, "Netanya", start_time, start_time, hazards, new ArrayList<>());
+        FinishRideRequest finishRideReq2 = new FinishRideRequest("first", origin111, dest222, "Tel-Aviv", start_time, start_time, hazards, new ArrayList<>());
+        ridesController.add_ride(finishRideReq, "email@gmail.com");
+        ridesController.add_ride(finishRideReq2, "email@gmail.com");
 
         userController.add_first_admin("admin1@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         userController.add_first_admin("admin12@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");

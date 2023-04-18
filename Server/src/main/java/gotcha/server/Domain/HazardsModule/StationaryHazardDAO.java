@@ -15,6 +15,8 @@ public class StationaryHazardDAO {
     private double size;
     private double rate;
     private String report;
+    private double lat;
+    private double lng;
 
     public StationaryHazardDAO(){}
 
@@ -22,6 +24,8 @@ public class StationaryHazardDAO {
         this.id = stationaryHazard.getId();
         this.ride_id = stationaryHazard.getRide_id();
         this.location = stationaryHazard.getLocation().toString();
+        this.lat = stationaryHazard.getLocation().getLatitude().doubleValue();
+        this.lng = stationaryHazard.getLocation().getLongitude().doubleValue();
         this.city = stationaryHazard.getCity();
         this.type = stationaryHazard.getType();
         this.size = stationaryHazard.getSize();
@@ -94,5 +98,21 @@ public class StationaryHazardDAO {
 
     public void setReport(String report) {
         this.report = report;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 }

@@ -7,8 +7,8 @@ const SHUT_DOWN_PATH = path+"shut_down"
 const VIEW_SERVER_LOGGER_PATH = path+"view_server_logger"
 const VIEW_ERROR_LOGGER_PATH = path+"view_error_logger"
 const VIEW_SYSTEM_LOGGER_PATH = path+"view_system_logger"
-const SET_RP_CONFIG = path+"set_rp_config"
-const SET_SERVER_CONFIG = path+"set_server_config"
+const SET_CONFIG_PATH = path + "set_config"
+const GET_CONFIG_PATH = path + "get_config"
 
 
 import axios from '../assets/AxiosInstance';
@@ -72,19 +72,20 @@ export class SettingsApi {
             .catch(res => Response.create(CATCH,true, CONNECTION_ERROR ));    
     }
 
-    set_rp_config() {
-        return axios.get(SET_RP_CONFIG,
-        {
-            params:{}
-        })
+    set_config() {
+        const data = {
+            email: "username",
+            password: "password"
+          };
+        return axios.post(SET_CONFIG_PATH,data)
             .then(res => {
                 return new Response(res.data);
             })
             .catch(res => Response.create(CATCH,true, CONNECTION_ERROR ));    
     }
 
-    set_server_config() {
-        return axios.get(SET_SERVER_CONFIG,
+    get_config() {
+        return axios.get(GET_CONFIG_PATH,
         {
             params:{}
         })

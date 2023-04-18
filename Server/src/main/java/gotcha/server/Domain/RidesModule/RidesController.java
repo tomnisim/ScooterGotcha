@@ -86,9 +86,13 @@ public class RidesController implements IRidesController {
     }
 
     @Override
-    public List<Ride> get_all_rides()
+    public List<RideDTO> get_all_rides()
     {
-        return ridesRepository.getAllRides();
+        List<RideDTO> to_return = new ArrayList<>();
+        for (Ride ride : ridesRepository.getAllRides()){
+            to_return.add(new RideDTO(ride));
+        }
+        return to_return;
     }
     
     @Override
