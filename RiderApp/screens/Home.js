@@ -29,7 +29,7 @@ export default function Home({navigation}) {
         <Text style={{textAlign:'center', color:'#841584', backgroundColor:'white', opacity:0.8, width: 350}}><h1>Home Screen</h1></Text>
         <Button onPress={() => navigation.navigate('Profile')} title="My Profile" color='#00000000'/>
         <Button onPress={() => navigation.navigate('StartRide')} title="Start Ride" color='#00000000'/>
-        <Button onPress={() => navigation.navigate('Rides')} title="My Rides" color='#00000000'/>
+        <Button onPress={() => navigation.navigate('MyRides')} title="My Rides" color='#00000000'/>
 
 
         <Button onPress={() => navigation.navigate('ContactUs')} title="Contact Us" color='#00000000'/>
