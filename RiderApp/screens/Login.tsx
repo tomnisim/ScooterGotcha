@@ -1,16 +1,16 @@
 
 
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, TouchableOpacity, Text } from 'react-native';
 import { UserApi } from '../API/UserApi';
-
+import {ImageBackground, View, Text, Button, StyleSheet, TextInput} from 'react-native';
+import { background } from '../API/Paths';
 const userApi = new UserApi();
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
+  const login = async () => {
     alert("login")
     let response = await userApi.login(email, password)
     if (response.was_exception || response.was_exception == undefined){
@@ -25,34 +25,32 @@ const LoginScreen = () => {
     }
   };
 
-  const handleForgotPassword = () => {
-    // Handle forgot password logic here
+  const login = () => {
+    // Handle login logic here
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Hey! Please Login</Text>
+    <View style={{flex:0.75, padding:10}}>
+            <ImageBackground source={background} resizeMode="cover" style={styles.image}>
+            <View style={{alignItems: 'center'}}>
+            <Text style={{color:'white', backgroundColor:"#841584", width:350, opacity:0.8, textAlign:'center'}}><h3>Welcome! Please Log-In</h3></Text>
+            <TextInput
+                style={{color:"#841584",textAlign:'center',width:350, backgroundColor:'white',height:40, opacity:0.8}}
+                placeholder="Enter Email"
+                onChangeText={newText => setText_email(newText)}
+                />
+            <TextInput
+                style={{color:"#841584",textAlign:'center',width:350, backgroundColor:'white',height:40, opacity:0.8}}
+                placeholder="Enter Password"
+                onChangeText={newText => setText_password(newText)}
+                />
+              <Button onPress={() => login()}  title="Login" color="#841584"/>
+            </View>
+            </ImageBackground>
+        </View>
+      
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry={true}
-        value={password}
-        onChangeText={setPassword}
-      />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleForgotPassword}>
-        <Text style={styles.forgotPassword}>Forgot Password?</Text>
-      </TouchableOpacity>
-    </View>
+      
   );
 };
 
@@ -88,7 +86,7 @@ const styles = StyleSheet.create({
   },
   
   title: {
-    color: 'white',
+    color: 'black',
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
