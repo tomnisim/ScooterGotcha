@@ -25,9 +25,7 @@ const LoginScreen = () => {
     }
   };
 
-  const login = () => {
-    // Handle login logic here
-  };
+
 
   return (
     <View style={{flex:0.75, padding:10}}>

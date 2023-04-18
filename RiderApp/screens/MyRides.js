@@ -10,7 +10,7 @@ import { background } from '../API/Paths';
 
 
 
-export default function Rides({navigation}) {
+export default function MyRides({navigation}) {
   const [rides_list, setRides_list] = useState([])
 
   async function get_rides_list(){

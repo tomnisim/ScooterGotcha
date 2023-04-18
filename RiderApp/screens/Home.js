@@ -8,7 +8,7 @@ import { background } from '../API/Paths';
 // const loginApi = new LoginApi();
 
 
-export default function HomeWindow({navigation}) {
+export default function Home({navigation}) {
   const [notifications_list, setNotifications_list] = useState([])
   
   async function get_notifications_list(){

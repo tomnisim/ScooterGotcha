@@ -34,9 +34,8 @@ export type RootTabParamList = {
   ChangePassword:undefined;
   Register:undefined;
   StartRide:undefined;
-  HomeWindow:undefined;
+  Home:undefined;
   ContactUs:undefined;
-  Rides:undefined;
   // RideWindow: undefined;
 };
 

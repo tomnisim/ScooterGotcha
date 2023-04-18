@@ -22,7 +22,6 @@ import Login from '../screens/Login'
 import MyRides from '../screens/MyRides';
 import ChangePassword from '../screens/ChangePassword';
 import Register from '../screens/Register';
-import Rides from '../screens/Rides';
 // import RideWindow from '../screens/RideWindow';
 
 
@@ -30,7 +29,6 @@ import Rides from '../screens/Rides';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import StartRide from '../screens/StartRide';
-import HomeWindow from '../screens/HomeWindow';
 import ContactUs from '../screens/ContactUs';
 
 
@@ -176,10 +174,10 @@ function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="HomeWindow"
-        component={HomeWindow}
+        name="Home"
+        component={Home}
         options={{
-          title: 'HomeWindow',
+          title: 'Home',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
@@ -191,14 +189,7 @@ function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
-      <BottomTab.Screen
-        name="Rides"
-        component={Rides}
-        options={{
-          title: 'Rides',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
+     
       {/* <BottomTab.Screen
         name="RideWindow"
         component={RideWindow}

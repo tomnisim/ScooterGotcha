@@ -1,12 +1,13 @@
 
 
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, TouchableOpacity, Text } from 'react-native';
 import DatePicker from "react-datepicker";
-
+import {ImageBackground, View, Text, Button, StyleSheet, TextInput} from 'react-native';
+import { background } from '../API/Paths';
 import "react-datepicker/dist/react-datepicker.css";
-import Gender_selector from '../components/DatePicker';
-const Register = () => {
+
+
+export default function Register({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -20,8 +21,8 @@ const Register = () => {
   
 
 
-  const handleLogin = () => {
-    // Handle login logic here
+  const Register = () => {
+    // Handle Register logic here
   };
 
   const [date, setDate] = useState(new Date())
@@ -29,83 +30,82 @@ const Register = () => {
 
 
   return (
-    
-    <View style={styles.container}>
-      
-      <Text style={styles.title}>Hey! Please Register</Text>
-
+    <View style={{flex:0.75, padding:10}}>
+            <ImageBackground source={background} resizeMode="cover" style={styles.image}>
+            <View style={{alignItems: 'center'}}>
+            <Text style={{color:'white', backgroundColor:"#841584", width:350, opacity:0.8, textAlign:'center'}}><h3>Welcome! Please Register</h3></Text>
+            
+            <TextInput
+          style={styles.input}
+          placeholder="First Name"
+          value={firstName}
+          onChangeText={setFirstName}
+        />
       <TextInput
-        style={styles.input}
-        placeholder="First Name"
-        secureTextEntry={true}
-        value={firstName}
-        onChangeText={setFirstName}
-      />
-    <TextInput
-        style={styles.input}
-        placeholder="Last Name"
-        secureTextEntry={true}
-        value={lastName}
-        onChangeText={setLastName}
-      />
+          style={styles.input}
+          placeholder="Last Name"
+          value={lastName}
+          onChangeText={setLastName}
+        />
       <TextInput
         style={styles.input}
         placeholder="Phone Number"
-        secureTextEntry={true}
         value={phoneNumber}
         onChangeText={setPhoneNumber}
       />
-      <Text>Birthday</Text>
-      <DatePicker selected={birthday} onChange={(date) => setBirthday(date)} />
-      
+        
+       
       <TextInput
         style={styles.input}
         placeholder="Gender"
-        secureTextEntry={true}
         value={gender}
         onChangeText={setGender}
       />
+      <view style={{flex:0.75, padding:0}}>
+        <input type="radio" value="Male" onClick={() => setGender('male')} name="gender" /> Male
+        <input type="radio" value="Female" onClick={() => setGender('female')} name="gender" /> Female
+      </view> 
       <TextInput
         style={styles.input}
         placeholder="Scooter Type"
-        secureTextEntry={true}
         value={scooterType}
         onChangeText={setScooterType}
       />
       <TextInput
         style={styles.input}
         placeholder="Raspberry Pi Serial"
-        secureTextEntry={true}
         value={rpSerial}
         onChangeText={setRpSerial}
       />
-      <Text>License Date</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="License Date"
+        value={rpSerial}
+        onChangeText={setRpSerial}
+      />
+      <view style={{flex:0.75, padding:0}}>
       <DatePicker  selected={birthday} onChange={(date) => setLicenseDate(date)} />
-      <div>
-        <input type="radio" value="Male" onClick={() => setGender('male')} name="gender" /> Male
-        <input type="radio" value="Female" onClick={() => setGender('female')} name="gender" /> Female
-      </div>
-{/* <Gender_selector></Gender_selector> */}
+      </view>
+      
+      
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+        /> 
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry={true}
-        value={password}
-        onChangeText={setPassword}
-      />
-      
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Register</Text>
-      </TouchableOpacity>
-      
-    </View>
+        <Button onPress={() => Register()}  title="Register" color="#841584"/>
+            </View>
+            </ImageBackground>
+        </View>
+    
   );
 };
 
@@ -146,4 +146,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Register;
+
+
+
+
+
+
+
+
+
+
+      
