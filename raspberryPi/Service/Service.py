@@ -84,3 +84,4 @@ class Service:
     def create_ride_controller(self):
         curr_alerter = self.alerter.create_alerter('raspberryPi/alert.wav')
         ride_controller = RideController(curr_alerter)
+        ride_controller.start_ride()
