@@ -2,27 +2,56 @@
 
 import React, { useState } from 'react';
 import DatePicker from "react-datepicker";
-import {ImageBackground, View, Text, Button, StyleSheet, TextInput} from 'react-native';
+import {ImageBackground, View, Text, Button, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import { background } from '../API/Paths';
 import "react-datepicker/dist/react-datepicker.css";
+import { UserApi } from '../API/UserApi';
 
 
-export default function Register({navigation}) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [birthday, setBirthday] = useState(new Date());
-  const [gender, setGender] = useState('');
-  const [scooterType, setScooterType] = useState('');
-  const [rpSerial, setRpSerial] = useState('');
+export default function RegisterScreen({navigation}) {
+  const [email, setEmail] = useState('tom@gmail.com');
+  const [password, setPassword] = useState('Tn12345678');
+  const [firstName, setFirstName] = useState('tt');
+  const [lastName, setLastName] = useState('nn');
+  const [phoneNumber, setPhoneNumber] = useState('0524568759');
+  const [birthday, setBirthday] = useState(new Date('1996-05-05'));
+  const [gender, setGender] = useState('male');
+  const [scooterType, setScooterType] = useState('ty');
+  const [rpSerial, setRpSerial] = useState('first12345');
   const [licenseDate, setLicenseDate] = useState(new Date());
   
+  const userApi = new UserApi()
 
+  const date_to_string = (date)=>{
+    const year = date.getFullYear(); // get the year (e.g. 2023)
+    const month = date.getMonth() + 1; // get the month (0-11) and add 1 to convert it to 1-12
+    const day = date.getDate(); // get the day of the month (1-31)
 
-  const Register = () => {
-    // Handle Register logic here
+    // format the date as a string in the format "YYYY-MM-DD"
+    const dateString = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    return dateString
+  }
+  const register = async () => {
+    const parsedLicenseDate = date_to_string(licenseDate)
+    const parsedBirthday = date_to_string(birthday)
+    console.log(parsedLicenseDate)
+    console.log(parsedBirthday)
+    let response = await userApi.register(email, password, firstName, lastName, phoneNumber, 
+      gender, rpSerial, parsedLicenseDate, scooterType, parsedBirthday)
+    if (response.was_exception || response.was_exception == undefined){
+        if (response.was_exception == undefined)
+            alert("no connection")
+        else{
+
+        }
+            
+    }
+    else
+    {
+        console.log(response.message)
+        navigation.navigate('Home')
+
+      }
   };
 
   const [date, setDate] = useState(new Date())
@@ -31,7 +60,7 @@ export default function Register({navigation}) {
 
   return (
     <View style={{flex:0.75, padding:10}}>
-            <ImageBackground source={background} resizeMode="cover" style={styles.image}>
+            <ImageBackground /*source={background}*/ resizeMode="cover" style={styles.image}>
             <View style={{alignItems: 'center'}}>
             <Text style={{color:'white', backgroundColor:"#841584", width:350, opacity:0.8, textAlign:'center'}}><h3>Welcome! Please Register</h3></Text>
             
@@ -52,6 +81,13 @@ export default function Register({navigation}) {
         placeholder="Phone Number"
         value={phoneNumber}
         onChangeText={setPhoneNumber}
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Birthday"
+        value={birthday}
+        onChangeText={setBirthday}
       />
         
        
@@ -80,8 +116,8 @@ export default function Register({navigation}) {
       <TextInput
         style={styles.input}
         placeholder="License Date"
-        value={rpSerial}
-        onChangeText={setRpSerial}
+        value={licenseDate}
+        onChangeText={setLicenseDate}
       />
       <view style={{flex:0.75, padding:0}}>
       <DatePicker  selected={birthday} onChange={(date) => setLicenseDate(date)} />
@@ -101,7 +137,10 @@ export default function Register({navigation}) {
           onChangeText={setPassword}
         /> 
 
-        <Button onPress={() => Register()}  title="Register" color="#841584"/>
+        <Button onPress={() => register()}  title="Register" color="#841584"/>
+        <TouchableOpacity onPress={()=> navigation.navigate('Login')}>
+                <Text  style={{ color: 'blue', textDecorationLine: 'underline', fontSize:30 }}>{'Already registered? Please Login'}</Text>
+              </TouchableOpacity>
             </View>
             </ImageBackground>
         </View>

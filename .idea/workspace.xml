@@ -6,8 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="e8394b8d-4a9c-44d1-8624-56aa6c7f6cdf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiderApp/App.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiderApp/navigation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/navigation/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiderApp/screens/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/screens/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiderApp/screens/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/screens/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiderApp/screens/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/screens/Register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiderApp/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/HazardRateCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/HazardRateCalculator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/UserModule/UserControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/UserModule/UserControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/Requests/RegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/Requests/RegisterRequest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +33,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -40,20 +56,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;spring.boot&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;cf1e8c14e54505f60aa10ceb8d5d8ab3&quot;
-  }
-}</component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+  </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -70,7 +78,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.UserControllerTest">
+  <component name="RunManager" selected="Spring Boot.ServerApplication (1)">
     <configuration name="HazardRateCalculatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
@@ -154,9 +162,9 @@
       </method>
     </configuration>
     <configuration name="ServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <option name="ALTERNATIVE_JRE_PATH" value="11 (2)" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="gotcha.server.ServerApplication" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="11 (2)" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -208,13 +216,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/UserModule/UserControllerTest.java</url>
-          <line>48</line>
+          <line>43</line>
           <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java</url>
-          <line>113</line>
-          <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/ApiController.java</url>
@@ -243,12 +246,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java</url>
-          <line>70</line>
+          <line>72</line>
           <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java</url>
-          <line>56</line>
+          <line>59</line>
           <option name="timeStamp" value="48" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -266,13 +269,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Location.java</url>
-          <line>27</line>
+          <line>33</line>
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardRepository.java</url>
-          <line>18</line>
-          <option name="timeStamp" value="54" />
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/ApiController.java</url>
+          <line>53</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="61" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Password/PasswordManagerImpl.java</url>
+          <line>95</line>
+          <option name="timeStamp" value="62" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

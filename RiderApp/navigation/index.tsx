@@ -32,23 +32,23 @@ import StartRide from '../screens/StartRide';
 import ContactUs from '../screens/ContactUs';
 
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
-  return (
-    <NavigationContainer
+// export default function Navigation({ navigation }: RootTabScreenProps<'Home'>, { colorScheme }: { colorScheme: ColorSchemeName }) {
+//   return (
+//     <NavigationContainer
     
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <View style={styles.container}>
-      <Button title="LogIn" style={styles.button} />
-      <Button title="Button 2" style={styles.button} />
-      <Button title="Button 3" style={styles.button} />
-    </View>
+//       linking={LinkingConfiguration}
+//       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+//       <View style={styles.container}>
+//       <Button title="LogIn" style={styles.button} onPress={()=>navigation.navigate('../screens/Login')} />
+//       <Button title="Button 2" style={styles.button} />
+//       <Button title="Button 3" style={styles.button} />
+//     </View>
       
-      <RootNavigator />
+//       <RootNavigator />
       
-    </NavigationContainer>
-  );
-}
+//     </NavigationContainer>
+//   );
+// }
 
 /**
  * A root stack navigator is often used for displaying modals on top of all other content.

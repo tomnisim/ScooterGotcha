@@ -2,16 +2,15 @@
 
 import React, { useState } from 'react';
 import { UserApi } from '../API/UserApi';
-import {ImageBackground, View, Text, Button, StyleSheet, TextInput} from 'react-native';
+import {ImageBackground, View, Text, Button, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
 import { background } from '../API/Paths';
 const userApi = new UserApi();
 
-const LoginScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const LoginScreen = ({navigation}) => {
+  const [email, setEmail] = useState('tom@gmail.com');
+  const [password, setPassword] = useState('Tn12345678');
 
   const login = async () => {
-    alert("login")
     let response = await userApi.login(email, password)
     if (response.was_exception || response.was_exception == undefined){
         if (response.was_exception == undefined)
@@ -21,7 +20,8 @@ const LoginScreen = () => {
     }
     else
     {
-        alert("navigate('Home')")
+        console.log(response.message)
+        navigation.navigate('Home')
     }
   };
 
@@ -33,16 +33,21 @@ const LoginScreen = () => {
             <View style={{alignItems: 'center'}}>
             <Text style={{color:'white', backgroundColor:"#841584", width:350, opacity:0.8, textAlign:'center'}}><h3>Welcome! Please Log-In</h3></Text>
             <TextInput
-                style={{color:"#841584",textAlign:'center',width:350, backgroundColor:'white',height:40, opacity:0.8}}
-                placeholder="Enter Email"
-                onChangeText={newText => setText_email(newText)}
-                />
-            <TextInput
-                style={{color:"#841584",textAlign:'center',width:350, backgroundColor:'white',height:40, opacity:0.8}}
-                placeholder="Enter Password"
-                onChangeText={newText => setText_password(newText)}
-                />
+          style={styles.input}
+          placeholder="Enter Email"
+          value={email}
+          onChangeText={setEmail}
+        />
+      <TextInput
+        style={styles.input}
+        placeholder="Enter Password"
+        value={password}
+        onChangeText={setPassword}
+      />
               <Button onPress={() => login()}  title="Login" color="#841584"/>
+              <TouchableOpacity onPress={()=> navigation.navigate('Register')}>
+                <Text  style={{ color: 'blue', textDecorationLine: 'underline', fontSize:30 }}>{'not registered yet? Please Register'}</Text>
+              </TouchableOpacity>
             </View>
             </ImageBackground>
         </View>
