@@ -323,6 +323,7 @@ public class Facade {
         try {
             String newPassword = user_controller.resetPassword(userEmail);
             var emailMessage = "You are receiving this since you asked to reset your password.\n your new password is:" + newPassword;
+            // TODO: 4/18/2023 : Change adminEmail and password to be taken from configuration file
             var sendEmailThread = new SendEmailThread("adminEmail", "adminEmailPassword", userEmail, emailMessage);
             sendEmailThread.run();
             var loggerMessage = "Successfully changed password of user with email: "+ userEmail;
