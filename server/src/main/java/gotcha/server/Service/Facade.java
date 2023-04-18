@@ -31,6 +31,7 @@ import gotcha.server.Service.Communication.Requests.RegisterRequest;
 import gotcha.server.Service.Communication.Requests.SetConfigRequest;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserException;
 import gotcha.server.Utils.Location;
+import gotcha.server.Utils.Logger.EmailsLogger;
 import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.ServerLogger;
 import gotcha.server.Utils.Logger.SystemLogger;
@@ -51,6 +52,7 @@ public class Facade {
     private ErrorLogger error_logger;
     private ServerLogger serverLogger;
     private SystemLogger systemLogger;
+    private EmailsLogger emailsLogger;
     private IQuestionController question_controller;
     private IRidesController rides_controller;
     private IUserController user_controller;
@@ -64,10 +66,11 @@ public class Facade {
     @Autowired
     public Facade(UserController userController, HazardController hazardController, AdvertiseController advertiseController
             ,IAwardsController awards_controller, RidesController ridesController, QuestionController questionController,
-                  ServerLogger serverLogger, ErrorLogger errorLogger, SystemLogger systemLogger, StatisticsManager statisticsManager, Configuration config, RoutesRetriever routesRetriever) {
+                  ServerLogger serverLogger, ErrorLogger errorLogger, SystemLogger systemLogger,EmailsLogger emailsLogger, StatisticsManager statisticsManager, Configuration config, RoutesRetriever routesRetriever) {
         this.error_logger = errorLogger;
         this.serverLogger = serverLogger;
         this.systemLogger = systemLogger;
+        this.emailsLogger = emailsLogger;
         this.question_controller = questionController;
         this.rides_controller = ridesController;
         this.user_controller = userController;
@@ -327,7 +330,7 @@ public class Facade {
             String newPassword = user_controller.resetPassword(userEmail);
             var emailMessage = "You are receiving this since you asked to reset your password.\n your new password is:" + newPassword;
             // TODO: 4/18/2023 : Change adminEmail and password to be taken from configuration file
-            var sendEmailThread = new SendEmailThread("adminEmail", "adminEmailPassword", userEmail, emailMessage);
+            var sendEmailThread = new SendEmailThread("adminEmail", "adminEmailPassword", userEmail, emailMessage, emailsLogger);
             sendEmailThread.run();
             var loggerMessage = "Successfully changed password of user with email: "+ userEmail;
             response = new Response<>(newPassword, loggerMessage);
