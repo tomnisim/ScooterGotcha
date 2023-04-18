@@ -99,7 +99,7 @@ public class UserController implements IUserController {
             throw new UnavailableRPserialException(String.format("Raspberry Pi: %s is unavailable", raspberryPiSerialNumber));
         }
         String passwordToken = passwordManager.hash(password);
-        var user = new Rider(userEmail, name, lastName, passwordToken, phoneNumber, birthDay, gender, scooterType, licenceIssueDate, raspberryPiSerialNumber);
+        var user = new Rider(userEmail,passwordToken, name, lastName, phoneNumber, birthDay, gender, scooterType, licenceIssueDate, raspberryPiSerialNumber);
         var addResult = userRepository.addUser(user);
         if (addResult != null)
             throw new UserAlreadyExistsException(String.format("user with email: %s is already registered in the system", userEmail));
