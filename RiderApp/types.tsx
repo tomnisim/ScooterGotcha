@@ -36,7 +36,7 @@ export type RootTabParamList = {
   StartRide:undefined;
   Home:undefined;
   ContactUs:undefined;
-  // RideWindow: undefined;
+  RideWindow: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<

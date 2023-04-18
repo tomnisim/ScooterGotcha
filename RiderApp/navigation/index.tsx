@@ -22,7 +22,7 @@ import Login from '../screens/Login'
 import MyRides from '../screens/MyRides';
 import ChangePassword from '../screens/ChangePassword';
 import Register from '../screens/Register';
-// import RideWindow from '../screens/RideWindow';
+import RideWindow from '../screens/RideWindow';
 
 
 
@@ -190,14 +190,14 @@ function BottomTabNavigator() {
         }}
       />
      
-      {/* <BottomTab.Screen
+      <BottomTab.Screen
         name="RideWindow"
         component={RideWindow}
         options={{
           title: 'RideWindow',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
-      /> */}
+      />
     </BottomTab.Navigator>
   );
 }
