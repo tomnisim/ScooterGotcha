@@ -23,6 +23,7 @@ import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.*;
 import gotcha.server.SafeRouteCalculatorModule.Route;
 import gotcha.server.SafeRouteCalculatorModule.RoutesRetriever;
+import gotcha.server.Service.Communication.Requests.ChangePasswordRequest;
 import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
@@ -32,6 +33,7 @@ import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.ServerLogger;
 import gotcha.server.Utils.Logger.SystemLogger;
 import gotcha.server.Utils.Response;
+import gotcha.server.Utils.Threads.SendEmailThread;
 import gotcha.server.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -161,13 +163,13 @@ public class Facade {
     }
 
      
-    public Response change_password(String old_password, String password, UserContext userContext) {
+    public Response change_password(ChangePasswordRequest changePasswordRequest, UserContext userContext) {
         Response response;
         try {
             check_user_is_logged_in(userContext);
-            user_controller.change_password(userContext.get_email(), old_password, password);
+            user_controller.change_password(userContext.get_email(), changePasswordRequest.getOldPassword(), changePasswordRequest.getNewPassword());
             String logger_message = "User's (" + userContext.get_email() + ")  password has been changed successfully.";
-            response = new Response<>(password, logger_message);
+            response = new Response<>("", logger_message);
             serverLogger.add_log(logger_message);
         }
 
@@ -314,10 +316,26 @@ public class Facade {
             error_logger.add_log(e.getMessage());
         }
         return response;
-
     }
 
-
+    public Response<String> reset_password(String userEmail) {
+        Response<String> response;
+        try {
+            String newPassword = user_controller.resetPassword(userEmail);
+            var emailMessage = "You are receiving this since you asked to reset your password.\n your new password is:" + newPassword;
+            // TODO: 4/18/2023 : Change adminEmail and password to be taken from configuration file
+            var sendEmailThread = new SendEmailThread("adminEmail", "adminEmailPassword", userEmail, emailMessage);
+            sendEmailThread.run();
+            var loggerMessage = "Successfully changed password of user with email: "+ userEmail;
+            response = new Response<>(newPassword, loggerMessage);
+            serverLogger.add_log(loggerMessage);
+        }
+        catch (Exception e) {
+            error_logger.add_log(e.getMessage());
+            response = Utils.createResponse(e);
+        }
+        return response;
+    }
 
 
 

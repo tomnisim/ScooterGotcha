@@ -99,7 +99,7 @@ public class UserController implements IUserController {
             throw new UnavailableRPserialException(String.format("Raspberry Pi: %s is unavailable", raspberryPiSerialNumber));
         }
         String passwordToken = passwordManager.hash(password);
-        var user = new Rider(userEmail, name, lastName, passwordToken, phoneNumber, birthDay, gender, scooterType, licenceIssueDate, raspberryPiSerialNumber);
+        var user = new Rider(userEmail,passwordToken, name, lastName, phoneNumber, birthDay, gender, scooterType, licenceIssueDate, raspberryPiSerialNumber);
         var addResult = userRepository.addUser(user);
         if (addResult != null)
             throw new UserAlreadyExistsException(String.format("user with email: %s is already registered in the system", userEmail));
@@ -132,6 +132,13 @@ public class UserController implements IUserController {
         return user;
     }
 
+    public String resetPassword(String userEmail) throws UserNotFoundException {
+        var newPassword = utils.generateRandomPassword();
+        var newPasswordToken = passwordManager.hash(newPassword);
+        userRepository.changeUserPassword(userEmail, newPasswordToken);
+        return newPassword;
+    }
+
     public void change_password(String userEmail, String oldPassword, String newPassword) throws Exception {
 
         var user = userRepository.getUserByEmail(userEmail);
@@ -139,11 +146,11 @@ public class UserController implements IUserController {
             throw new UserNotFoundException("user email: " + userEmail + " not found");
         }
         if (!passwordManager.authenticate(oldPassword, user.get_password_token())) {
-            throw new Exception("Invalid password");
+            throw new Exception("Invalid old password");
         }
-        utils.passwordValidCheck(oldPassword);
+        utils.passwordValidCheck(newPassword);
         String passwordToken = passwordManager.hash(newPassword);
-        user.change_password_token(passwordToken);
+        userRepository.changeUserPassword(userEmail, passwordToken);
     }
 
     /**
@@ -326,7 +333,6 @@ public class UserController implements IUserController {
         if (((Admin) admin).get_appointed_by() != null) {
             throw new Exception("only master admin can remove appointment");
         }
-
         userRepository.removeUser(user_email);
     }
 
