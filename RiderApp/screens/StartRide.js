@@ -1,12 +1,13 @@
 
 
-import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, TouchableOpacity, Text } from 'react-native';
+import  { useState } from 'react';
+import {ImageBackground, View, Text, Button, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import { background } from '../API/Paths';
 import { UserApi } from '../API/UserApi';
-
 const userApi = new UserApi();
 
-const StartRideScreen = () => {
+export default function StartRideScreen({navigation}) {
+
   const [Origin, setOrigin] = useState('');
   const [Destination, setDestination] = useState('');
   const [RoutesData, setRoutesData] = useState('');
@@ -25,10 +26,11 @@ const StartRideScreen = () => {
 
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Lets Start Ride!</Text>
-
-      <TextInput
+    <View style={{flex:0.75, padding:10}}>
+    <ImageBackground source={background} resizeMode="cover" style={styles.image}>
+    <View style={{alignItems: 'center'}}>
+    <Text style={{color:'white', backgroundColor:"#841584", width:350, opacity:0.8, textAlign:'center'}}><h3>Lets Start Ride!</h3></Text>
+    <TextInput
         style={styles.input}
         placeholder="Origin"
         value={Origin}
@@ -37,7 +39,6 @@ const StartRideScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Destination"
-        secureTextEntry={true}
         value={Destination}
         onChangeText={setDestination}
       />
@@ -46,6 +47,11 @@ const StartRideScreen = () => {
       </TouchableOpacity>
       <Text style={styles.title}>{RoutesData}</Text>
     </View>
+    </ImageBackground>
+</View>
+
+
+
   );
 };
 
@@ -88,4 +94,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StartRideScreen;
