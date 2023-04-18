@@ -3,19 +3,17 @@ import { Response } from "./Response";
 import {path, CONNECTION_ERROR, CATCH} from "./AppConstans"
 import axios from "./axiosInstance"
 
+const VIEW_RIDES_PATH = path + "view_user_rides_history"
 
 
 
-
-
-export class LoginApi {
+export class RidesApi {
 
     
-
-    get_notifications_list(origin, destination) { //TODO
-        return axios.get(GET_ROUTES_PATH,
+    view_user_rides_history() { 
+        return axios.get(VIEW_RIDES_PATH,
         {
-            params:{origin: origin, destination: destination}
+            params:{}
         })
             .then(res => {
                 return new Response(res.data);
@@ -23,5 +21,6 @@ export class LoginApi {
             .catch(res => Response.create(CATCH,true, CONNECTION_ERROR ));    
     }
 
+    
 }
 

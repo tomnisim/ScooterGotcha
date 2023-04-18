@@ -13,6 +13,7 @@ import LoginScreen from './screens/Login';
 import RegisterScreen from './screens/Register';
 import ProfileScreen from './screens/Profile';
 import ChangePasswordScreen from './screens/ChangePassword';
+import MyRidesScreen from './screens/MyRides';
 //   function Navigation({ navigation }: RootTabScreenProps<'Home'>) {
 //   return (
 //     <NavigationContainer
@@ -49,17 +50,9 @@ export default function App() {
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
+        <Stack.Screen name="MyRides" component={MyRidesScreen} />
         
-        {/* <Stack.Screen name="Users" component={UsersWindow} />
-        <Stack.Screen name="Questions" component={QuestionsWindow} />
-        <Stack.Screen name="Hazards" component={HazardsWindow} />
-        <Stack.Screen name="Rides" component={RidesWindow} />
-        <Stack.Screen name="Admins" component={AdminsWindow} />
-        <Stack.Screen name="Statistics" component={StatisticsWindow} />
-        <Stack.Screen name="Awards" component={AwardsWindow} />
-        <Stack.Screen name="Advertisements" component={AdvertismentsWindow} />
-        <Stack.Screen name="SystemSettings" component={SystemSettingsWindow} />
-        <Stack.Screen name="VisualRoute" component={VisualRouteWindow} /> */}
+
         </Stack.Navigator>
     </NavigationContainer>
     );
