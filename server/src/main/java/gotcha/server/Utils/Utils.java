@@ -102,8 +102,8 @@ public class Utils {
     }
 
     public String generateRandomPassword() {
-        final int minLength = 6;
-        final int maxLength = 12;
+        final int minLength = configuration.getMinimumPasswordLength();
+        final int maxLength = configuration.getMaximumPasswordLength();
         Random random = new Random();
         int passwordLength = minLength + random.nextInt(maxLength - minLength + 1);
         StringBuilder password = new StringBuilder(passwordLength);
