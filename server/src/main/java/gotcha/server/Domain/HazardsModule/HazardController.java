@@ -155,7 +155,7 @@ public class HazardController implements IHazardController {
     public List<Integer> auto_report() {
         List<Integer> ids = new ArrayList<>();
         for (StationaryHazard stationaryHazard : hazardRepository.getAllHazards()){
-            if (stationaryHazard.getRate() > HAZARD_THRESHOLD_RATE){
+            if (stationaryHazard.getRate() > HAZARD_THRESHOLD_RATE && !stationaryHazard.isReport()){
                 try
                 {
                     int id = stationaryHazard.getId();

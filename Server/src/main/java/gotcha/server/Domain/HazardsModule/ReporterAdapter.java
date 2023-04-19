@@ -63,7 +63,7 @@ public class ReporterAdapter {
         String city_email = this.cities_emails.get(city);
 
         SendEmailThread cityEmailThread = new SendEmailThread(system_email, system_email_password, city_email, city_message, emailsLogger);
-        SendEmailThread orYarukEmailThread = new SendEmailThread(system_email, system_email_password, city_email, or_yaruk_message, emailsLogger);
+        SendEmailThread orYarukEmailThread = new SendEmailThread(system_email, system_email_password, OR_YARUK_email, or_yaruk_message, emailsLogger);
         Thread thread1 = new Thread(cityEmailThread);
         Thread thread2 = new Thread(orYarukEmailThread);
         thread1.start();

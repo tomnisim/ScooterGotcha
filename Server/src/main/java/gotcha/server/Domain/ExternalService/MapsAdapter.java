@@ -17,6 +17,8 @@ public abstract class MapsAdapter {
     final String mode = "bicycling";
     final String apiKey = "AIzaSyAlOyWPS8R9TY9lRqpejdUQvLKOPwDfwsE";
 
+    public MapsAdapter(){}
+
 
     public abstract boolean handshake();
 
@@ -28,6 +30,8 @@ public abstract class MapsAdapter {
      * @return list of size @number_of_routes from @origin to @destination
      */
     public List<Route> get_routes(String origin_destination, String destination_input, int number_of_routes) {
+        origin_destination = this.covert_address(origin_destination);
+        destination_input = this.covert_address(destination_input);
         List<Route> routes_list = new LinkedList<>();
         for (int i = 0; i < number_of_routes; i++){
             // TODO: 17/03/2023 : the routes are the same, read API and change it to [number_of_routes] different routes.
@@ -70,19 +74,34 @@ public abstract class MapsAdapter {
             JSONArray a = ja.getJSONArray("legs");
             JSONObject jo = a.getJSONObject(0);
             JSONArray steps = jo.getJSONArray("steps");
-
+            int duration = 0; // Minutes
+            int distance = 0; // Meters
             for (int i = 0; i < steps.length(); i++) {
+                // TODO: 19/04/2023 : Add More Route Details.
                 JSONObject curr = steps.getJSONObject(i).getJSONObject("start_location");
-                BigDecimal lng = (BigDecimal) curr.get("lng");
-                BigDecimal lat = (BigDecimal) curr.get("lat");
+                BigDecimal lng = BigDecimal.valueOf((Double)curr.get("lng"));
+                BigDecimal lat = BigDecimal.valueOf((Double)curr.get("lat"));
                 Location location = new Location(lng, lat);
                 route.add_junction(location);
+                distance = distance + (Integer)steps.getJSONObject(i).getJSONObject("distance").get("value");
+                duration = duration + (Integer)steps.getJSONObject(i).getJSONObject("duration").get("value");
             }
+            route.setDistance(distance);
+            route.setDuration(duration);
             System.out.println(response.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
         return route;
+    }
+
+
+    protected String covert_address(String address){
+        // TODO: 19/04/2023 : implement and keep convention.
+//        String Origin =  "1 Rothschild Boulevard, Tel Aviv-Yafo, Israel";
+//        String Destination = "10 HaYarkon St, Tel Aviv-Yafo, Israel";
+//        Origin = Origin.replaceAll(" ", "+");
+        return address.replaceAll(" ", "+");
     }
 
 }

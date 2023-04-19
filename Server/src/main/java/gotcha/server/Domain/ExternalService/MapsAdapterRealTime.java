@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 @Component
 
 public class MapsAdapterRealTime extends MapsAdapter {
+    public MapsAdapterRealTime(){
+
+    }
     @Override
     public boolean handshake()
     {
