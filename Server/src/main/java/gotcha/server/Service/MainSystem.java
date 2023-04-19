@@ -192,7 +192,7 @@ public class MainSystem {
         userController.add_first_admin("admin1@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         userController.add_first_admin("admin12@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         userController.add_first_admin("admin123@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-// TEST
+
 //        Facade user_facade = new Facade();
 //        Facade admin_facade = new Facade();
 //        user_facade.register(EMAIL, PASSWORD, NAME, LAST_NAME, BIRTH_DATE, PHONE, GENDER);
