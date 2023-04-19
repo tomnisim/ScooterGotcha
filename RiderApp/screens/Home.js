@@ -4,18 +4,35 @@ import { ScrollView ,View, Text, Button, ImageBackground, StyleSheet} from 'reac
 import Table from 'rc-table';
 import { background } from '../API/Paths';
 import { LoginApi } from '../API/LoginApi';
+import { UserApi } from '../API/UserApi';
 
 const loginApi = new LoginApi();
+const userApi = new UserApi();
 
 export default function HomeScreen({navigation}) {
   const [notifications_list, setNotifications_list] = useState([])
-  
-  async function get_notifications_list(){
-    let response = await loginApi.view_notifications();
-    if (!response.was_exception){
-      setNotifications_list(response.value)
+  const logout = async () => {
+    let response = await userApi.logout();
+    if (response.was_exception || response.was_exception == undefined){
+      if (response.was_exception == undefined)
+          alert("no connection")
+      else{
+          alert("failed to logout")
+      }     
     }
+    else
+    {
+        alert("logout succesfully")
+        console.log(response.message)
+      }
+
+    }
+async function get_notifications_list(){
+  let response = await loginApi.view_notifications();
+  if (!response.was_exception){
+    setNotifications_list(response.value)
   }
+}
   // useEffect(() => {
   //   get_notifications_list();
   // }, {})
@@ -32,15 +49,11 @@ export default function HomeScreen({navigation}) {
 
 
         <Button onPress={() => navigation.navigate('ContactUs')} title="Contact Us" color='#00000000'/>
-        {/* <Button onPress={() => navigation.navigate('Messages')} title="My Messages" title_color='black' color='#00000000'/> */}
         <Button onPress={() => navigation.navigate('Questions')} title="My Questions" title_color='black' color='#00000000'/>
+        <Button onPress={() => navigation.navigate('Login')} title="Login" title_color='black' color='#00000000'/>
 
-        {/* <Button onPress={() => navigation.navigate('Hazards')} title="Hazards Window" color='#00000000'/>
-        <Button onPress={() => navigation.navigate('Rides')} title="Rides Window" color='#00000000'/>
-        <Button onPress={() => navigation.navigate('Statistics')} title="Statistics Window" color='#00000000'/>
-        <Button onPress={() => navigation.navigate('Awards')} title="Awards Window" color='#00000000'/>
-        <Button onPress={() => navigation.navigate('SystemSettings')} title="System settings Window" color='#00000000'/>
-        <Button onPress={() => navigation.navigate('VisualRoute')} title="Visual Window" color='#00000000'/> */}
+        <Button onPress={() => logout()} title="Logout" color='#00000000'/> 
+  
         </View>
         <View style={{display: 'flex', flexDirection:'column', width: 550}}>
         <Text style={{textAlign:'center', color:'#841584', backgroundColor:'white', opacity:0.8}}><h1>Notifications</h1></Text>

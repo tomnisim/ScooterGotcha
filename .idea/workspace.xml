@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e8394b8d-4a9c-44d1-8624-56aa6c7f6cdf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiderApp/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiderApp/screens/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/screens/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +51,8 @@
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="database.main" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
@@ -175,7 +174,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c0e87fe9-84f7-4d38-a9b5-ab0a83852605" name="Changes" comment="" />
+      <changelist id="e8394b8d-4a9c-44d1-8624-56aa6c7f6cdf" name="Changes" comment="" />
       <created>1672677510956</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -187,6 +186,7 @@
       <workItem from="1672756109577" duration="994000" />
       <workItem from="1680268062688" duration="2012000" />
       <workItem from="1680861151440" duration="11479000" />
+      <workItem from="1681890922420" duration="622000" />
     </task>
     <servers />
   </component>
