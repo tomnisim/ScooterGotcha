@@ -5,28 +5,15 @@ import Table from 'rc-table';
 import { background } from '../API/Paths';
 import { LoginApi } from '../API/LoginApi';
 import { UserApi } from '../API/UserApi';
+import NavBar from './NavBar';
 
 const loginApi = new LoginApi();
 const userApi = new UserApi();
 
 export default function HomeScreen({navigation}) {
+  console.log(navigation)
   const [notifications_list, setNotifications_list] = useState([])
-  const logout = async () => {
-    let response = await userApi.logout();
-    if (response.was_exception || response.was_exception == undefined){
-      if (response.was_exception == undefined)
-          alert("no connection")
-      else{
-          alert("failed to logout")
-      }     
-    }
-    else
-    {
-        alert("logout succesfully")
-        console.log(response.message)
-      }
 
-    }
 async function get_notifications_list(){
   let response = await loginApi.view_notifications();
   if (!response.was_exception){
@@ -38,7 +25,9 @@ async function get_notifications_list(){
   // }, {})
 
     return (
+      
       <View>
+        {/* <NavBar></NavBar> */}
         <ImageBackground source={background} resizeMode="cover">
         <View style={{display: 'flex', flexDirection:'row', width: 550}}>
         <View style={{width:750}}>
@@ -52,7 +41,8 @@ async function get_notifications_list(){
         <Button onPress={() => navigation.navigate('Questions')} title="My Questions" title_color='black' color='#00000000'/>
         <Button onPress={() => navigation.navigate('Login')} title="Login" title_color='black' color='#00000000'/>
 
-        <Button onPress={() => logout()} title="Logout" color='#00000000'/> 
+        <Button onPress={() => navigation.navigate('NavBar')} title="Nav" title_color='black' color='#00000000'/>
+
   
         </View>
         <View style={{display: 'flex', flexDirection:'column', width: 550}}>

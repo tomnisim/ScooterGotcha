@@ -18,8 +18,15 @@ export class Utils{
         } catch(e) {
           console.log("Error retrieving data:", e);
         }
+    }
+    removeItem = async (key) => {
+      try {
+        await AsyncStorage.removeItem(key);
+        console.log(`Item with key ${key} removed from AsyncStorage`);
+      } catch (error) {
+        console.log(`Error removing item from AsyncStorage: ${error}`);
       }
-
+    }
     date_to_string = (date)=>{
         const year = date.getFullYear(); // get the year (e.g. 2023)
         const month = date.getMonth() + 1; // get the month (0-11) and add 1 to convert it to 1-12

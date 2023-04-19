@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, ColorSchemeName } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -15,16 +15,20 @@ import ProfileScreen from './screens/Profile';
 import ChangePasswordScreen from './screens/ChangePassword';
 import MyRidesScreen from './screens/MyRides';
 import MyQuestionsScreen from './screens/MyQuestions';
-
-
-//   function Navigation({ navigation }: RootTabScreenProps<'Home'>) {
+// import linking from  './navigation/LinkingConfiguration';
+import Navigator from './screens/NavBar';
+import LinkingConfiguration from './navigation/LinkingConfiguration';  
+// import { StyleSheet, Button, ColorSchemeName, Pressable, View } from 'react-native';
+import Navigation from './navigation';
+import NavBar from './screens/NavBar';
+// function Navigation({ navigation, colorScheme }) {
 //   return (
 //     <NavigationContainer
     
 //       linking={LinkingConfiguration}
 //       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
 //       <View style={styles.container}>
-//       <Button title="LogIn" style={styles.button} onPress={()=>navigation.navigate('Login')} />
+//       {/* <Button title="LogIn" style={styles.button} onPress={()=>navigation.navigate('Login')} /> */}
 //       <Button title="Button 2" style={styles.button} />
 //       <Button title="Button 3" style={styles.button} />
 //     </View>
@@ -35,7 +39,7 @@ import MyQuestionsScreen from './screens/MyQuestions';
 //   );
 // }
 const Stack = createNativeStackNavigator();
-export default function App() {
+export default function App({navigation}) {
   // const isLoadingComplete = useCachedResources();
   // const colorScheme = useColorScheme();
 
@@ -43,9 +47,14 @@ export default function App() {
   //   alert("NULL")
   //   return null;
   // } else {
+    
+  
+
     return (
-      // <Navigation> </Navigation>
+      // <Navigation></Navigation>,
       <NavigationContainer>
+       <NavBar></NavBar> 
+        {/* <Navigator ></Navigator> */}
       <Stack.Navigator initialRouteName={"Login"}>
         
         <Stack.Screen name="Login" component={LoginScreen} />
@@ -55,6 +64,7 @@ export default function App() {
         <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
         <Stack.Screen name="MyRides" component={MyRidesScreen} />
         <Stack.Screen name="Questions" component={MyQuestionsScreen} />
+        <Stack.Screen name="NavBar" component={NavBar} />
         
 
         </Stack.Navigator>
@@ -62,3 +72,34 @@ export default function App() {
     );
   // }
 }
+
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flexDirection: 'row',
+//     backgroundColor: '#fff',
+//     padding: 20,
+//   },
+//   inputContainer: {
+//     marginBottom: 20,
+//   },
+//   label: {
+//     fontWeight: 'bold',
+//     marginBottom: 5,
+//   },
+//   input: {
+//     borderWidth: 1,
+//     borderColor: '#ccc',
+//     padding: 10,
+//   },
+//   button: {
+//     backgroundColor: '#007bff',
+//     padding: 10,
+//     borderRadius: 5,
+//     alignItems: 'center',
+//   },
+//   buttonText: {
+//     color: '#fff',
+//     fontWeight: 'bold',
+//   },
+// });

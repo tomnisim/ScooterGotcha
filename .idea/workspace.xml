@@ -6,6 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="e8394b8d-4a9c-44d1-8624-56aa6c7f6cdf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiderApp/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiderApp/Utils/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/Utils/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiderApp/navigation/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/navigation/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiderApp/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiderApp/screens/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/screens/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiderApp/screens/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/screens/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiderApp/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/RiderApp/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,7 +193,7 @@
       <workItem from="1672756109577" duration="994000" />
       <workItem from="1680268062688" duration="2012000" />
       <workItem from="1680861151440" duration="11479000" />
-      <workItem from="1681890922420" duration="622000" />
+      <workItem from="1681890922420" duration="2448000" />
     </task>
     <servers />
   </component>

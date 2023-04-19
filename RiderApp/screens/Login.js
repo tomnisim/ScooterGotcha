@@ -6,8 +6,10 @@ import {ImageBackground, View, Text, Button, StyleSheet, TouchableOpacity, TextI
 import { background } from '../API/Paths';
 import { Utils } from '../Utils/Utils';
 import { User } from '../Objects/User';
+import NavBar from './NavBar';
 const userApi = new UserApi();
 const utils = new Utils();
+
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('tom@gmail.com');
   const [password, setPassword] = useState('Tn12345678');
