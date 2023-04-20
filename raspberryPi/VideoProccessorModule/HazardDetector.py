@@ -19,22 +19,21 @@ class HazardDetector():
         is_pothole = self.potholes_model.predict(frame)
         is_pole_tree = self.pole_tree_model.predict(frame)
         is_road_sign = self.road_sign_model.predict(frame)
-        size = 10  #TODO - get size
-        hazard = None
+        size = 10
 
         detected_hazards = []
 
         if is_pothole:
 
-            pothole_hazard = Hazard(size, location ,HazardType.Pothole)
+            pothole_hazard = Hazard(size, location, HazardType.Pothole, frame)
             detected_hazards.append(pothole_hazard)
 
         if is_pole_tree:
-            pole_tree_hazard = Hazard(size, location ,HazardType.PoleTree)
+            pole_tree_hazard = Hazard(size, location, HazardType.PoleTree, frame)
             detected_hazards.append(pole_tree_hazard)
 
         if is_road_sign:
-            road_sign_hazard = Hazard(size, location ,HazardType.RoadSign)
+            road_sign_hazard = Hazard(size, location, HazardType.RoadSign, frame)
             detected_hazards.append(road_sign_hazard)
 
         return detected_hazards

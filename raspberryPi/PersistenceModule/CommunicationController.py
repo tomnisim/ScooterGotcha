@@ -1,8 +1,5 @@
-
-
-
 import requests
-
+from Config.Config_data import serialNumber, SERVER_ADDRESS
 from PersistenceModule.urls import finish_ride_url, get_rp_config_file_url
 from Utils.Response import Response
 
@@ -24,19 +21,17 @@ class CommunicationController():
 
 
     def get_rp_config_file(self):
-        res = requests.post(get_rp_config_file_url, data="ffffffff")
+        res = requests.get(SERVER_ADDRESS + get_rp_config_file_url, params={serialNumber: serialNumber})
         response = Response(res)
-        if not response or not response.was_exception :
+        if not response or not response.was_exception:
             return False
-        return True
+        return response.value
 
 
     def send_rides_to_server(self, ride):
-
-        res = requests.post(finish_ride_url, data=ride)
+        res = requests.post(SERVER_ADDRESS + finish_ride_url, data=ride)
         response = Response(res)
-
-        if not response or not response.was_exception :
+        if not response or not response.was_exception:
             return False
         return True
 

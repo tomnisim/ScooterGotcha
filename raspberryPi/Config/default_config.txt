@@ -10,8 +10,8 @@ num_of_coordinates: 8
 
 
 [ServerAddress]
-host: 8000
-port: 8080
+host: localhost
+port: 5050
 protocol:TCP
 
 
