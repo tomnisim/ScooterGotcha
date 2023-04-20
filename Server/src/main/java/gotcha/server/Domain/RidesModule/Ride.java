@@ -12,8 +12,8 @@ import java.util.List;
 public class Ride {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int ride_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int ride_id = 0;
     @Column(name="riderEmail")
     private String rider_email;
 

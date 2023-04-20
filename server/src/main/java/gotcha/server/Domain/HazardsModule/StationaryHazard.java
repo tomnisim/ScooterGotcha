@@ -12,8 +12,8 @@ public class StationaryHazard {
 
     @JsonIgnore
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id = 0;
     @Column(name="rideId")
     private int ride_id;
 

@@ -12,8 +12,8 @@ import java.time.LocalDate;
 public class Advertise {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id = 0;
     @Column(name="startDate")
     private LocalDate start_date;
     @Column(name="finalDate")

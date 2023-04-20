@@ -13,8 +13,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Question {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    protected int question_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int question_id = 0;
 
     @Column(name="messageDate")
     protected LocalDateTime message_date;
@@ -65,7 +65,6 @@ public class Question {
      * @param responderEmail
      */
     public Question(LocalDateTime message_date, LocalDateTime answer_date, String message, String answer, boolean has_answer, String senderEmail, String responderEmail) {
-        this.question_id = question_id;
         this.message_date = message_date;
         this.answer_date = answer_date;
         this.message = message;

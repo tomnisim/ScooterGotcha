@@ -49,8 +49,8 @@ public class AdvertiseController implements IAdvertiseController {
     }
 
     @Override
-    public List<String> get_all_advertisements_for_user(){
-        List<String> to_return = new LinkedList<>();
+    public List<AdvertiseDAO> get_all_advertisements_for_user(){
+        List<AdvertiseDAO> to_return = new LinkedList<>();
         for (Advertise advertise : advertiseRepository.getAllAdvertisements())
         {
             to_return.add(new AdvertiseDAO(advertise));
@@ -59,10 +59,9 @@ public class AdvertiseController implements IAdvertiseController {
     }
 
     @Override
-    public void add_click(int id) {
-        this.advertise_list.get(id).add_click();
+    public void add_click(int id) throws Exception {
+        this.advertiseRepository.getAdvertise(id).add_click();
     }
-
 }
 
 

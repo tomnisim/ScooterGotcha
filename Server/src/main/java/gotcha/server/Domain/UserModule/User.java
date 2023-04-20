@@ -15,7 +15,6 @@ import java.util.Map;
 @DiscriminatorColumn(name = "user_type")
 public abstract class
 User implements Observer {
-
     @Id
     @Column(name="email")
     private String userEmail;
