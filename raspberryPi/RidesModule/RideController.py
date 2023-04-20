@@ -8,6 +8,7 @@ from VideoProccessorModule.EventDetector import EventDetector
 from VideoProccessorModule.HazardDetector import HazardDetector
 from VideoProccessorModule.RoadDetector import RoadDetector
 
+
 from moviepy.editor import VideoFileClip
 import matplotlib.pyplot as plt
 
@@ -21,7 +22,7 @@ hazards = []
 frames = []
 id = 0
 stop = True
-live_button = False
+
 
 
 
@@ -66,10 +67,8 @@ class RideController():
         self._hazard_detector = HazardDetector()
         self.alerter = alerter
 
-        while True:
-            if live_button:
-                ride = self.execute_ride()
-                PersistenceController.save_ride(ride)
+
+
 
 
 
