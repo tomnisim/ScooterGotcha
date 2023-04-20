@@ -44,13 +44,41 @@ useEffect(() => {
 }, {})
 
   const delete_advertise = async () => {
-    await advertismentsApi.delete_advertisement(advertise_id_to_delete)
-    get_advertisments_list();
+    if (advertise_id_to_delete == ""){
+      alert("Please Select Advertisement.")
+    }
+    else
+    {
+      let response = await advertismentsApi.delete_advertisement(advertise_id_to_delete);
+      if (response.was_exception){
+        alert("The system cant complete your request, please try again later.")
+      }
+      else
+      {
+        alert("Advertisement has been successfully deleted from the system.")
+        get_advertisments_list();
+
+      }
+    }
+    
   }
 
   const add_advertisement = async () => {
-    await advertismentsApi.add_advertisement(final_date, owner, message, photo, url)
-    get_advertisments_list();
+    if (final_date == "" || owner == "" || message == "" || photo == "" || url == ""){
+      alert("Please Enter Details.")
+    }
+    else{
+      let response = await advertismentsApi.add_advertisement(final_date, owner, message, photo, url);
+      if (response.was_exception){
+        alert("The system cant complete your request, please try again later.")
+      }
+      else
+      {
+        alert("Advertisement has been successfully added to the system.")
+        get_advertisments_list();
+
+      }
+    }
   }
 
 

@@ -1,5 +1,6 @@
 package gotcha.server.Service.API;
 
+import gotcha.server.Domain.UserModule.RiderDAO;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Service.Communication.Requests.*;
 import gotcha.server.Service.Communication.Requests.FinishRideRequest;
@@ -7,6 +8,7 @@ import gotcha.server.Service.Communication.Requests.AddAdvertisementRequest;
 import gotcha.server.Service.Communication.Requests.AddAwardRequest;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
+import gotcha.server.Service.Communication.Requests.*;
 import gotcha.server.Service.Facade;
 import gotcha.server.Service.UserContext;
 import gotcha.server.Utils.Response;
@@ -59,6 +61,17 @@ public class ApiController implements IAdminAPI, IUserAPI {
         return response;
     }
 
+    @RequestMapping(value = "/rider_login")
+    @CrossOrigin
+    public Response rider_login(@RequestBody LoginRequest loginRequest, HttpSession session){
+        Response<User> response = facade.login(loginRequest);
+        Response<RiderDAO> response1 = facade.rider_login(loginRequest);
+        if(!response.iswas_exception()) {
+            var userContext = new UserContext(response.getValue());
+            session.setAttribute(USER_CONTEXT_ATTRIBUTE_NAME, userContext);
+        }
+        return response1;
+    }
 
     /**
      * this method will clear the facade.
@@ -84,11 +97,19 @@ public class ApiController implements IAdminAPI, IUserAPI {
         return response;
     }
 
+    @RequestMapping(value = "/reset_password")
+    @CrossOrigin
+    @Override
+    public Response reset_password(String userEmail) {
+        var response = facade.reset_password(userEmail);
+        return response;
+    }
+
     @RequestMapping(value = "/change_password")
     @CrossOrigin
     @Override
-    public Response change_password(String old_password, String password, @SessionAttribute("userContext") UserContext userContext) {
-        return facade.change_password(old_password, password, userContext);
+    public Response change_password(ChangePasswordRequest changePasswordRequest, @SessionAttribute("userContext") UserContext userContext) {
+        return facade.change_password(changePasswordRequest, userContext);
     }
 
     @RequestMapping(value = "/view_user_rides_history")
@@ -123,6 +144,13 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @Override
     public Response view_all_advertisement(@SessionAttribute("userContext") UserContext userContext) {
         return facade.view_all_advertisements(userContext);
+    }
+
+    @RequestMapping(value = "/add_adv_click")
+    @CrossOrigin
+    @Override
+    public Response add_advertisement_click(Integer id, UserContext userContext) {
+        return facade.add_advertisement_click(id, userContext);
     }
 
     //todo : edit with facade
@@ -366,28 +394,37 @@ public class ApiController implements IAdminAPI, IUserAPI {
 
     @RequestMapping(value = "/delete_hazard")
     @CrossOrigin
-    @Override    public Response delete_hazard(int hazard_id, UserContext userContext) {
+    @Override
+    public Response delete_hazard(int hazard_id, UserContext userContext) {
         return this.facade.delete_hazard(hazard_id, userContext);
     }
     @RequestMapping(value = "/report_hazard")
     @CrossOrigin
-    @Override    public Response report_hazard(int hazard_id, UserContext userContext) {
+    @Override
+    public Response report_hazard(int hazard_id, UserContext userContext) {
         return this.facade.report_hazard(hazard_id, userContext);
     }
 
-
-    @RequestMapping(value = "/set_server_config")
+    @RequestMapping(value = "/get_hazards_in_city")
     @CrossOrigin
     @Override
-    public Response set_server_config(@SessionAttribute("userContext") UserContext userContext) {
-        return facade.set_server_config(userContext);
+    public Response get_hazards_in_city(String city, UserContext userContext) {
+        return this.facade.get_hazards_in_city(city, userContext);
     }
 
-    @RequestMapping(value = "/set_rp_config")
+
+    @RequestMapping(value = "/set_config")
     @CrossOrigin
     @Override
-    public Response set_rp_config(@SessionAttribute("userContext") UserContext userContext) {
-        return facade.set_rp_config(userContext);
+    public Response set_config(SetConfigRequest request, @SessionAttribute("userContext") UserContext userContext) {
+        return facade.set_config(request, userContext);
+    }
+
+    @RequestMapping(value = "/get_config")
+    @CrossOrigin
+    @Override
+    public Response get_config(@SessionAttribute("userContext") UserContext userContext) {
+        return facade.get_config(userContext);
     }
 
     @RequestMapping(value = "/view_error_logger")

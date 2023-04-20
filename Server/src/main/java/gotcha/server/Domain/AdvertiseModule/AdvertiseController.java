@@ -53,9 +53,14 @@ public class AdvertiseController implements IAdvertiseController {
         List<String> to_return = new LinkedList<>();
         for (Advertise advertise : advertiseRepository.getAllAdvertisements())
         {
-            to_return.add(advertise.toString_user());
+            to_return.add(new AdvertiseDAO(advertise));
         }
         return to_return;
+    }
+
+    @Override
+    public void add_click(int id) {
+        this.advertise_list.get(id).add_click();
     }
 
 }

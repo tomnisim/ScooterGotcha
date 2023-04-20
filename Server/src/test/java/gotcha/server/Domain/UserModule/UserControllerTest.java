@@ -1,6 +1,7 @@
 package gotcha.server.Domain.UserModule;
 
 import gotcha.server.Domain.QuestionsModule.IQuestionController;
+import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserAlreadyExistsException;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
 import gotcha.server.Utils.Logger.ErrorLogger;
@@ -266,6 +267,111 @@ class UserControllerTest {
         }
         catch (Exception e) {
             fail("unexpected exception");
+        }
+    }
+
+    @Test
+    void changePassword_validNewPassword_SuccessfulChange() {
+        configureRegisterMockForSuccess();
+        var rider = new Rider();
+        final String BeforeToken = "beforeToken";
+        final String NewPassword = "newPassword";
+        rider.change_password_token(BeforeToken);
+        try{
+            doCallRealMethod().when(userRepository).changeUserPassword(any(), any());
+            when(userRepository.getUserByEmail(email)).thenReturn(rider);
+            when(passwordManager.authenticate(any(), any())).thenReturn(true);
+            when(passwordManager.hash(NewPassword)).thenReturn("newHash");
+            assertDoesNotThrow(() -> userController.change_password(email,"somePassword", NewPassword));
+            assertTrue(rider.get_password_token() == "newHash");
+        }
+        catch (Exception e) {
+            fail("shouldn't happen: "+ e.getMessage());
+        }
+    }
+
+    @Test
+    void changePassword_invalidNewPassword_FailedChange() {
+        configureRegisterMockForSuccess();
+        var rider = new Rider();
+        rider.change_password_token("token");
+        try {
+            doThrow(Exception.class).when(utils).passwordValidCheck(any());
+            when(passwordManager.authenticate(any(), any())).thenReturn(true);
+            when(userRepository.getUserByEmail(email)).thenReturn(rider);
+            assertThrows(Exception.class, () -> userController.change_password(email, "oldPassword", "newPassword"));
+            verify(utils, times(1)).passwordValidCheck("newPassword");
+            assertTrue(rider.get_password_token() == "token");
+        }
+        catch (Exception e) {
+            fail("shouldn't happen");
+        }
+    }
+
+    @Test
+    void changePassword_invalidOldPassword_FailedChange() {
+        configureRegisterMockForSuccess();
+        var rider = new Rider();
+        rider.change_password_token("token");
+        try {
+            when(passwordManager.authenticate(any(), any())).thenReturn(false);
+            when(userRepository.getUserByEmail(email)).thenReturn(rider);
+            assertThrows(Exception.class, () -> userController.change_password(email, "oldPassword", "newPassword"));
+            verify(utils, times(0)).passwordValidCheck("newPassword");
+            assertTrue(rider.get_password_token() == "token");
+        }
+        catch (Exception e) {
+            fail("shouldn't happen");
+        }
+    }
+
+    @Test
+    void changePassword_invalidEmail_FailedChange() {
+        configureRegisterMockForSuccess();
+        try {
+            when(userRepository.getUserByEmail(email)).thenReturn(null);
+            assertThrows(UserNotFoundException.class, () -> userController.change_password(email, "oldPassword", "newPassword"));
+            verify(utils, times(0)).passwordValidCheck("newPassword");
+            verify(passwordManager, times(0)).authenticate(any(), any());
+        }
+        catch (Exception e) {
+            fail("shouldn't happen");
+        }
+    }
+
+    @Test
+    void resetPassword_validEmail_SuccessfulReset() {
+        configureRegisterMockForSuccess();
+        var rider = new Rider();
+        final String NewPassword = "newRandomPassword";
+        rider.change_password_token("token");
+        try {
+            doCallRealMethod().when(userRepository).changeUserPassword(any(), any());
+            when(userRepository.getUserByEmail(email)).thenReturn(rider);
+            when(utils.generateRandomPassword()).thenReturn(NewPassword);
+            when(passwordManager.hash(NewPassword)).thenReturn("newHash");
+            assertDoesNotThrow(() -> userController.resetPassword(email));
+            verify(userRepository, times(1)).changeUserPassword(any(), any());
+            assertTrue(rider.get_password_token() == "newHash");
+        }
+        catch (Exception e) {
+            fail("shouldn't happen");
+        }
+    }
+
+    @Test
+    void resetPassword_invalidEmail_FailedReset() {
+        configureRegisterMockForSuccess();
+        final String NewPassword = "newRandomPassword";
+        try {
+            doCallRealMethod().when(userRepository).changeUserPassword(any(), any());
+            when(userRepository.getUserByEmail(email)).thenReturn(null);
+            when(utils.generateRandomPassword()).thenReturn(NewPassword);
+            when(passwordManager.hash(NewPassword)).thenReturn("newHash");
+            assertThrows(UserNotFoundException.class, () -> userController.resetPassword(email));
+        }
+        catch (Exception e) {
+            fail("shouldn't happen");
         }
     }
 

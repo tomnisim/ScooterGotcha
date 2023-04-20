@@ -2,7 +2,8 @@ import React,{ useState } from 'react';
 import {ImageBackground, View, Text, Button, StyleSheet, TextInput} from 'react-native';
 import {LoginApi } from '../API/LoginApi';
 import { background } from '../API/Path';
-
+import App from '../App';
+import { get_notifications_list } from '../App';
 
 const loginApi = new LoginApi();
 
@@ -18,12 +19,13 @@ export default function LoginWindow({navigation}) {
         console.log(response)
         if (response.was_exception || response.was_exception == undefined){
             if (response.was_exception == undefined)
-                alert("no connection")
+                alert("No Connection, Please come back later.")
             else
                 alert(response.message)
         }
         else
         {
+            await get_notifications_list();
             navigation.navigate('Home')
         }
         

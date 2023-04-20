@@ -49,10 +49,10 @@ public class UserRepository {
         return allUsers.putIfAbsent(user.get_email(), user);
     }
 
-    public void removeUser(String userEmail) throws Exception {
+    public void removeUser(String userEmail) throws UserNotFoundException {
         var result = allUsers.remove(userEmail);
         if (result == null)
-            throw new Exception("user with email:" + userEmail + " not found");
+            throw new UserNotFoundException("user with email:" + userEmail + " not found");
 
         usersJpaRepositry.delete(result);
     }
@@ -61,7 +61,7 @@ public class UserRepository {
         return usersEmailByRaspberryPi.putIfAbsent(raspberryPiSerialNumber, userEmail);
     }
 
-    public User getUserByRpSerialNumber(String rpSerialNumber) {
+    public User getUserByRpSerialNumber(String rpSerialNumber) throws Exception {
         var userEmail = usersEmailByRaspberryPi.getOrDefault(rpSerialNumber, "");
         return allUsers.getOrDefault(userEmail,null);
     }
@@ -71,5 +71,14 @@ public class UserRepository {
         for(var user : usersInDb) {
             allUsers.put(user.get_email(), user);
         }
+    }
+
+    public void changeUserPassword(String userEmail, String newPasswordToken) throws UserNotFoundException {
+        var user = getUserByEmail(userEmail);
+        if (user == null) {
+            throw new UserNotFoundException("user with email:" + userEmail + " not found");
+        }
+        user.change_password_token(newPasswordToken);
+        usersJpaRepositry.save(user);
     }
 }

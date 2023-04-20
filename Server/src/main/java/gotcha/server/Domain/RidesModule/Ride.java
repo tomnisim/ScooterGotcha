@@ -57,7 +57,7 @@ public class Ride {
     public Ride(int ride_id, String rider_email, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, List<RidingAction> actions) {
         this.ride_id = ride_id;
         this.rider_email = rider_email;
-        this.date = LocalDate.now();
+        this.date = start_time.toLocalDate();
         this.city = city;
         this.start_time = start_time;
         this.end_time = end_time;

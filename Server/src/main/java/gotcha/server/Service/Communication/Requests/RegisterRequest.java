@@ -122,4 +122,20 @@ public class RegisterRequest {
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
+
+    @Override
+    public String toString() {
+        return "RegisterRequest{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", gender='" + gender + '\'' +
+                ", raspberrySerialNumber='" + raspberrySerialNumber + '\'' +
+                ", licenseIssueDate=" + licenseIssueDate +
+                ", scooterType='" + scooterType + '\'' +
+                ", birthDate=" + birthDate +
+                '}';
+    }
 }

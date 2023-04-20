@@ -19,6 +19,7 @@ public class QuestionController implements IQuestionController {
     public void add_user_question(String message, String senderEmail, BiConsumer<String, Integer> update_function) throws Exception {
         Question question = new Question(message, senderEmail);
         this.questionsRepository.addQuestion(question);
+
     }
 
     /**
@@ -49,11 +50,10 @@ public class QuestionController implements IQuestionController {
      * @return open & close questions of the user
      */
     @Override
-    public List<Question> get_all_user_questions(String user_email) {
-        ArrayList<Question> answer = new ArrayList();
-        for (Question question : this.questionsRepository.getUsersQuestions(user_email)){
-            answer.add(question);
-        }
+    public List<QuestionDAO> get_all_user_questions(String user_email) {
+        ArrayList<QuestionDAO> answer = new ArrayList();
+        for (Question question : this.questionsRepository.getUsersQuestions(user_email))
+            answer.add(new QuestionDAO(question));
         return answer;
     }
 
@@ -62,7 +62,6 @@ public class QuestionController implements IQuestionController {
      * @return all the open questions.
      */
     @Override
-
     public List<Question> get_all_open_questions(){
         ArrayList<Question> answer = new ArrayList<Question>();
         for (Question question : this.questionsRepository.getAllOpenQuestions()){

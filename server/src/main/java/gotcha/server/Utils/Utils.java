@@ -14,6 +14,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 @Component
@@ -100,6 +101,41 @@ public class Utils {
         return Date.from(d.atStartOfDay(defaultZoneId).toInstant());
     }
 
+    public String generateRandomPassword() {
+        final int minLength = configuration.getMinimumPasswordLength();
+        final int maxLength = configuration.getMaximumPasswordLength();
+        Random random = new Random();
+        int passwordLength = minLength + random.nextInt(maxLength - minLength + 1);
+        StringBuilder password = new StringBuilder(passwordLength);
+
+        // Ensure at least one lower case letter, one upper case letter, and one number
+        password.append((char) ('a' + random.nextInt(26))); // lower case letter
+        password.append((char) ('A' + random.nextInt(26))); // upper case letter
+        password.append((char) ('0' + random.nextInt(10))); // number
+
+        // Fill the remaining characters with random lower case letters, upper case letters, and numbers
+        for (int i = 3; i < passwordLength; i++) {
+            int charType = random.nextInt(3);
+            if (charType == 0) {
+                password.append((char) ('a' + random.nextInt(26))); // lower case letter
+            } else if (charType == 1) {
+                password.append((char) ('A' + random.nextInt(26))); // upper case letter
+            } else {
+                password.append((char) ('0' + random.nextInt(10))); // number
+            }
+        }
+
+        // Shuffle the password characters to avoid a fixed pattern
+        for (int i = password.length() - 1; i > 0; i--) {
+            int swapIndex = random.nextInt(i + 1);
+            char temp = password.charAt(swapIndex);
+            password.setCharAt(swapIndex, password.charAt(i));
+            password.setCharAt(i, temp);
+        }
+
+        return password.toString();
+    }
+
     public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
         return dateToConvert.toInstant()
                 .atZone(ZoneId.systemDefault())
@@ -174,8 +210,8 @@ public class Utils {
     }
 
     public void validate_license_issue_date(LocalDate licenceIssueDate) throws Exception {
-        if (licenceIssueDate.isAfter(LocalDate.now())) {
-            throw new Exception("license issue date must be before current date\n");
+        if (licenceIssueDate.isBefore(LocalDate.now())) {
+            throw new Exception("license issue date must be after current date\n");
         }
     }
 

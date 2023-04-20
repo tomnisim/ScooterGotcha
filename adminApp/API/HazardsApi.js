@@ -7,6 +7,7 @@ const VIEW_HAZARDS_PATH = path + "view_hazards"
 const ADD_HAZARD_PATH = path + "add_hazard"
 const DELETE_HAZARD_PATH = path + "delete_hazard"
 const REPORT_HAZARD_PATH = path + "report_hazard"
+const GET_HAZARDS_IN_CITY_PATH = path + "get_hazards_in_city"
 
 
 export class HazardsApi {
@@ -53,6 +54,17 @@ export class HazardsApi {
                     return new Response(res.data);
                 })
                 .catch(res => Response.create(CATCH,true, CONNECTION_ERROR ));
+    }
+
+    get_hazards_in_city(city){
+        return axios.get(GET_HAZARDS_IN_CITY_PATH,
+            {
+                params:{city: city}
+            })
+                .then(res => {
+                    return new Response(res.data);
+                })
+                .catch(res => Response.create(CATCH,true, CONNECTION_ERROR ));  
     }
 }
 

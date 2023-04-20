@@ -1,6 +1,6 @@
 package gotcha.server.Domain.HazardsModule;
 
-import gotcha.server.SafeRouteCalculatorModule.Route;
+import gotcha.server.Domain.SafeRouteCalculatorModule.Route;
 import gotcha.server.Utils.Location;
 
 import java.util.Collection;
@@ -21,9 +21,11 @@ public interface IHazardController {
 //    StationaryHazard find_hazard_if_exist(Location location, String city, HazardType type);
 
 //    List<StationaryHazard> get_hazards(HazardType type);
-//    List<StationaryHazard> get_hazards(String city);
+    List<StationaryHazardDAO> get_hazards(String city);
 //    List<StationaryHazard> get_hazards(Location location, double radios);
 //    List<StationaryHazard> view_hazards();
 
     void report_hazard(int hazardId) throws Exception;
+
+    List<Integer> auto_report();
 }

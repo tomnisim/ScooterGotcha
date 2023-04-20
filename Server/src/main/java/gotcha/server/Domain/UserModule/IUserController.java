@@ -29,6 +29,6 @@ public interface IUserController extends Observable {
     void notify_users(String senderEmail, List<String> emails, String message) throws UserNotFoundException;
     // user id -> user email
     void update_user_rate(String user_id, Ride ride, int number_of_rides) throws Exception;
-
+    String resetPassword(String userEmail) throws UserNotFoundException;
     String get_user_email_by_rp_serial(String rpSerialNumber) throws Exception;
 }

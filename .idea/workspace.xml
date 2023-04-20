@@ -5,16 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8394b8d-4a9c-44d1-8624-56aa6c7f6cdf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/QuestionsModule/QuestionsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/QuestionsModule/QuestionsRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminApp/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/QuestionsModule/QuestionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/QuestionsModule/QuestionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/IAdminAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/IAdminAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/UserModule/UserControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/UserModule/UserControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/components/LoginWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/LoginWindow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/components/QuestionsWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/components/QuestionsWindow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raspberryPi/.idea/raspberryPi.iml" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/.idea/raspberryPi.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raspberryPi/AlertModule/Visual.py" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/AlertModule/Visual.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raspberryPi/AlertModule/Vocal.py" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/AlertModule/Vocal.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raspberryPi/AlertModule/VocalCreator.py" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/AlertModule/VocalCreator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raspberryPi/CameraModule/CameraController.py" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/CameraModule/CameraController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raspberryPi/CommunicationModule/TCPconnection.py" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/CommunicationModule/TCPconnection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raspberryPi/GPSModule/GPSController.py" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/GPSModule/GPSController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raspberryPi/RidesModule/RideController.py" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/RidesModule/RideController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raspberryPi/Service/Service.py" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/Service/Service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raspberryPi/alert.wav" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/alert.wav" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +37,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -49,17 +63,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "WebServerToolWindowFactoryState": "false",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "spring.boot",
-    "spring.configuration.checksum": "cf1e8c14e54505f60aa10ceb8d5d8ab3"
+    "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -78,7 +82,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.ServerApplication (1)">
+  <component name="RunManager" selected="JUnit.All in server">
     <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <option name="PACKAGE_NAME" value="" />
@@ -223,7 +227,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java</url>
-          <line>111</line>
+          <line>113</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -253,12 +257,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java</url>
-          <line>57</line>
+          <line>59</line>
           <option name="timeStamp" value="48" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/HazardsModule/IHazardControllerTest.java</url>
-          <line>110</line>
+          <line>104</line>
           <properties>
             <option name="lambda-ordinal" value="-1" />
           </properties>
@@ -266,48 +270,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java</url>
-          <line>78</line>
+          <line>77</line>
           <option name="timeStamp" value="51" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Location.java</url>
-          <line>31</line>
+          <line>33</line>
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java</url>
-          <line>143</line>
-          <option name="timeStamp" value="60" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardRepository.java</url>
-          <line>19</line>
-          <option name="timeStamp" value="67" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java</url>
-          <line>70</line>
-          <option name="timeStamp" value="68" />
+          <line>60</line>
+          <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java</url>
-          <line>21</line>
-          <option name="timeStamp" value="69" />
+          <line>48</line>
+          <option name="timeStamp" value="59" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java</url>
-          <line>121</line>
-          <option name="timeStamp" value="71" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/ApiController.java</url>
-          <line>317</line>
-          <option name="timeStamp" value="72" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java</url>
-          <line>52</line>
-          <option name="timeStamp" value="73" />
+          <line>152</line>
+          <option name="timeStamp" value="60" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
