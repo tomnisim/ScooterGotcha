@@ -8,6 +8,6 @@ public interface IQuestionController {
     String answer_user_question(int question_id, String answer, String adminEmail) throws Exception;
 
     Question get_question(int question_id) throws Exception;
-    List<Question> get_all_user_questions(String user_email);
+    List<QuestionDAO> get_all_user_questions(String user_email);
     List<Question> get_all_open_questions();
 }
