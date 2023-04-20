@@ -39,6 +39,7 @@ public class QuestionController implements IQuestionController {
         this.open_questions.put(id, question);
         List<Question> questionList = this.users_questions.getOrDefault(senderEmail, new LinkedList<>());
         questionList.add(question);
+        this.users_questions.put(senderEmail, questionList);
 
 
     }

@@ -18,13 +18,13 @@ public class RegisterRequest {
     private String phoneNumber;
     private String gender;
     private String raspberrySerialNumber;
-    @JsonFormat(pattern = "yyyy-MM-DD")
+    @JsonFormat(pattern = "yyyy-MM-dd")
 
     private LocalDate licenseIssueDate;
 
     private String scooterType;
 
-    @JsonFormat(pattern = "yyyy-MM-DD")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
     public LocalDate getLicenseIssueDate() {
