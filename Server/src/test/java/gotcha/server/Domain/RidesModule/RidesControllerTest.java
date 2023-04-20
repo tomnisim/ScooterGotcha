@@ -84,9 +84,9 @@ class RidesControllerTest {
     //@Test
     void remove_ride() throws RideNotFoundException {
         //ride_controller.add_ride("");
-        List<Ride> rides = this.ride_controller.get_all_rides();
+        List<RideDTO> rides = this.ride_controller.get_all_rides();
         int ride_id=1;
-        for (Ride ride: rides)
+        for (RideDTO ride: rides)
         {
             ride_id = ride.getRide_id();
         }

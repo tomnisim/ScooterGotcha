@@ -1,14 +1,10 @@
 package gotcha.server.Service.API;
-
 import gotcha.server.Service.Communication.Requests.AddAdvertisementRequest;
 import gotcha.server.Service.Communication.Requests.AddAwardRequest;
+import gotcha.server.Service.Communication.Requests.SetConfigRequest;
 import gotcha.server.Service.UserContext;
 import gotcha.server.Utils.Response;
 import org.springframework.web.bind.annotation.SessionAttribute;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
 public interface IAdminAPI {
 
@@ -49,11 +45,14 @@ public interface IAdminAPI {
     // Hazards
     Response view_hazards( @SessionAttribute("userContext") UserContext userContext);
     Response add_hazard(String lng, String lat, String city, String type, Double size, @SessionAttribute("userContext") UserContext userContext);
+    Response delete_hazard(int hazard_id,@SessionAttribute("userContext") UserContext userContext);
+    Response report_hazard(int hazard_id,@SessionAttribute("userContext") UserContext userContext);
 
+    Response get_hazards_in_city(String city,@SessionAttribute("userContext") UserContext userContext);
     // SUPER admin
 
-    Response set_server_config(UserContext userContext);
-    Response set_rp_config(UserContext userContext);
+    Response get_config(UserContext userContext);
+    Response set_config(SetConfigRequest request, UserContext userContext);
 
     Response view_error_logger(UserContext userContext);
     Response view_system_logger(UserContext userContext);
@@ -65,7 +64,6 @@ public interface IAdminAPI {
 //    Response update_user_rate_tables(Dictionary<String, Dictionary<Integer, Integer>> tables, UserContext userContext);
 //    Response update_hazard_formula(HazardType type, Formula formula, UserContext userContext);
 
-    Response delete_hazard(int hazard_id,@SessionAttribute("userContext") UserContext userContext);
-    Response report_hazard(int hazard_id,@SessionAttribute("userContext") UserContext userContext);
+
 
 }

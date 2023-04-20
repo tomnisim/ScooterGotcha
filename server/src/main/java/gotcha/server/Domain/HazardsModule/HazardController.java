@@ -1,7 +1,6 @@
 package gotcha.server.Domain.HazardsModule;
 
-import gotcha.server.ExternalService.ReporterAdapter;
-import gotcha.server.SafeRouteCalculatorModule.Route;
+import gotcha.server.Domain.SafeRouteCalculatorModule.Route;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.SystemLogger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class HazardController implements IHazardController {
+    private double HAZARD_THRESHOLD_RATE = 0;
     private final SystemLogger systemLogger;
     private final HazardRepository hazardRepository;
     private final ReporterAdapter reporterAdapter;
@@ -27,7 +27,7 @@ public class HazardController implements IHazardController {
         this.hazardRepository = hazardRepository;
         this.reporterAdapter = reporterAdapter;
         idCounter = new AtomicInteger(1);
-    }
+     }
 
     @Override
     public void load(){
@@ -102,11 +102,11 @@ public class HazardController implements IHazardController {
 
 
 
-    private List<StationaryHazard> get_hazards(String city){
-        LinkedList<StationaryHazard> list = new LinkedList<>();
+    public List<StationaryHazardDAO> get_hazards(String city){
+        LinkedList<StationaryHazardDAO> list = new LinkedList<>();
         for (StationaryHazard stationaryHazard : hazardRepository.getAllHazards()){
             if (stationaryHazard.getCity().equals(city)){
-                list.add(stationaryHazard);
+                list.add(new StationaryHazardDAO(stationaryHazard));
             }
         }
         return list;
@@ -151,8 +151,32 @@ public class HazardController implements IHazardController {
 
     }
 
+    @Override
+    public List<Integer> auto_report() {
+        List<Integer> ids = new ArrayList<>();
+        for (StationaryHazard stationaryHazard : hazardRepository.getAllHazards()){
+            if (stationaryHazard.getRate() > HAZARD_THRESHOLD_RATE){
+                try
+                {
+                    int id = stationaryHazard.getId();
+                    this.report_hazard(id);
+                    ids.add(id);
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
+        }
+        return ids;
+    }
+
 
     public ReporterAdapter getReporterAdapter() {
         return reporterAdapter;
+    }
+
+    public void setHAZARD_THRESHOLD_RATE(double HAZARD_THRESHOLD_RATE) {
+        this.HAZARD_THRESHOLD_RATE = HAZARD_THRESHOLD_RATE;
     }
 }

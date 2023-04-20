@@ -48,13 +48,43 @@ export default function UsersWindow({navigation}) {
   }, {})
 
   const add_user_rp = async () => {
-    await usersApi.add_user_rp(user_rp_to_add)
-    get_users_list();
+    if (user_rp_to_add == ""){
+      alert("Please Enter RP Serial Number.")
+    }
+    else
+    {
+      let response = await usersApi.add_user_rp(user_rp_to_add)
+      if (!response.was_exception)
+      {
+        alert("Raspberry Pi Serial has been successfully added to the system.")
+        get_users_list();
+      }
+      else
+      {
+        alert("The system cant complete your request, please try again later.")
+      }
+    }
+    
   }
   
   const delete_user = async () => {
-    await usersApi.delete_user(user_email_to_delete);
-    get_users_list();
+    if (user_email_to_delete == ""){
+      alert("Please Enter User Email.")
+    }
+    else
+    {
+      let response = await usersApi.delete_user(user_email_to_delete);
+      if (response.was_exception){
+        alert("The system cant complete your request, please try again later.")
+      }
+      else
+      {
+        alert("User has been successfully deleted from the system.")
+        get_users_list();
+
+      }
+    }
+    
   }
 
   return (

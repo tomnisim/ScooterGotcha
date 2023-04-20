@@ -25,8 +25,9 @@ public class Configuration {
     private int numberOfCoordinates;
     private String orYarukEmail;
     private Map<String, String> cities_emails;
-
-
+    private double hazards_rate_threshold;
+    private int hazards_time_to_report_in_minutes;
+    private int statistics_time_to_update_in_minutes;
 
     private Map<String, ServerConfiguration> server;
 
@@ -177,4 +178,28 @@ public class Configuration {
     }
     // </editor-fold>
 
+
+    public double getHazards_rate_threshold() {
+        return hazards_rate_threshold;
+    }
+
+    public void setHazards_rate_threshold(double hazards_rate_threshold) {
+        this.hazards_rate_threshold = hazards_rate_threshold;
+    }
+
+    public int getHazards_time_to_report_in_minutes() {
+        return hazards_time_to_report_in_minutes;
+    }
+
+    public void setHazards_time_to_report_in_minutes(int hazards_time_to_report_in_minutes) {
+        this.hazards_time_to_report_in_minutes = hazards_time_to_report_in_minutes;
+    }
+
+    public int getStatistics_time_to_update_in_minutes() {
+        return statistics_time_to_update_in_minutes;
+    }
+
+    public void setStatistics_time_to_update_in_minutes(int statistics_time_to_update_in_minutes) {
+        this.statistics_time_to_update_in_minutes = statistics_time_to_update_in_minutes;
+    }
 }

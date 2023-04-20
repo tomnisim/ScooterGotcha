@@ -80,53 +80,17 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.ServerApplication (1)">
-    <configuration name="HazardRateCalculatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+
+  <component name="RunManager" selected="JUnit.All in server">
+    <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.RatingModule.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.RatingModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.RatingModule.HazardRateCalculatorTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RidesControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.RidesModule.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.RidesModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.RidesModule.RidesControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="StationaryHazardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.HazardsModule.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.HazardsModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.HazardsModule.StationaryHazardTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserControllerTest.changePassword_invalidEmail_FailedChange" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
@@ -136,22 +100,56 @@
       </extension>
       <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
       <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="METHOD_NAME" value="changePassword_invalidEmail_FailedChange" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserRateCalculatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserControllerTest.changePassword_invalidOldPassword_FailedChange" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.RatingModule.*" />
+          <option name="PATTERN" value="gotcha.server.Domain.UserModule.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.RatingModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.RatingModule.UserRateCalculatorTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
+      <option name="METHOD_NAME" value="changePassword_invalidOldPassword_FailedChange" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserControllerTest.resetPassword_invalidEmail_FailedReset" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gotcha.server.Domain.UserModule.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
+      <option name="METHOD_NAME" value="resetPassword_invalidEmail_FailedReset" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserControllerTest.resetPassword_validEmail_SuccessfulReset" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gotcha.server.Domain.UserModule.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
+      <option name="METHOD_NAME" value="resetPassword_validEmail_SuccessfulReset" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -173,11 +171,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.UserControllerTest" />
-        <item itemvalue="JUnit.RidesControllerTest" />
-        <item itemvalue="JUnit.UserRateCalculatorTest" />
-        <item itemvalue="JUnit.HazardRateCalculatorTest" />
-        <item itemvalue="JUnit.StationaryHazardTest" />
+        <item itemvalue="JUnit.All in server" />
+        <item itemvalue="JUnit.UserControllerTest.resetPassword_invalidEmail_FailedReset" />
+        <item itemvalue="JUnit.UserControllerTest.resetPassword_validEmail_SuccessfulReset" />
+        <item itemvalue="JUnit.UserControllerTest.changePassword_invalidEmail_FailedChange" />
+        <item itemvalue="JUnit.UserControllerTest.changePassword_invalidOldPassword_FailedChange" />
       </list>
     </recent_temporary>
   </component>
@@ -196,8 +194,8 @@
       <workItem from="1672756109577" duration="994000" />
       <workItem from="1680268062688" duration="2012000" />
       <workItem from="1680861151440" duration="11479000" />
-      <workItem from="1681890922420" duration="2464000" />
-      <workItem from="1681973062500" duration="1361000" />
+
+      <workItem from="1681630934664" duration="2915000" />
     </task>
     <servers />
   </component>
@@ -219,9 +217,10 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/UserModule/UserControllerTest.java</url>
-          <line>43</line>
-          <option name="timeStamp" value="8" />
+
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/ApiController.java</url>
@@ -249,11 +248,7 @@
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java</url>
-          <line>80</line>
-          <option name="timeStamp" value="46" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java</url>
           <line>59</line>
           <option name="timeStamp" value="48" />
@@ -277,14 +272,20 @@
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/ApiController.java</url>
-          <line>209</line>
-          <option name="timeStamp" value="63" />
+
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java</url>
+          <line>60</line>
+          <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/ApiController.java</url>
-          <line>112</line>
-          <option name="timeStamp" value="65" />
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java</url>
+          <line>152</line>
+          <option name="timeStamp" value="60" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

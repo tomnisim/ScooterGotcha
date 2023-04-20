@@ -71,14 +71,27 @@ export default function AwardsWindow({navigation}) {
       setEmails(emails.concat(text))
     }
     
-    // emails.push(text)
   }
 
 
   const add_award = async() => {
-    alert(emails)
-    await awardsAPI.add_award(emails, award_to_add)
-    get_awards_list()
+    if (emails == "" || award_to_add == ""){
+      alert("Please Enter Details.")
+    }
+    else
+    {
+      let response = await awardsAPI.add_award(emails, award_to_add);
+      if (response.was_exception){
+        alert("The system cant complete your request, please try again later.")
+      }
+      else
+      {
+        alert("Award has been successfully added to the system.");
+        get_awards_list();
+
+      }
+    }
+    
   }
 
 

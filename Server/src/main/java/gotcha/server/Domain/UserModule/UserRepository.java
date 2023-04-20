@@ -1,5 +1,6 @@
 package gotcha.server.Domain.UserModule;
 
+import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -29,10 +30,10 @@ public class UserRepository {
         return allUsers.putIfAbsent(user.get_email(), user);
     }
 
-    public void removeUser(String userEmail) throws Exception {
+    public void removeUser(String userEmail) throws UserNotFoundException {
         var result = allUsers.remove(userEmail);
         if (result == null)
-            throw new Exception("user with email:" + userEmail + " not found");
+            throw new UserNotFoundException("user with email:" + userEmail + " not found");
     }
 
     public String assignRpToUser(String raspberryPiSerialNumber, String userEmail) {
@@ -41,6 +42,18 @@ public class UserRepository {
 
     public User getUserByRpSerialNumber(String rpSerialNumber) throws Exception {
         var userEmail = usersEmailByRaspberryPi.getOrDefault(rpSerialNumber, "");
+        if (userEmail == null) {
+            throw new Exception(String.format("rp with serial number: %s is associated to no one", rpSerialNumber));
+        }
+
         return allUsers.getOrDefault(userEmail,null);
+    }
+
+    public void changeUserPassword(String userEmail, String newPasswordToken) throws UserNotFoundException {
+        var user = getUserByEmail(userEmail);
+        if (user == null) {
+            throw new UserNotFoundException("user with email:" + userEmail + " not found");
+        }
+        user.change_password_token(newPasswordToken);
     }
 }
