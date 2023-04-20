@@ -63,7 +63,7 @@ class Service:
         nchannels = 1
         sampwidth = 2
         framerate = 44100
-        duration = duration
+        duration = 2222
         frequency = 800.0
         amplitude = 8000.0
 
@@ -72,7 +72,8 @@ class Service:
         wav_file.setparams((nchannels, sampwidth, framerate, 0, 'NONE', 'not compressed'))
 
         # Generate the audio signal
-        num_samples = int(duration * framerate)
+        # num_samples = int(duration * framerate)
+        num_samples = 10
         for i in range(num_samples):
             sample = amplitude * math.sin(2.0 * math.pi * frequency * i / framerate)
             packed_sample = struct.pack('<h', int(sample))

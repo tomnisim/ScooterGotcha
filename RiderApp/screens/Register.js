@@ -29,6 +29,7 @@ export default function RegisterScreen({navigation}) {
 
     // format the date as a string in the format "YYYY-MM-DD"
     const dateString = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    console.log(dateString)
     return dateString
   }
   const register = async () => {

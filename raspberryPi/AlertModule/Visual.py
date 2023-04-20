@@ -1,6 +1,6 @@
 
 from AlertModule.Alert import Alert
-from gpiozero import LED
+# from gpiozero import LED
 
 class Visual(Alert):
     def __init__(self):

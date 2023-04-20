@@ -7,8 +7,8 @@ from VideoProccessorModule.EventDetector import EventDetector
 from VideoProccessorModule.HazardDetector import HazardDetector
 from VideoProccessorModule.RoadDetector import RoadDetector
 
-import cv2
-
+from moviepy.editor import VideoFileClip
+import matplotlib.pyplot as plt
 
 
 
@@ -49,23 +49,27 @@ class RideController():
         hazards = []
         events = []  # speed changes, sharp turns..
 
-        start_location = self._GPS_controller.get_location()
+        # start_location = self._GPS_controller.get_location()
 
         # create a VideoCapture object to load the video file
-        cap = cv2.VideoCapture('potholes_video_bs.mp4')
+        # cap = cv2.VideoCapture('potholes_video_bs.mp4')
+        clip = VideoFileClip('potholes_video_bs.mp4')
+        # clip.preview()
 
 
 
 
         # todo : implement event who finish the loop - the ride is over.
         while not self.end_curr_ride:
-            ret, frame = cap.read()
-            # frame = self._camera_controller.get_next_frame()
-            # if there are no more frames, break out of the loop
-            if not ret:
-                break
-            # display the frame in a window called "video"
-            cv2.imshow('video', frame)
+
+
+
+            # Get a single frame from the video
+            frame = clip.get_frame(0.5)  # Get frame at 0.5 seconds
+
+            # Display the frame using Matplotlib
+            plt.imshow(frame)
+            plt.show()
 
             sideway_counter , roadway_counter = self._road_detector.detect(frame, sideway_counter , roadway_counter)
             current_hazards = self._hazard_detector.detect_hazards_in_frame(frame)
