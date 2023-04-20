@@ -1,5 +1,6 @@
 package gotcha.server.Service.API;
 
+import gotcha.server.Domain.UserModule.RiderDAO;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Service.Communication.Requests.*;
 import gotcha.server.Service.Facade;
@@ -54,6 +55,17 @@ public class ApiController implements IAdminAPI, IUserAPI {
         return response;
     }
 
+    @RequestMapping(value = "/rider_login")
+    @CrossOrigin
+    public Response rider_login(@RequestBody LoginRequest loginRequest, HttpSession session){
+        Response<User> response = facade.login(loginRequest);
+        Response<RiderDAO> response1 = facade.rider_login(loginRequest);
+        if(!response.iswas_exception()) {
+            var userContext = new UserContext(response.getValue());
+            session.setAttribute(USER_CONTEXT_ATTRIBUTE_NAME, userContext);
+        }
+        return response1;
+    }
 
     /**
      * this method will clear the facade.
@@ -126,6 +138,13 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @Override
     public Response view_all_advertisement(@SessionAttribute("userContext") UserContext userContext) {
         return facade.view_all_advertisements(userContext);
+    }
+
+    @RequestMapping(value = "/add_adv_click")
+    @CrossOrigin
+    @Override
+    public Response add_advertisement_click(Integer id, UserContext userContext) {
+        return facade.add_advertisement_click(id, userContext);
     }
 
     //todo : edit with facade

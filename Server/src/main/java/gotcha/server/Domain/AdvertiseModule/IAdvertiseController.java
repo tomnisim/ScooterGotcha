@@ -15,5 +15,7 @@ public interface IAdvertiseController {
 
     List<Advertise> get_all_advertisements_for_admin();
 
-    List<String> get_all_advertisements_for_user();
+    List<AdvertiseDAO> get_all_advertisements_for_user();
+
+    void add_click(int id);
 }
