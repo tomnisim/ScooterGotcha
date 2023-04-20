@@ -28,7 +28,7 @@ class CommunicationController():
         return response.value
 
 
-    def send_rides_to_server(self, ride):
+    def send_ride_to_server(self, ride):
         res = requests.post(SERVER_ADDRESS + finish_ride_url, data=ride)
         response = Response(res)
         if not response or not response.was_exception:
