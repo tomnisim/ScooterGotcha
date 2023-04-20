@@ -3,6 +3,10 @@ import wave
 import math
 import struct
 import threading
+from datetime import time
+
+# this import only works on a raspberry pi
+import RPi.GPIO as GPIO
 
 from AlertModule.Vocal import Vocal
 from AlertModule.VocalCreator import VocalCreator
@@ -12,10 +16,24 @@ from GPSModule.GPSController import GPSController
 from PersistenceModule.PersistenceController import PersistenceController
 from RidesModule.RideController import RideController
 
+
+# Configure GPIO
+# this pin depends on the physical pin we will use
+button_pin = 17
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
 live_button = False
 def manage_live_button():
     global live_button
-
+    try:
+        while True:
+            button_state = GPIO.input(button_pin)
+            if button_state == False:
+                live_button = not live_button
+                time.sleep(1)  # Debounce
+    finally:
+        GPIO.cleanup()
 
 class Service:
     def __init__(self):
