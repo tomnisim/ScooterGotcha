@@ -32,13 +32,18 @@ public class Ride {
 
     private LocalDateTime end_time;
 
-    @Column(name="origin")
     @Embedded
-
+    @AttributeOverrides({
+            @AttributeOverride(name = "longitude", column = @Column(name = "origin_longitude")),
+            @AttributeOverride(name = "latitude", column = @Column(name = "origin_latitude"))
+    })
     private Location origin;
 
-    @Column(name="destination")
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "longitude", column = @Column(name = "destination_longitude")),
+            @AttributeOverride(name = "latitude", column = @Column(name = "destination_latitude"))
+    })
     private Location destination;
 
     @OneToMany(cascade = CascadeType.ALL)

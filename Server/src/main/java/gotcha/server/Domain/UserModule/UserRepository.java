@@ -45,6 +45,7 @@ public class UserRepository {
     }
 
     public User addUser(User user) {
+        usersJpaRepositry.save(user);
         return allUsers.putIfAbsent(user.get_email(), user);
     }
 

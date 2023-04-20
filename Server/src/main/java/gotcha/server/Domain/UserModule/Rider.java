@@ -6,6 +6,7 @@ import gotcha.server.Domain.RidesModule.Ride;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
@@ -15,7 +16,7 @@ public class Rider extends User{
     @Column(name="rating")
     private double rating;
 
-    @Column(name="scooterType", columnDefinition = "VARCHAR")
+    @Column(name="scooterType")
     private String scooterType;
 
 
@@ -23,7 +24,7 @@ public class Rider extends User{
     @Column(name= "licenseIssueDate")
     private LocalDate licenseIssueDate;
 
-    @Column(name="rpSerialNumber", columnDefinition = "TEXT")
+    @Column(name="rpSerialNumber")
 
     private String raspberryPiSerialNumber;
 

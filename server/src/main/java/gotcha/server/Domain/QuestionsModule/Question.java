@@ -21,20 +21,20 @@ public class Question {
     @Column(name="answerDate")
     protected LocalDateTime answer_date;
 
-    @Column(name="message", columnDefinition = "TEXT")
+    @Column(name="message")
     protected String message;
 
-    @Column(name="answer", columnDefinition = "TEXT")
+    @Column(name="answer")
 
     protected String answer;
 
     @Column(name="hasAnswer")
     protected boolean has_answer;
 
-    @Column(name="senderEmail", columnDefinition = "VARCHAR")
+    @Column(name="senderEmail")
     protected String senderEmail;
 
-    @Column(name="responderEmail", columnDefinition = "VARCHAR")
+    @Column(name="responderEmail")
 
     protected String responderEmail;
 

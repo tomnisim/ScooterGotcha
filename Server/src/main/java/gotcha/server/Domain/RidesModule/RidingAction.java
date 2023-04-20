@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
         @JsonSubTypes.Type(value = SharpTurn.class, name = "SHARP_TURN")
 })
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "action_type")
 public abstract class RidingAction {
     @Id

@@ -13,13 +13,13 @@ public class Award {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(name="message", columnDefinition = "TEXT")
+    @Column(name="message")
     private String message;
 
-    @Column(name="adminEmail", columnDefinition = "VARCHAR")
+    @Column(name="adminEmail")
     private String admin_email;
 
-    @Column(name="emails", columnDefinition = "TEXT")
+    @Column(name="emails")
     @Convert(converter = StringArrayConverter.class)
     private List<String> emails;
 

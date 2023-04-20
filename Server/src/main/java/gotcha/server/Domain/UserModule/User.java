@@ -10,7 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "user_type")
 public abstract class
 User implements Observer {
@@ -19,12 +20,12 @@ User implements Observer {
     @Column(name="email")
     private String userEmail;
 
-    @Column(name="password", columnDefinition = "VARCHAR")
+    @Column(name="password")
     private String userPasswordToken;
-    @Column(name="phoneNumber", columnDefinition = "VARCHAR")
+    @Column(name="phoneNumber")
 
     private String phoneNumber;
-    @Column(name="gender", columnDefinition = "VARCHAR")
+    @Column(name="gender")
 
     private String gender;
 
@@ -32,10 +33,10 @@ User implements Observer {
 
     private LocalDate birthDay;
 
-    @Column(name="name", columnDefinition = "VARCHAR")
+    @Column(name="name")
 
     private String name;
-    @Column(name="lastName", columnDefinition = "VARCHAR")
+    @Column(name="lastName")
 
     private String lastName;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

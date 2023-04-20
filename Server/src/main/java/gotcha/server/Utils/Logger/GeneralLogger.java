@@ -17,7 +17,7 @@ public abstract class GeneralLogger {
     /*------------------------------------------------- CLASS CONSTRUCTOR -------------------------------------------------*/
 
     public GeneralLogger(String loggerName) {
-
+        createFolder("logFiles");
         this.logger_address = "logFiles\\" + loggerName + ".txt";
         this.logger = Logger.getLogger(loggerName);
         try {
@@ -27,6 +27,13 @@ public abstract class GeneralLogger {
 
         }
         catch(Exception ignored){}
+    }
+
+    private void createFolder(String folderName) {
+        File logDir = new File(folderName);
+        if (!logDir.exists()) {
+            logDir.mkdirs();
+        }
     }
 
     /*-------------------------------------------------- CLASS FUNCTIONS --------------------------------------------------*/

@@ -19,16 +19,16 @@ public class Advertise {
     @Column(name="finalDate")
     private LocalDate final_date;
 
-    @Column(name = "owner", columnDefinition = "VARCHAR")
+    @Column(name = "owner")
     private String owner;
 
-    @Column(name = "message", columnDefinition = "TEXT")
+    @Column(name = "message")
     private String message;
 
-    @Column(name = "photo", columnDefinition = "TEXT")
+    @Column(name = "photo")
     private String photo;
 
-    @Column(name = "url", columnDefinition = "VARCHAR")
+    @Column(name = "url")
     private String url;
 
     @Column(name = "userClicks")

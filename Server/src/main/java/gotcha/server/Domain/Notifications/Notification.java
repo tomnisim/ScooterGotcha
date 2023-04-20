@@ -12,10 +12,10 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name="message", columnDefinition = "TEXT")
+    @Column(name="message")
     private String message;
 
-    @Column(name="senderEmail", columnDefinition = "VARCHAR")
+    @Column(name="senderEmail")
     private String senderEmail;
 
     @Column(name="wasSeen")
