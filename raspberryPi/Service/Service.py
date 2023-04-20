@@ -51,6 +51,7 @@ class Service:
         return ride_controller
 
     def run(self):
+        global live_button
         while True:
             if live_button:
                 ride = self.ride_controller.execute_ride()
