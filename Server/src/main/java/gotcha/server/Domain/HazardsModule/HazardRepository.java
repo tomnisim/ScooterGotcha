@@ -24,7 +24,7 @@ public class HazardRepository {
         hazardJpaRepository.save(newHazard);
         var addRideResult = this.stationaryHazardsList.putIfAbsent(newHazard.getId(), newHazard);
         if (addRideResult != null) {
-            throw new Exception("Advertisement already exists");
+            throw new Exception("hazard already exists");
         }
     }
 
@@ -36,7 +36,7 @@ public class HazardRepository {
     public void removeHazard(int hazardId) throws Exception {
         var result = stationaryHazardsList.remove(hazardId);
         if (result == null)
-            throw new Exception("advertisement with id:" + hazardId + " not found");
+            throw new Exception("hazard with id:" + hazardId + " not found");
         hazardJpaRepository.delete(result);
     }
 
@@ -54,7 +54,7 @@ public class HazardRepository {
             return result.get();
         }
         else {
-            throw new Exception("advertisement with id:" + hazardId + " not found");
+            throw new Exception("hazard with id:" + hazardId + " not found");
         }
     }
 

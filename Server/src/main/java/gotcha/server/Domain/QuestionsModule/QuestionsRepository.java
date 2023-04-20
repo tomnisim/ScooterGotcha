@@ -42,7 +42,7 @@ public class QuestionsRepository {
         if (result == null)
             throw new Exception("question with id:" + questionId + " not found");
         // save new state
-        questionsJpaRepository.save(result);
+        questionsJpaRepository.delete(result);
     }
 
     public Question getOpenQuestion(int questionId) throws Exception {

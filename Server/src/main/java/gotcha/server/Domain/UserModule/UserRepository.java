@@ -54,7 +54,7 @@ public class UserRepository {
         if (result == null)
             throw new Exception("user with email:" + userEmail + " not found");
 
-        usersJpaRepositry.save(result);
+        usersJpaRepositry.delete(result);
     }
 
     public String assignRpToUser(String raspberryPiSerialNumber, String userEmail) {

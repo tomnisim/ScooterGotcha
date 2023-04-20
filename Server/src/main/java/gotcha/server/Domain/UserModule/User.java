@@ -39,7 +39,7 @@ User implements Observer {
     @Column(name="lastName")
 
     private String lastName;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_notifications",
             joinColumns = @JoinColumn(name = "user_id"),

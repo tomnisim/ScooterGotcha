@@ -5,22 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8394b8d-4a9c-44d1-8624-56aa6c7f6cdf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/Advertise.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/Advertise.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AwardsModule/Award.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AwardsModule/Award.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/Notifications/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/Notifications/Notification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/HazardRateCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/HazardRateCalculator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/Ride.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/Ride.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidingAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidingAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/Rider.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/Rider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/QuestionsModule/QuestionsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/QuestionsModule/QuestionsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/Requests/RegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/Requests/RegisterRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Location.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Logger/GeneralLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Logger/GeneralLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminApp/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/adminApp/App.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +25,6 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JUnit5 Test Class" />
-        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -60,23 +53,13 @@
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "feature/add__data__layer",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "spring.boot",
-    "spring.configuration.checksum": "cf1e8c14e54505f60aa10ceb8d5d8ab3",
-    "vue.rearranger.settings.migration": "true"
+    "spring.configuration.checksum": "cf1e8c14e54505f60aa10ceb8d5d8ab3"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -96,52 +79,15 @@
     </option>
   </component>
   <component name="RunManager" selected="Spring Boot.ServerApplication (1)">
-    <configuration name="HazardRateCalculatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.RatingModule.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.RatingModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.RatingModule.HazardRateCalculatorTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RidesControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.RidesModule.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.RidesModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.RidesModule.RidesControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="StationaryHazardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.HazardsModule.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.HazardsModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.HazardsModule.StationaryHazardTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserControllerTest.changePassword_invalidEmail_FailedChange" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
@@ -151,22 +97,56 @@
       </extension>
       <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
       <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="METHOD_NAME" value="changePassword_invalidEmail_FailedChange" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserRateCalculatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserControllerTest.changePassword_invalidOldPassword_FailedChange" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.RatingModule.*" />
+          <option name="PATTERN" value="gotcha.server.Domain.UserModule.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.RatingModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.RatingModule.UserRateCalculatorTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
+      <option name="METHOD_NAME" value="changePassword_invalidOldPassword_FailedChange" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserControllerTest.resetPassword_invalidEmail_FailedReset" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gotcha.server.Domain.UserModule.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
+      <option name="METHOD_NAME" value="resetPassword_invalidEmail_FailedReset" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserControllerTest.resetPassword_validEmail_SuccessfulReset" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gotcha.server.Domain.UserModule.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
+      <option name="METHOD_NAME" value="resetPassword_validEmail_SuccessfulReset" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -187,21 +167,21 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.HazardRateCalculatorTest" />
-      <item itemvalue="JUnit.RidesControllerTest" />
-      <item itemvalue="JUnit.StationaryHazardTest" />
-      <item itemvalue="JUnit.UserControllerTest" />
-      <item itemvalue="JUnit.UserRateCalculatorTest" />
+      <item itemvalue="JUnit.All in server" />
+      <item itemvalue="JUnit.UserControllerTest.changePassword_invalidEmail_FailedChange" />
+      <item itemvalue="JUnit.UserControllerTest.changePassword_invalidOldPassword_FailedChange" />
+      <item itemvalue="JUnit.UserControllerTest.resetPassword_invalidEmail_FailedReset" />
+      <item itemvalue="JUnit.UserControllerTest.resetPassword_validEmail_SuccessfulReset" />
       <item itemvalue="Spring Boot.ServerApplication (1)" />
       <item itemvalue="Spring Boot.ServerApplication" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.UserControllerTest" />
-        <item itemvalue="JUnit.RidesControllerTest" />
-        <item itemvalue="JUnit.UserRateCalculatorTest" />
-        <item itemvalue="JUnit.HazardRateCalculatorTest" />
-        <item itemvalue="JUnit.StationaryHazardTest" />
+        <item itemvalue="JUnit.All in server" />
+        <item itemvalue="JUnit.UserControllerTest.resetPassword_invalidEmail_FailedReset" />
+        <item itemvalue="JUnit.UserControllerTest.resetPassword_validEmail_SuccessfulReset" />
+        <item itemvalue="JUnit.UserControllerTest.changePassword_invalidEmail_FailedChange" />
+        <item itemvalue="JUnit.UserControllerTest.changePassword_invalidOldPassword_FailedChange" />
       </list>
     </recent_temporary>
   </component>
@@ -220,8 +200,7 @@
       <workItem from="1672756109577" duration="994000" />
       <workItem from="1680268062688" duration="2012000" />
       <workItem from="1680861151440" duration="11479000" />
-      <workItem from="1680945748351" duration="8281000" />
-      <workItem from="1681972375753" duration="10427000" />
+      <workItem from="1681630934664" duration="2915000" />
     </task>
     <servers />
   </component>
@@ -233,13 +212,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="CUSTOM_BOOLEAN_PROPERTIES">
-                <map>
-                  <entry key="Show.Git.Branches" value="true" />
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -248,6 +221,11 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java</url>
+          <line>111</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/Communication/ApiController.java</url>
           <line>111</line>
@@ -274,8 +252,13 @@
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java</url>
+          <line>57</line>
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/HazardsModule/IHazardControllerTest.java</url>
-          <line>112</line>
+          <line>110</line>
           <properties>
             <option name="lambda-ordinal" value="-1" />
           </properties>
@@ -283,7 +266,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java</url>
-          <line>58</line>
+          <line>78</line>
           <option name="timeStamp" value="51" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -292,22 +275,47 @@
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardRepository.java</url>
-          <line>22</line>
-          <option name="timeStamp" value="54" />
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java</url>
+          <line>143</line>
+          <option name="timeStamp" value="60" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/HazardRateCalculator.java</url>
-          <line>56</line>
-          <option name="timeStamp" value="59" />
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardRepository.java</url>
+          <line>19</line>
+          <option name="timeStamp" value="67" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java</url>
+          <line>121</line>
+          <option name="timeStamp" value="71" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/API/ApiController.java</url>
-          <line>53</line>
-          <option name="timeStamp" value="61" />
+          <line>317</line>
+          <option name="timeStamp" value="72" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="73" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="gotcha.server.Domain.UserModule.Admin" memberName="userNotifications" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

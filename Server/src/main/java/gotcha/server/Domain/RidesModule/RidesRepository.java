@@ -46,7 +46,7 @@ public class RidesRepository {
             throw new RideNotFoundException("hazard with id:" + rideId + " not found");
         var userEmail = result.getRider_email();
         rides_by_rider.get(userEmail).remove(rideId);
-        ridesJpaRepository.save(result);
+        ridesJpaRepository.delete(result);
     }
 
     public Ride getRideById(int rideId) throws Exception {

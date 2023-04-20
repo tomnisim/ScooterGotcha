@@ -67,7 +67,7 @@ public class MainSystem {
             set_first_admin();
         set_statistics_update_thread();
         set_reporter_engine();
-        begin_instructions();
+        //begin_instructions();
         systemLogger.add_log("Finish Init Server");
     }
 
