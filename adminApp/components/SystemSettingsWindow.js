@@ -12,9 +12,11 @@ export default function SystemSettingsWindow({navigation}) {
   const [data, setData] = useState([])
 
   const reset = async () => {
+    alert("Are You Sure?")
     let response = await settingsApi.reset()
     if (!response.was_exception){
       setData(response.value)
+      alert("System Restart Successfully.")
     }
     else
     {
@@ -55,9 +57,11 @@ export default function SystemSettingsWindow({navigation}) {
     }
   }
     const shut_down = async () => {
+      alert("Are You Sure?")
       let response = await settingsApi.shut_down()
       if (!response.was_exception){
         setData(response.value)
+        alert("System Shut Down Successfully.")
       }
       else
       {
@@ -65,27 +69,10 @@ export default function SystemSettingsWindow({navigation}) {
       }
     }
 
-    const set_rp_config = async () => {
-      let response = await settingsApi.set_rp_config()
-      if (!response.was_exception){
-        setData(response.value)
-      }
-      else
-      {
-        alert("cant complete this.")
-      }
+    const set_config = async () => {
+      navigation.navigate('SetConfiguration');
     }
 
-    const set_server_config = async () => {
-      let response = await settingsApi.set_server_config()
-      if (!response.was_exception){
-        setData(response.value)
-      }
-      else
-      {
-        alert("cant complete this.")
-      }
-    }
 
 
 
@@ -100,9 +87,7 @@ return (
   </ScrollView>
   <Text>    </Text>    
   <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
-    <Button onPress={() => set_server_config()} title="Set Server Configuration" color="#841584"/>
-    <Text> </Text>
-    <Button onPress={() => set_rp_config()} title="Set RP Configuration" color="#841584"/>
+    <Button onPress={() => set_config()} title="Set System Configuration" color="#841584"/>
     <Text> </Text>
     <Button onPress={() => view_server_logger()} title="View Server Logger" color="#841584"/>
     <Text> </Text>

@@ -44,14 +44,45 @@ export default function AdminsWindow({navigation}) {
 
 
   const add_admin = async () => {
-    alert(user_email_to_appoint);
-    await adminApi.add_admin(user_email_to_appoint, password, phoneNumber, birthDay, gender);
-    get_admins_list();
+    if (user_email_to_appoint == "" || password == "" || phoneNumber == "" || birthDay == "" || gender == "")
+    {
+      alert("Please Enter Admin Details.")
+    }
+    else
+    {
+      let response = await adminApi.add_admin(user_email_to_appoint, password, phoneNumber, birthDay, gender);
+      if (!response.was_exception)
+      {
+        alert("Admin has been successfully added to the system.")
+        get_admins_list();
+
+      }
+      else
+      {
+        alert("The system cant complete your request, please try again later.")
+      }
+
+    }
   }
 
   const delete_admin = async () => {
-    adminApi.delete_admin(user_email_to_remove_appoint);
-    get_admins_list();
+    if (user_email_to_remove_appoint == ""){
+      alert("Please Enter Admin Email.")
+    }
+    else
+    {
+      let response = await adminApi.delete_admin(user_email_to_remove_appoint);
+      if (response.was_exception){
+        alert("The system cant complete your request, please try again later.")
+      }
+      else
+      {
+        alert("Admin has been successfully deleted from the system.")
+        get_admins_list();
+
+      }
+    }
+    
   }
 
 

@@ -30,7 +30,7 @@ class LocationTest {
         BigDecimal latitude = new BigDecimal("32.333080");
         Location location = new Location(longitude, latitude);
         System.out.println(location.distanceTo(cinema_city_location));
-        assertEquals(cinema_city_location, location);
+        assertTrue(cinema_city_location.equals(location));
     }
     @Test
     void distanceTo_Netanya_inside() {

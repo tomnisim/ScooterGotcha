@@ -1,19 +1,16 @@
 package gotcha.server.Domain.HazardsModule;
 
-import gotcha.server.ExternalService.ReporterAdapter;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.SystemLogger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,6 +29,7 @@ class IHazardControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         hazardController = new HazardController(systemLogger, hazardRepository, reporterAdapter);
+        hazardController.setHAZARD_THRESHOLD_RATE(20.0);
     }
 
     @AfterEach

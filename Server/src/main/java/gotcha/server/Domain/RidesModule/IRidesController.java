@@ -19,7 +19,7 @@ public interface IRidesController {
 
     List<Ride> get_rides_by_city(String city);
 
-    List<Ride> get_all_rides();
+    List<RideDTO> get_all_rides();
 
     int get_number_of_rides(String rider_id);
 }
