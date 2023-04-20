@@ -16,7 +16,6 @@ class HazardDetector():
 
     def detect_hazards_in_frame(self, frame, location):
         print(frame)
-        # Predict the output for the new sample
         is_pothole = self.potholes_model.predict(frame)
         is_pole_tree = self.pole_tree_model.predict(frame)
         is_road_sign = self.road_sign_model.predict(frame)
@@ -26,6 +25,7 @@ class HazardDetector():
         detected_hazards = []
 
         if is_pothole:
+
             pothole_hazard = Hazard(size, location ,HazardType.Pothole)
             detected_hazards.append(pothole_hazard)
 

@@ -5,14 +5,21 @@ import struct
 
 from AlertModule.Vocal import Vocal
 from AlertModule.VocalCreator import VocalCreator
+from CameraModule.CameraController import CameraController
+from Config.Config_data import Config_data
+from GPSModule.GPSController import GPSController
 from RidesModule.RideController import RideController
 
 
 class Service:
     def __init__(self):
 
-        # server_address, camera_type, num_of_coordinates, appendix_A = self.read_from_config('Config/config.txt')
-        self.alerter = VocalCreator() # have to make switch case according the configuration file
+        config_data = Config_data()
+        self._GPS_controller = GPSController.get_instance()
+        self._camera_controller = CameraController.get_instance()
+
+
+        self.alerter = VocalCreator() # #TODO: have to make switch case according the configuration file
         self.create_ride_controller()
 
     def read_from_config(self, file_name):
@@ -61,4 +68,5 @@ class Service:
     def create_ride_controller(self):
         curr_alerter = self.alerter.create_alerter()
         ride_controller = RideController(curr_alerter)
+
         ride_controller.start_ride()

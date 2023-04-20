@@ -11,7 +11,7 @@ from AlertModule.Vocal import Vocal
 from RidesModule.Ride import Ride
 
 from CameraModule.CameraController import CameraController
-from CommunicationModule.TCPconnection import TCPconnection
+from PersistenceModule.CommunicationController import TCPconnection
 from GPSModule.GPSController import GPSController
 from RidesModule.Ride import Ride
 from Service.Service import Service
