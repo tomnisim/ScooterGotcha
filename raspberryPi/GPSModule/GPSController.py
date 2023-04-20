@@ -1,4 +1,5 @@
-import serial
+# import serial
+# import pynmea2
 import pynmea2
 import requests
 
@@ -22,7 +23,9 @@ class GPSController:
 
     # Initialize the GPS module
     def init_gps(self):
-        ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
+        # ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
+
+        ser = 8
         return ser
 
     # Get the current location from the GPS module

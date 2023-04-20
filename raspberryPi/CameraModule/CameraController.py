@@ -1,4 +1,4 @@
-import picamera
+# import picamera
 import time
 
 
@@ -9,7 +9,7 @@ import time
 class CameraController:
     __instance = None
     def __init__(self):
-        self._camera = self.init_camera() # TODO: has to connect the RP camera
+        # self._camera = self.init_camera() # TODO: has to connect the RP camera
         print("camera controller build.")
         if CameraController.__instance != None:
             raise Exception("Singleton class can only be instantiated once")
