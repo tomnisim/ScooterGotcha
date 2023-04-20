@@ -10,12 +10,14 @@ public class AdvertiseDAO {
     private String message;
     private String photo;
     private String url;
+    private int id;
 
     public AdvertiseDAO(){}
     public AdvertiseDAO(Advertise advertise){
         this.message = advertise.getMessage();
         this.photo = advertise.getPhoto();
         this.url = advertise.getUrl();
+        this.id = advertise.getId();
     }
 
     public String getMessage() {
@@ -40,5 +42,13 @@ public class AdvertiseDAO {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

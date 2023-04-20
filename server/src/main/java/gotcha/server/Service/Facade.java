@@ -3,6 +3,7 @@ package gotcha.server.Service;
 import gotcha.server.Config.Configuration;
 import gotcha.server.Domain.AdvertiseModule.Advertise;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
+import gotcha.server.Domain.AdvertiseModule.AdvertiseDAO;
 import gotcha.server.Domain.AdvertiseModule.IAdvertiseController;
 import gotcha.server.Domain.AwardsModule.Award;
 import gotcha.server.Domain.AwardsModule.IAwardsController;
@@ -14,6 +15,7 @@ import gotcha.server.Domain.Notifications.Notification;
 import gotcha.server.Domain.QuestionsModule.IQuestionController;
 import gotcha.server.Domain.QuestionsModule.Question;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
+import gotcha.server.Domain.QuestionsModule.QuestionDAO;
 import gotcha.server.Domain.RidesModule.IRidesController;
 import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Domain.RidesModule.RideDTO;
@@ -43,6 +45,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -101,6 +104,7 @@ public class Facade {
     // USER
 
     public Response<Boolean> register(RegisterRequest registerRequest) {
+        System.out.println(registerRequest.toString());
         Response<Boolean> response = null;
         try {
             var email = registerRequest.getEmail();
@@ -114,7 +118,7 @@ public class Facade {
             var scooterType = registerRequest.getScooterType();
             var licenseIssueDate = registerRequest.getLicenseIssueDate();
             user_controller.register(email,password,name, lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber);
-            var message = "Successfully registered user with email" + email;
+            var message = "Successfully registered user with email: " + email;
             serverLogger.add_log(message);
             response = new Response(true,message);
         }
@@ -133,6 +137,28 @@ public class Facade {
             var message = String.format("User with email %s Successfully logged in", email);
             serverLogger.add_log(message);
             response = new Response<>(user,message);
+            serverLogger.add_log(message);
+
+        }
+        catch (Exception e) {
+            error_logger.add_log(e.getMessage());
+            response = new Response<>(e.getMessage(), e);
+        }
+        finally {
+            this.statisticsManager.inc_login_count();
+        }
+        return response;
+    }
+
+    public Response<RiderDAO> rider_login(LoginRequest loginRequest) {
+        Response<RiderDAO> response = null;
+        try {
+            var email = loginRequest.getEmail();
+            var password = loginRequest.getPassword();
+            var user = user_controller.login(email,password);
+            var message = String.format("User with email %s Successfully logged in", email);
+            serverLogger.add_log(message);
+            response = new Response<>(new RiderDAO((Rider)user),message);
             serverLogger.add_log(message);
 
         }
@@ -224,7 +250,7 @@ public class Facade {
         try{
             check_user_is_logged_in(userContext);
             String user_email = userContext.get_email();
-            List<Question> questions = question_controller.get_all_user_questions(user_email);
+            List<QuestionDAO> questions = question_controller.get_all_user_questions(user_email);
             String logger_message = user_email+ " view all user questions";
             response = new Response(questions, logger_message);
             serverLogger.add_log(logger_message);
@@ -240,7 +266,7 @@ public class Facade {
         Response response;
         try{
             check_user_is_logged_in(userContext);
-            List<String> advs = advertise_controller.get_all_advertisements_for_user();
+            List<AdvertiseDAO> advs = advertise_controller.get_all_advertisements_for_user();
             String logger_message = "user( "+userContext.get_email()+ ") view all advertisements";
             response = new Response(advs, logger_message);
             serverLogger.add_log(logger_message);
@@ -346,7 +372,21 @@ public class Facade {
 
 
 
-
+    public Response add_advertisement_click(int id, UserContext userContext) {
+        Response<Integer> response;
+        try {
+            check_user_is_logged_in(userContext);
+            this.advertise_controller.add_click(id);
+            var loggerMessage = String.format("user with email: %s, Click on Advertisement with id: %s ", userContext.get_email(), id);
+            response = new Response<>(SUCCESS_OPCODE, loggerMessage);
+            serverLogger.add_log(loggerMessage);
+        }
+        catch (Exception e) {
+            error_logger.add_log(e.getMessage());
+            response = Utils.createResponse(e);
+        }
+        return response;
+    }
 
 
 
@@ -376,7 +416,10 @@ public class Facade {
         try{
             check_user_is_admin_and_logged_in(userContext);
             String admin_email = userContext.get_email();
-            question_controller.answer_user_question(question_id, answer, admin_email);
+            String user_email = question_controller.answer_user_question(question_id, answer, admin_email);
+            List<String> emails = new ArrayList<>();
+            emails.add(user_email);
+            user_controller.notify_users(admin_email, emails, "Your Question Was Answerd By System Admin.");
             String logger_message = "admin answer question : " + question_id;
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);
@@ -929,4 +972,6 @@ public class Facade {
         // TODO: 12/04/2023  
         return null;
     }
+
+
 }
