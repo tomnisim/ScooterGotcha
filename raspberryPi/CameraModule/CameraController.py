@@ -1,5 +1,6 @@
 # import picamera
 import time
+from moviepy.editor import VideoFileClip
 
 
 
@@ -11,6 +12,7 @@ class CameraController:
     def __init__(self):
         # self._camera = self.init_camera() # TODO: has to connect the RP camera
         print("camera controller build.")
+        self.clip = list(VideoFileClip('potholes_video_bs.mp4'))
         if CameraController.__instance != None:
             raise Exception("Singleton class can only be instantiated once")
         else:
@@ -33,6 +35,9 @@ class CameraController:
 
     # Get the next frame from the camera
     def get_next_frame(self, camera):
+        return self.clip.pop(0)
+
+
         # Create a bytes buffer for the image data
         frame_data = bytearray()
         camera.capture(frame_data, 'jpeg')
