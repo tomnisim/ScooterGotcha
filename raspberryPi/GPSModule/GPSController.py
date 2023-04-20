@@ -1,5 +1,6 @@
 # import serial
 # import pynmea2
+import pynmea2
 import requests
 
 

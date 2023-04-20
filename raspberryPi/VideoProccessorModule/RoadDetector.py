@@ -1,7 +1,7 @@
 from VideoProccessorModule.EventDetector import EventDetector
 
 
-class RoadDetector(EventDetector):
+class RoadDetector():
     def __init__(self):
         print("road detector build.")
 

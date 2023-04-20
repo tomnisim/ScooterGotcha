@@ -19,10 +19,11 @@ protocol:TCP
 
 minimum_distance_to_alert:5
 alert_duration:5
-alert_types: voice/vocal/verbal/vibration
-alert : sound
-number_of_routes : 4
-admin_email : gotcha_admin@gmail.com
-admin_password : GOTCHA
-minimum_password_length : 8
+
+duration_unit : seconds
+alert_type : Vocal
+voice : man
+verbal_words : Be_Careful
+number_of_coordinates: 8
+
 
