@@ -18,13 +18,13 @@ public class RegisterRequest {
     private String phoneNumber;
     private String gender;
     private String raspberrySerialNumber;
-    @JsonFormat(pattern = "yyyy-MM-DD")
+    @JsonFormat(pattern = "yyyy-MM-dd")
 
     private LocalDate licenseIssueDate;
 
     private String scooterType;
 
-    @JsonFormat(pattern = "yyyy-MM-DD")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
     public LocalDate getLicenseIssueDate() {
@@ -121,5 +121,21 @@ public class RegisterRequest {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
+
+    @Override
+    public String toString() {
+        return "RegisterRequest{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", gender='" + gender + '\'' +
+                ", raspberrySerialNumber='" + raspberrySerialNumber + '\'' +
+                ", licenseIssueDate=" + licenseIssueDate +
+                ", scooterType='" + scooterType + '\'' +
+                ", birthDate=" + birthDate +
+                '}';
     }
 }
