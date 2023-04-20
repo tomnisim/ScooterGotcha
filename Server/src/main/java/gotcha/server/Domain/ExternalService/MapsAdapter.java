@@ -79,8 +79,13 @@ public abstract class MapsAdapter {
             for (int i = 0; i < steps.length(); i++) {
                 // TODO: 19/04/2023 : Add More Route Details.
                 JSONObject curr = steps.getJSONObject(i).getJSONObject("start_location");
-                BigDecimal lng = BigDecimal.valueOf((Double)curr.get("lng"));
-                BigDecimal lat = BigDecimal.valueOf((Double)curr.get("lat"));
+                System.out.println();
+                String lng_str = curr.get("lng").toString();
+                String lat_str = curr.get("lat").toString();
+                System.out.println(lng_str);
+                System.out.println(lat_str);
+                BigDecimal lng = new BigDecimal(lng_str);
+                BigDecimal lat = new BigDecimal(lat_str);
                 Location location = new Location(lng, lat);
                 route.add_junction(location);
                 distance = distance + (Integer)steps.getJSONObject(i).getJSONObject("distance").get("value");
@@ -88,7 +93,6 @@ public abstract class MapsAdapter {
             }
             route.setDistance(distance);
             route.setDuration(duration);
-            System.out.println(response.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

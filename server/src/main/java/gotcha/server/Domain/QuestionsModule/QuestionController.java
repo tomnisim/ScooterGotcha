@@ -39,7 +39,7 @@ public class QuestionController implements IQuestionController {
         this.open_questions.put(id, question);
         List<Question> questionList = this.users_questions.getOrDefault(senderEmail, new LinkedList<>());
         questionList.add(question);
-
+        this.users_questions.put(senderEmail, questionList);
 
     }
 
@@ -79,11 +79,11 @@ public class QuestionController implements IQuestionController {
      * @return open & close questions of the user
      */
     @Override
-    public List<Question> get_all_user_questions(String user_email) {
-        ArrayList<Question> answer = new ArrayList();
-        List<Question> user_questions = this.users_questions.get(user_email);
+    public List<QuestionDAO> get_all_user_questions(String user_email) {
+        ArrayList<QuestionDAO> answer = new ArrayList();
+        List<Question> user_questions = this.users_questions.getOrDefault(user_email, new ArrayList<>());
         for (Question question : user_questions){
-            answer.add(question);
+            answer.add(new QuestionDAO(question));
         }
         return answer;
     }
