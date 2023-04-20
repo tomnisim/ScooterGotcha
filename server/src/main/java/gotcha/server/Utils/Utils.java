@@ -210,8 +210,8 @@ public class Utils {
     }
 
     public void validate_license_issue_date(LocalDate licenceIssueDate) throws Exception {
-        if (licenceIssueDate.isAfter(LocalDate.now())) {
-            throw new Exception("license issue date must be before current date\n");
+        if (licenceIssueDate.isBefore(LocalDate.now())) {
+            throw new Exception("license issue date must be after current date\n");
         }
     }
 

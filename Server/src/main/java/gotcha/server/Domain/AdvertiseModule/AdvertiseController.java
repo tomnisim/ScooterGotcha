@@ -55,13 +55,18 @@ public class AdvertiseController implements IAdvertiseController {
     }
 
     @Override
-    public List<String> get_all_advertisements_for_user(){
-        List<String> to_return = new LinkedList<>();
+    public List<AdvertiseDAO> get_all_advertisements_for_user(){
+        List<AdvertiseDAO> to_return = new LinkedList<>();
         for (Advertise advertise : this.advertise_list.values())
         {
-            to_return.add(advertise.toString_user());
+            to_return.add(new AdvertiseDAO(advertise));
         }
         return to_return;
+    }
+
+    @Override
+    public void add_click(int id) {
+        this.advertise_list.get(id).add_click();
     }
 
 }

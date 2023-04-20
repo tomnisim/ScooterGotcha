@@ -2,7 +2,6 @@ import React,{ useState } from 'react';
 import { useEffect } from 'react';
 import { View, Text, Button, ScrollView, StyleSheet, Image } from 'react-native';
 import Table from 'rc-table';
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import UsersWindow from './components/UsersWindow'
@@ -65,16 +64,15 @@ function App() {
     <View style={{flex:1}}>
           <View style={{display: 'flex', flexDirection:'column', width:80}}>
             {hasNewNotifications && 
-            <ImageButton src="https://raw.githubusercontent.com/tomnisim/ScooterGotcha/90-rides-window/adminApp/assets/bell.png"
+            <ImageButton src="https://raw.githubusercontent.com/tomnisim/ScooterGotcha/main/adminApp/assets/bell.png"
               alt="Notifications" onClick={handleButtonClick} />}
 
               {!hasNewNotifications && 
-              <ImageButton src="https://raw.githubusercontent.com/tomnisim/ScooterGotcha/90-rides-window/adminApp/assets/bell_active.png"
+              <ImageButton src="https://raw.githubusercontent.com/tomnisim/ScooterGotcha/main/adminApp/assets/bell.png"
               alt="Notifications" onClick={handleButtonClick} />}
             
         {showTextBox &&
           <ScrollView style={styles.container}>
-            <Text style={{textAlign:'center', color:'#841584', backgroundColor:'white', opacity:0.8}}><h1>Notifications</h1></Text>
             <Table columns={columns} data={notifications_list} tableLayout="auto"/>
           </ScrollView>
          
@@ -124,7 +122,6 @@ const styles = StyleSheet.create({
     height:200,
     padding: 10,
     opacity:0.5,
-    backgroundColor:'red'
   },
   hairline: {
     backgroundColor: 'black',
