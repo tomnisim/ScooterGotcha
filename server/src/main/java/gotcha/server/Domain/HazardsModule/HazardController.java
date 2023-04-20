@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class HazardController implements IHazardController {
@@ -18,7 +17,6 @@ public class HazardController implements IHazardController {
     private final SystemLogger systemLogger;
     private final HazardRepository hazardRepository;
     private final ReporterAdapter reporterAdapter;
-    private AtomicInteger idCounter;
 
 
     @Autowired
@@ -26,8 +24,6 @@ public class HazardController implements IHazardController {
         this.systemLogger = systemLogger;
         this.hazardRepository = hazardRepository;
         this.reporterAdapter = reporterAdapter;
-        // TODO: 4/11/2023 : remove it once Hibernate is merged
-        idCounter = new AtomicInteger(1);
      }
 
     @Override

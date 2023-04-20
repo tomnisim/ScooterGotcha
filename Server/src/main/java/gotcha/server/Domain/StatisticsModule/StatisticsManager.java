@@ -3,29 +3,23 @@ package gotcha.server.Domain.StatisticsModule;
 
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
 import gotcha.server.Domain.AdvertiseModule.IAdvertiseController;
-import gotcha.server.Domain.AwardsModule.AwardsController;
 import gotcha.server.Domain.AwardsModule.IAwardsController;
 import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.IHazardController;
-import gotcha.server.Domain.QuestionsModule.IQuestionController;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
 import gotcha.server.Domain.RidesModule.IRidesController;
 import gotcha.server.Domain.RidesModule.RidesController;
 import gotcha.server.Domain.UserModule.IUserController;
-import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Domain.UserModule.UserController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class StatisticsManager implements iStatisticsManager {
     private Map<LocalDate, DailyStatistic> dailyStatisticMap;

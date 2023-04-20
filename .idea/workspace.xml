@@ -7,12 +7,15 @@
     <list default="true" id="e8394b8d-4a9c-44d1-8624-56aa6c7f6cdf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/Advertise.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/Advertise.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/AdvertiseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/AdvertiseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/IAdvertiseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/IAdvertiseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AwardsModule/Award.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AwardsModule/Award.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AwardsModule/AwardsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AwardsModule/AwardsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/Notifications/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/Notifications/Notification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/HazardRateCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/HazardRateCalculator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/Ride.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/Ride.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/DailyStatistic.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/DailyStatistic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/DailyStatisticDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/DailyStatisticDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/StatisticsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/StatisticsManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/iStatisticsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/iStatisticsManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -253,7 +256,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java</url>
-          <line>59</line>
+          <line>55</line>
           <option name="timeStamp" value="48" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -266,7 +269,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java</url>
-          <line>77</line>
+          <line>73</line>
           <option name="timeStamp" value="51" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

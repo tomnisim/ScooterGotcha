@@ -54,8 +54,7 @@ public class Ride {
     {
 
     }
-    public Ride(int ride_id, String rider_email, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, List<RidingAction> actions) {
-        this.ride_id = ride_id;
+    public Ride(String rider_email, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, List<RidingAction> actions) {
         this.rider_email = rider_email;
         this.date = start_time.toLocalDate();
         this.city = city;
@@ -64,7 +63,6 @@ public class Ride {
         this.origin = origin;
         this.destination = destination;
         this.actions = actions;
-
     }
 
     // ------------------------------------------ Getters & Setters ----------------------------------------------------------

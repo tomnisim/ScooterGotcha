@@ -45,8 +45,7 @@ public class Advertise {
     }
 
     // load
-    public Advertise(int id, LocalDate start_date, LocalDate final_date, String owner, String message, String photo,String url, int users_clicks) {
-        this.id = id;
+    public Advertise(LocalDate start_date, LocalDate final_date, String owner, String message, String photo,String url, int users_clicks) {
         this.start_date = start_date;
         this.final_date = final_date;
         this.owner = owner;

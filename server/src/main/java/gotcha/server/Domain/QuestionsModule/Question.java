@@ -1,12 +1,7 @@
 package gotcha.server.Domain.QuestionsModule;
 
-import gotcha.server.Domain.UserModule.Admin;
-import gotcha.server.Domain.UserModule.User;
-
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Entity
 @Table(name="questions")

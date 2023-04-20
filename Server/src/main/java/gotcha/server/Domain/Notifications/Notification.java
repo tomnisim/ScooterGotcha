@@ -1,16 +1,12 @@
 package gotcha.server.Domain.Notifications;
 
 import javax.persistence.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Entity
 public class Notification {
-
-    private static AtomicInteger idCounter = new AtomicInteger();
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id = 0;
 
     @Column(name="message")
     private String message;
@@ -22,7 +18,6 @@ public class Notification {
     private boolean wasSeen;
 
     public Notification(String senderEmail, String message) {
-        this.id = idCounter.getAndIncrement();
         this.senderEmail = senderEmail;
         this.wasSeen = false;
         this.message = message;

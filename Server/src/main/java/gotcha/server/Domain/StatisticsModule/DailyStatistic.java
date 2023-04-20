@@ -1,15 +1,6 @@
 package gotcha.server.Domain.StatisticsModule;
 
-import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
-import gotcha.server.Domain.AwardsModule.IAwardsController;
-import gotcha.server.Domain.HazardsModule.HazardController;
-import gotcha.server.Domain.QuestionsModule.QuestionController;
-import gotcha.server.Domain.RidesModule.RidesController;
-import gotcha.server.Domain.UserModule.UserController;
-
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DailyStatistic {

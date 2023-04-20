@@ -7,17 +7,14 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class RidesController implements IRidesController {
-    private AtomicInteger id_counter;
     private final RidesRepository ridesRepository;
 
     public RidesController(RidesRepository ridesRepository)
     {
         this.ridesRepository = ridesRepository;
-        this.id_counter = new AtomicInteger(1);
     }
 
     @Override
@@ -31,8 +28,7 @@ public class RidesController implements IRidesController {
      */
     @Override
     public Ride add_ride(FinishRideRequest finishRideRequest, String userEmail) throws Exception {
-        int ride_id = this.id_counter.incrementAndGet();
-        Ride ride = new Ride(ride_id, userEmail,finishRideRequest.getCity(), finishRideRequest.getStartTime(), finishRideRequest.getEndTime(),finishRideRequest.getOrigin(), finishRideRequest.getDestination(), finishRideRequest.getRidingActions());
+        Ride ride = new Ride(userEmail,finishRideRequest.getCity(), finishRideRequest.getStartTime(), finishRideRequest.getEndTime(),finishRideRequest.getOrigin(), finishRideRequest.getDestination(), finishRideRequest.getRidingActions());
         this.ridesRepository.addRide(ride, userEmail);
         return ride;
     }

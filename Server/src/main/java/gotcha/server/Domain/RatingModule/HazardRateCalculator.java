@@ -1,20 +1,13 @@
 package gotcha.server.Domain.RatingModule;
 
-import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.HazardType;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Utils.Formula;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.Dictionary;
 import java.util.Hashtable;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class HazardRateCalculator implements IHazardRateCalculator {
 
