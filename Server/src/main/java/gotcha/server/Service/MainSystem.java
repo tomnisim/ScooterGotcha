@@ -5,9 +5,15 @@ import gotcha.server.DAL.HibernateUtils;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
 import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.HazardType;
+import gotcha.server.Domain.HazardsModule.StationaryHazard;
+import gotcha.server.Domain.QuestionsModule.QuestionController;
 import gotcha.server.Domain.RidesModule.RidesController;
+import gotcha.server.Domain.RidesModule.RidingAction;
 import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.UserController;
+import gotcha.server.ExternalService.MapsAdapter;
+import gotcha.server.ExternalService.MapsAdapterImpl;
+import gotcha.server.ExternalService.ReporterAdapter;
 import gotcha.server.Domain.ExternalService.MapsAdapter;
 import gotcha.server.Domain.ExternalService.MapsAdapterImpl;
 import gotcha.server.Domain.HazardsModule.ReporterAdapter;
@@ -24,10 +30,14 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.temporal.Temporal;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiConsumer;
 
 @Component
 public class MainSystem {
@@ -37,12 +47,14 @@ public class MainSystem {
     private final RidesController ridesController;
     private final AdvertiseController advertiseController;
     private final StatisticsManager statisticsManager;
+    private final QuestionController questionController;
     private final SystemLogger systemLogger;
     private final ErrorLogger errorLogger;
     private final MapsAdapter maps_adapter;
 
+
     @Autowired
-    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, ErrorLogger errorLogger, MapsAdapterImpl mapsAdapter, StatisticsManager statisticsManager){
+    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, ErrorLogger errorLogger, MapsAdapterImpl mapsAdapter, StatisticsManager statisticsManager, QuestionController questionController){
         this.configuration = configuration;
         this.userController = userController;
         this.hazardController = hazardController;
@@ -52,6 +64,7 @@ public class MainSystem {
         this.systemLogger = systemLogger;
         this.errorLogger = errorLogger;
         this.maps_adapter = mapsAdapter;
+        this.questionController = questionController;
     }
 
     public void init_server() throws Exception {
@@ -222,6 +235,25 @@ public class MainSystem {
         userController.add_first_admin("admin1@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         userController.add_first_admin("admin12@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         userController.add_first_admin("admin123@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
+
+
+        // add new ride
+        String rpSerialNumber = "111";
+        Location destination = new Location("333", "666");
+        String city = "BeerSheba";
+        LocalDateTime startTime = LocalDate.of(2020, Month.JANUARY, 18).atStartOfDay();
+        LocalDateTime endTime = LocalDate.of(2020, Month.JANUARY, 18).atStartOfDay();
+        List<StationaryHazard> hazards = new LinkedList<>();
+        List< RidingAction > ridingActions = new LinkedList<>();
+        FinishRideRequest f = new FinishRideRequest(rpSerialNumber, origin, destination, city, startTime, endTime, hazards, ridingActions);
+        ridesController.add_ride(f, "tom@gmail.com");
+
+
+        // add new question
+        String message = "Hi";
+        String senderEmail = "tom@gmail.com";
+        BiConsumer<String,Integer> update_function = (a,b)->{};
+        questionController.add_user_question(message, senderEmail, update_function);;
 
 //        Facade user_facade = new Facade();
 //        Facade admin_facade = new Facade();
