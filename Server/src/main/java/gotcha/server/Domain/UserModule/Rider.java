@@ -19,8 +19,6 @@ public class Rider extends User{
     @Column(name="scooterType")
     private String scooterType;
 
-
-
     @Column(name= "licenseIssueDate")
     private LocalDate licenseIssueDate;
 
