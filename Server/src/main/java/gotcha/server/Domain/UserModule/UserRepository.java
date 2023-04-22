@@ -1,5 +1,8 @@
 package gotcha.server.Domain.UserModule;
 
+import gotcha.server.Domain.Notifications.Notification;
+import gotcha.server.Domain.RatingModule.UserRateCalculator;
+import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
@@ -80,5 +83,19 @@ public class UserRepository {
         }
         user.change_password_token(newPasswordToken);
         usersJpaRepositry.save(user);
+    }
+
+    public void updateUserRating(String userEmail, Ride ride, int number_of_rides, UserRateCalculator userRateCalculator) throws Exception {
+        var user = getUserByEmail(userEmail);
+        if (user.is_admin())
+            throw new Exception("user is admin");
+
+        ((Rider) user).update_rating(ride, number_of_rides, userRateCalculator);
+        usersJpaRepositry.save(user);
+    }
+
+    public void notifyUser(User userToNotify, Notification notification) {
+        userToNotify.notify_user(notification);
+        usersJpaRepositry.save(userToNotify);
     }
 }

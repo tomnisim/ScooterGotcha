@@ -32,10 +32,7 @@ public class QuestionController implements IQuestionController {
      */
     @Override
     public String answer_user_question(int question_id, String answer, String adminEmail) throws Exception {
-        var question = this.questionsRepository.getOpenQuestion(question_id);
-        question.set_answer(answer, adminEmail);
-        questionsRepository.removeOpenQuestion(question_id);
-        return question.getSenderEmail();
+        return this.questionsRepository.answerOpenQuestion(question_id, answer, adminEmail);
     }
 
     @Override

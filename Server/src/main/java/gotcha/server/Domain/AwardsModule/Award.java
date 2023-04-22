@@ -73,4 +73,24 @@ public class Award {
     public LocalDate getDate() {
         return date;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setAdmin_email(String admin_email) {
+        this.admin_email = admin_email;
+    }
+
+    public void setEmails(List<String> emails) {
+        this.emails = emails;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 }

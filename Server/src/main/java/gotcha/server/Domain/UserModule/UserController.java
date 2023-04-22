@@ -45,12 +45,12 @@ public class UserController implements IUserController {
         var passwordToken = passwordManager.hash(password);
         var admin = new Admin(userEmail, name, lastName, passwordToken, phoneNumber, birthDay, gender, null);
         userRepository.addUser(admin);
-        admin.notify_user(new Notification("sender@gmail.com", "noti1"));
-        admin.notify_user(new Notification("sender@gmail.com", "noti12"));
-        admin.notify_user(new Notification("sender@gmail.com", "noti123"));
-        admin.notify_user(new Notification("sender@gmail.com", "noti1234"));
-        admin.notify_user(new Notification("sender@gmail.com", "noti12345"));
-        admin.notify_user(new Notification("sender@gmail.com", "noti123456"));
+        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti1"));
+        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti12"));
+        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti123"));
+        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti1234"));
+        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti12345"));
+        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti123456"));
     }
 
     /**
@@ -341,11 +341,8 @@ public class UserController implements IUserController {
 
     @Override
     public void update_user_rate(String userEmail, Ride ride, int number_of_rides) throws Exception {
-        var user = userRepository.getUserByEmail(userEmail);
-        if (user == null || user.is_admin())
-            throw new Exception("user not found or is admin");
+        this.userRepository.updateUserRating(userEmail, ride, number_of_rides, userRateCalculator);
 
-        ((Rider) user).update_rating(ride, number_of_rides, userRateCalculator);
     }
 
     @Override

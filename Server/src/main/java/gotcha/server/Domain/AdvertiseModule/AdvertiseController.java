@@ -27,13 +27,7 @@ public class AdvertiseController implements IAdvertiseController {
 
     @Override
     public void update_advertise(int advertise_id, LocalDate final_date, String owner, String message, String photo, String url) throws Exception {
-        Advertise advertise = advertiseRepository.getAdvertise(advertise_id);
-        advertise.setFinal_date(final_date);
-        advertise.setOwner(owner);
-        advertise.setMessage(message);
-        advertise.setPhoto(photo);
-        advertise.setUrl(url);
-
+        advertiseRepository.updateAdvertise(advertise_id,final_date, owner, message, photo, url);
     }
 
 
@@ -60,7 +54,7 @@ public class AdvertiseController implements IAdvertiseController {
 
     @Override
     public void add_click(int id) throws Exception {
-        this.advertiseRepository.getAdvertise(id).add_click();
+        this.advertiseRepository.addClick(id);
     }
 }
 

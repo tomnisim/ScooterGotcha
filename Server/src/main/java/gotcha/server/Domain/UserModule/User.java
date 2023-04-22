@@ -46,7 +46,6 @@ User implements Observer {
     )
     private Map<Integer, Notification> userNotifications;
 
-    @Column(name="loggedIn")
     private boolean loggedIn;
 
     public User(String userEmail,String name, String lastName, String userPasswordToken, String phoneNumber, LocalDate birthDay, String gender) {

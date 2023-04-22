@@ -75,4 +75,12 @@ public class QuestionsRepository {
                 open_questions.put(question.getQuestion_id(), question);
         }
     }
+
+    public String answerOpenQuestion(int question_id, String answer, String adminEmail) throws Exception {
+        var question = getOpenQuestion(question_id);
+        question.set_answer(answer, adminEmail);
+        removeOpenQuestion(question_id);
+        questionsJpaRepository.save(question);
+        return question.getSenderEmail();
+    }
 }

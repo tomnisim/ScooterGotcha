@@ -48,6 +48,12 @@ public class HazardRepository {
         return result;
     }
 
+    public void setReportOnHazard(int hazardId) throws Exception {
+        var hazard = getHazardById(hazardId);
+        hazard.setReport(true);
+        hazardJpaRepository.save(hazard);
+    }
+
     private StationaryHazard getHazardFromDb(int hazardId) throws Exception {
         var result = hazardJpaRepository.findById(hazardId);
         if (result.isPresent()) {

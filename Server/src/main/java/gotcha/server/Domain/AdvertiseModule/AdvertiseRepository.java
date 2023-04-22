@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,5 +68,19 @@ public class AdvertiseRepository{
         for(var advertisement : advertisesInDb) {
             advertise_list.put(advertisement.getId(), advertisement);
         }
+    }
+
+    public void updateAdvertise(int advertiseId, LocalDate final_date, String owner, String message, String photo, String url) throws Exception {
+        var advertise = getAdvertise(advertiseId);
+        advertise.setFinal_date(final_date);
+        advertise.setOwner(owner);
+        advertise.setMessage(message);
+        advertise.setPhoto(photo);
+        advertise.setUrl(url);
+        advertiseJpaRepository.save(advertise);
+    }
+
+    public void addClick(int id) throws Exception {
+        getAdvertise(id).add_click();
     }
 }

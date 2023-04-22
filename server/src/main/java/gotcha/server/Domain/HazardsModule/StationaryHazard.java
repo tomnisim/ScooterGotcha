@@ -33,6 +33,8 @@ public class StationaryHazard {
 
     @Column(name="rate")
     private double rate;
+
+    @Column(name="report")
     private boolean report;
 
 
@@ -109,8 +111,6 @@ public class StationaryHazard {
     public double getRate() {
         return rate;
     }
-
-
     public void setRate() {
         HazardRateCalculator hazardRateCalculator = HazardRateCalculator.get_instance();
         this.rate = hazardRateCalculator.rate_hazard(this);
