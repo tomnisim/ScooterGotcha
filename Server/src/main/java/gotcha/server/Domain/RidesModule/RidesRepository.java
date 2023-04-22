@@ -33,6 +33,11 @@ public class RidesRepository {
     }
 
     public List<Ride> getAllRidesByRider(String riderEmail) {
+        if (!rides_by_rider.containsKey(riderEmail))
+        {
+            rides_by_rider.put(riderEmail, new HashMap<>());
+
+        }
         return new ArrayList<>(rides_by_rider.get(riderEmail).values());
     }
 

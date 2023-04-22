@@ -5,7 +5,7 @@ from PersistenceModule.CommunicationController import CommunicationController
 class PersistenceController():
     def __init__(self):
         self.files_controller = FilesController.get_instance()
-        self.communication_controller = CommunicationController.get_instance()
+        self.communication_controller = CommunicationController
 
     def save_ride(self, ride):
         waiting_rides = self.files_controller.get_waiting_rides()

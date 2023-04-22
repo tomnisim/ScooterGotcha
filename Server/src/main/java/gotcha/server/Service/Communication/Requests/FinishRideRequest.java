@@ -1,26 +1,33 @@
 package gotcha.server.Service.Communication.Requests;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.RidesModule.RidingAction;
 import gotcha.server.Utils.Location;
+import gotcha.server.Utils.LocationDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class FinishRideRequest {
     private String rpSerialNumber;
-    private Location origin;
-    private Location destination;
+    private LocationDTO origin;
+    private LocationDTO destination;
     private String city;
+    @JsonFormat(pattern="yyyy-MM-dd;HH:mm", timezone="UTC")
     private LocalDateTime startTime;
+    @JsonFormat(pattern="yyyy-MM-dd;HH:mm", timezone="UTC")
     private LocalDateTime endTime;
     List<StationaryHazard> hazards;
     List<RidingAction> ridingActions;
+    List<Location> junctions;
 
     // Default Constructor
 
     public FinishRideRequest() {}
-    public FinishRideRequest(String rpSerialNumber, Location origin, Location destination, String city, LocalDateTime startTime, LocalDateTime endTime, List<StationaryHazard> hazards, List<RidingAction> ridingActions) {
+    public FinishRideRequest(String rpSerialNumber, LocationDTO origin, LocationDTO destination, String city,
+                             LocalDateTime startTime, LocalDateTime endTime, List<StationaryHazard> hazards,
+                             List<RidingAction> ridingActions, List<Location> junctions) {
         this.rpSerialNumber = rpSerialNumber;
         this.origin = origin;
         this.destination = destination;
@@ -29,6 +36,7 @@ public class FinishRideRequest {
         this.endTime = endTime;
         this.hazards = hazards;
         this.ridingActions = ridingActions;
+        this.junctions = junctions;
     }
 
 
@@ -48,19 +56,19 @@ public class FinishRideRequest {
         this.rpSerialNumber = rpSerialNumber;
     }
 
-    public Location getOrigin() {
+    public LocationDTO getOrigin() {
         return origin;
     }
 
-    public void setOrigin(Location origin) {
+    public void setOrigin(LocationDTO origin) {
         this.origin = origin;
     }
 
-    public Location getDestination() {
+    public LocationDTO getDestination() {
         return destination;
     }
 
-    public void setDestination(Location destination) {
+    public void setDestination(LocationDTO destination) {
         this.destination = destination;
     }
 
@@ -94,5 +102,13 @@ public class FinishRideRequest {
 
     public void setHazards(List<StationaryHazard> hazards) {
         this.hazards = hazards;
+    }
+
+    public List<Location> getJunctions() {
+        return junctions;
+    }
+
+    public void setJunctions(List<Location> junctions) {
+        this.junctions = junctions;
     }
 }

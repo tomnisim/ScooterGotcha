@@ -6,7 +6,7 @@ import struct
 from AlertModule.Vocal import Vocal
 from AlertModule.VocalCreator import VocalCreator
 from CameraModule.CameraController import CameraController
-from Config.Config_data import Config_data
+from Config.InitData import InitData
 from GPSModule.GPSController import GPSController
 from RidesModule.RideController import RideController
 
@@ -14,7 +14,7 @@ from RidesModule.RideController import RideController
 class Service:
     def __init__(self):
 
-        config_data = Config_data()
+        config_data = InitData()
         self._GPS_controller = GPSController.get_instance()
         self._camera_controller = CameraController.get_instance()
 

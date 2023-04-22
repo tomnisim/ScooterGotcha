@@ -8,11 +8,10 @@ Type: V2
 GPS: default
 num_of_coordinates: 8
 
-
 [ServerAddress]
 host: localhost
 port: 5050
-protocol:TCP
+protocol:http://
 
 
 [ScooterAppendixA]

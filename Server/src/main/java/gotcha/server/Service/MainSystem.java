@@ -214,10 +214,10 @@ public class MainSystem {
                 birth_date, "male", "type", birth_date, "first123");
 //        (String rpSerialNumber, Location origin, Location destination, String city, LocalDateTime startTime, LocalDateTime endTime, List<StationaryHazard> hazards, List< RidingAction > ridingActions) {
 //            this.rpSerialNumber = rpSerialNumber;
-        FinishRideRequest finishRideReq = new FinishRideRequest("first", origin, dest, "Netanya", start_time, start_time, hazards, new ArrayList<>());
-        FinishRideRequest finishRideReq2 = new FinishRideRequest("first", origin111, dest222, "Tel-Aviv", start_time, start_time, hazards, new ArrayList<>());
-        ridesController.add_ride(finishRideReq, "email@gmail.com");
-        ridesController.add_ride(finishRideReq2, "email@gmail.com");
+//        FinishRideRequest finishRideReq = new FinishRideRequest("first", origin, dest, "Netanya", start_time, start_time, hazards, new ArrayList<>(), new ArrayList<>());
+//        FinishRideRequest finishRideReq2 = new FinishRideRequest("first", origin111, dest222, "Tel-Aviv", start_time, start_time, hazards, new ArrayList<>(), new ArrayList<>());
+//        ridesController.add_ride(finishRideReq, "email@gmail.com");
+//        ridesController.add_ride(finishRideReq2, "email@gmail.com");
 
         userController.add_first_admin("admin1@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         userController.add_first_admin("admin12@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
