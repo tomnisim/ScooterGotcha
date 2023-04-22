@@ -113,7 +113,7 @@ public class StationaryHazard {
 
     public void setRate() {
         HazardRateCalculator hazardRateCalculator = HazardRateCalculator.get_instance();
-//        this.rate = hazardRateCalculator.rate_hazard(this);
+        this.rate = hazardRateCalculator.rate_hazard(this);
 
     }
 

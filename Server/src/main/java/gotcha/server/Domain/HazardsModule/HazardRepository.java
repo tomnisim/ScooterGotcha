@@ -40,7 +40,7 @@ public class HazardRepository {
         hazardJpaRepository.delete(result);
     }
 
-    public StationaryHazard getHazard(int hazardId) throws Exception {
+    public StationaryHazard getHazardById(int hazardId) throws Exception {
         var result = stationaryHazardsList.get(hazardId);
         if (result == null) {
             return getHazardFromDb(hazardId);
@@ -65,8 +65,9 @@ public class HazardRepository {
         }
     }
 
-    public StationaryHazard getHazardById(int hazardId) {
-        return stationaryHazardsList.getOrDefault(hazardId, null);
+    public void updateHazard(StationaryHazard hazardToUpdate, double newSize) {
+        hazardToUpdate.setSize(newSize);
+        hazardJpaRepository.save(hazardToUpdate);
     }
 
 }

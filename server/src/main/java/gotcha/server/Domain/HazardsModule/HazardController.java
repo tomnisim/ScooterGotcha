@@ -39,7 +39,7 @@ public class HazardController implements IHazardController {
     }
 
     private void update_hazard(StationaryHazard hazard, double size) {
-        hazard.setSize(size);
+        this.hazardRepository.updateHazard(hazard, size);
     }
 
     /**

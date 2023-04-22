@@ -68,7 +68,7 @@ public class MainSystem {
         set_statistics_update_thread();
         set_reporter_engine();
         this.hazardController.setHAZARD_THRESHOLD_RATE(configuration.getHazards_rate_threshold());
-        //begin_instructions();
+        begin_instructions();
         systemLogger.add_log("Finish Init Server");
     }
 

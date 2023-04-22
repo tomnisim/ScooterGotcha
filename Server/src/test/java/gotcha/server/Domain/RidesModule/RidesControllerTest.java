@@ -1,5 +1,6 @@
 package gotcha.server.Domain.RidesModule;
 
+import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Utils.Exceptions.RideNotFoundException;
 import gotcha.server.Utils.Location;
@@ -19,11 +20,16 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
 
 class RidesControllerTest {
     private  RidesController ride_controller;
+    private AtomicInteger idGenerator = new AtomicInteger(1);
+
 
     @Mock
     private IRidesRepository ridesJpaRepository;
@@ -40,6 +46,7 @@ class RidesControllerTest {
 
     @Test
     void addRide_MultipleConcurrentThreads_AllAdded(){
+        configureRideRepository();
         // Set up the test data
         var userEmail = "test@example.com";
         var origin = new Location(new BigDecimal(20), new BigDecimal(20));
@@ -73,7 +80,7 @@ class RidesControllerTest {
             }
         }
         catch(Exception ex) {
-            fail("should not fail");
+            fail("should not fail: "+ ex.getMessage());
         }
 
         // Check for unique ride IDs
@@ -110,5 +117,13 @@ class RidesControllerTest {
 
     @Test
     void get_rides_by_date_ranges() {
+    }
+
+    private void configureRideRepository() {
+        doAnswer(invocation -> {
+            Ride ride = (Ride) invocation.getArgument(0);
+            ride.setRide_id(idGenerator.getAndIncrement());
+            return null;
+        }).when(ridesJpaRepository).save(any(Ride.class));
     }
 }
