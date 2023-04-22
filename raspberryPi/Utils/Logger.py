@@ -20,26 +20,42 @@ error_logger.addHandler(error_handler)
 
 
 
-# ------------------ EVENT LOGGER -----------------------------------
+# ------------------ SYSTEM LOGGER -----------------------------------
 
 # Create a logger for events
-event_logger = logging.getLogger('event_logger')
-event_logger.setLevel(logging.INFO)
+system_logger = logging.getLogger('system_logger')
+system_logger.setLevel(logging.INFO)
 
-# Create a file handler for the event logger
-event_handler = logging.FileHandler('events.log')
-event_handler.setLevel(logging.INFO)
+# Create a file handler for the system logger
+system_handler = logging.FileHandler('system.log')
+system_handler.setLevel(logging.INFO)
 
 # Create a formatter for the event handler
-event_formatter = logging.Formatter('%(asctime)s %(message)s')
-event_handler.setFormatter(event_formatter)
+system_formatter = logging.Formatter('%(asctime)s %(message)s')
+system_handler.setFormatter(system_formatter)
 
 # Add the event handler to the event logger
-event_logger.addHandler(event_handler)
-# this import only works on a raspberry pi
+system_logger.addHandler(system_handler)
 
 
 
+
+# ------------------ RIDE LOGGER -----------------------------------
+
+# Create a logger for events
+ride_logger = logging.getLogger('ride_logger')
+ride_logger.setLevel(logging.INFO)
+
+# Create a file handler for the system logger
+ride_handler = logging.FileHandler('ride.log')
+ride_handler.setLevel(logging.INFO)
+
+# Create a formatter for the event handler
+ride_formatter = logging.Formatter('%(asctime)s %(message)s')
+ride_handler.setFormatter(ride_formatter)
+
+# Add the event handler to the event logger
+ride_logger.addHandler(ride_handler)
 
 #_-------------------------------------- HOW TO USE ----------------
 

@@ -14,7 +14,7 @@ class Vocal(Alert):
 
     def alert(self):
         # Play a simple beep sound
-        winsound.Beep(1, 500)
+        winsound.Beep(40, 500)
         time.sleep(2)  # wait for 2 seconds to avoid repeated alerts
 
         print("Vocal alert "+str(self.duration)+" "+str(self.power))

@@ -6,7 +6,7 @@ import threading
 from datetime import time
 
 # this import only works on a raspberry pi
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 
 from AlertModule.Vocal import Vocal
 from AlertModule.VocalCreator import VocalCreator
@@ -20,20 +20,20 @@ import time
 # Configure GPIO
 # this pin depends on the physical pin we will use
 button_pin = 17
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+# GPIO.setmode(GPIO.BCM)
+# GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-live_button = False
+live_button = True # TODO: change to False
 def manage_live_button():
     global live_button
-    try:
-        while True:
-            button_state = GPIO.input(button_pin)
-            if button_state == False:
-                live_button = not live_button
-                time.sleep(1)  # Debounce
-    finally:
-        GPIO.cleanup()
+    # try:
+    #     while True:
+    #         button_state = GPIO.input(button_pin)
+    #         if button_state == False:
+    #             live_button = not live_button
+    #             time.sleep(1)  # Debounce
+    # finally:
+    #     GPIO.cleanup()
 
 def update_config():
     while True:
@@ -45,11 +45,14 @@ class Service:
         Config_data()
         update_config_thread = threading.Thread(target=update_config)
         update_config_thread.start()
+
+        # create vocal alerter + GPS, camera, ride controllers
         self._GPS_controller = GPSController.get_instance()
         self._camera_controller = CameraController.get_instance()
         self.alerter = VocalCreator() # #TODO: have to make switch case according the configuration file
         self.ride_controller = self.create_ride_controller(self._GPS_controller, self._camera_controller )
 
+        # create thread that manage the live buttun
         live_button_thread = threading.Thread(target=manage_live_button)
         live_button_thread.start()
 
@@ -59,9 +62,10 @@ class Service:
         return ride_controller
 
     def run(self):
+        per = PersistenceController()
         global live_button
         while True:
             if live_button:
                 ride = self.ride_controller.execute_ride()
-                PersistenceController.save_ride(ride)
+                per.save_ride(ride)
 

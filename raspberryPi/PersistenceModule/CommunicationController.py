@@ -4,6 +4,7 @@
 import requests
 
 from PersistenceModule.urls import finish_ride_url, get_rp_config_file_url
+from Utils.Logger import ride_logger
 from Utils.Response import Response
 
 
@@ -32,6 +33,8 @@ class CommunicationController():
 
 
     def send_rides_to_server(self, ride):
+
+        ride_logger.info(f'RIDE \n Start time : {ride._start_time} \n End time : {ride._end_time} \n Start location : {ride._start_location} \n Destination location: {ride._destination_location} \n Junctions : {ride.junctions}')
 
         res = requests.post(finish_ride_url, data=ride)
         response = Response(res)

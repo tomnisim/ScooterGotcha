@@ -3,7 +3,7 @@ import os
 import uuid
 
 
-class FilesController():
+class FilesController:
     __instance = None
     folder = "../ridesStorage/"
 

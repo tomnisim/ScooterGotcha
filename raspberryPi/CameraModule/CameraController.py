@@ -5,14 +5,17 @@ from moviepy.editor import VideoFileClip
 
 
 
-
+i=0
 
 class CameraController:
     __instance = None
     def __init__(self):
         # self._camera = self.init_camera() # TODO: has to connect the RP camera
         print("camera controller build.")
-        self.clip = list(VideoFileClip('potholes_video_bs.mp4'))
+        self.clip = VideoFileClip('potholes_video_bs.mp4')
+        self.frames_generator = self.clip.iter_frames()
+        num_frames = len(list(self.clip.iter_frames()))
+        print(num_frames)
         if CameraController.__instance != None:
             raise Exception("Singleton class can only be instantiated once")
         else:
@@ -34,14 +37,23 @@ class CameraController:
         return camera
 
     # Get the next frame from the camera
-    def get_next_frame(self, camera):
-        return self.clip.pop(0)
+    def get_next_frame(self):
+        global i
+        frame = None
+        try:
+            frame = next(self.frames_generator)
+        except StopIteration:
+            print('No more frames')
+
+        print(f' frame number {i}')
+        i+=1
+        return frame
 
 
-        # Create a bytes buffer for the image data
-        frame_data = bytearray()
-        camera.capture(frame_data, 'jpeg')
-        return frame_data
+        # # Create a bytes buffer for the image data
+        # frame_data = bytearray()
+        # camera.capture(frame_data, 'jpeg')
+        # return frame_data
 
     # def take_still_picture(self):
     #     self.camera.start_preview()
