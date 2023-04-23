@@ -22,6 +22,7 @@ import time
 from Utils.Logger import system_logger
 
 button_pin = 17
+# TODO: uncomment
 # GPIO.setmode(GPIO.BCM)
 # GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
@@ -29,6 +30,7 @@ live_button = True # TODO: change to False
 def manage_live_button():
     global live_button
 
+    # TODO: uncomment
     # try:
     #     while True:
     #         button_state = GPIO.input(button_pin)

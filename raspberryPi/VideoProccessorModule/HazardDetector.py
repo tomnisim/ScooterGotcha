@@ -105,8 +105,9 @@ class HazardDetector():
 
         return detected_hazards
     def detect_hazards_in_frame(self, frame, loc):
-        # self.detect_potholes(frame, loc)
-        self.detect_road_signs(frame, loc)
+        detected_hazards = []
+        detected_hazards += self.detect_potholes(frame, loc)
+        # detected_hazards += self.detect_road_signs(frame, loc)
 
 
 
