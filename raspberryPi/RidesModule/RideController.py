@@ -5,7 +5,7 @@ from GPSModule.GPSController import GPSController
 from GPSModule.Location import Location
 from PersistenceModule.PersistenceController import PersistenceController
 from RidesModule.Ride import Ride
-from Utils.Logger import ride_logger
+from Utils.Logger import ride_logger, system_logger
 from VideoProccessorModule.EventDetector import EventDetector
 from VideoProccessorModule.HazardDetector import HazardDetector
 from VideoProccessorModule.RoadDetector import RoadDetector
@@ -70,17 +70,20 @@ def detect_hazrds_task(hazard_detector, alerter):
 
 
 
-class RideController():
+class RideController:
     def __init__(self, alerter, gps_controller, camera_controller):
+        system_logger.info(f'Ride Controller initialization')
+
 
         self._GPS_controller = gps_controller
         self._camera_controller = camera_controller
+        self.alerter = alerter
 
         # create road, event, hazard detectors
         self._event_detector = EventDetector()
         self._road_detector = RoadDetector()
         self._hazard_detector = HazardDetector()
-        self.alerter = alerter
+
 
 
 
@@ -115,6 +118,7 @@ class RideController():
         destination_loc =self._GPS_controller.get_location()
 
         ride = Ride(hazards, start_loc, destination_loc, start_time, finish_time, junctions)
+
         return ride
 
 

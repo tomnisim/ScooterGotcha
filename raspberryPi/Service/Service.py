@@ -19,6 +19,8 @@ import time
 
 # Configure GPIO
 # this pin depends on the physical pin we will use
+from Utils.Logger import system_logger
+
 button_pin = 17
 # GPIO.setmode(GPIO.BCM)
 # GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -26,22 +28,26 @@ button_pin = 17
 live_button = True # TODO: change to False
 def manage_live_button():
     global live_button
+
     # try:
     #     while True:
     #         button_state = GPIO.input(button_pin)
     #         if button_state == False:
+    #             system_logger.info("Live Button Press")
     #             live_button = not live_button
     #             time.sleep(1)  # Debounce
     # finally:
     #     GPIO.cleanup()
 
 def update_config():
+
     while True:
         Config_data()
         time.sleep(3600)
 
 class Service:
     def __init__(self):
+        system_logger.info("Init System")
         Config_data()
         update_config_thread = threading.Thread(target=update_config)
         update_config_thread.start()
@@ -49,7 +55,7 @@ class Service:
         # create vocal alerter + GPS, camera, ride controllers
         self._GPS_controller = GPSController.get_instance()
         self._camera_controller = CameraController.get_instance()
-        self.alerter = VocalCreator() # #TODO: have to make switch case according the configuration file
+        self.alerter = VocalCreator()  #TODO: have to make switch case according the configuration file
         self.ride_controller = self.create_ride_controller(self._GPS_controller, self._camera_controller )
 
         # create thread that manage the live buttun
