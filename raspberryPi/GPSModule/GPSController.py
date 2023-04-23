@@ -3,13 +3,15 @@
 import pynmea2
 import requests
 
+from Utils.Logger import system_logger
+
 
 class GPSController:
     __instance = None
 
     def __init__(self):
         self.gps_serial = self.init_gps()
-        print("GPSController build.")
+        system_logger.info(f'GPS Controller initialization')
         if GPSController.__instance != None:
             raise Exception("Singleton class can only be instantiated once")
         else:

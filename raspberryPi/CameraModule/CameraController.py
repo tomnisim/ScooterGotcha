@@ -2,8 +2,7 @@
 import time
 from moviepy.editor import VideoFileClip
 
-
-
+from Utils.Logger import system_logger
 
 i=0
 
@@ -11,7 +10,7 @@ class CameraController:
     __instance = None
     def __init__(self):
         # self._camera = self.init_camera() # TODO: has to connect the RP camera
-        print("camera controller build.")
+        system_logger.info(f'Camera Controller initialization')
         self.clip = VideoFileClip('potholes_video_bs.mp4')
         self.frames_generator = self.clip.iter_frames()
         num_frames = len(list(self.clip.iter_frames()))
