@@ -104,8 +104,8 @@ class RideController:
         start_time = datetime.datetime.now()
         start_loc = self._GPS_controller.get_location()
 
-        junctions_thread.start()
-        frames_thread.start()
+        # junctions_thread.start()
+        # frames_thread.start()
         hazards_thread.start()
 
         # hazards_thread.join()

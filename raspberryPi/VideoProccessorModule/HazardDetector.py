@@ -20,7 +20,7 @@ class HazardDetector():
         print("HazardDetector build.")
         self.potholes_model = self.load_potholes_model('my_model.h5')
         self.pole_tree_model = self.load_pole_tree_model('my_model.h5')
-        self.road_sign_model = self.load_road_sign_model('my_model.h5')
+        self.road_sign_model = self.load_road_sign_model('traffic_classifier.h5')
 
 
 
@@ -77,29 +77,53 @@ class HazardDetector():
 
 
 
-
-    def detect_hazards_in_frame(self, frame, loc):
-
-        is_pothole = self.potholes_model.predict(frame)
-        # is_pole_tree = self.pole_tree_model.predict(frame)
-        # is_road_sign = self.road_sign_model.predict(frame)
-
-        size = 1  # TODO - get size
-
+    def detect_potholes(self, frame , loc):
         detected_hazards = []
-
+        is_pothole = self.potholes_model.predict(frame)
         if is_pothole:
-
+            size = 1  # TODO - get size
             pothole_hazard = Hazard(size, loc ,HazardType.Pothole)
             detected_hazards.append(pothole_hazard)
+        return detected_hazards
+
+    def detect_road_signs(self, frame , loc):
+        detected_hazards = []
+        # plt.imshow(frame)
+        # plt.show()
+
+        frame = np.random.rand(352, 640, 3)
+
+        # Reshape the ndarray to the desired shape
+        new_shape = (-1, 30, 30, 3)
+        frame = np.reshape(frame, new_shape)
+
+        is_road_sign = self.road_sign_model.predict(frame)
+        if is_road_sign:
+            size = 1  # TODO - get size
+            road_sign_hazard = Hazard(size, loc, HazardType.RoadSign)
+            detected_hazards.append(road_sign_hazard)
+
+        return detected_hazards
+    def detect_hazards_in_frame(self, frame, loc):
+        # self.detect_potholes(frame, loc)
+        self.detect_road_signs(frame, loc)
+
+
+
+        # is_pole_tree = self.pole_tree_model.predict(frame)
+
+
+
+
+
+
+
 
         # if is_pole_tree:
         #     pole_tree_hazard = Hazard(size, location ,HazardType.PoleTree)
         #     detected_hazards.append(pole_tree_hazard)
         #
-        # if is_road_sign:
-        #     road_sign_hazard = Hazard(size, location ,HazardType.RoadSign)
-        #     detected_hazards.append(road_sign_hazard)
+
 
         return detected_hazards
 
