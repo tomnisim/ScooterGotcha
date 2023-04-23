@@ -53,6 +53,7 @@ def detect_hazrds_task(hazard_detector, alerter):
 
     while not stop:
         if len(frames) > 0:
+            # TODO: uncomment
             # loc, frame = frames.pop(0)
             frame = frames.pop(0)
             # loc = Location(loc)
@@ -84,15 +85,6 @@ class RideController:
         self._road_detector = RoadDetector()
         self._hazard_detector = HazardDetector()
 
-
-
-
-
-
-
-
-
-
     def execute_ride(self):
         global stop
         stop = False
@@ -104,11 +96,12 @@ class RideController:
         start_time = datetime.datetime.now()
         start_loc = self._GPS_controller.get_location()
 
+        # TODO: uncomment
         # junctions_thread.start()
         # frames_thread.start()
         hazards_thread.start()
 
-        # hazards_thread.join()
+        # TODO: uncomment
         # while live_button:
         #     pass
 
@@ -121,10 +114,7 @@ class RideController:
 
         return ride
 
-
-
-
-
+    # TODO: uncomment
     # def detect_events(self, events, frame):
     #
     #     # todo : what data should event hold? detector should return event.
