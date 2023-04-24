@@ -2,63 +2,78 @@ import configparser
 import wave
 import math
 import struct
+import threading
+from datetime import time
+
+# this import only works on a raspberry pi
+# import RPi.GPIO as GPIO
 
 from AlertModule.Vocal import Vocal
 from AlertModule.VocalCreator import VocalCreator
+from CameraModule.CameraController import CameraController
+from Config.Config_data import Config_data
+from GPSModule.GPSController import GPSController
+from PersistenceModule.PersistenceController import PersistenceController
 from RidesModule.RideController import RideController
+import time
 
+# Configure GPIO
+# this pin depends on the physical pin we will use
+from Utils.Logger import system_logger
+
+button_pin = 17
+# TODO: uncomment
+# GPIO.setmode(GPIO.BCM)
+# GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+live_button = True # TODO: change to False
+def manage_live_button():
+    global live_button
+
+    # TODO: uncomment
+    # try:
+    #     while True:
+    #         button_state = GPIO.input(button_pin)
+    #         if button_state == False:
+    #             system_logger.info("Live Button Press")
+    #             live_button = not live_button
+    #             time.sleep(1)  # Debounce
+    # finally:
+    #     GPIO.cleanup()
+
+def update_config():
+
+    while True:
+        Config_data()
+        time.sleep(3600)
 
 class Service:
     def __init__(self):
+        system_logger.info("Init System")
+        Config_data()
+        update_config_thread = threading.Thread(target=update_config)
+        update_config_thread.start()
 
-        # server_address, camera_type, num_of_coordinates, appendix_A = self.read_from_config('Config/config.txt')
-        self.alerter = VocalCreator() # have to make switch case according the configuration file
-        self.create_ride_controller()
+        # create vocal alerter + GPS, camera, ride controllers
+        self._GPS_controller = GPSController.get_instance()
+        self._camera_controller = CameraController.get_instance()
+        self.alerter = VocalCreator()  #TODO: have to make switch case according the configuration file
+        self.ride_controller = self.create_ride_controller(self._GPS_controller, self._camera_controller )
 
-    def read_from_config(self, file_name):
-        server_address = {}
-        appendix_A={}
-        # read
-        config = configparser.ConfigParser()
-        config.read(file_name)
+        # create thread that manage the live buttun
+        live_button_thread = threading.Thread(target=manage_live_button)
+        live_button_thread.start()
 
-
-        i = config['ServerAddress']
-        #server address
-        host = config['ServerAddress']['host']
-        port = config['ServerAddress']['port']
-        protocol = config['ServerAddress']['protocol']
-
-        server_address['host']=host
-        server_address['port']=port
-        server_address['protocol']=protocol
-
-        #camera
-        camera_type = config['Camera']['Type']
-
-        #GPS
-        num_of_coordinates = config['GPS']['num_of_coordinates']
-
-        #Appendix A
-        minimum_distance_to_alert = config['ScooterAppendixA']['minimum_distance_to_alert']
-        alert_duration = config['ScooterAppendixA']['alert_duration']
-        alert_types = config['ScooterAppendixA']['alert_types'].split('/')
-        number_of_routes = config['ScooterAppendixA']['number_of_routes']
-        admin_email = config['ScooterAppendixA']['admin_email']
-        admin_password = config['ScooterAppendixA']['admin_password']
-        minimum_password_length = config['ScooterAppendixA']['minimum_password_length']
-
-        appendix_A['minimum_distance_to_alert'] = minimum_distance_to_alert
-        appendix_A['alert_duration'] = alert_duration
-        appendix_A['alert_types'] = alert_types
-        appendix_A['number_of_routes'] = number_of_routes
-        appendix_A['admin_email'] = admin_email
-        appendix_A['admin_password'] = admin_password
-        appendix_A['minimum_password_length'] = minimum_password_length
-        return server_address, camera_type, num_of_coordinates, appendix_A
-
-
-    def create_ride_controller(self):
+    def create_ride_controller(self, gps_controller, camera_controller):
         curr_alerter = self.alerter.create_alerter()
-        ride_controller = RideController(curr_alerter)
-        ride_controller.start_ride()
+        ride_controller = RideController(curr_alerter, gps_controller, camera_controller)
+        return ride_controller
+
+    def run(self):
+        per = PersistenceController()
+        global live_button
+        while True:
+            if live_button:
+                ride = self.ride_controller.execute_ride()
+                per.save_ride(ride)
+
