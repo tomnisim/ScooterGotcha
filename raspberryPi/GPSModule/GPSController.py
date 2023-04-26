@@ -3,6 +3,7 @@
 import pynmea2
 import requests
 
+from GPSModule.Location import Location
 from Utils.Logger import system_logger
 
 
@@ -32,7 +33,7 @@ class GPSController:
 
     # Get the current location from the GPS module
     def get_location(self):
-        return ("34.856", "32.989")
+        return Location("34.856", "32.989")
         # location = None
         # while location is None:
         #     try:

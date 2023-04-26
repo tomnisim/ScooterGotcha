@@ -1,4 +1,6 @@
 import base64
+from io import BytesIO
+from PIL import Image
 import cv2
 import json
 import requests
@@ -15,4 +17,14 @@ class Hazard():
         ret, buffer = cv2.imencode('.jpg', frame)
         frame_base64 = base64.b64encode(buffer).decode('utf-8')
         return frame_base64
+
+    def encode_from_PIL(self, image):
+        # Create an in-memory binary stream
+        stream = BytesIO()
+
+        # Save the image to the stream in PNG format
+        image.save(stream, format='PNG')
+
+        # Get the encoded bytes from the stream
+        encoded_image = stream.getvalue()
 

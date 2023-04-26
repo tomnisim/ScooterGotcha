@@ -13,6 +13,7 @@ from AlertModule.VocalCreator import VocalCreator
 from CameraModule.CameraController import CameraController
 from Config.InitData import InitData
 from GPSModule.GPSController import GPSController
+from PersistenceModule.PersistenceController import PersistenceController
 from RidesModule.RideController import RideController
 import time
 
@@ -25,9 +26,15 @@ button_pin = 17
 # GPIO.setmode(GPIO.BCM)
 # GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-live_button = True # TODO: change to False
+live_button = False # TODO: change to False
 def manage_live_button():
     global live_button
+    while True:
+        live_button_mock = input("Push")
+        while live_button_mock != "p":
+            pass
+        live_button = not live_button
+
 
     # TODO: uncomment
     # try:
@@ -69,8 +76,10 @@ class Service:
         return ride_controller
 
     def run(self):
+        per = PersistenceController()
         global live_button
         while True:
             if live_button:
                 ride = self.ride_controller.execute_ride()
+                per.save_ride(ride)
 

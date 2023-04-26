@@ -79,10 +79,10 @@ class HazardDetector():
 
     def detect_potholes(self, frame , loc):
         detected_hazards = []
-        is_pothole = self.potholes_model.predict(frame)
+        is_pothole = self.predict(frame)
         if is_pothole:
-            size = 1  # TODO - get size
-            pothole_hazard = Hazard(size, loc ,HazardType.Pothole)
+            size = 1  # default size
+            pothole_hazard = Hazard(size, loc ,HazardType.Pothole, frame)
             detected_hazards.append(pothole_hazard)
         return detected_hazards
 
@@ -91,7 +91,7 @@ class HazardDetector():
         # plt.imshow(frame)
         # plt.show()
 
-        frame = np.random.rand(352, 640, 3)
+        # frame = np.random.rand(352, 640, 3)
 
         # Reshape the ndarray to the desired shape
         new_shape = (-1, 30, 30, 3)
@@ -100,7 +100,7 @@ class HazardDetector():
         is_road_sign = self.road_sign_model.predict(frame)
         if is_road_sign:
             size = 1  # TODO - get size
-            road_sign_hazard = Hazard(size, loc, HazardType.RoadSign)
+            road_sign_hazard = Hazard(size, loc, HazardType.RoadSign, frame)
             detected_hazards.append(road_sign_hazard)
 
         return detected_hazards
@@ -129,14 +129,15 @@ class HazardDetector():
         return detected_hazards
 
     def predict(self, frame):
-        # image = Image.open(image)
-        image = Image.fromarray(frame)
+        image = frame
+        # image = Image.open(frame)
+        # image = Image.fromarray(frame)
 
         # Show image - for testing
         image.show()
 
         # perform inference
-        results = self.model(image)
+        results = self.potholes_model(image)
 
         # parse results
         result = results[0]
@@ -144,7 +145,8 @@ class HazardDetector():
         boxes = result.boxes.xyxy  # x1, y1, x2, y2
         # Get the size of the tensor
         size = boxes.size()
-        print("num of potholes:", size[0])
+        num_potholes = size[0]
+        print("num of potholes:",num_potholes)
 
         scores = result.boxes.conf
         categories = result.boxes.cls
@@ -152,8 +154,10 @@ class HazardDetector():
         masks = result.masks  # for segmentation models
 
         # show results on image - for testing
-        render = render_result(model=self.model, image=image, result=result)
+        render = render_result(model=self.potholes_model, image=image, result=result)
         render.show()
+
+        return num_potholes > 0
 
 
 

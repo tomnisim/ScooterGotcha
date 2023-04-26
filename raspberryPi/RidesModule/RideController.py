@@ -10,6 +10,7 @@ from VideoProccessorModule.EventDetector import EventDetector
 from VideoProccessorModule.HazardDetector import HazardDetector
 from VideoProccessorModule.RoadDetector import RoadDetector
 
+from datasets import load_dataset
 
 from moviepy.editor import VideoFileClip
 
@@ -20,6 +21,10 @@ import time
 clip = VideoFileClip('potholes_video_bs.mp4')
 frames_generator = clip.iter_frames()
 frames = list(clip.iter_frames())[0:3]
+DATASET_PATH = "keremberke/pothole-segmentation"
+ds = load_dataset(DATASET_PATH, name="full")
+example = ds['train'][0]
+frames = [example['image'], example['image'], example['image']]
 
 junctions = []
 hazards = []
@@ -32,6 +37,7 @@ stop = False # TODO: change to True
 
 def collect_junctions_task(gps_controller):
     global id
+
     global junctions
     while not stop:
         loc = gps_controller.get_location()
@@ -42,10 +48,10 @@ def collect_junctions_task(gps_controller):
 def get_frames_task(camera_controller, gps_controller):
     global frames
     while not stop:
-        frame = camera_controller.get_next_frame()
+        image = camera_controller.get_next_frame()
 
         loc = gps_controller.get_location()
-        frames.append((loc, frame))
+        frames.append((loc, image))
 
 def detect_hazrds_task(hazard_detector, alerter):
     global hazards
@@ -66,7 +72,7 @@ def detect_hazrds_task(hazard_detector, alerter):
                 hazards_detect = True
                 # ADD to ride logger
             hazards_detect_msg = 'YES' if hazards_detect else 'NO'
-            ride_logger.info(f'frame in location : lan = {loc.lng} , lng  = {loc.lat} \n Time : {datetime.datetime.now()} \n hazard detected : {hazards_detect_msg}')
+            ride_logger.info(f'frame in location : lan = {loc.longitude} , lng  = {loc.latitude} \n Time : {datetime.datetime.now()} \n hazard detected : {hazards_detect_msg}')
 
 
 
@@ -96,14 +102,22 @@ class RideController:
         start_time = datetime.datetime.now()
         start_loc = self._GPS_controller.get_location()
 
+
+
         # TODO: uncomment
         # junctions_thread.start()
         # frames_thread.start()
         hazards_thread.start()
+        # #TODO : remove join
+        # hazards_thread.join()
+
 
         # TODO: uncomment
-        # while live_button:
-        #     pass
+        from Service.Service import live_button
+        while live_button:
+            pass
+
+
 
         stop=True
 

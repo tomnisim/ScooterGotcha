@@ -18,10 +18,10 @@ number_of_routes = ""
 class InitData():
     def __init__(self):
         self.set_serial()
-        self.read_from_config()
-        self.get_config_data()
+        self.read_config_from_default()
+        self.read_config_from_server()
 
-    def get_config_data(self):
+    def read_config_from_server(self):
         config_data = get_rp_config_file()
         if config_data is False:
             pass
@@ -29,13 +29,13 @@ class InitData():
             self.set_data(config_data)
 
     def set_serial(self):
-        filename = "C:/Users/amitm/Desktop/SemH/ScooterGotcha/raspberryPi/Config/serial.txt"
+        filename = "Config\serial.txt"
         global serialNumber
         with open(filename, "r") as f:
             serialNumber = f.read().strip()
 
-    def read_from_config(self):
-        filename = "C:/Users/amitm/Desktop/SemH/ScooterGotcha/raspberryPi/Config/default_config.txt"
+    def read_config_from_default(self):
+        filename = "Config/default_config.txt"
         # read
         config = configparser.ConfigParser()
         config.read(filename)
