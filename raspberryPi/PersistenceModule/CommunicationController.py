@@ -9,7 +9,6 @@ from Utils.Response import Response
 
 
 def get_rp_config_file():
-    ride_logger.info(f'RIDE \n Start time : {ride._start_time} \n End time : {ride._end_time} \n Start location : {ride._start_location} \n Destination location: {ride._destination_location} \n Junctions : {ride.junctions}')
     url = InitData.SERVER_ADDRESS + get_rp_config_file_url
     res = requests.get(url)
     response = Response(res.json())
@@ -19,6 +18,8 @@ def get_rp_config_file():
 
 
 def send_ride_to_server(ride):
+    ride_logger.info(f'RIDE \n Start time : {ride._start_time} \n End time : {ride._end_time} \n Start location : {ride._start_location} \n Destination location: {ride._destination_location} \n Junctions : {ride.junctions}')
+
     url = InitData.SERVER_ADDRESS + finish_ride_url
 
 
