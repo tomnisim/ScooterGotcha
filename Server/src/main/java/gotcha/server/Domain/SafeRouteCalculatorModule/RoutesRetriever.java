@@ -62,6 +62,7 @@ public class RoutesRetriever {
                 rate += hazard.getRate();
             }
             routes_by_rating.put(rate, route);
+            route.setHazardsInRoute(hazards_in_route);
         }
         List<Double> ratings = Collections.list(routes_by_rating.keys());
         Collections.sort(ratings);

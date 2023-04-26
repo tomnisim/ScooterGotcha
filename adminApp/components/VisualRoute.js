@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import L, { icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { async } from 'q';
 
 
 let junctions = [
@@ -17,7 +16,9 @@ export const set_junctions = async (val) => {
   }
 
   const myIcon = L.icon({
-    iconUrl: 'C:/Users/amitm/Desktop/SemH/ScooterGotcha/adminApp/assets/icon.png',
+    iconUrl: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/main/adminApp/assets/logo.png',
+    iconSize: [30, 30],
+    iconAnchor: [15, 15]
   });
 
 export default function VisualRoute({}) {
@@ -43,7 +44,7 @@ export default function VisualRoute({}) {
         // Add the junction markers to the map
         junctions.forEach((junction, index) => {
             // TODO : handle title & icon.
-          const marker = L.marker([junction.lat, junction.lng]);
+          const marker = L.marker([junction.lat, junction.lng], {icon: myIcon});
           marker.addTo(map);
           if (index == 0){
             marker.bindPopup(`<b><div style='background-color:orange'>Origin</div><b>`);

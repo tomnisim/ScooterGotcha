@@ -5,6 +5,7 @@ import gotcha.server.DAL.HibernateUtils;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
 import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.HazardType;
+import gotcha.server.Domain.QuestionsModule.QuestionController;
 import gotcha.server.Domain.RidesModule.RidesController;
 import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.UserController;
@@ -36,18 +37,20 @@ public class MainSystem {
     private final HazardController hazardController;
     private final RidesController ridesController;
     private final AdvertiseController advertiseController;
+    private final QuestionController questionController;
     private final StatisticsManager statisticsManager;
     private final SystemLogger systemLogger;
     private final ErrorLogger errorLogger;
     private final MapsAdapter maps_adapter;
 
     @Autowired
-    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, ErrorLogger errorLogger, MapsAdapterImpl mapsAdapter, StatisticsManager statisticsManager){
+    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, ErrorLogger errorLogger, MapsAdapterImpl mapsAdapter, StatisticsManager statisticsManager, QuestionController questionController){
         this.configuration = configuration;
         this.userController = userController;
         this.hazardController = hazardController;
         this.ridesController = ridesController;
         this.advertiseController = advertiseController;
+        this.questionController = questionController;
         this.statisticsManager = statisticsManager;
         this.systemLogger = systemLogger;
         this.errorLogger = errorLogger;
@@ -196,6 +199,7 @@ public class MainSystem {
         this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14);
         this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3);
         LocalDate birth_date = LocalDate.of(1995, 05 , 05);
+        LocalDate issue = LocalDate.of(2025, 05 , 05);
         String password = "AaAa12345";
         userController.add_rp_serial_number("first");
         userController.add_rp_serial_number("first1");
@@ -204,14 +208,16 @@ public class MainSystem {
         userController.add_rp_serial_number("first1234");
         userController.add_rp_serial_number("first12345");
 
+
+
         userController.register("email@gmail.com", password, "name", "last", "0546794211",
-                birth_date, "male", "type", birth_date, "first");
+                birth_date, "male", "type", issue, "first");
         userController.register("email1@gmail.com", password, "name", "last", "0546794211",
-                birth_date, "male", "type", birth_date, "first1");
+                birth_date, "male", "type", issue, "first1");
         userController.register("email12@gmail.com", password, "name", "last", "0546794211",
-                birth_date, "male", "type", birth_date, "first12");
+                birth_date, "male", "type", issue, "first12");
         userController.register("email123@gmail.com", password, "name", "last", "0546794211",
-                birth_date, "male", "type", birth_date, "first123");
+                birth_date, "male", "type", issue, "first123");
 //        (String rpSerialNumber, Location origin, Location destination, String city, LocalDateTime startTime, LocalDateTime endTime, List<StationaryHazard> hazards, List< RidingAction > ridingActions) {
 //            this.rpSerialNumber = rpSerialNumber;
 //        FinishRideRequest finishRideReq = new FinishRideRequest("first", origin, dest, "Netanya", start_time, start_time, hazards, new ArrayList<>(), new ArrayList<>());
@@ -222,7 +228,12 @@ public class MainSystem {
         userController.add_first_admin("admin1@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         userController.add_first_admin("admin12@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         userController.add_first_admin("admin123@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
+       userController.send_question_to_admin("email@gmail.com", "Happy Birthday");
+       userController.send_question_to_admin("email@gmail.com", "Happy Birthday with answer");
+       this.questionController.answer_user_question(1, "because", "admin@admin.com");
+        this.advertiseController.add_advertise(birth_date, "owner", "message", "https://picsum.photos/id/237/200/200", "www.walla.com");
 
+        this.advertiseController.add_advertise(birth_date, "owner", "message", "https://picsum.photos/id/238/200/200", "www.walla.com");
 //        Facade user_facade = new Facade();
 //        Facade admin_facade = new Facade();
 //        user_facade.register(EMAIL, PASSWORD, NAME, LAST_NAME, BIRTH_DATE, PHONE, GENDER);

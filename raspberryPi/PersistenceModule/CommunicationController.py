@@ -4,10 +4,12 @@ import requests
 from Config import InitData
 from PersistenceModule.urls import finish_ride_url, get_rp_config_file_url
 from RidesModule.Ride import FinishRideRequest
+from Utils.Logger import ride_logger
 from Utils.Response import Response
 
 
 def get_rp_config_file():
+    ride_logger.info(f'RIDE \n Start time : {ride._start_time} \n End time : {ride._end_time} \n Start location : {ride._start_location} \n Destination location: {ride._destination_location} \n Junctions : {ride.junctions}')
     url = InitData.SERVER_ADDRESS + get_rp_config_file_url
     res = requests.get(url)
     response = Response(res.json())

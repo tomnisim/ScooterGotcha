@@ -127,4 +127,8 @@ public class Advertise {
                 ", url='" + url + '\'' +
                 '}';
     }
+
+    public void add_click() {
+        this.users_clicks++;
+    }
 }

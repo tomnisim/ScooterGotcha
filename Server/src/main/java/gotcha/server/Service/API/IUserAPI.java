@@ -32,7 +32,7 @@ public interface IUserAPI {
     Response view_all_user_questions(@SessionAttribute("userContext") UserContext userContext);
     Response get_safe_routes(String origin, String destination, @SessionAttribute("userContext") UserContext userContext);
     Response view_all_advertisement(@SessionAttribute("userContext") UserContext userContext);
-
+    Response add_advertisement_click(Integer id, @SessionAttribute("userContext") UserContext userContext);
     // RP API - this methods should not check if the user is logged in.
 
     Response finish_ride(FinishRideRequest finishRideRequest);
