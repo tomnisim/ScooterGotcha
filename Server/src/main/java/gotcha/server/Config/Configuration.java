@@ -28,6 +28,8 @@ public class Configuration {
     private double hazards_rate_threshold;
     private int hazards_time_to_report_in_minutes;
     private int statistics_time_to_update_in_minutes;
+    private String alert;
+    private double duration;
 
     private Map<String, ServerConfiguration> server;
 
@@ -201,5 +203,21 @@ public class Configuration {
 
     public void setStatistics_time_to_update_in_minutes(int statistics_time_to_update_in_minutes) {
         this.statistics_time_to_update_in_minutes = statistics_time_to_update_in_minutes;
+    }
+
+    public String getAlert() {
+        return alert;
+    }
+
+    public void setAlert(String alert) {
+        this.alert = alert;
+    }
+
+    public double getDuration() {
+        return duration;
+    }
+
+    public void setDuration(double duration) {
+        this.duration = duration;
     }
 }

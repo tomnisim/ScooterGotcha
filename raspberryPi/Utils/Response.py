@@ -1,9 +1,9 @@
 
 class Response():
     def __init__(self, res):
-        self.value = res.value
-        self.was_exception = res.was_exception
-        self.message = res.message
+        self.value = res["value"]
+        self.was_exception = res["was_exception"]
+        self.message = res["message"]
 
     def get_value(self):
         return self.value

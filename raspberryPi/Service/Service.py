@@ -11,9 +11,8 @@ from datetime import time
 from AlertModule.Vocal import Vocal
 from AlertModule.VocalCreator import VocalCreator
 from CameraModule.CameraController import CameraController
-from Config.Config_data import Config_data
+from Config.InitData import InitData
 from GPSModule.GPSController import GPSController
-from PersistenceModule.PersistenceController import PersistenceController
 from RidesModule.RideController import RideController
 import time
 
@@ -44,13 +43,13 @@ def manage_live_button():
 def update_config():
 
     while True:
-        Config_data()
+        InitData()
         time.sleep(3600)
 
 class Service:
     def __init__(self):
         system_logger.info("Init System")
-        Config_data()
+        InitData()
         update_config_thread = threading.Thread(target=update_config)
         update_config_thread.start()
 
@@ -70,10 +69,8 @@ class Service:
         return ride_controller
 
     def run(self):
-        per = PersistenceController()
         global live_button
         while True:
             if live_button:
                 ride = self.ride_controller.execute_ride()
-                per.save_ride(ride)
 
