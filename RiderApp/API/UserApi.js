@@ -4,7 +4,7 @@ import {path, CONNECTION_ERROR, CATCH} from "./AppConstans"
 import axios from "./axiosInstance"
 
 const LOGIN_PATH = path + "rider_login"
-const LOGOT_PATH = path + "logout"
+const LOGOUT_PATH = path + "logout"
 const REGISTER_PATH = path + "register"
 
 const VIEW_NOTIFICATIONS_PATH = path + "view_notifications"
@@ -44,7 +44,7 @@ export class UserApi {
     }
 
     logout() {
-        return axios.post(LOGOT_PATH)
+        return axios.post(LOGOUT_PATH)
             .then(async (res) => {
                 return new Response(res.data);
             })

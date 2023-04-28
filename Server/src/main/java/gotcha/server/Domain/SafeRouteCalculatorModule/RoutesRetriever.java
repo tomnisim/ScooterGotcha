@@ -6,6 +6,8 @@ import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.ExternalService.MapsAdapter;
 import gotcha.server.Domain.ExternalService.MapsAdapterImpl;
 import gotcha.server.Domain.ExternalService.MapsAdapterRealTime;
+import gotcha.server.Utils.Location;
+import gotcha.server.Utils.LocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -72,5 +74,18 @@ public class RoutesRetriever {
             sorted_routes_by_safety.add(routes_by_rating.get(rate));
         }
         return sorted_routes_by_safety;
+    }
+
+    public String[] getAddresses(LocationDTO origin, LocationDTO destination) {
+        String[] answer = new String[2];
+        try{
+            answer[0] = this.google_maps.locationToAddress(new Location(origin));
+            answer[1] = this.google_maps.locationToAddress(new Location(destination));
+        }
+        catch (Exception e){
+            answer[0] = "";
+            answer[1] = "";
+        }
+        return answer;
     }
 }

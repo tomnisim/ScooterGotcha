@@ -18,6 +18,7 @@ export default function MyRidesScreen({navigation}) {
     let response = await ridesApi.view_rides();
     if (!response.was_exception){
       setRides_list(response.value)
+      console.log(response.value)
     }
   }
 
@@ -30,35 +31,45 @@ export default function MyRidesScreen({navigation}) {
       width: 200,
     },
     {
-      title: "City",
-      dataIndex: "city",
-      key: "city",
+      title: "Origin",
+      dataIndex: "originAddress",
+      key: "originAddress",
+      width:200,
+    },
+    {
+      title: "Destination",
+      dataIndex: "destinationAddress",
+      key: "destinationAddress",
       width:200,
     },
     {
       title: "Start Time",
       dataIndex: "start_time",
       key: "start_time",
-      width:200,
+      width: 200,
+      render: (startTime) => {
+        const hhmm = convertToHHMM(startTime);
+        return <span>{hhmm}</span>;
+      },
     },
     {
-      title: "Duration",
+      title: "Duration [HH:MM]",
       dataIndex: "duration",
       key: "duration",
       width: 200,
       render: (duration) => {
         const formattedDuration = parseFloat(duration).toFixed(2);
-        return <span>{formattedDuration} Hour</span>;
+        return <span>{formattedDuration}</span>;
       },
     },
     {
-      title: "Distance",
+      title: "Distance [Km]",
       dataIndex: "distance",
       key: "distance",
       width: 200,
       render: (distance) => {
-        const formattedDistance = parseFloat(distance).toFixed(3);
-        return <span>{formattedDistance} KM</span>;
+        const formattedDistance = formatMetersToKM(distance);
+        return <span>{formattedDistance}</span>;
       },
     },
     {
@@ -66,8 +77,9 @@ export default function MyRidesScreen({navigation}) {
       dataIndex: "",
       key: "Show",
       render: (text, row) => (
-        <TouchableOpacity onPress={() => handleVisualShow(row)}>Show</TouchableOpacity>
-      ),
+        <TouchableOpacity onPress={() => handleVisualShow(row)} style={{color: 'blue'}}>
+          Show
+        </TouchableOpacity>      ),
     },
   ];
   
@@ -78,6 +90,18 @@ export default function MyRidesScreen({navigation}) {
   const handleVisualShow = (row) => {
     setRide(row)
     navigation.navigate('VisualRide');
+  }
+
+  function convertToHHMM(dateTimeStr) {
+    const dateTime = new Date(dateTimeStr);
+    const hours = String(dateTime.getHours()).padStart(2, '0');
+    const minutes = String(dateTime.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
+
+  function formatMetersToKM(meters) {
+    const kilometers = meters / 1000;
+    return kilometers.toFixed(3);
   }
 
 

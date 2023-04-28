@@ -333,7 +333,8 @@ public class Facade {
         try{
             String userEmail = user_controller.get_user_email_by_rp_serial(finishRideRequest.getRpSerialNumber());
             int number_of_rides = this.rides_controller.get_number_of_rides(userEmail);
-            Ride ride = this.rides_controller.add_ride(finishRideRequest, userEmail);
+            String[] addresses = routes_retriever.getAddresses(finishRideRequest.getOrigin(), finishRideRequest.getDestination());
+            Ride ride = this.rides_controller.add_ride(finishRideRequest, userEmail, addresses[0], addresses[1]);
             int ride_id = ride.getRide_id();
             user_controller.update_user_rate(userEmail, ride, number_of_rides);
             hazard_controller.update_hazards(finishRideRequest.getHazards(), ride_id);

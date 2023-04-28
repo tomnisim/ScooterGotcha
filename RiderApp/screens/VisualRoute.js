@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import L, { icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { destIcon, originIcon, hazardIcon } from '../API/AppConstans';
 
 
 let junctions = [
@@ -11,6 +12,8 @@ let junctions = [
 
 let distance = "0"
 let duration = "0"
+
+let hazards = []
 
 export const setRoute = ((route) => {
   let value = route[0]
@@ -25,36 +28,29 @@ export const setRoute = ((route) => {
     return {id: id, name:'Junction '+id, lng: jun.longitude,lat: jun.latitude}
 
   })
+  let hazards = value.hazardsInRoute;
+  let hazard_id = 0
+  const hazards_list = hazards.map((hazard) => {
+    hazard_id = hazard_id +1;
+    return {hazard_id: hazard_id, lng: hazard.location.longitude, lat: hazard.location.latitude, type: hazard.type}
+  })
+
+
   console.log("distance:"+distance)
   console.log("duration:"+duration)
   console.log("numbers:"+junctionsNumber)
 
 
   set_junctions(lst)
+  set_hazards(hazards_list)
 
 })
 export const set_junctions = async (val) => {
     junctions = val
   }
-
-  const myIcon = L.icon({
-    iconUrl: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/main/adminApp/assets/logo.png',
-    iconSize: [30, 30],
-    iconAnchor: [15, 15]
-  });
-
-
-  const originIcon = L.icon({
-    iconUrl: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/main/adminApp/assets/bell.png',
-    iconSize: [30, 30],
-    iconAnchor: [15, 15]
-  });
-
-  const destIcon = L.icon({
-    iconUrl: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/main/adminApp/assets/bell.png',
-    iconSize: [30, 30],
-    iconAnchor: [15, 15]
-  });
+  export const set_hazards = async (val) => {
+    hazards = val
+  }
 
 export default function VisualRouteScreen({}) {
 
@@ -78,6 +74,16 @@ export default function VisualRouteScreen({}) {
         // Create an array to hold the markers
         const markers = [];
     
+        hazards.forEach((hazard) => {
+          const marker = L.marker([hazard.lat, hazard.lng], {icon: hazardIcon});
+          marker.addTo(map);
+          marker.bindPopup(`<b>${hazard.type}</b>`);
+          markers.push(marker);
+          },);
+
+
+
+
         // Add the junction markers to the map
         junctions.forEach((junction, index) => {
           if (index == 0){
@@ -96,10 +102,9 @@ export default function VisualRouteScreen({}) {
             }
             else
             {
-              const marker = L.marker([junction.lat, junction.lng], {icon: myIcon});
-              marker.addTo(map);
-              marker.bindPopup(`<b>${junction.name}</b>`);
-              markers.push(marker);
+              // const marker = L.marker([junction.lat, junction.lng], {icon: myIcon});
+              // marker.addTo(map);
+              // marker.bindPopup(`<b>${junction.name}</b>`);
 
   
             }
@@ -119,9 +124,10 @@ export default function VisualRouteScreen({}) {
           }
             });
     
+        
         // Open the popups for all the markers
-        markers.forEach((marker) => marker.openPopup());
-      }, [junctions]);
+        //markers.forEach((marker) => marker.openPopup());
+      }, [junctions, hazards]);
     
       return (
         <View>

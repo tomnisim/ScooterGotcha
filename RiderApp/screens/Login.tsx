@@ -5,7 +5,7 @@ import { StyleSheet, View, TextInput, TouchableOpacity, Text, ImageBackground} f
 import { background } from '../API/AppConstans';
 import { UserApi } from '../API/UserApi';
 import {setUser} from './Profile'
-
+import {setName} from './taskBar'
 
 const userApi = new UserApi();
 
@@ -24,6 +24,7 @@ const LoginScreen= ({ navigation }) => {
     else
     {
       setUser(response.value)
+      setName(response.value.name)
       navigation.navigate('Home')
     }
   };

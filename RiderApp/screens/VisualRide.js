@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import L, { icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-
+import { destIcon, originIcon } from '../API/AppConstans';
 
 let junctions = [
     { id: 0, name: 'Junction 0', lat: 31.265106, lng: 34.801402 },
@@ -39,24 +39,7 @@ export const set_junctions = async (val) => {
     junctions = val
   }
 
-  const myIcon = L.icon({
-    iconUrl: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/main/adminApp/assets/logo.png',
-    iconSize: [30, 30],
-    iconAnchor: [15, 15]
-  });
 
-
-  const originIcon = L.icon({
-    iconUrl: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/main/adminApp/assets/bell.png',
-    iconSize: [30, 30],
-    iconAnchor: [15, 15]
-  });
-
-  const destIcon = L.icon({
-    iconUrl: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/main/adminApp/assets/bell.png',
-    iconSize: [30, 30],
-    iconAnchor: [15, 15]
-  });
 
 export default function VisualRouteScreen({}) {
 
@@ -98,11 +81,6 @@ export default function VisualRouteScreen({}) {
             }
             else
             {
-              const marker = L.marker([junction.lat, junction.lng], {icon: myIcon});
-              marker.addTo(map);
-              marker.bindPopup(`<b>${junction.name}</b>`);
-              markers.push(marker);
-
   
             }
           }
@@ -122,15 +100,15 @@ export default function VisualRouteScreen({}) {
             });
     
         // Open the popups for all the markers
-        markers.forEach((marker) => marker.openPopup());
+        //markers.forEach((marker) => marker.openPopup());
       }, [junctions]);
     
       return (
         <View>
         <div id="map" style={{ height: '500px' }}>
         </div>
-        <h3>Distance: {distance} Meters</h3>
-          <h3>Duration: {duration} Minutes</h3>
+        <h3>Distance: {distance} [Meters]</h3>
+          <h3>Duration: {duration} [Hours]</h3>
         </View>
       );
     };

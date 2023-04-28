@@ -20,11 +20,13 @@ public class Ride {
     private LocalDateTime end_time;
     private Location origin;
     private Location destination;
+    private String originAddress;
+    private String destinationAddress;
     private List<RidingAction> actions;
     private List<Location> junctions;
 
-    private double duration; // minutes
-    private double distance; // minutes
+    private String duration; // minutes
+    private double distance; // Km
 
 
 
@@ -32,7 +34,7 @@ public class Ride {
     {
 
     }
-    public Ride(int ride_id, String rider_email, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, List<RidingAction> actions, List<Location> junctions) {
+    public Ride(int ride_id, String rider_email, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, List<RidingAction> actions, List<Location> junctions, String originAddress, String destinationAddress) {
         this.ride_id = ride_id;
         this.rider_email = rider_email;
         this.date = start_time.toLocalDate();
@@ -41,19 +43,23 @@ public class Ride {
         this.end_time = end_time;
         this.origin = origin;
         this.destination = destination;
+        this.originAddress = originAddress;
+        this.destinationAddress = destinationAddress;
         this.actions = actions;
-        this.distance = (origin.distanceTo(destination) * 1000);
+        this.distance = (origin.distanceTo(destination));
         this.duration = setDurationByTimes();
         this.junctions = junctions;
 
 
     }
 
-    public Ride(int rideId, String userEmail, FinishRideRequest finishRideRequest) {
+    public Ride(int rideId, String userEmail, FinishRideRequest finishRideRequest, String originAddress, String destinationAddress) {
         this.ride_id = rideId;
         this.rider_email = userEmail;
         this.origin = new Location(finishRideRequest.getOrigin());
         this.destination = new Location(finishRideRequest.getDestination());
+        this.originAddress = originAddress;
+        this.destinationAddress = destinationAddress;
         this.date = finishRideRequest.getStartTime().toLocalDate();
         this.city = finishRideRequest.getCity();
         this.start_time = finishRideRequest.getStartTime();
@@ -143,16 +149,19 @@ public class Ride {
         this.actions = actions;
     }
 
-    private double setDurationByTimes() {
+    private String setDurationByTimes() {
         Duration duration = Duration.between(start_time, end_time);
-        return duration.getSeconds() / 60;
+        double seconds = duration.getSeconds();
+        int hours = (int) (seconds / 3600);
+        int minutes = (int) ((seconds % 3600) / 60);
+        return String.format("%02d.%02d", hours, minutes);
     }
 
-    public double getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(double duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
     }
 
@@ -170,5 +179,21 @@ public class Ride {
 
     public void setJunctions(List<Location> junctions) {
         this.junctions = junctions;
+    }
+
+    public String getOriginAddress() {
+        return originAddress;
+    }
+
+    public void setOriginAddress(String originAddress) {
+        this.originAddress = originAddress;
+    }
+
+    public String getDestinationAddress() {
+        return destinationAddress;
+    }
+
+    public void setDestinationAddress(String destinationAddress) {
+        this.destinationAddress = destinationAddress;
     }
 }

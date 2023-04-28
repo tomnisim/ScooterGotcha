@@ -1,17 +1,23 @@
 package gotcha.server.Domain.ExternalService;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import gotcha.server.Domain.SafeRouteCalculatorModule.Route;
 import gotcha.server.Utils.Location;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
 public abstract class MapsAdapter {
     final String mode = "bicycling";
@@ -98,6 +104,70 @@ public abstract class MapsAdapter {
     }
 
 
+    public String locationToAddress1(Location location){
+        double lat = location.getLatitude().doubleValue();
+        double lng = location.getLongitude().doubleValue();
+        // Build the URL for the Geocoding API request
+        String url = String.format("https://maps.googleapis.com/maps/api/geocode/json?latlng=%f,%f&key=%s", lat, lng, apiKey);
+
+        // Send the Geocoding API request and read the response
+        String response = "";
+        try {
+            URL requestUrl = new URL(url);
+            Scanner scanner = new Scanner(requestUrl.openStream());
+            while (scanner.hasNext()) {
+                response += scanner.nextLine();
+            }
+            scanner.close();
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        // Parse the response as JSON and extract the formatted address
+        JSONObject jsonResponse = new JSONObject(response);
+        JSONArray results = jsonResponse.getJSONArray("results");
+        String address = results.getJSONObject(0).getString("formatted_address");
+
+        return address;
+    }
+
+    public String locationToAddress(Location location) throws IOException {
+        double lat = location.getLatitude().doubleValue();
+        double lng = location.getLongitude().doubleValue();
+        String NOMINATIM_ENDPOINT = "https://nominatim.openstreetmap.org/reverse";
+        String url = NOMINATIM_ENDPOINT + "?format=jsonv2&lat=" + lat + "&lon=" + lng;
+        String json = getJSONFromURL(url);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode rootNode = mapper.readTree(json);
+
+        String address = "";
+        if (rootNode.has("address")) {
+            JsonNode addressNode = rootNode.get("address");
+
+            if (addressNode.has("road")) {
+                address += addressNode.get("road").asText();
+            }
+            if (addressNode.has("house_number")) {
+                address += " " + addressNode.get("house_number").asText();
+            }
+            if (addressNode.has("city")) {
+                address += ", " + addressNode.get("city").asText();
+            }
+            if (addressNode.has("state")) {
+                address += ", " + addressNode.get("state").asText();
+            }
+            if (addressNode.has("country")) {
+                address += ", " + addressNode.get("country").asText();
+            }
+        }
+        return address;
+        //return json.get("address").get("road").asText() + ", " + json.get("address").get("city").asText();
+    }
+
+
     protected String covert_address(String address){
 //        String Origin =  "1 Rothschild Boulevard, Tel Aviv-Yafo, Israel";
 //        String Destination = "10 HaYarkon St, Tel Aviv-Yafo, Israel";
@@ -105,4 +175,14 @@ public abstract class MapsAdapter {
         return address.replaceAll(" ", "+");
     }
 
+    private static String getJSONFromURL(String url) throws IOException {
+        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+        conn.setRequestMethod("GET");
+        InputStream in = conn.getInputStream();
+        Scanner scanner = new Scanner(in);
+        scanner.useDelimiter("\\A");
+        String json = scanner.hasNext() ? scanner.next() : "";
+        scanner.close();
+        return json;
+    }
 }

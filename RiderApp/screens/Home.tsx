@@ -12,21 +12,15 @@ export default function HomeScreen({navigation}) {
   const [advertisments_list, setAdvertisments_list] = useState([])
   const [notifications_list, setNotifications_list] = useState([])
   
-
-
-  // let images = [{url: "http://www.walla.com", image:'https://picsum.photos/id/237/200/200'}
-  // ];
-
-
   let images = []
 
 
-  async function get_notifications_list(){
-    let response = await userApi.view_notifications();
-    if (!response.was_exception){
-      setNotifications_list(response.value)
-    }
-  }
+  // async function get_notifications_list(){
+  //   let response = await userApi.view_notifications();
+  //   if (!response.was_exception){
+  //     setNotifications_list(response.value)
+  //   }
+  // }
 
   async function get_advertisments_list(){
     let response = await userApi.view_advertisements();
@@ -46,7 +40,7 @@ export default function HomeScreen({navigation}) {
   }
 
   useEffect(() => {
-    get_notifications_list();
+    //get_notifications_list();
     get_advertisments_list();
   }, [])
 
@@ -62,12 +56,7 @@ export default function HomeScreen({navigation}) {
         <Button onPress={() => navigation.navigate('ContactUs')} title="Contact Us Window" color='#00000000'/>
 
         </View>
-        <View style={{display: 'flex', flexDirection:'column', width: 250}}>
-        <Text style={{textAlign:'center', color:'#841584', backgroundColor:'white', opacity:1}}><h1>Notifications</h1></Text>
-        <ScrollView style={styles.container}>
-        <Table columns={columns} data={notifications_list} tableLayout="auto"/>
-        </ScrollView>
-        </View>
+
         <View style={{display: 'flex', flexDirection:'column', width: 250}}>
         <ScrollView style={styles.container}>
         <ul>

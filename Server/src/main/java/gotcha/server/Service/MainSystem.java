@@ -5,8 +5,10 @@ import gotcha.server.DAL.HibernateUtils;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
 import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.HazardType;
+import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
 import gotcha.server.Domain.RidesModule.RidesController;
+import gotcha.server.Domain.SafeRouteCalculatorModule.RoutesRetriever;
 import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.Domain.ExternalService.MapsAdapter;
@@ -40,12 +42,13 @@ public class MainSystem {
     private final AdvertiseController advertiseController;
     private final QuestionController questionController;
     private final StatisticsManager statisticsManager;
+    private final RoutesRetriever routesRetriever;
     private final SystemLogger systemLogger;
     private final ErrorLogger errorLogger;
     private final MapsAdapter maps_adapter;
 
     @Autowired
-    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, ErrorLogger errorLogger, MapsAdapterImpl mapsAdapter, StatisticsManager statisticsManager, QuestionController questionController){
+    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, ErrorLogger errorLogger, MapsAdapterImpl mapsAdapter, StatisticsManager statisticsManager, QuestionController questionController, RoutesRetriever routesRetriever){
         this.configuration = configuration;
         this.userController = userController;
         this.hazardController = hazardController;
@@ -53,6 +56,7 @@ public class MainSystem {
         this.advertiseController = advertiseController;
         this.questionController = questionController;
         this.statisticsManager = statisticsManager;
+        this.routesRetriever = routesRetriever;
         this.systemLogger = systemLogger;
         this.errorLogger = errorLogger;
         this.maps_adapter = mapsAdapter;
@@ -178,7 +182,9 @@ public class MainSystem {
         BigDecimal lat1 = new BigDecimal("31.267604");
         Location dest = new Location(lng1, lat1);
 
-
+        String[] addresses = this.routesRetriever.getAddresses(new LocationDTO(origin), new LocationDTO(dest));
+        String originAddress = addresses[0];
+        String destAddress = addresses[1];
         BigDecimal lng111 = new BigDecimal("34.80283154");
         BigDecimal lat111 = new BigDecimal("32.1246251");
         Location origin111 = new Location(lng111, lat111);
@@ -189,10 +195,15 @@ public class MainSystem {
 
         ArrayList hazards = new ArrayList();
 
+        Location hazard_location = new Location( new BigDecimal("34.769943"),  new BigDecimal("32.063047"));
+        Location hazard_location2 = new Location( new BigDecimal("34.765202"),  new BigDecimal("32.068184"));
+        Location hazard_location3 = new Location( new BigDecimal("34.769849"),  new BigDecimal("32.0636256"));
+
         LocalDateTime start_time = LocalDateTime.now();
-        this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5);
-        this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 7);
-        this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 12);
+        this.hazardController.add_hazard(5, hazard_location, "Tel-Aviv", HazardType.PoleTree, 16.5);
+        this.hazardController.add_hazard(5, hazard_location2, "Tel-Aviv", HazardType.RoadSign, 7);
+        this.hazardController.add_hazard(5, hazard_location3, "Tel-Aviv", HazardType.PoleTree, 12);
+
         this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12);
         this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14);
         this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3);
@@ -218,9 +229,9 @@ public class MainSystem {
                 birth_date, "male", "type", issue, "first123");
 //        (String rpSerialNumber, Location origin, Location destination, String city, LocalDateTime startTime, LocalDateTime endTime, List<StationaryHazard> hazards, List< RidingAction > ridingActions) {
 //            this.rpSerialNumber = rpSerialNumber;
-        FinishRideRequest finishRideReq = new FinishRideRequest("first", new LocationDTO(origin), new LocationDTO(dest), "Netanya", start_time, start_time, hazards, new ArrayList<>(), new ArrayList<>());
+        FinishRideRequest finishRideReq = new FinishRideRequest("first", new LocationDTO(origin), new LocationDTO(dest), "Netanya", start_time, start_time.plusMinutes(47), hazards, new ArrayList<>(), new ArrayList<>());
 //        FinishRideRequest finishRideReq2 = new FinishRideRequest("first", origin111, dest222, "Tel-Aviv", start_time, start_time, hazards, new ArrayList<>(), new ArrayList<>());
-        ridesController.add_ride(finishRideReq, "email@gmail.com");
+        ridesController.add_ride(finishRideReq, "email@gmail.com", originAddress, destAddress);
 //        ridesController.add_ride(finishRideReq2, "email@gmail.com");
 
         userController.add_first_admin("admin1@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
