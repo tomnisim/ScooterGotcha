@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import L, { icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { async } from 'q';
 
 
 let junctions = [
@@ -16,9 +15,12 @@ export const set_junctions = async (val) => {
     junctions = val
   }
 
-  const myIcon = L.icon({
-    iconUrl: 'C:/Users/amitm/Desktop/SemH/ScooterGotcha/adminApp/assets/icon.png',
+  export const myIcon = L.icon({
+    iconUrl: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/main/adminApp/assets/logo.png',
+    iconSize: [30, 30],
+    iconAnchor: [15, 15]
   });
+
 
 export default function VisualHazards({}) {
 
@@ -43,29 +45,17 @@ export default function VisualHazards({}) {
         // Add the junction markers to the map
         junctions.forEach((junction, index) => {
             // TODO : handle title & icon.
-          const marker = L.marker([junction.lat, junction.lng]);
+          const marker = L.marker([junction.lat, junction.lng], {icon: myIcon});
           marker.addTo(map);
           marker.bindPopup(`<b><div style='background-color:orange'>${junction.name}</div></b>`);
           markers.push(marker)
 
 
-          // Draw the polyline between the current junction and the previous junction
-          if (index > 0) {
-            const previousJunction = junctions[index - 1];
-            const polyline = L.polyline(
-              [
-                [previousJunction.lat, previousJunction.lng],
-                [junction.lat, junction.lng],
-              ],
-              { color: 'green' }
-            ).addTo(map);
-          }
     
-          markers.push(marker);
         });
     
         // Open the popups for all the markers
-        markers.forEach((marker) => marker.openPopup());
+        //markers.forEach((marker) => marker.openPopup());
       }, [junctions]);
     
       return <div id="map" style={{ height: '500px' }} />;

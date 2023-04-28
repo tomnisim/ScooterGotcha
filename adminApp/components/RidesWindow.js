@@ -55,6 +55,7 @@ export default function RidesWindow({navigation}) {
       temp1.map((item) => list_temp.push({value: item.key, label: item.key}))
       setRides_ids_list(list_temp)
     }
+    console.log(response.value)
   }
 
   useEffect(() => {
@@ -128,22 +129,24 @@ const columns = [
     width: 200,
   },
   {
-    title: "City",
-    dataIndex: "city",
-    key: "city",
-    width:200,
-  },
-  {
     title: "Start Time",
     dataIndex: "start_time",
     key: "start_time",
-    width:200,
+    width: 200,
+    render: (start_time) => {
+      const hhmm = convertToHHMM(start_time);
+      return <span>{hhmm}</span>;
+    },
   },
   {
-    title: "End Time",
-    dataIndex: "end_time",
-    key: "end_time",
-    width:200,
+    title: "Duration [HH:MM]",
+    dataIndex: "duration",
+    key: "duration",
+    width: 200,
+    render: (duration) => {
+      const formattedDuration = parseFloat(duration).toFixed(2);
+      return <span>{formattedDuration}</span>;
+    },
   },
   {
     title: "Origin",
@@ -157,8 +160,27 @@ const columns = [
     key: "destination",
     width:200,
   },
+  {
+    title: "Distance [Km]",
+    dataIndex: "distance",
+    key: "distance",
+    width: 200,
+    render: (distance) => {
+      const formattedDistance = formatMetersToKM(distance);
+      return <span>{formattedDistance}</span>;
+    },
+  },
 ];
 
+
+function convertToHHMM(dateTimeStr) {
+  return dateTimeStr.substring(0,5);
+}
+
+function formatMetersToKM(meters) {
+  const kilometers = meters / 1000;
+  return kilometers.toFixed(3);
+}
 
 
 const styles = StyleSheet.create({
