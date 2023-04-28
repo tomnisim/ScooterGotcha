@@ -181,10 +181,18 @@ public class MainSystem {
         BigDecimal lng1 = new BigDecimal("34.797558");
         BigDecimal lat1 = new BigDecimal("31.267604");
         Location dest = new Location(lng1, lat1);
+        Location hazard_location = new Location( new BigDecimal("34.769943"),  new BigDecimal("32.063047"));
+        Location hazard_location2 = new Location( new BigDecimal("34.765202"),  new BigDecimal("32.068184"));
+        Location hazard_location3 = new Location( new BigDecimal("34.769849"),  new BigDecimal("32.0636256"));
 
         String[] addresses = this.routesRetriever.getAddresses(new LocationDTO(origin), new LocationDTO(dest));
         String originAddress = addresses[0];
         String destAddress = addresses[1];
+        String[] addresses1 = this.routesRetriever.getAddresses(new LocationDTO(hazard_location2), new LocationDTO(hazard_location3));
+        String originAddress1 = addresses1[0];
+        String destAddress1 = addresses1[1];
+
+
         BigDecimal lng111 = new BigDecimal("34.80283154");
         BigDecimal lat111 = new BigDecimal("32.1246251");
         Location origin111 = new Location(lng111, lat111);
@@ -195,9 +203,7 @@ public class MainSystem {
 
         ArrayList hazards = new ArrayList();
 
-        Location hazard_location = new Location( new BigDecimal("34.769943"),  new BigDecimal("32.063047"));
-        Location hazard_location2 = new Location( new BigDecimal("34.765202"),  new BigDecimal("32.068184"));
-        Location hazard_location3 = new Location( new BigDecimal("34.769849"),  new BigDecimal("32.0636256"));
+
 
         LocalDateTime start_time = LocalDateTime.now();
         this.hazardController.add_hazard(5, hazard_location, "Tel-Aviv", HazardType.PoleTree, 16.5);
@@ -230,9 +236,9 @@ public class MainSystem {
 //        (String rpSerialNumber, Location origin, Location destination, String city, LocalDateTime startTime, LocalDateTime endTime, List<StationaryHazard> hazards, List< RidingAction > ridingActions) {
 //            this.rpSerialNumber = rpSerialNumber;
         FinishRideRequest finishRideReq = new FinishRideRequest("first", new LocationDTO(origin), new LocationDTO(dest), "Netanya", start_time, start_time.plusMinutes(47), hazards, new ArrayList<>(), new ArrayList<>());
-//        FinishRideRequest finishRideReq2 = new FinishRideRequest("first", origin111, dest222, "Tel-Aviv", start_time, start_time, hazards, new ArrayList<>(), new ArrayList<>());
+        FinishRideRequest finishRideReq2 = new FinishRideRequest("first", new LocationDTO(hazard_location2), new LocationDTO(hazard_location3), "Tel-Aviv", start_time, start_time.plusMinutes(47), hazards, new ArrayList<>(), new ArrayList<>());
         ridesController.add_ride(finishRideReq, "email@gmail.com", originAddress, destAddress);
-//        ridesController.add_ride(finishRideReq2, "email@gmail.com");
+        ridesController.add_ride(finishRideReq2, "email@gmail.com", originAddress1, destAddress1);
 
         userController.add_first_admin("admin1@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         userController.add_first_admin("admin12@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
