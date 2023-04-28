@@ -81,8 +81,7 @@ public class MainSystem {
         try{
             ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
             HazardsReporterThread hazardsReporterThread = new HazardsReporterThread(hazardController, systemLogger);
-            // TODO: change seconds -> minutes
-            executorService.scheduleAtFixedRate(hazardsReporterThread, 0, configuration.getHazards_time_to_report_in_minutes(), TimeUnit.SECONDS);
+            executorService.scheduleAtFixedRate(hazardsReporterThread, 0, configuration.getHazards_time_to_report_in_minutes(), TimeUnit.MINUTES);
         }
         catch (Exception e) {
             errorLogger.add_log("fail to update statistics :"+e.getMessage());
@@ -151,7 +150,6 @@ public class MainSystem {
     }
     private void set_first_admin() throws Exception {
         LocalDate birth_date = LocalDate.now();
-        // TODO: 3/26/2023 : Need to add all parameters to config file
         userController.add_first_admin(configuration.getAdminUserName(), "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
     }
 
@@ -162,8 +160,7 @@ public class MainSystem {
         try{
             ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
             StatisticsUpdateThread statistics_update_thread = new StatisticsUpdateThread(statisticsManager, systemLogger);
-            // TODO: change seconds -> minutes
-            executorService.scheduleAtFixedRate(statistics_update_thread, 0, configuration.getStatistics_time_to_update_in_minutes(), TimeUnit.SECONDS);
+            executorService.scheduleAtFixedRate(statistics_update_thread, 0, configuration.getStatistics_time_to_update_in_minutes(), TimeUnit.MINUTES);
         }
         catch (Exception e) {
             errorLogger.add_log("fail to update statistics :"+e.getMessage());

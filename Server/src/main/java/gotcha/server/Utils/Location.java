@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Location {
-    // TODO: 31/03/2023 : move to configuration.
     private final double RADIOS = 0.01; // KILOMETER.
     
     private BigDecimal longitude;

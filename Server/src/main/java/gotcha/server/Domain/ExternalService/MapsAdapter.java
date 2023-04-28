@@ -24,18 +24,15 @@ public abstract class MapsAdapter {
 
     /**
      *
-     * @param origin_destination after covert to Location object, location of rider
+     * @param origin_input after covert to Location object, location of rider
      * @param destination_input after covert to Location object
      * @param number_of_routes to return
      * @return list of size @number_of_routes from @origin to @destination
      */
-    public List<Route> get_routes(String origin_destination, String destination_input, int number_of_routes) {
-        origin_destination = this.covert_address(origin_destination);
-        destination_input = this.covert_address(destination_input);
+    public List<Route> get_routes(String origin_input, String destination_input, int number_of_routes) {
         List<Route> routes_list = new LinkedList<>();
         for (int i = 0; i < number_of_routes; i++){
-            // TODO: 17/03/2023 : the routes are the same, read API and change it to [number_of_routes] different routes.
-            Route temp = this.get_route(origin_destination, destination_input);
+            Route temp = this.get_route(origin_input, destination_input);
             routes_list.add(temp);
         }
         return routes_list;
@@ -43,16 +40,19 @@ public abstract class MapsAdapter {
 
     /**
      * this method call Google Maps API
-     * @param origin_destination after covert to Location object, location of rider
-     * @param destination_input after covert to Location object
+     * @param origin_address before covert to Location object, location of rider
+     * @param destination_address before covert to Location object
      * @return a route from @origin to @destination
      */
-    protected Route get_route(String origin_destination, String destination_input) {
+    protected Route get_route(String origin_address, String destination_address) {
+        String origin_input = this.covert_address(origin_address);
+        String destination_input = this.covert_address(destination_address);
+
         Route route = new Route();
         StringBuffer response = new StringBuffer();
         try {
             URL url = new URL(String.format("https://maps.googleapis.com/maps/api/directions/json?origin=%s&destination=%s&mode=%s&key=%s",
-                    origin_destination, destination_input, mode, apiKey));
+                    origin_input, destination_input, mode, apiKey));
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
 
@@ -77,13 +77,9 @@ public abstract class MapsAdapter {
             int duration = 0; // Minutes
             int distance = 0; // Meters
             for (int i = 0; i < steps.length(); i++) {
-                // TODO: 19/04/2023 : Add More Route Details.
                 JSONObject curr = steps.getJSONObject(i).getJSONObject("start_location");
-                System.out.println();
                 String lng_str = curr.get("lng").toString();
                 String lat_str = curr.get("lat").toString();
-                System.out.println(lng_str);
-                System.out.println(lat_str);
                 BigDecimal lng = new BigDecimal(lng_str);
                 BigDecimal lat = new BigDecimal(lat_str);
                 Location location = new Location(lng, lat);
@@ -93,6 +89,8 @@ public abstract class MapsAdapter {
             }
             route.setDistance(distance);
             route.setDuration(duration);
+            route.setOriginAddress(origin_address);
+            route.setDestinationAddress(destination_address);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -101,7 +99,6 @@ public abstract class MapsAdapter {
 
 
     protected String covert_address(String address){
-        // TODO: 19/04/2023 : implement and keep convention.
 //        String Origin =  "1 Rothschild Boulevard, Tel Aviv-Yafo, Israel";
 //        String Destination = "10 HaYarkon St, Tel Aviv-Yafo, Israel";
 //        Origin = Origin.replaceAll(" ", "+");

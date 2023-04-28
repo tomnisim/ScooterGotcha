@@ -291,8 +291,6 @@ public class Facade {
 
     public Response get_safe_routes(String origin, String destination, UserContext userContext) {
         Response response;
-        // TODO: 03/03/2023 : Tom - have to get 3 routes from Google Maps, find all the hazards in each route,
-        //  sum the rating of each hazard by hazard rate calculator
         try {
             check_user_is_logged_in(userContext);
             List<Route> routeList = this.routes_retriever.fetch_safe_routes(origin, destination);
@@ -839,7 +837,6 @@ public class Facade {
         this.serverLogger.add_log("claer");
         this.systemLogger.add_log("clear");
 
-        // TODO: 01/03/2023 : clear all the data in instances.
 //        this.user_controller.reset();
 //        this.hazard_controller.reset();
 //        this.rides_controller.reset();

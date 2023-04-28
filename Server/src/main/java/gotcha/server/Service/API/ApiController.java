@@ -46,7 +46,6 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @Override
     public Response login(@RequestBody LoginRequest loginRequest, HttpSession session){
         System.out.println("login");
-        // TODO: Maybe implement Service Layer User object
         Response<User> response = facade.login(loginRequest);
         if(!response.iswas_exception()) {
             var userContext = new UserContext(response.getValue());
@@ -86,7 +85,6 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @CrossOrigin
     @Override
     public Response<Boolean> register(@RequestBody RegisterRequest registerRequest) {
-        // TODO: 04/01/2023 : implement according new sequence diagram
         var response = facade.register(registerRequest);
         return response;
     }
@@ -147,7 +145,6 @@ public class ApiController implements IAdminAPI, IUserAPI {
         return facade.add_advertisement_click(id, userContext);
     }
 
-    //todo : edit with facade
     @RequestMapping(value = "/view_notifications")
     @CrossOrigin
     @Override

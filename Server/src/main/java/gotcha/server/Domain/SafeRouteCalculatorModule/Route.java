@@ -15,6 +15,8 @@ public class Route {
     private List<StationaryHazard> hazardsInRoute;
     private int distance; // Meters
     private int duration; // Minutes
+    private String originAddress;
+    private String destinationAddress;
     public Route()
     {
         this.junctions = new LinkedList<Location>();
@@ -22,14 +24,18 @@ public class Route {
         this.distance = 0;
         this.duration = 0;
         this.hazardsInRoute = new ArrayList<>();
+        this.originAddress = "";
+        this.destinationAddress = "";
     }
 
-    public Route(List<Location> junctions, int distance, int duration, List<StationaryHazard> hazardsInRoute){
+    public Route(List<Location> junctions, int distance, int duration, List<StationaryHazard> hazardsInRoute, String originAddress, String destinationAddress){
         this.junctions = junctions;
         this.number_of_junctions = junctions.size();
         this.duration = duration;
         this.distance = distance;
         this.hazardsInRoute = hazardsInRoute;
+        this.originAddress = originAddress;
+        this.destinationAddress = destinationAddress;
     }
 
     public int getNumber_of_junctions() {
@@ -75,5 +81,21 @@ public class Route {
 
     public void setHazardsInRoute(List<StationaryHazard> hazardsInRoute) {
         this.hazardsInRoute = hazardsInRoute;
+    }
+
+    public String getOriginAddress() {
+        return originAddress;
+    }
+
+    public void setOriginAddress(String originAddress) {
+        this.originAddress = originAddress;
+    }
+
+    public String getDestinationAddress() {
+        return destinationAddress;
+    }
+
+    public void setDestinationAddress(String destinationAddress) {
+        this.destinationAddress = destinationAddress;
     }
 }
