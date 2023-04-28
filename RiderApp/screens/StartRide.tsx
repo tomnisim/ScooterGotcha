@@ -1,36 +1,44 @@
 
 
-import  { useState } from 'react';
-import {ImageBackground, View, Text, Button, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
-import { background } from '../API/Paths';
+import React, { useState } from 'react';
+import { StyleSheet, View, TextInput, TouchableOpacity, Text, ImageBackground } from 'react-native';
 import { UserApi } from '../API/UserApi';
+import VisualRouteScreen from './VisualRoute';
+import { setRoute } from './VisualRoute';
+import { background } from '../API/AppConstans';
+
 const userApi = new UserApi();
 
-export default function StartRideScreen({navigation}) {
-
+const StartRideScreen = ({navigation})  => {
   const [Origin, setOrigin] = useState('');
   const [Destination, setDestination] = useState('');
   const [RoutesData, setRoutesData] = useState('');
 
   const handleStartRide = async () => {
-    let response = await userApi.get_routes()
+    let response = await userApi.get_routes(Origin, Destination)
     if (response.was_exception || response.was_exception == null){
-        setRoutesData("null")
+        console.log(response.value)
+        alert("expection routes")
     }
     else
     {
-      setRoutesData(response.value)
+        console.log(response.value)
+        alert("nice")
+        setRoute(response.value)
+        navigation.navigate('VisualRoute');
+      // setRoutesData(response.value)
     }
 
   };
 
 
   return (
-    <View style={{flex:0.75, padding:10}}>
-    <ImageBackground source={background} resizeMode="cover" style={styles.image}>
-    <View style={{alignItems: 'center'}}>
-    <Text style={{color:'white', backgroundColor:"#841584", width:350, opacity:0.8, textAlign:'center'}}><h3>Lets Start Ride!</h3></Text>
-    <TextInput
+    <View>
+      <ImageBackground source={background} resizeMode="cover">
+      <View style={styles.container}>
+      <Text style={styles.title}>Lets Start Ride!</Text>
+
+      <TextInput
         style={styles.input}
         placeholder="Origin"
         value={Origin}
@@ -46,12 +54,9 @@ export default function StartRideScreen({navigation}) {
         <Text style={styles.buttonText}>Get Routes</Text>
       </TouchableOpacity>
       <Text style={styles.title}>{RoutesData}</Text>
+      </View>
+      </ImageBackground>
     </View>
-    </ImageBackground>
-</View>
-
-
-
   );
 };
 
@@ -71,7 +76,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   button: {
-    backgroundColor: '#3498db',
+    backgroundColor: '#841584',
     padding: 10,
     borderRadius: 5,
     marginTop: 10,
@@ -87,10 +92,11 @@ const styles = StyleSheet.create({
   },
   
   title: {
-    color:'black',
+    color:'#841584',
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
   },
 });
 
+export default StartRideScreen;

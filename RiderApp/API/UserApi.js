@@ -3,7 +3,7 @@ import { Response } from "./Response";
 import {path, CONNECTION_ERROR, CATCH} from "./AppConstans"
 import axios from "./axiosInstance"
 
-const LOGIN_PATH = path + "login"
+const LOGIN_PATH = path + "rider_login"
 const LOGOT_PATH = path + "logout"
 const REGISTER_PATH = path + "register"
 
@@ -20,7 +20,7 @@ const VIEW_QUESTIONS_PATH = path + "view_all_user_questions"
 const GET_ROUTES_PATH = path + "get_safe_routes"
 
 const VIEW_ADVERTISEMENTS_PATH = path + "view_all_advertisement"
-const ADD_ADV_CLICK_PATH = path + "" // TODO
+const ADD_ADV_CLICK_PATH = path + "add_adv_click" 
 const VIEW_AWARDS_PATH = path + "view_awards"
 
 
@@ -28,6 +28,8 @@ const VIEW_AWARDS_PATH = path + "view_awards"
 export class UserApi {
 
     login(username, password) {
+        username = "email@gmail.com"
+        password = "AaAa12345"
         const data = {
             email: username,
             password: password
@@ -52,6 +54,7 @@ export class UserApi {
     }
 
     register(email, password, name, lastName, phoneNumber, gender, rpSerial, licenseIssueDate, scooterType, birthDate) {
+        alert(email)
         const data = {
             email: email,
             password: password,
@@ -60,9 +63,9 @@ export class UserApi {
             phoneNumber: phoneNumber,
             gender: gender,
             raspberrySerialNumber: rpSerial, 
-            licenseIssueDate: licenseIssueDate,
+            licenseIssueDate: licenseIssueDate.substring(0,10),
             scooterType: scooterType,
-            birthDate: birthDate
+            birthDate: birthDate.substring(0,10)
           };
         return axios.post(REGISTER_PATH,data)
             .then(async (res) => {
@@ -100,10 +103,9 @@ export class UserApi {
     }
 
     reset_password(email) {
-        const data = {
-            email: email
-          };
-        return axios.post(RESET_PASSWORD_PATH,data)
+        return axios.get(RESET_PASSWORD_PATH,{
+            params: {userEmail: email}
+        })
             .then(async (res) => {
                 return new Response(res.data);
             })
@@ -135,10 +137,10 @@ export class UserApi {
     }
 
     add_question(message) {
-        const data = {
-            message: message
-          };
-        return axios.post(ADD_QUESTION_PATH,data)
+        return axios.get(ADD_QUESTION_PATH,
+            {
+                params:{message: message}
+            })
             .then(async (res) => {
                 return new Response(res.data);
             })
@@ -159,10 +161,10 @@ export class UserApi {
     }
 
     add_adv_click(adv_id) {
-        const data = {
-            advertisement_id: adv_id
-          };
-        return axios.post(ADD_ADV_CLICK_PATH,data)
+        return axios.get(ADD_ADV_CLICK_PATH,
+            {
+                params:{id: adv_id}
+            })
             .then(async (res) => {
                 return new Response(res.data);
             })
@@ -183,6 +185,8 @@ export class UserApi {
     }
 
     get_routes(origin, destination) {
+        origin = "1 Rothschild Boulevard, Tel Aviv-Yafo, Israel";
+        destination = "10 HaYarkon St, Tel Aviv-Yafo, Israel";
         return axios.get(GET_ROUTES_PATH,
         {
             params:{origin: origin, destination: destination}
