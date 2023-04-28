@@ -1,8 +1,11 @@
 package gotcha.server.Domain.RidesModule;
 
+import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Utils.Location;
+import gotcha.server.Utils.LocationDTO;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,12 +21,18 @@ public class Ride {
     private Location origin;
     private Location destination;
     private List<RidingAction> actions;
+    private List<Location> junctions;
+
+    private double duration; // minutes
+    private double distance; // minutes
+
+
 
     public Ride()
     {
 
     }
-    public Ride(int ride_id, String rider_email, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, List<RidingAction> actions) {
+    public Ride(int ride_id, String rider_email, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, List<RidingAction> actions, List<Location> junctions) {
         this.ride_id = ride_id;
         this.rider_email = rider_email;
         this.date = start_time.toLocalDate();
@@ -33,8 +42,32 @@ public class Ride {
         this.origin = origin;
         this.destination = destination;
         this.actions = actions;
+        this.distance = (origin.distanceTo(destination) * 1000);
+        this.duration = setDurationByTimes();
+        this.junctions = junctions;
+
 
     }
+
+    public Ride(int rideId, String userEmail, FinishRideRequest finishRideRequest) {
+        this.ride_id = rideId;
+        this.rider_email = userEmail;
+        this.origin = new Location(finishRideRequest.getOrigin());
+        this.destination = new Location(finishRideRequest.getDestination());
+        this.date = finishRideRequest.getStartTime().toLocalDate();
+        this.city = finishRideRequest.getCity();
+        this.start_time = finishRideRequest.getStartTime();
+        this.end_time = finishRideRequest.getEndTime();
+        this.actions = finishRideRequest.getRidingActions();
+        this.junctions = new ArrayList<>();
+        for (LocationDTO junction : finishRideRequest.getJunctions()){
+            junctions.add(new Location(junction));
+
+        }
+        this.distance = (origin.distanceTo(destination) * 1000);
+        this.duration = setDurationByTimes();
+    }
+
 
     // ------------------------------------------ Getters & Setters ----------------------------------------------------------
 
@@ -108,5 +141,34 @@ public class Ride {
 
     public void setActions(List<RidingAction> actions) {
         this.actions = actions;
+    }
+
+    private double setDurationByTimes() {
+        Duration duration = Duration.between(start_time, end_time);
+        return duration.getSeconds() / 60;
+    }
+
+    public double getDuration() {
+        return duration;
+    }
+
+    public void setDuration(double duration) {
+        this.duration = duration;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public List<Location> getJunctions() {
+        return junctions;
+    }
+
+    public void setJunctions(List<Location> junctions) {
+        this.junctions = junctions;
     }
 }

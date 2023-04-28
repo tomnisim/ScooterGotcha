@@ -12,7 +12,7 @@ import StartRideScreen from './screens/StartRide';
 import ChangePasswordScreen from './screens/ChangePassword';
 import VisualRouteScreen from './screens/VisualRoute' 
 import ContactUsScreen from './screens/ContactUs'
-
+import VisualRideScreen from './screens/VisualRide'
 const Stack = createNativeStackNavigator();
 
 
@@ -27,7 +27,7 @@ function App() {
         <Stack.Screen name="MyRides" component={MyRidesScreen} />
         <Stack.Screen name="Start Ride" component={StartRideScreen} />
         <Stack.Screen name="VisualRoute" component={VisualRouteScreen} />
-
+        <Stack.Screen name="VisualRide" component={VisualRideScreen} />
         <Stack.Screen name="ContactUs" component={ContactUsScreen} />
         {/* <Stack.Screen name="Awards" component={AwardsWindow} />
         <Stack.Screen name="Advertisements" component={AdvertismentsWindow} /> */}

@@ -1,10 +1,11 @@
 import React,{ useState } from 'react';
 import { useEffect } from 'react';
-import { ImageBackground, View, Text, Button, StyleSheet, TextInput, ScrollView} from 'react-native';
+import { ImageBackground, View, Text, Button, StyleSheet, TextInput, ScrollView, TouchableOpacity} from 'react-native';
 import Table from 'rc-table';
 import Select from 'react-select'
 import { background } from '../API/AppConstans';
 import { UserApi } from '../API/UserApi';
+import { setRide } from './VisualRide';
 
 const ridesApi = new UserApi();
 
@@ -20,10 +21,64 @@ export default function MyRidesScreen({navigation}) {
     }
   }
 
+  const columns = [
+
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+      width: 200,
+    },
+    {
+      title: "City",
+      dataIndex: "city",
+      key: "city",
+      width:200,
+    },
+    {
+      title: "Start Time",
+      dataIndex: "start_time",
+      key: "start_time",
+      width:200,
+    },
+    {
+      title: "Duration",
+      dataIndex: "duration",
+      key: "duration",
+      width: 200,
+      render: (duration) => {
+        const formattedDuration = parseFloat(duration).toFixed(2);
+        return <span>{formattedDuration} Hour</span>;
+      },
+    },
+    {
+      title: "Distance",
+      dataIndex: "distance",
+      key: "distance",
+      width: 200,
+      render: (distance) => {
+        const formattedDistance = parseFloat(distance).toFixed(3);
+        return <span>{formattedDistance} KM</span>;
+      },
+    },
+    {
+      title: "Show Visual",
+      dataIndex: "",
+      key: "Show",
+      render: (text, row) => (
+        <TouchableOpacity onPress={() => handleVisualShow(row)}>Show</TouchableOpacity>
+      ),
+    },
+  ];
+  
   useEffect(() => {
     get_rides_list();
   }, [])
   
+  const handleVisualShow = (row) => {
+    setRide(row)
+    navigation.navigate('VisualRide');
+  }
 
 
   return (
@@ -37,59 +92,11 @@ export default function MyRidesScreen({navigation}) {
     </ScrollView>
     <Text>    </Text>    
     <View style={{alignItems: 'center', justifyContent: 'center', borderEndColor:'black', borderColor:'black' }}>
-      <TextInput
-          style={styles.textInputer}
-          placeholder="Hazard Location lng"
-          onChangeText={newText => alert(newText)}
-        />
-        <TextInput
-          style={styles.textInputer}
-          placeholder="Hazard Location lat"
-          onChangeText={newText => alert(newText)}
-        />
-        <TextInput
-          style={styles.textInputer}
-          placeholder="Hazard City"
-          onChangeText={newText => alert(newText)}
-        />
-        <TextInput
-          style={styles.textInputer}
-          placeholder="Hazard Type"
-          onChangeText={newText => alert(newText)}
-        />
-        <TextInput
-          style={styles.textInputer}
-          placeholder="Hazard Size"
-          onChangeText={newText => alert(newText)}
-        />
-      <Button onPress={() => alert()} title="Add Hazard" color="#841584"/>
-
-
-      <Text>  </Text>
-      <Text>  </Text>
-      <Text>  </Text>
-      <Text>  </Text>
-      <Text>  </Text>
-      <Select
-        placeholder="Hazard ID to delete"
-        options={["aa"]}
-        onChange={newText => alert(newText)}
-      ></Select>
-      <Button onPress={() => alert()} title="Delete Hazard" color="#841584"/>
-    
+   
   </View>
   
   </View>
-  <Text> </Text>
-  <Text> </Text>
-  <Text> </Text>
-  <Text> </Text>
-  <Text> </Text>
-  <Text> </Text>
-  <Text> </Text>
-  <Text> </Text>
-  <Text> </Text>
-  <Text> </Text>
+
   </ImageBackground>
   </View>
 
@@ -103,50 +110,7 @@ export default function MyRidesScreen({navigation}) {
 
 
 
-const columns = [
-  {
-    title: "ID",
-    dataIndex: "ride_id",
-    key: "ride_id",
-    width: 200,
-  },
-  {
-    title: "Date",
-    dataIndex: "date",
-    key: "date",
-    width: 200,
-  },
-  {
-    title: "City",
-    dataIndex: "city",
-    key: "city",
-    width:200,
-  },
-  {
-    title: "Start Time",
-    dataIndex: "start_time",
-    key: "start_time",
-    width:200,
-  },
-  {
-    title: "End Time",
-    dataIndex: "end_time",
-    key: "end_time",
-    width:200,
-  },
-  {
-    title: "Origin",
-    dataIndex: "origin",
-    key: "origin",
-    width:200,
-  },
-  {
-    title: "Destination",
-    dataIndex: "destination",
-    key: "destination",
-    width:200,
-  },
-];
+
 
 
 
