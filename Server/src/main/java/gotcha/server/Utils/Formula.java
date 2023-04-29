@@ -11,10 +11,11 @@ public class Formula {
     public double evaluate(double size) {
         String siz = String.valueOf(size);
         String form1 = this.form.replace("W", siz);
+        form1 = form1.replace("w", siz);
         return eval(form1);
     }
 
-    public static double eval(final String str) {
+    private double eval(final String str) {
         return new Object() {
             int pos = -1, ch;
 
