@@ -22,8 +22,8 @@ class StatisticsManagerTest {
     @BeforeEach
     void setUp() {
 
-        statisticsManager = new StatisticsManager(userController, hazardController, advController, awardController,
-                ridesController, questionController);
+        //statisticsManager = new StatisticsManager(userController, hazardController, advController, awardController,
+     //           ridesController, questionController);
     }
 
     @Test
