@@ -68,14 +68,14 @@ export default function VisualRideScreen({}) {
           if (index == 0){
             const marker = L.marker([junction.lat, junction.lng], {icon: originIcon});
             marker.addTo(map);
-            marker.bindPopup(`<b><div style='background-color:green'>Origin</div><b>`);
+            marker.bindPopup(`<b>Origin<b>`);
             markers.push(marker);
           }
           else{
             if (index == junctions.length-1){
                 const marker = L.marker([junction.lat, junction.lng], {icon: destIcon});
                 marker.addTo(map);
-                marker.bindPopup(`<b><div style='background-color:green'>Destination</div><b>`);
+                marker.bindPopup(`<b>Destination<b>`);
                 markers.push(marker);
 
             }

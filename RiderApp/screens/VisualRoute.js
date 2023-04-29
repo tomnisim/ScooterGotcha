@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import L, { icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { destIcon, originIcon, hazardIcon } from '../API/AppConstans';
+import { destIcon, originIcon, hazardIcon, liveLocationIcon} from '../API/AppConstans';
 
 
 let junctions = [
@@ -120,14 +120,14 @@ export default function VisualRouteScreen({}) {
           if (index == 0){
             const marker = L.marker([junction.lat, junction.lng], {icon: originIcon});
             marker.addTo(map);
-            marker.bindPopup(`<b><div style='background-color:green'>Origin</div><b>`);
+            marker.bindPopup(`<b>Origin<b>`);
             markers.push(marker);
           }
           else{
             if (index == junctions.length-1){
                 const marker = L.marker([junction.lat, junction.lng], {icon: destIcon});
                 marker.addTo(map);
-                marker.bindPopup(`<b><div style='background-color:green'>Destination</div><b>`);
+                marker.bindPopup(`<b>Destination<b>`);
                 markers.push(marker);
 
             }
@@ -160,11 +160,13 @@ export default function VisualRouteScreen({}) {
               (position) => {
                 console.log(position);
                 const { latitude, longitude } = position.coords;
-                const marker = L.marker([latitude, longitude], {icon: originIcon});
+                const marker = L.marker([latitude, longitude], {icon: liveLocationIcon});
+                marker.addTo(map);
+                marker.bindPopup(`<b>Current Location<b>`);
+                markers.push(marker);
                 
                 setCurrentLocation([latitude, longitude]);
                 setLocationRetrieved(true);
-                markers.push(marker);
     
               },
               (error) => {
