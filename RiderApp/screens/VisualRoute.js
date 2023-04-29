@@ -54,7 +54,38 @@ export const set_junctions = async (val) => {
 
 export default function VisualRouteScreen({}) {
 
-
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const [locationRetrieved, setLocationRetrieved] = useState(false);
+  
+  
+  // navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+  
+  //   function successCallback(position) {
+  //   const lat = position.coords.latitude;
+  //   const lng = position.coords.longitude;
+  //   console.log(lat)
+  //   console.log(lng)
+  //   // const destination = "123 Main St, Anytown USA";
+  //   // const apiKey = "your_api_key_here";
+  //   // const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${lat},${lng}&destination=${destination}&key=${apiKey}`;
+    
+  //   // fetch(url)
+  //   //   .then(response => response.json())
+  //   //   .then(data => {
+  //   //     const steps = data.routes[0].legs[0].steps;
+  //   //     steps.forEach(step => {
+  //   //       const instructions = step.html_instructions;
+  //   //       // display instructions to user
+  //   //     });
+  //   //   })
+  //   //   .catch(error => {
+  //   //     console.error(error);
+  //   //   });
+  // }
+  
+  // function errorCallback(error) {
+  //   console.error(error);
+  // }
 
     useEffect(() => {
         // Calculate the center of the junctions
@@ -125,6 +156,22 @@ export default function VisualRouteScreen({}) {
             });
     
         
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                console.log(position);
+                const { latitude, longitude } = position.coords;
+                const marker = L.marker([latitude, longitude], {icon: originIcon});
+                
+                setCurrentLocation([latitude, longitude]);
+                setLocationRetrieved(true);
+                markers.push(marker);
+    
+              },
+              (error) => {
+                console.error(error);
+                setLocationRetrieved(true);
+              }
+            );
         // Open the popups for all the markers
         //markers.forEach((marker) => marker.openPopup());
       }, [junctions, hazards]);

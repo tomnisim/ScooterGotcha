@@ -14,6 +14,8 @@ const StartRideScreen = ({navigation})  => {
   const [Destination, setDestination] = useState('');
   const [RoutesData, setRoutesData] = useState('');
 
+
+
   const handleStartRide = async () => {
     let response = await userApi.get_routes(Origin, Destination)
     if (response.was_exception || response.was_exception == null){

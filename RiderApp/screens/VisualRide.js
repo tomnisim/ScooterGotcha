@@ -41,11 +41,10 @@ export const set_junctions = async (val) => {
 
 
 
-export default function VisualRouteScreen({}) {
-
-
+export default function VisualRideScreen({}) {
 
     useEffect(() => {
+
         // Calculate the center of the junctions
         const latitudes = junctions.map((junction) => junction.lat);
         const longitudes = junctions.map((junction) => junction.lng);
@@ -62,6 +61,7 @@ export default function VisualRouteScreen({}) {
     
         // Create an array to hold the markers
         const markers = [];
+
     
         // Add the junction markers to the map
         junctions.forEach((junction, index) => {
@@ -101,6 +101,12 @@ export default function VisualRouteScreen({}) {
     
         // Open the popups for all the markers
         //markers.forEach((marker) => marker.openPopup());
+        
+
+        
+        
+
+
       }, [junctions]);
     
       return (
