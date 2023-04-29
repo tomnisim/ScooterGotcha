@@ -185,8 +185,6 @@ export class UserApi {
     }
 
     get_routes(origin, destination) {
-        origin = "1 Rothschild Boulevard, Tel Aviv-Yafo, Israel";
-        destination = "10 HaYarkon St, Tel Aviv-Yafo, Israel";
         return axios.get(GET_ROUTES_PATH,
         {
             params:{origin: origin, destination: destination}

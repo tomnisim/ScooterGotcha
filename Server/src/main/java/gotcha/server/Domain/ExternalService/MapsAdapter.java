@@ -35,7 +35,7 @@ public abstract class MapsAdapter {
      * @param number_of_routes to return
      * @return list of size @number_of_routes from @origin to @destination
      */
-    public List<Route> get_routes(String origin_input, String destination_input, int number_of_routes) {
+    public List<Route> get_routes(String origin_input, String destination_input, int number_of_routes) throws IOException {
         List<Route> routes_list = new LinkedList<>();
         for (int i = 0; i < number_of_routes; i++){
             Route temp = this.get_route(origin_input, destination_input);
@@ -50,57 +50,54 @@ public abstract class MapsAdapter {
      * @param destination_address before covert to Location object
      * @return a route from @origin to @destination
      */
-    protected Route get_route(String origin_address, String destination_address) {
+    protected Route get_route(String origin_address, String destination_address) throws IOException {
         String origin_input = this.covert_address(origin_address);
         String destination_input = this.covert_address(destination_address);
 
         Route route = new Route();
         StringBuffer response = new StringBuffer();
-        try {
-            URL url = new URL(String.format("https://maps.googleapis.com/maps/api/directions/json?origin=%s&destination=%s&mode=%s&key=%s",
-                    origin_input, destination_input, mode, apiKey));
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String inputLine;
+        URL url = new URL(String.format("https://maps.googleapis.com/maps/api/directions/json?origin=%s&destination=%s&mode=%s&key=%s",
+                origin_input, destination_input, mode, apiKey));
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
 
-
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
+        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String inputLine;
 
 
-            in.close();
-            // Parse the JSON response
-            String jsonString = response.toString();
-            JSONObject data = new JSONObject(jsonString);
-            JSONArray routes = data.getJSONArray("routes");
-            JSONObject ja =  routes.getJSONObject(0);
-            JSONArray a = ja.getJSONArray("legs");
-            JSONObject jo = a.getJSONObject(0);
-            JSONArray steps = jo.getJSONArray("steps");
-            int duration = 0; // Minutes
-            int distance = 0; // Meters
-            for (int i = 0; i < steps.length(); i++) {
-                JSONObject curr = steps.getJSONObject(i).getJSONObject("start_location");
-                String lng_str = curr.get("lng").toString();
-                String lat_str = curr.get("lat").toString();
-                BigDecimal lng = new BigDecimal(lng_str);
-                BigDecimal lat = new BigDecimal(lat_str);
-                Location location = new Location(lng, lat);
-                route.add_junction(location);
-                distance = distance + (Integer)steps.getJSONObject(i).getJSONObject("distance").get("value");
-                duration = duration + (Integer)steps.getJSONObject(i).getJSONObject("duration").get("value");
-            }
-            route.setDistance(distance);
-            route.setDuration(duration);
-            route.setOriginAddress(origin_address);
-            route.setDestinationAddress(destination_address);
-        } catch (Exception e) {
-            e.printStackTrace();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
         }
-        return route;
+
+
+        in.close();
+        // Parse the JSON response
+        String jsonString = response.toString();
+        JSONObject data = new JSONObject(jsonString);
+        JSONArray routes = data.getJSONArray("routes");
+        JSONObject ja =  routes.getJSONObject(0);
+        JSONArray a = ja.getJSONArray("legs");
+        JSONObject jo = a.getJSONObject(0);
+        JSONArray steps = jo.getJSONArray("steps");
+        int duration = 0; // Minutes
+        int distance = 0; // Meters
+        for (int i = 0; i < steps.length(); i++) {
+            JSONObject curr = steps.getJSONObject(i).getJSONObject("start_location");
+            String lng_str = curr.get("lng").toString();
+            String lat_str = curr.get("lat").toString();
+            BigDecimal lng = new BigDecimal(lng_str);
+            BigDecimal lat = new BigDecimal(lat_str);
+            Location location = new Location(lng, lat);
+            route.add_junction(location);
+            distance = distance + (Integer)steps.getJSONObject(i).getJSONObject("distance").get("value");
+            duration = duration + (Integer)steps.getJSONObject(i).getJSONObject("duration").get("value");
+        }
+        route.setDistance(distance);
+        route.setDuration(duration);
+        route.setOriginAddress(origin_address);
+        route.setDestinationAddress(destination_address);
+    return route;
     }
 
 

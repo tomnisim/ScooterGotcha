@@ -11,6 +11,7 @@ import gotcha.server.Utils.LocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.*;
 
 @Component
@@ -41,8 +42,7 @@ public class RoutesRetriever {
      * @param destination - location to navigate.
      * @return List of routs sort by safe rate - index 0 for safest route
      */
-    public List<Route> fetch_safe_routes(String source, String destination)
-    {
+    public List<Route> fetch_safe_routes(String source, String destination) throws IOException {
         List<Route> routes = this.google_maps.get_routes(source, destination, configuration.getNumberOfRoutes());
         return this.rate_routes(routes);
     }

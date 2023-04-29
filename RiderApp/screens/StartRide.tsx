@@ -15,6 +15,29 @@ const StartRideScreen = ({navigation})  => {
   const [RoutesData, setRoutesData] = useState('');
 
 
+const get_current_location = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`;
+      
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const address = data.display_name;
+          console.log(address);
+          setOrigin(address)
+        })
+        .catch(error => console.log(error));
+    });
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+  }
+}
+
+get_current_location();
+
 
   const handleStartRide = async () => {
     let response = await userApi.get_routes(Origin, Destination)

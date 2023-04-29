@@ -23,7 +23,7 @@ export  const destIcon = L.icon({
   });
 
   export  const liveLocationIcon = L.icon({
-    iconUrl: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/119-my-rides-screen/RiderApp/assets/origin.png',
+    iconUrl: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/119-my-rides-screen/RiderApp/assets/liveLocation.png',
     iconSize: [30, 30],
     iconAnchor: [15, 15]
   });
