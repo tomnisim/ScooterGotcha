@@ -26,14 +26,14 @@ button_pin = 17
 # GPIO.setmode(GPIO.BCM)
 # GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-live_button = False # TODO: change to False
-def manage_live_button():
-    global live_button
+start_button = False # TODO: change to False
+def manage_start_button():
+    global start_button
     while True:
-        live_button_mock = input("Push")
-        while live_button_mock != "p":
+        start_button_mock = input("Push")
+        while start_button_mock != "s":
             pass
-        live_button = not live_button
+        start_button = not start_button
 
 
     # TODO: uncomment
@@ -42,7 +42,7 @@ def manage_live_button():
     #         button_state = GPIO.input(button_pin)
     #         if button_state == False:
     #             system_logger.info("Live Button Press")
-    #             live_button = not live_button
+    #             start_button = not start_button
     #             time.sleep(1)  # Debounce
     # finally:
     #     GPIO.cleanup()
@@ -67,8 +67,8 @@ class Service:
         self.ride_controller = self.create_ride_controller(self._GPS_controller, self._camera_controller )
 
         # create thread that manage the live buttun
-        live_button_thread = threading.Thread(target=manage_live_button)
-        live_button_thread.start()
+        start_button_thread = threading.Thread(target=manage_start_button)
+        start_button_thread.start()
 
     def create_ride_controller(self, gps_controller, camera_controller):
         curr_alerter = self.alerter.create_alerter()
@@ -77,9 +77,9 @@ class Service:
 
     def run(self):
         per = PersistenceController()
-        global live_button
+        global start_button
         while True:
-            if live_button:
+            if start_button:
                 ride = self.ride_controller.execute_ride()
                 per.save_ride(ride)
 

@@ -32,6 +32,14 @@ hazards = []
 id = 0
 stop = False # TODO: change to True
 
+end_button = False # TODO: change to False
+def manage_start_button():
+    global end_button
+    while True:
+        end_button_mock = input("Push")
+        while end_button_mock != "f":
+            pass
+        end_button = not end_button
 
 
 
@@ -113,8 +121,7 @@ class RideController:
 
 
         # TODO: uncomment
-        from Service.Service import live_button
-        while live_button:
+        while not end_button:
             pass
 
 
