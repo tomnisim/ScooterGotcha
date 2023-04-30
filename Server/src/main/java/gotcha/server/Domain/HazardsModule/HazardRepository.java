@@ -76,4 +76,7 @@ public class HazardRepository {
         hazardJpaRepository.save(hazardToUpdate);
     }
 
+    public boolean isDbEmpty() {
+        return hazardJpaRepository.count() == 0;
+    }
 }

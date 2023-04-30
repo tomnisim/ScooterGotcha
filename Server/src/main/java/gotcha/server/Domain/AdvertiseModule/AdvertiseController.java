@@ -56,6 +56,10 @@ public class AdvertiseController implements IAdvertiseController {
     public void add_click(int id) throws Exception {
         this.advertiseRepository.addClick(id);
     }
+
+    public boolean isDbEmpty() {
+        return advertiseRepository.isDbEmpty();
+    }
 }
 
 

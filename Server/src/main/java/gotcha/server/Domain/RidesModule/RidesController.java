@@ -32,7 +32,9 @@ public class RidesController implements IRidesController {
      */
     @Override
     public Ride add_ride(FinishRideRequest finishRideRequest, String userEmail) throws Exception {
-        Ride ride = new Ride(userEmail,finishRideRequest.getCity(), finishRideRequest.getStartTime(), finishRideRequest.getEndTime(),finishRideRequest.getOrigin(), finishRideRequest.getDestination(), finishRideRequest.getRidingActions());
+        var origin = new Location(finishRideRequest.getOrigin());
+        var destination = new Location(finishRideRequest.getDestination());
+        Ride ride = new Ride(userEmail,finishRideRequest.getCity(), finishRideRequest.getStartTime(), finishRideRequest.getEndTime(),origin,destination, finishRideRequest.getRidingActions());
         this.ridesRepository.addRide(ride, userEmail);
         return ride;
     }

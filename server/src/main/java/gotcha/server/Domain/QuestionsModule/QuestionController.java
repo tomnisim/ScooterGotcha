@@ -19,7 +19,6 @@ public class QuestionController implements IQuestionController {
     public void add_user_question(String message, String senderEmail, BiConsumer<String, Integer> update_function) throws Exception {
         Question question = new Question(message, senderEmail);
         this.questionsRepository.addQuestion(question);
-
     }
 
     /**

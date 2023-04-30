@@ -22,17 +22,17 @@ public class UserController implements IUserController {
     private final iPasswordManager passwordManager;
     private final UserRepository userRepository;
     private final IQuestionController questionController;
-    private HashSet<String> availableRaspberryPiSerials;
+    private final AvailableRaspberryPiSerialsRepository serialsRepository;
     private final UserRateCalculator userRateCalculator;
 
     @Autowired
-    public UserController(Utils utils, iPasswordManager passwordManager, IQuestionController questionController, UserRepository userRepository, UserRateCalculator userRateCalculator) {
+    public UserController(Utils utils, iPasswordManager passwordManager, IQuestionController questionController, UserRepository userRepository, UserRateCalculator userRateCalculator, AvailableRaspberryPiSerialsRepository serialsRepository) {
         this.utils = utils;
         this.passwordManager = passwordManager;
         this.questionController = questionController;
-        this.availableRaspberryPiSerials = new HashSet<>();
         this.userRepository = userRepository;
         this.userRateCalculator = userRateCalculator;
+        this.serialsRepository = serialsRepository;
     }
 
     public void load() {
@@ -95,7 +95,7 @@ public class UserController implements IUserController {
      */
     public Boolean register(String userEmail, String password, String name, String lastName, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate, String raspberryPiSerialNumber) throws Exception {
         verify_user_information(userEmail, password, phoneNumber, birthDay, gender, scooterType, licenceIssueDate);
-        if (!this.availableRaspberryPiSerials.contains(raspberryPiSerialNumber)){
+        if (!serialsRepository.isExists(raspberryPiSerialNumber)){
             throw new UnavailableRPserialException(String.format("Raspberry Pi: %s is unavailable", raspberryPiSerialNumber));
         }
         String passwordToken = passwordManager.hash(password);
@@ -107,7 +107,7 @@ public class UserController implements IUserController {
         if (rpAddResult != null) {
             throw new Exception(String.format("rp with serial number: %s is already associated to a user", raspberryPiSerialNumber));
         }
-        this.availableRaspberryPiSerials.remove(raspberryPiSerialNumber);
+        serialsRepository.removeSerial(raspberryPiSerialNumber);
         return true;
     }
 
@@ -300,9 +300,8 @@ public class UserController implements IUserController {
     public List<WaitingRaspberryPiDAO> get_waiting_rp() {
         List<WaitingRaspberryPiDAO> to_return = new ArrayList<>();
         int i = 0;
-        Iterator<String> iter = availableRaspberryPiSerials.iterator();
-        while (iter.hasNext()){
-            WaitingRaspberryPiDAO to_add = new WaitingRaspberryPiDAO(i, iter.next());
+        for(var serial : serialsRepository.getAllSerials()) {
+            WaitingRaspberryPiDAO to_add = new WaitingRaspberryPiDAO(i, serial);
             to_return.add(to_add);
             i = i+1;
         }
@@ -311,10 +310,10 @@ public class UserController implements IUserController {
 
     @Override
     public void add_rp_serial_number(String rpSerial) throws Exception {
-        if (this.availableRaspberryPiSerials.contains(rpSerial) || (userRepository.getUserByRpSerialNumber(rpSerial) != null)){
+        if (serialsRepository.isExists(rpSerial) || (userRepository.getUserByRpSerialNumber(rpSerial) != null)){
             throw new Exception(String.format("Raspberry Pi Serial Number: %s is already exists in the system!", rpSerial));
         }
-        this.availableRaspberryPiSerials.add(rpSerial);
+        serialsRepository.addSerial(rpSerial);
     }
 
     @Override
@@ -373,6 +372,14 @@ public class UserController implements IUserController {
                 user.notify_user(notification);
             }
         }
+    }
+
+    public boolean isSerialsTableEmpty(){
+        return serialsRepository.isDbEmpty();
+    }
+
+    public boolean isUsersTableEmpty() {
+        return userRepository.isDbEmpty();
     }
 
 }

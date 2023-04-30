@@ -37,7 +37,7 @@ public class UserRepository {
         return result;
     }
 
-    public User getUserFromDb(String userEmail) throws UserNotFoundException {
+    private User getUserFromDb(String userEmail) throws UserNotFoundException {
         var result = usersJpaRepositry.findById(userEmail);
         if (result.isPresent()) {
             return result.get();
@@ -97,5 +97,9 @@ public class UserRepository {
     public void notifyUser(User userToNotify, Notification notification) {
         userToNotify.notify_user(notification);
         usersJpaRepositry.save(userToNotify);
+    }
+
+    public boolean isDbEmpty() {
+        return usersJpaRepositry.count() == 0;
     }
 }

@@ -4,6 +4,7 @@ import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Utils.Exceptions.RideNotFoundException;
 import gotcha.server.Utils.Location;
+import gotcha.server.Utils.LocationDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,8 +50,8 @@ class RidesControllerTest {
         configureRideRepository();
         // Set up the test data
         var userEmail = "test@example.com";
-        var origin = new Location(new BigDecimal(20), new BigDecimal(20));
-        var destination = new Location(new BigDecimal(40), new BigDecimal(40));
+        var origin = new LocationDTO(20 ,20);
+        var destination = new LocationDTO(40,40);
         var finishRideRequest = new FinishRideRequest("RP",origin, destination,"City", LocalDateTime.now().minusHours(1), LocalDateTime.now(), new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
         // Set up the executor service for concurrent tasks

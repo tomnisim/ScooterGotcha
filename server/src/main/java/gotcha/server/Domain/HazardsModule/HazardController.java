@@ -176,4 +176,8 @@ public class HazardController implements IHazardController {
     public void setHAZARD_THRESHOLD_RATE(double HAZARD_THRESHOLD_RATE) {
         this.HAZARD_THRESHOLD_RATE = HAZARD_THRESHOLD_RATE;
     }
+
+    public boolean isDbEmpty() {
+        return hazardRepository.isDbEmpty();
+    }
 }

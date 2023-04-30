@@ -83,4 +83,8 @@ public class AdvertiseRepository{
     public void addClick(int id) throws Exception {
         getAdvertise(id).add_click();
     }
+
+    public boolean isDbEmpty() {
+        return advertiseJpaRepository.count() == 0;
+    }
 }

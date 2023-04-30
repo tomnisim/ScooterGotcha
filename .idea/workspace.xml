@@ -5,8 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8394b8d-4a9c-44d1-8624-56aa6c7f6cdf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/DailyStatisticsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/GeneralStatisticRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/IDailyStatisticsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/AvailableRaspberryPiSerialsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/IAvailableRaspberryPiSerialsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/RaspberryPiSerial.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/AdvertiseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/AdvertiseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/AdvertiseRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/AdvertiseModule/AdvertiseRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/QuestionsModule/QuestionsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/QuestionsModule/QuestionsRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/HazardRateCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/HazardRateCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/DailyStatistic.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/DailyStatistic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/GeneralStatistic.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/GeneralStatistic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/StatisticsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/StatisticsModule/StatisticsManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/RidesModule/RidesControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/RidesModule/RidesControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/QuestionsModule/QuestionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/gotcha/server/Domain/QuestionsModule/QuestionController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +36,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -47,18 +68,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "last_opened_file_path": "D:/Sasha/University/Final_project/ScooterGotcha/Server/src/main/resources",
-    "node.js.selected.package.tslint": "(autodetect)"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Sasha/University/Final_project/ScooterGotcha/Server/src/main/resources&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Sasha\University\Final_project\ScooterGotcha\Server\src\main\resources" />
@@ -79,7 +100,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.All in server">
+  <component name="RunManager" selected="Spring Boot.ServerApplication (1)">
     <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <option name="PACKAGE_NAME" value="" />
@@ -198,6 +219,7 @@
       <workItem from="1680268062688" duration="2012000" />
       <workItem from="1680861151440" duration="11479000" />
       <workItem from="1681630934664" duration="2915000" />
+      <workItem from="1682842100737" duration="10345000" />
     </task>
     <servers />
   </component>
@@ -268,7 +290,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Location.java</url>
-          <line>33</line>
+          <line>38</line>
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

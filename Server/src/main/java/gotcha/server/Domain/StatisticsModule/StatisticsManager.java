@@ -20,9 +20,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
+
 @Component
 public class StatisticsManager implements iStatisticsManager {
-    private Map<LocalDate, DailyStatistic> dailyStatisticMap;
+    private final DailyStatisticsRepository dailyStatisticsRepository;
+    private final GeneralStatisticRepository generalStatisticRepository;
     private DailyStatistic current_daily_statistic;
     private GeneralStatistic generalStatistic;
 
@@ -33,25 +36,26 @@ public class StatisticsManager implements iStatisticsManager {
     private IAwardsController awards_controller;
     private IHazardController hazard_controller;
 
+    private final ReentrantLock onlineUsersLock = new ReentrantLock();
+    private final ReentrantLock onlineGuestsLock = new ReentrantLock();
+    private final ReentrantLock shutDownEventsLock = new ReentrantLock();
+    private final ReentrantLock resetEventsLock = new ReentrantLock();
+
     @Autowired
     public StatisticsManager(UserController userController, HazardController hazardController,
                              AdvertiseController advertiseController, IAwardsController awardsController, RidesController ridesController,
-                             QuestionController questionController) {
+                             QuestionController questionController, DailyStatisticsRepository dailyStatisticsRepository, GeneralStatisticRepository generalStatisticRepository) {
         this.question_controller = questionController;
         this.user_controller = userController;
         this.hazard_controller = hazardController;
         this.rides_controller = ridesController;
         this.advertise_controller = advertiseController;
         this.awards_controller = awardsController;
-
-
-        this.generalStatistic = new GeneralStatistic(LocalDateTime.now().toString());
-        this.dailyStatisticMap = new HashMap<>();
+        this.generalStatisticRepository = generalStatisticRepository;
+        this.generalStatistic = generalStatisticRepository.findById(1L).orElse(new GeneralStatistic());
+        this.dailyStatisticsRepository = dailyStatisticsRepository;
         update_daily_statistic();
-
-        this.dailyStatisticMap.put(this.current_daily_statistic.getDate(), this.current_daily_statistic);
-
-
+        this.dailyStatisticsRepository.addDailyStatistic(this.current_daily_statistic);
     }
 
     /**
@@ -72,16 +76,14 @@ public class StatisticsManager implements iStatisticsManager {
         int users_questions = 5;
         if (this.current_daily_statistic == null || !LocalDate.now().isEqual(this.current_daily_statistic.getDate())) {
             this.current_daily_statistic = new DailyStatistic(admins, admins_answers, advertisements, awards, rides, hazards, riders, users_questions);
-            this.dailyStatisticMap.put(LocalDate.now(), this.current_daily_statistic);
+            dailyStatisticsRepository.addDailyStatistic(current_daily_statistic);
         }
         else {
             this.current_daily_statistic.update(admins, admins_answers, advertisements, awards, rides, hazards, riders, users_questions);
         }
         this.generalStatistic.update(admins, admins_answers, advertisements, awards, rides, hazards, riders, users_questions);
+        this.generalStatisticRepository.save(generalStatistic);
     }
-
-
-
 
     @Override
     public DailyStatisticDAO get_current_daily_statistic() {
@@ -98,7 +100,7 @@ public class StatisticsManager implements iStatisticsManager {
     @Override
     public List<DailyStatisticDAO> get_all_daily_statistic() {
         ArrayList<DailyStatisticDAO> list_to_return = new ArrayList<>();
-        for (DailyStatistic dailyStatistic : this.dailyStatisticMap.values()){
+        for (DailyStatistic dailyStatistic : dailyStatisticsRepository.getAllStatistics()){
             list_to_return.add(dailyStatistic.getDAO());
         }
         return list_to_return;
@@ -106,28 +108,41 @@ public class StatisticsManager implements iStatisticsManager {
 
     @Override
     public void inc_login_count() {
-        this.current_daily_statistic.incOnline_users();
-
+        onlineUsersLock.lock();
+        try {
+            current_daily_statistic.setOnline_users(current_daily_statistic.getOnline_users() + 1);
+        } finally {
+            onlineUsersLock.unlock();
+        }
     }
 
     @Override
     public void inc_logout_count() {
-        this.current_daily_statistic.incOnline_guests();
-
+        onlineGuestsLock.lock();
+        try {
+            current_daily_statistic.setOnline_guests(current_daily_statistic.getOnline_guests() + 1);
+        } finally {
+            onlineGuestsLock.unlock();
+        }
     }
-
 
     @Override
     public void inc_shut_down_count() {
-        this.current_daily_statistic.incShut_down_events();
-
+        shutDownEventsLock.lock();
+        try {
+            current_daily_statistic.setShut_down_events(current_daily_statistic.getShut_down_events() + 1);
+        } finally {
+            shutDownEventsLock.unlock();
+        }
     }
 
     @Override
     public void inc_reset_count() {
-        this.current_daily_statistic.incReset_events();
-
+        resetEventsLock.lock();
+        try {
+            current_daily_statistic.setReset_events(current_daily_statistic.getReset_events() + 1);
+        } finally {
+            resetEventsLock.unlock();
+        }
     }
-
-
 }

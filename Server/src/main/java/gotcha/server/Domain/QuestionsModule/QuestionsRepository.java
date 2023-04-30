@@ -48,7 +48,7 @@ public class QuestionsRepository {
     public Question getOpenQuestion(int questionId) throws Exception {
         var result = open_questions.get(questionId);
         if (result == null) {
-            return getAdvertiseFromDb(questionId);
+            return getQuestionFromDb(questionId);
         }
         return result;
     }
@@ -57,7 +57,7 @@ public class QuestionsRepository {
         return new ArrayList<>(users_questions.get(userEmail).values());
     }
 
-    private Question getAdvertiseFromDb(int questionId) throws Exception {
+    private Question getQuestionFromDb(int questionId) throws Exception {
         var result = questionsJpaRepository.findById(questionId);
         if (result.isPresent()) {
             return result.get();
