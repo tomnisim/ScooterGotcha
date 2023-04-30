@@ -5,11 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8394b8d-4a9c-44d1-8624-56aa6c7f6cdf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/Ride.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/Ride.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/resources/application-local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/resources/application-local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/resources/application-remote.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/resources/application-remote.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/HazardsModule/IHazardControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/HazardsModule/IHazardControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/QuestionsModule/QuestionControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/QuestionsModule/QuestionControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/RidesModule/RidesControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/RidesModule/RidesControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/UserModule/UserControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/UserModule/UserControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,18 +55,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Sasha/University/Final_project/ScooterGotcha/Server/src/main/resources&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "last_opened_file_path": "D:/Sasha/University/Final_project/ScooterGotcha/Server/src/main/resources",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "spring.configuration.checksum": "cf1e8c14e54505f60aa10ceb8d5d8ab3"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Sasha\University\Final_project\ScooterGotcha\Server\src\main\resources" />
@@ -107,46 +114,48 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="IHazardControllerTest,updateHazards_AllHazardsAreNew_AllAdded and 3 more" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <option name="TEST_OBJECT" value="pattern" />
-      <patterns>
-        <pattern testClass="gotcha.server.Domain.HazardsModule.IHazardControllerTest,updateHazards_AllHazardsAreNew_AllAdded" />
-        <pattern testClass="gotcha.server.Domain.HazardsModule.IHazardControllerTest,updateHazards_LocationIsTheSame_HazardSizeUpdated" />
-        <pattern testClass="gotcha.server.Domain.HazardsModule.IHazardControllerTest,updateHazards_LocationsAreWithinRadiusDistance_HazardSizeUpdated" />
-        <pattern testClass="gotcha.server.Domain.HazardsModule.IHazardControllerTest,remove_hazard" />
-      </patterns>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="IHazardControllerTest.updateHazards_AllHazardsAreNew_AllAdded" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="HazardRateCalculatorTest.rate_hazard_poleTree" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.HazardsModule.*" />
+          <option name="PATTERN" value="gotcha.server.Domain.RatingModule.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.HazardsModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.HazardsModule.IHazardControllerTest" />
-      <option name="METHOD_NAME" value="updateHazards_AllHazardsAreNew_AllAdded" />
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.RatingModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.RatingModule.HazardRateCalculatorTest" />
+      <option name="METHOD_NAME" value="rate_hazard_poleTree" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RidesControllerTest.addRide_MultipleConcurrentThreads_AllAdded" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="QuestionControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.RidesModule.*" />
+          <option name="PATTERN" value="gotcha.server.Domain.QuestionsModule.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.RidesModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.RidesModule.RidesControllerTest" />
-      <option name="METHOD_NAME" value="addRide_MultipleConcurrentThreads_AllAdded" />
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.QuestionsModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.QuestionsModule.QuestionControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="QuestionControllerTest.add_user_question_valid_message" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gotcha.server.Domain.QuestionsModule.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.QuestionsModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.QuestionsModule.QuestionControllerTest" />
+      <option name="METHOD_NAME" value="add_user_question_valid_message(java.lang.String)" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -168,10 +177,10 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JUnit.HazardRateCalculatorTest.rate_hazard_poleTree" />
+      <item itemvalue="JUnit.QuestionControllerTest" />
+      <item itemvalue="JUnit.QuestionControllerTest.add_user_question_valid_message" />
       <item itemvalue="JUnit.HazardRateCalculatorTest" />
-      <item itemvalue="JUnit.IHazardControllerTest,updateHazards_AllHazardsAreNew_AllAdded and 3 more" />
-      <item itemvalue="JUnit.IHazardControllerTest.updateHazards_AllHazardsAreNew_AllAdded" />
-      <item itemvalue="JUnit.RidesControllerTest.addRide_MultipleConcurrentThreads_AllAdded" />
       <item itemvalue="JUnit.All in server" />
       <item itemvalue="Spring Boot.ServerApplication (1)" />
       <item itemvalue="Spring Boot.ServerApplication" />
@@ -179,10 +188,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in server" />
-        <item itemvalue="JUnit.RidesControllerTest.addRide_MultipleConcurrentThreads_AllAdded" />
-        <item itemvalue="JUnit.IHazardControllerTest,updateHazards_AllHazardsAreNew_AllAdded and 3 more" />
-        <item itemvalue="JUnit.IHazardControllerTest.updateHazards_AllHazardsAreNew_AllAdded" />
+        <item itemvalue="JUnit.QuestionControllerTest" />
+        <item itemvalue="JUnit.QuestionControllerTest.add_user_question_valid_message" />
         <item itemvalue="JUnit.HazardRateCalculatorTest" />
+        <item itemvalue="JUnit.HazardRateCalculatorTest.rate_hazard_poleTree" />
       </list>
     </recent_temporary>
   </component>
@@ -203,6 +212,7 @@
       <workItem from="1680861151440" duration="11479000" />
       <workItem from="1681630934664" duration="2915000" />
       <workItem from="1682842100737" duration="10345000" />
+      <workItem from="1682858334131" duration="3388000" />
     </task>
     <servers />
   </component>
@@ -285,6 +295,11 @@
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesRepository.java</url>
           <line>27</line>
           <option name="timeStamp" value="90" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java</url>
+          <line>195</line>
+          <option name="timeStamp" value="91" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

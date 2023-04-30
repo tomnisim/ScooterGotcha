@@ -66,8 +66,8 @@ class IHazardControllerTest {
         final String City = "beersheva";
         final HazardType Type = HazardType.pothole;
         var location1 = new Location(new BigDecimal(20), new BigDecimal(20));
-        var hazard1 = new StationaryHazard(1,1,location1,City,Type,20);
-        var hazard2 = new StationaryHazard(2,1,location1,City,Type,40);
+        var hazard1 = new StationaryHazard(1,location1,City,Type,20);
+        var hazard2 = new StationaryHazard(1,location1,City,Type,40);
         var hazards1 = new ArrayList<>(Arrays.asList(
                 hazard1
         ));
@@ -100,8 +100,8 @@ class IHazardControllerTest {
 
         Location location1 = new Location(longitude1, latitude1);
         Location location2 = new Location(longitude2, latitude2);
-        var hazard1 = new StationaryHazard(1,1,location1,City,Type,20);
-        var hazard2 = new StationaryHazard(2,1,location2,City,Type,40);
+        var hazard1 = new StationaryHazard(1,location1,City,Type,20);
+        var hazard2 = new StationaryHazard(1,location2,City,Type,40);
         var hazards1 = new ArrayList<>(Arrays.asList(
                 hazard1
         ));

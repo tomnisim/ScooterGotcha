@@ -63,7 +63,7 @@ class RidesControllerTest {
         for (int i = 0; i < numberOfThreads; i++) {
             results.add(executor.submit(() -> {
                 try {
-                    return ride_controller.add_ride(finishRideRequest, userEmail);
+                    return ride_controller.add_ride(finishRideRequest, userEmail, "originAdd", "destAdd");
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

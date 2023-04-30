@@ -33,6 +33,9 @@ class UserControllerTest {
     private IQuestionController questionController;
 
     @Mock
+    private AvailableRaspberryPiSerialsRepository serialsRepository;
+
+    @Mock
     private UserRepository userRepository;
     @Mock
     private ErrorLogger errorLoggerMock;
@@ -115,6 +118,7 @@ class UserControllerTest {
     void register_validUserCredentials_successfullyRegistered() {
         configureRegisterMockForSuccess();
         assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
+        when(serialsRepository.isExists(rpSerialNumber)).thenReturn(true);
         assertDoesNotThrow(() -> userController.register(email,password,name,lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber));
     }
 
@@ -123,6 +127,7 @@ class UserControllerTest {
         configureRegisterMockForSuccess();
         assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
         try {
+            when(serialsRepository.isExists(rpSerialNumber)).thenReturn(true);
             when(userRepository.addUser(any())).thenReturn(new Rider());
         }
         catch (Exception e) {
@@ -389,6 +394,7 @@ class UserControllerTest {
             doNothing().when(utils).validate_scooter_type(anyString());
             doNothing().when(utils).validate_license_issue_date(any());
             when(userRepository.getUserByEmail(anyString())).thenReturn(null);
+            when(serialsRepository.isExists(anyString())).thenReturn(false);
         }
         catch (Exception e) {
             fail("Unexpected exception when configuring the mock: " + e.getMessage());
