@@ -1,37 +1,20 @@
 package gotcha.server.Domain.QuestionsModule;
 
-import gotcha.server.DAL.HibernateUtils;
-import gotcha.server.Domain.UserModule.Admin;
-import gotcha.server.Domain.UserModule.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 @Component
 public class QuestionController implements IQuestionController {
+    private final QuestionsRepository questionsRepository;
 
-    private Map<Integer, Question> open_questions;
-    private Map<String, List<Question>> users_questions;
-    private AtomicInteger question_ids_counter;
-    public QuestionController(){
-        this.open_questions = new ConcurrentHashMap<>();
-        this.users_questions = new ConcurrentHashMap<>();
-        this.question_ids_counter = new AtomicInteger(0);
+    @Autowired
+    public QuestionController(QuestionsRepository questionsRepository){
+        this.questionsRepository = questionsRepository;
+
     }
-
-
-    // TODO: 14/12/2022 Database
-    public void load() {
-//        this.questionsMap = HibernateUtils.get_questions();
-        this.question_ids_counter = new AtomicInteger(HibernateUtils.get_max_question_id());
-    }
-
-
     @Override
     public void add_user_question(String message, String senderEmail, BiConsumer<String, Integer> update_function) throws Exception {
         if (message.equals("")){
@@ -40,12 +23,8 @@ public class QuestionController implements IQuestionController {
         if (message.contains("<") || message.contains(">")){
             throw new Exception("no scripts allowed.");
         }
-        int id = this.question_ids_counter.getAndIncrement();
-        Question question = new Question(id, message, senderEmail);
-        this.open_questions.put(id, question);
-        List<Question> questionList = this.users_questions.getOrDefault(senderEmail, new LinkedList<>());
-        questionList.add(question);
-        this.users_questions.put(senderEmail, questionList);
+        Question question = new Question(message, senderEmail);
+        this.questionsRepository.addQuestion(question);
     }
 
     /**
@@ -58,23 +37,12 @@ public class QuestionController implements IQuestionController {
      */
     @Override
     public String answer_user_question(int question_id, String answer, String adminEmail) throws Exception {
-        if (!this.open_questions.containsKey(question_id))
-        {
-            throw new Exception("Question does not exist");
-        }
-        Question question = this.open_questions.get(question_id);
-        question.set_answer(answer, adminEmail);
-        this.open_questions.remove(question_id);
-        return question.getSenderEmail();
+        return this.questionsRepository.answerOpenQuestion(question_id, answer, adminEmail);
     }
 
     @Override
     public Question get_question(int question_id) throws Exception {
-        if (!this.open_questions.containsKey(question_id))
-        {
-            throw new Exception("Question does not exist");
-        }
-        return this.open_questions.get(question_id);
+        return questionsRepository.getOpenQuestion(question_id);
     }
 
 
@@ -86,10 +54,8 @@ public class QuestionController implements IQuestionController {
     @Override
     public List<QuestionDAO> get_all_user_questions(String user_email) {
         ArrayList<QuestionDAO> answer = new ArrayList();
-        List<Question> user_questions = this.users_questions.getOrDefault(user_email, new ArrayList<>());
-        for (Question question : user_questions){
+        for (Question question : this.questionsRepository.getUsersQuestions(user_email))
             answer.add(new QuestionDAO(question));
-        }
         return answer;
     }
 
@@ -98,20 +64,13 @@ public class QuestionController implements IQuestionController {
      * @return all the open questions.
      */
     @Override
-
     public List<Question> get_all_open_questions(){
         ArrayList<Question> answer = new ArrayList<Question>();
-        for (Question question : this.open_questions.values()){
+        for (Question question : this.questionsRepository.getAllOpenQuestions()){
             answer.add(question);
         }
         return answer;
     }
-
-    public int getQuestion_ids_counter() {
-        return question_ids_counter.get();
-    }
-
-
     private void notify_admins(String message) {
     }
 }

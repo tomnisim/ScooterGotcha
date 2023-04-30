@@ -6,13 +6,10 @@ import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
 import gotcha.server.Service.UserContext;
-import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Response;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
-import java.util.List;
 
 public interface IUserAPI {
 

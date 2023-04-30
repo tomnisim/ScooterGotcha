@@ -1,41 +1,79 @@
 package gotcha.server.Domain.StatisticsModule;
 
-import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
-import gotcha.server.Domain.AwardsModule.IAwardsController;
-import gotcha.server.Domain.HazardsModule.HazardController;
-import gotcha.server.Domain.QuestionsModule.QuestionController;
-import gotcha.server.Domain.RidesModule.RidesController;
-import gotcha.server.Domain.UserModule.UserController;
-
-
+import javax.persistence.*;
+import java.lang.annotation.Target;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Entity
+@Table(name = "dailyStatistics")
 public class DailyStatistic {
+    @Id
+    @Column(nullable = false)
     private LocalDate date;
+
+    @Column(name = "start_day_advertisements")
     private int start_day__advertisements;
+
+    @Column(name = "total_advertisements")
     private int total_advertisements;
+
+    @Column(name = "start_day_awards")
     private int start_day__awards;
+
+    @Column(name = "total_awards")
     private int total_awards;
+
+    @Column(name = "start_day_hazards")
     private int start_day__hazards;
+
+    @Column(name = "total_hazards")
     private int total_hazards;
+
+    @Column(name = "start_day_users_questions")
     private int start_day__users_questions;
+
+    @Column(name = "total_users_questions")
     private int total_users_questions;
+
+    @Column(name = "start_day_admin_answers")
     private int start_day__admin_answers;
+
+    @Column(name = "total_admin_answers")
     private int total_admin_answers;
+
+    @Column(name = "start_day_rides")
     private int start_day__rides;
+
+    @Column(name = "total_rides")
     private int total_rides;
 
+    @Column(name = "start_day_users")
+    private int start_day__users;
 
-    private int start_day__users; // registers
+    @Column(name = "total_users")
     private int total_users;
+
+    @Column(name = "start_day_admins")
     private int start_day__admins;
+
+    @Column(name = "total_admins")
     private int total_admins;
-    private AtomicInteger online_users; // login
-    private AtomicInteger online_guests; // logout
-    private AtomicInteger shut_down_events;
-    private AtomicInteger reset_events;
+
+    @Column(name = "online_users")
+
+    private int online_users; // login
+
+    @Column(name = "online_guests")
+
+    private int online_guests; // logout
+
+    @Column(name = "shutdown_events")
+
+    private int shut_down_events;
+    @Column(name = "reset_events")
+
+    private int reset_events;
 
 
 
@@ -58,12 +96,14 @@ public class DailyStatistic {
         this.update(start_day__admins, start_day__admin_answers, start_day__advertisements, start_day__awards, start_day__rides,
                 start_day__hazards, start_day__users, start_day__users_questions);
 
-        this.reset_events = new AtomicInteger(0);
-        this.shut_down_events = new AtomicInteger(0);
-        this.online_guests = new AtomicInteger(0);
-        this.online_users = new AtomicInteger(0);
+        this.reset_events = 0;
+        this.shut_down_events = 0;
+        this.online_guests = 0;
+        this.online_users = 0;
     }
 
+    public DailyStatistic() {
+    }
 
 
     /**
@@ -108,10 +148,10 @@ public class DailyStatistic {
         this.total_users = total_users;
         this.start_day__admins = start_day__admins;
         this.total_admins = total_admins;
-        this.online_users = new AtomicInteger(online_users);
-        this.online_guests = new AtomicInteger(online_guests);
-        this.shut_down_events = new AtomicInteger(shut_down_events);
-        this.reset_events = new AtomicInteger(reset_events);
+        this.online_users = online_users;
+        this.online_guests = online_guests;
+        this.shut_down_events = shut_down_events;
+        this.reset_events = reset_events;
     }
 
 
@@ -188,35 +228,22 @@ public class DailyStatistic {
     }
 
     public int getOnline_users() {
-        return online_users.get();
+        return online_users;
     }
 
-    public void incOnline_users() {
-        this.online_users.incrementAndGet();
-    }
 
     public int getOnline_guests() {
-        return online_guests.get();
+        return online_guests;
     }
 
-    public void incOnline_guests() {
-        this.online_guests.incrementAndGet();
-    }
 
     public int getShut_down_events() {
-        return shut_down_events.get();
+        return shut_down_events;
     }
 
-    public void incShut_down_events() {
-        this.shut_down_events.incrementAndGet();
-    }
 
     public int getReset_events() {
-        return reset_events.get();
-    }
-
-    public void incReset_events() {
-        this.reset_events.incrementAndGet();
+        return reset_events;
     }
 
 
@@ -257,19 +284,19 @@ public class DailyStatistic {
     }
 
     public void setOnline_users(int online_users) {
-        this.online_users = new AtomicInteger(online_users);
+        this.online_users = online_users;
     }
 
     public void setOnline_guests(int online_guests) {
-        this.online_guests = new AtomicInteger(online_guests);
+        this.online_guests = online_guests;
     }
 
     public void setShut_down_events(int shut_down_events) {
-        this.shut_down_events = new AtomicInteger(shut_down_events);
+        this.shut_down_events = shut_down_events;
     }
 
     public void setReset_events(int reset_events) {
-        this.reset_events = new AtomicInteger(reset_events);
+        this.reset_events = reset_events;
     }
 
 
@@ -288,5 +315,69 @@ public class DailyStatistic {
 
     public DailyStatisticDAO getDAO() {
         return new DailyStatisticDAO(this);
+    }
+
+    public int getStart_day__advertisements() {
+        return start_day__advertisements;
+    }
+
+    public int getStart_day__awards() {
+        return start_day__awards;
+    }
+
+    public int getStart_day__hazards() {
+        return start_day__hazards;
+    }
+
+    public int getStart_day__users_questions() {
+        return start_day__users_questions;
+    }
+
+    public int getStart_day__admin_answers() {
+        return start_day__admin_answers;
+    }
+
+    public int getStart_day__rides() {
+        return start_day__rides;
+    }
+
+    public int getStart_day__users() {
+        return start_day__users;
+    }
+
+    public int getStart_day__admins() {
+        return start_day__admins;
+    }
+
+    public void setStart_day__advertisements(int start_day__advertisements) {
+        this.start_day__advertisements = start_day__advertisements;
+    }
+
+    public void setStart_day__awards(int start_day__awards) {
+        this.start_day__awards = start_day__awards;
+    }
+
+    public void setStart_day__hazards(int start_day__hazards) {
+        this.start_day__hazards = start_day__hazards;
+    }
+
+    public void setStart_day__users_questions(int start_day__users_questions) {
+        this.start_day__users_questions = start_day__users_questions;
+    }
+
+    public void setStart_day__admin_answers(int start_day__admin_answers) {
+        this.start_day__admin_answers = start_day__admin_answers;
+    }
+
+    public void setStart_day__rides(int start_day__rides) {
+        this.start_day__rides = start_day__rides;
+    }
+
+    public void setStart_day__users(int start_day__users) {
+        this.start_day__users = start_day__users;
+    }
+
+    public void setStart_day__admins(int start_day__admins) {
+        this.start_day__admins = start_day__admins;
     }
 }

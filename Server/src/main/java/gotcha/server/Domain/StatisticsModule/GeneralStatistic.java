@@ -1,23 +1,43 @@
 package gotcha.server.Domain.StatisticsModule;
 
-public class GeneralStatistic {
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "general_statistics")
+public class GeneralStatistic {
+    @Id
+    private final Long id = 1L;
+
+    @Column(name = "total_advertisements")
     private int total_advertisements;
+
+    @Column(name = "total_awards")
     private int total_awards;
+
+    @Column(name = "total_hazards")
     private int total_hazards;
+
+    @Column(name = "total_users_questions")
     private int total_users_questions;
+
+    @Column(name = "total_admin_answers")
     private int total_admin_answers;
+
+    @Column(name = "total_rides")
     private int total_rides;
+
+    @Column(name = "total_users")
     private int total_users;
+
+    @Column(name = "total_admins")
     private int total_admins;
+
+    @Column(name = "last_initial_time")
     private String last_initial_time;
 
     public GeneralStatistic(){
-
-    }
-
-    public GeneralStatistic(String last_initial_time){
-        this.last_initial_time = last_initial_time;
+        this.last_initial_time = LocalDateTime.now().toString();
     }
 
     public void update(int total_admins, int total_admin_answers, int total_advertisements, int total_awards, int total_rides,
@@ -30,7 +50,6 @@ public class GeneralStatistic {
         this.total_awards = total_awards;
         this.total_rides = total_rides;
         this.total_users_questions = total_users_questions;
-
     }
 
     public int getTotal_advertisements() {
@@ -103,5 +122,9 @@ public class GeneralStatistic {
 
     public void setLast_initial_time(String last_initial_time) {
         this.last_initial_time = last_initial_time;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

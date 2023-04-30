@@ -68,8 +68,8 @@ public class MainSystem {
         create_rp_config_file();
         connect_database();
         load_database();
-        if (configuration.getFirstTimeRunning())
-            set_first_admin();
+//        if (configuration.getFirstTimeRunning())
+//            set_first_admin();
         set_statistics_update_thread();
         set_reporter_engine();
         this.hazardController.setHAZARD_THRESHOLD_RATE(configuration.getHazards_rate_threshold());
@@ -203,52 +203,55 @@ public class MainSystem {
 
         ArrayList hazards = new ArrayList();
 
-
-
         LocalDateTime start_time = LocalDateTime.now();
-        this.hazardController.add_hazard(5, hazard_location, "Tel-Aviv", HazardType.PoleTree, 16.5);
-        this.hazardController.add_hazard(5, hazard_location2, "Tel-Aviv", HazardType.RoadSign, 7);
-        this.hazardController.add_hazard(5, hazard_location3, "Tel-Aviv", HazardType.PoleTree, 12);
-
-        this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12);
-        this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14);
-        this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3);
+        if (this.hazardController.isDbEmpty()) {
+            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5);
+            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 7);
+            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 12);
+            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12);
+            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14);
+            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3);
+        }
         LocalDate birth_date = LocalDate.of(1995, 05 , 05);
         LocalDate issue = LocalDate.of(2025, 05 , 05);
         String password = "AaAa12345";
-        userController.add_rp_serial_number("first");
-        userController.add_rp_serial_number("first1");
-        userController.add_rp_serial_number("first12");
-        userController.add_rp_serial_number("first123");
-        userController.add_rp_serial_number("first1234");
-        userController.add_rp_serial_number("first12345");
+        if (userController.isSerialsTableEmpty()) {
+            userController.add_rp_serial_number("first");
+            userController.add_rp_serial_number("first1");
+            userController.add_rp_serial_number("first12");
+            userController.add_rp_serial_number("first123");
+            userController.add_rp_serial_number("first1234");
+            userController.add_rp_serial_number("first12345");
+        }
 
-
-
-        userController.register("email@gmail.com", password, "name", "last", "0546794211",
-                birth_date, "male", "type", issue, "first");
-        userController.register("email1@gmail.com", password, "name", "last", "0546794211",
-                birth_date, "male", "type", issue, "first1");
-        userController.register("email12@gmail.com", password, "name", "last", "0546794211",
-                birth_date, "male", "type", issue, "first12");
-        userController.register("email123@gmail.com", password, "name", "last", "0546794211",
-                birth_date, "male", "type", issue, "first123");
+        if (userController.isUsersTableEmpty()) {
+            userController.register("email@gmail.com", password, "name", "last", "0546794211",
+                    birth_date, "male", "type", issue, "first");
+            userController.register("email1@gmail.com", password, "name", "last", "0546794211",
+                    birth_date, "male", "type", issue, "first1");
+            userController.register("email12@gmail.com", password, "name", "last", "0546794211",
+                    birth_date, "male", "type", issue, "first12");
+            userController.register("email123@gmail.com", password, "name", "last", "0546794211",
+                    birth_date, "male", "type", issue, "first123");
 //        (String rpSerialNumber, Location origin, Location destination, String city, LocalDateTime startTime, LocalDateTime endTime, List<StationaryHazard> hazards, List< RidingAction > ridingActions) {
 //            this.rpSerialNumber = rpSerialNumber;
+
+
+            userController.add_first_admin("admin1@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
+            userController.add_first_admin("admin12@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
+            userController.add_first_admin("admin123@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
+        }
         FinishRideRequest finishRideReq = new FinishRideRequest("first", new LocationDTO(origin), new LocationDTO(dest), "Netanya", start_time, start_time.plusMinutes(47), hazards, new ArrayList<>(), new ArrayList<>());
         FinishRideRequest finishRideReq2 = new FinishRideRequest("first", new LocationDTO(hazard_location2), new LocationDTO(hazard_location3), "Tel-Aviv", start_time, start_time.plusMinutes(47), hazards, new ArrayList<>(), new ArrayList<>());
         ridesController.add_ride(finishRideReq, "email@gmail.com", originAddress, destAddress);
         ridesController.add_ride(finishRideReq2, "email@gmail.com", originAddress1, destAddress1);
-
-        userController.add_first_admin("admin1@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin12@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
-        userController.add_first_admin("admin123@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
        userController.send_question_to_admin("email@gmail.com", "Happy Birthday");
        userController.send_question_to_admin("email@gmail.com", "Happy Birthday with answer");
        this.questionController.answer_user_question(1, "because", "admin@admin.com");
-        this.advertiseController.add_advertise(birth_date, "owner", "message", "https://picsum.photos/id/237/200/200", "www.walla.com");
-
-        this.advertiseController.add_advertise(birth_date, "owner", "message", "https://picsum.photos/id/238/200/200", "www.walla.com");
+       if (this.advertiseController.isDbEmpty()) {
+           this.advertiseController.add_advertise(birth_date, "owner", "message", "https://picsum.photos/id/237/200/200", "www.walla.com");
+           this.advertiseController.add_advertise(birth_date, "owner", "message", "https://picsum.photos/id/238/200/200", "www.walla.com");
+       }
 //        Facade user_facade = new Facade();
 //        Facade admin_facade = new Facade();
 //        user_facade.register(EMAIL, PASSWORD, NAME, LAST_NAME, BIRTH_DATE, PHONE, GENDER);

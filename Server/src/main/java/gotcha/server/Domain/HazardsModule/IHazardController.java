@@ -13,7 +13,7 @@ public interface IHazardController {
     List<StationaryHazard> get_hazards_in_route(Route route);
     void add_hazard(int rideId, Location location, String city, HazardType type, double size) throws Exception;
 
-     Collection<StationaryHazardDAO> view_hazards();
+    Collection<StationaryHazardDAO> view_hazards();
 
 
 //    void update_hazard(StationaryHazard hazard, double size);

@@ -1,20 +1,13 @@
 package gotcha.server.Domain.RatingModule;
 
-import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.HazardType;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Utils.Formula;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.Dictionary;
 import java.util.Hashtable;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class HazardRateCalculator implements IHazardRateCalculator {
 
@@ -30,7 +23,8 @@ public class HazardRateCalculator implements IHazardRateCalculator {
 
     public HazardRateCalculator() {
         this.formulas = new Hashtable<HazardType, Formula>();
-        this.set_formulas();
+        // TODO: 4/30/2023 : remove comment when file will be found
+        //this.set_formulas();
     }
 
 
@@ -44,7 +38,9 @@ public class HazardRateCalculator implements IHazardRateCalculator {
     @Override
     public double rate_hazard(StationaryHazard hazard){
         Formula formula = formulas.get(hazard.getType());
-        return formula.evaluate(hazard.getSize());
+        return 2;
+        // TODO: 4/30/2023 : remove comment when file will be found
+        //return formula.evaluate(hazard.getSize());
     }
 
     /**

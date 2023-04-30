@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class HazardController implements IHazardController {
@@ -21,15 +20,13 @@ public class HazardController implements IHazardController {
     private final SystemLogger systemLogger;
     private final HazardRepository hazardRepository;
     private final ReporterAdapter reporterAdapter;
-    // TODO: 4/11/2023 : remove it once Hibernate is merged
-    private AtomicInteger idCounter;
+
 
     @Autowired
     public HazardController(SystemLogger systemLogger, HazardRepository hazardRepository, ReporterAdapter reporterAdapter) {
         this.systemLogger = systemLogger;
         this.hazardRepository = hazardRepository;
         this.reporterAdapter = reporterAdapter;
-        idCounter = new AtomicInteger(1);
      }
 
     @Override
@@ -40,12 +37,12 @@ public class HazardController implements IHazardController {
 
     @Override
     public void add_hazard(int rideId, Location location, String city, HazardType type, double size) throws Exception {
-        var newHazard = new StationaryHazard(idCounter.incrementAndGet(),rideId, location, city, type, size);
-        this.hazardRepository.add_hazard(newHazard);
+        var newHazard = new StationaryHazard(rideId, location, city, type, size);
+        this.hazardRepository.addHazard(newHazard);
     }
 
     private void update_hazard(StationaryHazard hazard, double size) {
-        hazard.setSize(size);
+        this.hazardRepository.updateHazard(hazard, size);
     }
 
     /**
@@ -178,7 +175,7 @@ public class HazardController implements IHazardController {
     public void report_hazard(int hazardId) throws Exception {
         StationaryHazard stationaryHazard = hazardRepository.getHazardById(hazardId);
         this.getReporterAdapter().report(stationaryHazard);
-        stationaryHazard.setReport(true);
+        hazardRepository.setReportOnHazard(hazardId);
 
     }
 
@@ -209,5 +206,9 @@ public class HazardController implements IHazardController {
 
     public void setHAZARD_THRESHOLD_RATE(double HAZARD_THRESHOLD_RATE) {
         this.HAZARD_THRESHOLD_RATE = HAZARD_THRESHOLD_RATE;
+    }
+
+    public boolean isDbEmpty() {
+        return hazardRepository.isDbEmpty();
     }
 }

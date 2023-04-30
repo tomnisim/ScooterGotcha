@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface IAwardsController {
-    void add_award(String message,String admin_email, List<String> emails);
+    void add_award(String message,String admin_email, List<String> emails) throws Exception;;
     Collection<Award> view_awards();
-    Award get_award(int award_id);
+    Award get_award(int award_id) throws Exception;
 }

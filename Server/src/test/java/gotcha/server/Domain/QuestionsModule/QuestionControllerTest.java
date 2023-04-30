@@ -4,15 +4,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 class QuestionControllerTest {
     private QuestionController questionController;
+    @Mock
+    private QuestionsRepository questionsRepository;
     @BeforeEach
     void setUp() {
-        this.questionController = new QuestionController();
-
+        MockitoAnnotations.openMocks(this);
+        this.questionController = new QuestionController(questionsRepository);
     }
 
     @ParameterizedTest
@@ -20,17 +27,13 @@ class QuestionControllerTest {
     void add_user_question_valid_message(String message) {
         String email = "email@gmail.com";
         boolean flag = false;
+        assertDoesNotThrow(() -> questionController.add_user_question(message,email,null));
         try{
-            questionController.add_user_question(message, email, null);
+            verify(questionsRepository, times(1)).addQuestion(any());
         }
-        catch (Exception e){}
-        for (QuestionDAO questionDAO :questionController.get_all_user_questions(email))
-        {
-            if (questionDAO.getMessage().equals(message)){
-                flag = true;
-            }
+        catch (Exception e){
+            fail("shouldn't fail: "+ e.getMessage());
         }
-        assertTrue(flag);
     }
 
     @ParameterizedTest
@@ -38,17 +41,13 @@ class QuestionControllerTest {
     void add_user_question_invalid_message(String message) {
         String email = "email11@gmail.com";
         boolean flag = true;
+        assertThrows(Exception.class, () -> questionController.add_user_question(message,email,null));
         try{
-            questionController.add_user_question(message, email, null);
+            verify(questionsRepository, times(0)).addQuestion(any());
         }
-        catch (Exception e){}
-        for (QuestionDAO questionDAO :questionController.get_all_user_questions(email))
-        {
-            if (questionDAO.getMessage().equals(message)){
-                flag = false;
-            }
+        catch (Exception e){
+            fail("shouldn't fail: "+ e.getMessage());
         }
-        assertTrue(flag);
     }
 
     @Test

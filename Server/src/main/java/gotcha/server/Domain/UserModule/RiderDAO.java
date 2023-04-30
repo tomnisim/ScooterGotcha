@@ -25,7 +25,7 @@ public class RiderDAO {
         this.userEmail = rider.get_email();
         this.name = rider.getName();
         this.lastName = rider.getLastName();
-        this.licenceIssueDate = rider.getLicenceIssueDate();
+        this.licenceIssueDate = rider.getLicenseIssueDate();
         this.raspberryPiSerialNumber = rider.getRaspberryPiSerialNumber();
         this.phoneNumber = rider.get_phone_number();
         this.birthDay = rider.get_birth_day();

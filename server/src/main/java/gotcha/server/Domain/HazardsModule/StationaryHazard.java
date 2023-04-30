@@ -4,16 +4,37 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import gotcha.server.Domain.RatingModule.HazardRateCalculator;
 import gotcha.server.Utils.Location;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="hazards")
 public class StationaryHazard {
 
     @JsonIgnore
-    private int id;
-    private int ride_id; // will be -1 if the hazard added by admin.
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id = 0;
+    @Column(name="rideId")
+    private int ride_id;
+
+    @Column(name="location")
+    @Embedded
     private Location location;
+
+    @Column(name="city")
     private String city;
+
+    @Enumerated
+    @Column(name="hazardType")
     private HazardType type;
+
+    @Column(name="size")
     private double size;
+
+    @Column(name="rate")
     private double rate;
+
+    @Column(name="report")
     private boolean report;
 
     // TODO: 28/04/2023 : Add photo field.
@@ -21,8 +42,7 @@ public class StationaryHazard {
 
 
 
-    public StationaryHazard(int id, int ride_id, Location location, String city, HazardType type, double size) {
-        this.id = id;
+    public StationaryHazard(int ride_id, Location location, String city, HazardType type, double size) {
         this.ride_id = ride_id;
         this.location = location;
         this.city = city;
@@ -31,7 +51,6 @@ public class StationaryHazard {
         this.report = false;
         this.setRate();
     }
-    
 
     // Default Constructor for deserialization
     public StationaryHazard() {}
@@ -83,8 +102,6 @@ public class StationaryHazard {
     public double getRate() {
         return rate;
     }
-
-
     public void setRate() {
         HazardRateCalculator hazardRateCalculator = HazardRateCalculator.get_instance();
         this.rate = hazardRateCalculator.rate_hazard(this);

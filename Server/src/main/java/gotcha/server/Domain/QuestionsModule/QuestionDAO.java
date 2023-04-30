@@ -14,8 +14,8 @@ public class QuestionDAO {
     public QuestionDAO(Question question){
         this.answer = question.getAnswer();
         this.message = question.getMessage();
-        this.message_date = question.getMessage_date();
-        this.answer_date = question.getAnswer_date();
+        this.message_date = question.getMessage_date().toString();
+        this.answer_date = question.getAnswer_date().toString();
 
     }
 

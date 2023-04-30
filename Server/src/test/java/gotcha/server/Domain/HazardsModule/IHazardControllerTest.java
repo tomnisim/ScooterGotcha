@@ -11,23 +11,32 @@ import org.mockito.MockitoAnnotations;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.when;
 
 class IHazardControllerTest {
 
     private HazardController hazardController;
+    private AtomicInteger idGenerator = new AtomicInteger(1);
 
     @Mock
     private SystemLogger systemLogger;
     @Mock
     private ReporterAdapter reporterAdapter;
 
-    private HazardRepository hazardRepository = new HazardRepository();
+    @Mock
+    private IHazardRepository iHazardRepository;
+
+    private HazardRepository hazardRepository;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        hazardRepository = new HazardRepository(iHazardRepository);
         hazardController = new HazardController(systemLogger, hazardRepository, reporterAdapter);
         hazardController.setHAZARD_THRESHOLD_RATE(20.0);
     }
@@ -38,13 +47,14 @@ class IHazardControllerTest {
 
     @Test
     void updateHazards_AllHazardsAreNew_AllAdded() {
+        configureHazardRepository();
         final String City = "beersheva";
         final HazardType Type = HazardType.pothole;
         var location1 = new Location(new BigDecimal(20), new BigDecimal(20));
         var location2 = new Location(new BigDecimal(40), new BigDecimal(40));
         var hazards = new ArrayList<>(Arrays.asList(
-                new StationaryHazard(1,1,location1,City,Type,20),
-                new StationaryHazard(2,1,location2,City,Type,20)
+                new StationaryHazard(1,location1,City,Type,20),
+                new StationaryHazard(1,location2,City,Type,20)
         ));
         assertDoesNotThrow(() -> hazardController.update_hazards(hazards,1));
         assertTrue(hazardController.view_hazards().size() == hazards.size());
@@ -52,11 +62,12 @@ class IHazardControllerTest {
 
     @Test
     void updateHazards_LocationIsTheSame_HazardSizeUpdated() {
+        configureHazardRepository();
         final String City = "beersheva";
         final HazardType Type = HazardType.pothole;
         var location1 = new Location(new BigDecimal(20), new BigDecimal(20));
-        var hazard1 = new StationaryHazard(1,1,location1,City,Type,20);
-        var hazard2 = new StationaryHazard(2,1,location1,City,Type,40);
+        var hazard1 = new StationaryHazard(1,location1,City,Type,20);
+        var hazard2 = new StationaryHazard(1,location1,City,Type,40);
         var hazards1 = new ArrayList<>(Arrays.asList(
                 hazard1
         ));
@@ -76,6 +87,7 @@ class IHazardControllerTest {
 
     @Test
     void updateHazards_LocationsAreWithinRadiusDistance_HazardSizeUpdated() {
+        configureHazardRepository();
         final String City = "beersheva";
         final HazardType Type = HazardType.pothole;
         // Create two Location objects with coordinates within RADIOS distance.
@@ -88,8 +100,8 @@ class IHazardControllerTest {
 
         Location location1 = new Location(longitude1, latitude1);
         Location location2 = new Location(longitude2, latitude2);
-        var hazard1 = new StationaryHazard(1,1,location1,City,Type,20);
-        var hazard2 = new StationaryHazard(2,1,location2,City,Type,40);
+        var hazard1 = new StationaryHazard(1,location1,City,Type,20);
+        var hazard2 = new StationaryHazard(1,location2,City,Type,40);
         var hazards1 = new ArrayList<>(Arrays.asList(
                 hazard1
         ));
@@ -109,5 +121,13 @@ class IHazardControllerTest {
 
     @Test
     void remove_hazard() {
+    }
+
+    private void configureHazardRepository() {
+        doAnswer(invocation -> {
+            StationaryHazard hazard = (StationaryHazard) invocation.getArgument(0);
+            hazard.setId(idGenerator.getAndIncrement());
+            return null;
+        }).when(iHazardRepository).save(any(StationaryHazard.class));
     }
 }

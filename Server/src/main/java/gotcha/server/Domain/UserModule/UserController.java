@@ -22,17 +22,17 @@ public class UserController implements IUserController {
     private final iPasswordManager passwordManager;
     private final UserRepository userRepository;
     private final IQuestionController questionController;
-    private HashSet<String> availableRaspberryPiSerials;
+    private final AvailableRaspberryPiSerialsRepository serialsRepository;
     private final UserRateCalculator userRateCalculator;
 
     @Autowired
-    public UserController(Utils utils, iPasswordManager passwordManager, IQuestionController questionController, UserRepository userRepository, UserRateCalculator userRateCalculator) {
+    public UserController(Utils utils, iPasswordManager passwordManager, IQuestionController questionController, UserRepository userRepository, UserRateCalculator userRateCalculator, AvailableRaspberryPiSerialsRepository serialsRepository) {
         this.utils = utils;
         this.passwordManager = passwordManager;
         this.questionController = questionController;
-        this.availableRaspberryPiSerials = new HashSet<>();
         this.userRepository = userRepository;
         this.userRateCalculator = userRateCalculator;
+        this.serialsRepository = serialsRepository;
     }
 
     public void load() {
@@ -45,12 +45,12 @@ public class UserController implements IUserController {
         var passwordToken = passwordManager.hash(password);
         var admin = new Admin(userEmail, name, lastName, passwordToken, phoneNumber, birthDay, gender, null);
         userRepository.addUser(admin);
-        admin.notify_user(new Notification("sender@gmail.com", "noti1"));
-        admin.notify_user(new Notification("sender@gmail.com", "noti12"));
-        admin.notify_user(new Notification("sender@gmail.com", "noti123"));
-        admin.notify_user(new Notification("sender@gmail.com", "noti1234"));
-        admin.notify_user(new Notification("sender@gmail.com", "noti12345"));
-        admin.notify_user(new Notification("sender@gmail.com", "noti123456"));
+        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti1"));
+        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti12"));
+        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti123"));
+        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti1234"));
+        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti12345"));
+        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti123456"));
     }
 
     /**
@@ -95,7 +95,7 @@ public class UserController implements IUserController {
      */
     public Boolean register(String userEmail, String password, String name, String lastName, String phoneNumber, LocalDate birthDay, String gender, String scooterType, LocalDate licenceIssueDate, String raspberryPiSerialNumber) throws Exception {
         verify_user_information(userEmail, password, phoneNumber, birthDay, gender, scooterType, licenceIssueDate);
-        if (!this.availableRaspberryPiSerials.contains(raspberryPiSerialNumber)){
+        if (!serialsRepository.isExists(raspberryPiSerialNumber)){
             throw new UnavailableRPserialException(String.format("Raspberry Pi: %s is unavailable", raspberryPiSerialNumber));
         }
         String passwordToken = passwordManager.hash(password);
@@ -103,13 +103,11 @@ public class UserController implements IUserController {
         var addResult = userRepository.addUser(user);
         if (addResult != null)
             throw new UserAlreadyExistsException(String.format("user with email: %s is already registered in the system", userEmail));
-
         var rpAddResult = userRepository.assignRpToUser(raspberryPiSerialNumber, userEmail);
         if (rpAddResult != null) {
             throw new Exception(String.format("rp with serial number: %s is already associated to a user", raspberryPiSerialNumber));
         }
-        this.availableRaspberryPiSerials.remove(raspberryPiSerialNumber);
-        // TODO: need to add available rp serial numbers and check if its one of them before adding
+        serialsRepository.removeSerial(raspberryPiSerialNumber);
         return true;
     }
 
@@ -302,9 +300,8 @@ public class UserController implements IUserController {
     public List<WaitingRaspberryPiDAO> get_waiting_rp() {
         List<WaitingRaspberryPiDAO> to_return = new ArrayList<>();
         int i = 0;
-        Iterator<String> iter = availableRaspberryPiSerials.iterator();
-        while (iter.hasNext()){
-            WaitingRaspberryPiDAO to_add = new WaitingRaspberryPiDAO(i, iter.next());
+        for(var serial : serialsRepository.getAllSerials()) {
+            WaitingRaspberryPiDAO to_add = new WaitingRaspberryPiDAO(i, serial);
             to_return.add(to_add);
             i = i+1;
         }
@@ -313,10 +310,10 @@ public class UserController implements IUserController {
 
     @Override
     public void add_rp_serial_number(String rpSerial) throws Exception {
-        if (this.availableRaspberryPiSerials.contains(rpSerial) || (userRepository.getUserByRpSerialNumber(rpSerial) != null)){
+        if (serialsRepository.isExists(rpSerial) || (userRepository.getUserByRpSerialNumber(rpSerial) != null)){
             throw new Exception(String.format("Raspberry Pi Serial Number: %s is already exists in the system!", rpSerial));
         }
-        this.availableRaspberryPiSerials.add(rpSerial);
+        serialsRepository.addSerial(rpSerial);
     }
 
     @Override
@@ -343,11 +340,8 @@ public class UserController implements IUserController {
 
     @Override
     public void update_user_rate(String userEmail, Ride ride, int number_of_rides) throws Exception {
-        var user = userRepository.getUserByEmail(userEmail);
-        if (user == null || user.is_admin())
-            throw new Exception("user not found or is admin");
+        this.userRepository.updateUserRating(userEmail, ride, number_of_rides, userRateCalculator);
 
-        ((Rider) user).update_rating(ride, number_of_rides, userRateCalculator);
     }
 
     @Override
@@ -369,7 +363,7 @@ public class UserController implements IUserController {
     }
     // change all users
 
-    public void notify_users(String senderEmail, List<String> emails, String message) {
+    public void notify_users(String senderEmail, List<String> emails, String message) throws UserNotFoundException {
         Notification notification = new Notification(senderEmail, message);
         List<User> allUsers = userRepository.getAllUsers();
         for (String email : emails) {
@@ -378,6 +372,14 @@ public class UserController implements IUserController {
                 user.notify_user(notification);
             }
         }
+    }
+
+    public boolean isSerialsTableEmpty(){
+        return serialsRepository.isDbEmpty();
+    }
+
+    public boolean isUsersTableEmpty() {
+        return userRepository.isDbEmpty();
     }
 
 }

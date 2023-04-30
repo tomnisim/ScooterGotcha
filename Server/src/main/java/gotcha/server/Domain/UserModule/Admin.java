@@ -1,9 +1,16 @@
 package gotcha.server.Domain.UserModule;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@DiscriminatorValue("Admin")
 public class Admin extends User{
+    @ManyToOne
+    @JoinColumn(name = "appointed_by_admin_id")
     private Admin appintedBy;
+
+    @Column(name="appointmentDate")
     private LocalDate appointmentDate;
 
     public Admin(String userEmail, String name, String lastName, String userPasswordToken, String phoneNumber, LocalDate birthDay, String gender, Admin appointedBy) {
@@ -11,6 +18,8 @@ public class Admin extends User{
         this.appintedBy = appointedBy;
         this.appointmentDate = LocalDate.now();
     }
+
+    public Admin() {super();}
 
     @Override
     public Boolean is_admin() {
@@ -23,5 +32,13 @@ public class Admin extends User{
 
     public LocalDate get_appointment_date() {
         return this.appointmentDate;
+    }
+
+    public void setAppintedBy(Admin appintedBy) {
+        this.appintedBy = appintedBy;
+    }
+
+    public void setAppointmentDate(LocalDate appointmentDate) {
+        this.appointmentDate = appointmentDate;
     }
 }

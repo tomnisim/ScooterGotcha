@@ -1,6 +1,6 @@
 package gotcha.server.Domain.HazardsModule;
 
-import gotcha.server.Utils.Location;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -11,26 +11,72 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class HazardRepository {
     private Map<Integer, StationaryHazard> stationaryHazardsList;
+    private final IHazardRepository hazardJpaRepository;
 
-    public HazardRepository() {
+    @Autowired
+    public HazardRepository(IHazardRepository hazardJpaRepository) {
         this.stationaryHazardsList = new ConcurrentHashMap<>();
+        this.hazardJpaRepository = hazardJpaRepository;
+        LoadFromDB();
     }
-    public StationaryHazard add_hazard(StationaryHazard newHazard){
-        return this.stationaryHazardsList.putIfAbsent(newHazard.getId(), newHazard);
+
+    public void addHazard(StationaryHazard newHazard) throws Exception {
+        hazardJpaRepository.save(newHazard);
+        var addRideResult = this.stationaryHazardsList.putIfAbsent(newHazard.getId(), newHazard);
+        if (addRideResult != null) {
+            throw new Exception("hazard already exists");
+        }
     }
 
     public List<StationaryHazard> getAllHazards() {
         return  new ArrayList<>(stationaryHazardsList.values());
     }
 
+
     public void removeHazard(int hazardId) throws Exception {
         var result = stationaryHazardsList.remove(hazardId);
         if (result == null)
             throw new Exception("hazard with id:" + hazardId + " not found");
+        hazardJpaRepository.delete(result);
     }
 
-    public StationaryHazard getHazardById(int hazardId) {
-        return stationaryHazardsList.getOrDefault(hazardId, null);
+    public StationaryHazard getHazardById(int hazardId) throws Exception {
+        var result = stationaryHazardsList.get(hazardId);
+        if (result == null) {
+            return getHazardFromDb(hazardId);
+        }
+        return result;
     }
 
+    public void setReportOnHazard(int hazardId) throws Exception {
+        var hazard = getHazardById(hazardId);
+        hazard.setReport(true);
+        hazardJpaRepository.save(hazard);
+    }
+
+    private StationaryHazard getHazardFromDb(int hazardId) throws Exception {
+        var result = hazardJpaRepository.findById(hazardId);
+        if (result.isPresent()) {
+            return result.get();
+        }
+        else {
+            throw new Exception("hazard with id:" + hazardId + " not found");
+        }
+    }
+
+    private void LoadFromDB() {
+        var hazardsInDb = hazardJpaRepository.findAll();
+        for(var hazard : hazardsInDb) {
+            stationaryHazardsList.put(hazard.getId(), hazard);
+        }
+    }
+
+    public void updateHazard(StationaryHazard hazardToUpdate, double newSize) {
+        hazardToUpdate.setSize(newSize);
+        hazardJpaRepository.save(hazardToUpdate);
+    }
+
+    public boolean isDbEmpty() {
+        return hazardJpaRepository.count() == 0;
+    }
 }

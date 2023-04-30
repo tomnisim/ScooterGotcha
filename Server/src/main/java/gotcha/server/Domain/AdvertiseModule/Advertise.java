@@ -2,20 +2,39 @@ package gotcha.server.Domain.AdvertiseModule;
 
 import gotcha.server.Utils.Utils;
 
+import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.LocalDate;
 
+
+@Entity
+@Table(name = "advertises")
 public class Advertise {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id = 0;
+    @Column(name="startDate")
     private LocalDate start_date;
+    @Column(name="finalDate")
     private LocalDate final_date;
+
+    @Column(name = "owner")
     private String owner;
+
+    @Column(name = "message")
     private String message;
+
+    @Column(name = "photo")
     private String photo;
+
+    @Column(name = "url")
     private String url;
+
+    @Column(name = "userClicks")
     private int users_clicks;
 
-    public Advertise(int id, LocalDate final_date, String owner, String message, String photo, String url) {
-        this.id = id;
+    public Advertise(LocalDate final_date, String owner, String message, String photo, String url) {
         this.final_date = final_date;
         this.owner = owner;
         this.message = message;
@@ -26,8 +45,7 @@ public class Advertise {
     }
 
     // load
-    public Advertise(int id, LocalDate start_date, LocalDate final_date, String owner, String message, String photo,String url, int users_clicks) {
-        this.id = id;
+    public Advertise(LocalDate start_date, LocalDate final_date, String owner, String message, String photo,String url, int users_clicks) {
         this.start_date = start_date;
         this.final_date = final_date;
         this.owner = owner;
@@ -36,6 +54,8 @@ public class Advertise {
         this.url = url;
         this.users_clicks = users_clicks;
     }
+
+    public Advertise(){}
 
 
 

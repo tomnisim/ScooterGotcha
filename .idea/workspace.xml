@@ -6,16 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e8394b8d-4a9c-44d1-8624-56aa6c7f6cdf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/raspberryPi/.idea/raspberryPi.iml" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/.idea/raspberryPi.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/raspberryPi/AlertModule/Visual.py" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/AlertModule/Visual.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/raspberryPi/AlertModule/Vocal.py" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/AlertModule/Vocal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/raspberryPi/AlertModule/VocalCreator.py" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/AlertModule/VocalCreator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/raspberryPi/CameraModule/CameraController.py" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/CameraModule/CameraController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/raspberryPi/CommunicationModule/TCPconnection.py" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/CommunicationModule/TCPconnection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/raspberryPi/GPSModule/GPSController.py" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/GPSModule/GPSController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/raspberryPi/RidesModule/RideController.py" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/RidesModule/RideController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/raspberryPi/Service/Service.py" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/Service/Service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/raspberryPi/alert.wav" beforeDir="false" afterPath="$PROJECT_DIR$/raspberryPi/alert.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/HazardRateCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RatingModule/HazardRateCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/resources/application-remote.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/resources/application-remote.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +19,7 @@
       <list>
         <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -56,19 +49,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RequestMappingsPanelOrder0" value="0" />
-    <property name="RequestMappingsPanelOrder1" value="1" />
-    <property name="RequestMappingsPanelWidth0" value="75" />
-    <property name="RequestMappingsPanelWidth1" value="75" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="database.main" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "last_opened_file_path": "D:/Sasha/University/Final_project/ScooterGotcha/Server/src/main/resources",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "spring.configuration.checksum": "cf1e8c14e54505f60aa10ceb8d5d8ab3"
+  }
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Sasha\University\Final_project\ScooterGotcha\Server\src\main\resources" />
+    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="gotcha.server.Domain.HazardsModule" />
       <recent name="gotcha.server.Domain.UserModule" />
       <recent name="gotcha.server.Domain.RidesModule" />
     </key>
@@ -80,8 +84,7 @@
       </set>
     </option>
   </component>
-
-  <component name="RunManager" selected="JUnit.All in server">
+  <component name="RunManager" selected="Spring Boot.ServerApplication (1)">
     <configuration name="All in server" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <option name="PACKAGE_NAME" value="" />
@@ -90,65 +93,63 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserControllerTest.changePassword_invalidEmail_FailedChange" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="HazardRateCalculatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.UserModule.*" />
+          <option name="PATTERN" value="gotcha.server.Domain.RatingModule.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
-      <option name="METHOD_NAME" value="changePassword_invalidEmail_FailedChange" />
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.RatingModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.RatingModule.HazardRateCalculatorTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HazardRateCalculatorTest.rate_hazard_poleTree" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gotcha.server.Domain.RatingModule.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.RatingModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.RatingModule.HazardRateCalculatorTest" />
+      <option name="METHOD_NAME" value="rate_hazard_poleTree" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserControllerTest.changePassword_invalidOldPassword_FailedChange" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="QuestionControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.UserModule.*" />
+          <option name="PATTERN" value="gotcha.server.Domain.QuestionsModule.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
-      <option name="METHOD_NAME" value="changePassword_invalidOldPassword_FailedChange" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.QuestionsModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.QuestionsModule.QuestionControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserControllerTest.resetPassword_invalidEmail_FailedReset" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="QuestionControllerTest.add_user_question_valid_message" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.UserModule.*" />
+          <option name="PATTERN" value="gotcha.server.Domain.QuestionsModule.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
-      <option name="METHOD_NAME" value="resetPassword_invalidEmail_FailedReset" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserControllerTest.resetPassword_validEmail_SuccessfulReset" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="gotcha.server.Domain.UserModule.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="gotcha.server.Domain.UserModule" />
-      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.UserModule.UserControllerTest" />
-      <option name="METHOD_NAME" value="resetPassword_validEmail_SuccessfulReset" />
+      <option name="PACKAGE_NAME" value="gotcha.server.Domain.QuestionsModule" />
+      <option name="MAIN_CLASS_NAME" value="gotcha.server.Domain.QuestionsModule.QuestionControllerTest" />
+      <option name="METHOD_NAME" value="add_user_question_valid_message(java.lang.String)" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -162,20 +163,29 @@
       </method>
     </configuration>
     <configuration name="ServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <option name="SPRING_BOOT_MAIN_CLASS" value="gotcha.server.ServerApplication" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="ALTERNATIVE_JRE_PATH" value="11 (2)" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="gotcha.server.ServerApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JUnit.HazardRateCalculatorTest.rate_hazard_poleTree" />
+      <item itemvalue="JUnit.QuestionControllerTest" />
+      <item itemvalue="JUnit.QuestionControllerTest.add_user_question_valid_message" />
+      <item itemvalue="JUnit.HazardRateCalculatorTest" />
+      <item itemvalue="JUnit.All in server" />
+      <item itemvalue="Spring Boot.ServerApplication (1)" />
+      <item itemvalue="Spring Boot.ServerApplication" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in server" />
-        <item itemvalue="JUnit.UserControllerTest.resetPassword_invalidEmail_FailedReset" />
-        <item itemvalue="JUnit.UserControllerTest.resetPassword_validEmail_SuccessfulReset" />
-        <item itemvalue="JUnit.UserControllerTest.changePassword_invalidEmail_FailedChange" />
-        <item itemvalue="JUnit.UserControllerTest.changePassword_invalidOldPassword_FailedChange" />
+        <item itemvalue="JUnit.QuestionControllerTest" />
+        <item itemvalue="JUnit.QuestionControllerTest.add_user_question_valid_message" />
+        <item itemvalue="JUnit.HazardRateCalculatorTest" />
+        <item itemvalue="JUnit.HazardRateCalculatorTest.rate_hazard_poleTree" />
       </list>
     </recent_temporary>
   </component>
@@ -194,8 +204,9 @@
       <workItem from="1672756109577" duration="994000" />
       <workItem from="1680268062688" duration="2012000" />
       <workItem from="1680861151440" duration="11479000" />
-
       <workItem from="1681630934664" duration="2915000" />
+      <workItem from="1682842100737" duration="10345000" />
+      <workItem from="1682858334131" duration="3789000" />
     </task>
     <servers />
   </component>
@@ -217,7 +228,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java</url>
           <line>113</line>
           <option name="timeStamp" value="9" />
@@ -248,14 +258,13 @@
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java</url>
-          <line>59</line>
+          <line>55</line>
           <option name="timeStamp" value="48" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/test/java/gotcha/server/Domain/HazardsModule/IHazardControllerTest.java</url>
-          <line>104</line>
+          <line>110</line>
           <properties>
             <option name="lambda-ordinal" value="-1" />
           </properties>
@@ -263,32 +272,36 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java</url>
-          <line>77</line>
+          <line>73</line>
           <option name="timeStamp" value="51" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Utils/Location.java</url>
-          <line>33</line>
+          <line>38</line>
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-
-          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java</url>
-          <line>60</line>
-          <option name="timeStamp" value="56" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserRepository.java</url>
-          <line>48</line>
-          <option name="timeStamp" value="59" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/UserModule/UserController.java</url>
-          <line>152</line>
+          <line>159</line>
           <option name="timeStamp" value="60" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Domain/RidesModule/RidesRepository.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="90" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Server/src/main/java/gotcha/server/Service/MainSystem.java</url>
+          <line>195</line>
+          <option name="timeStamp" value="91" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="gotcha.server.Domain.UserModule.Admin" memberName="userNotifications" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -1,7 +1,6 @@
 package gotcha.server.Domain.StatisticsModule;
 
 import java.time.LocalDate;
-import java.util.concurrent.atomic.AtomicInteger;
 /**
  * this DAO is for ADMIN application.
  */

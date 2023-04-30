@@ -33,6 +33,9 @@ class UserControllerTest {
     private IQuestionController questionController;
 
     @Mock
+    private AvailableRaspberryPiSerialsRepository serialsRepository;
+
+    @Mock
     private UserRepository userRepository;
     @Mock
     private ErrorLogger errorLoggerMock;
@@ -61,7 +64,12 @@ class UserControllerTest {
         var passwordToken = "testToken";
         var user = new Rider();
         user.change_password_token(passwordToken);
-        when(userRepository.getUserByEmail(email)).thenReturn(user);
+        try{
+            when(userRepository.getUserByEmail(email)).thenReturn(user);
+        }
+        catch (UserNotFoundException ex) {
+            fail("shouldn't happen");
+        }
         when(passwordManager.authenticate(password, passwordToken)).thenReturn(true);
         try{
             var userResult = userController.login(email,password);
@@ -75,13 +83,14 @@ class UserControllerTest {
 
     @Test
     void login_userDoesNotExist_failedLogin() {
-        var testEmail = "test@gmail.com";
-        var testPassword = "testPassword";
-        //user.change_password_token(passwordToken);
-        when(userRepository.getUserByEmail(testEmail)).thenReturn(null);
-        //when(passwordManager.authenticate(testPassword, passwordToken)).thenReturn(true);
+        try{
+            when(userRepository.getUserByEmail(email)).thenReturn(null);
+        }
+        catch (UserNotFoundException ex) {
+            fail("shouldn't happen");
+        }        //when(passwordManager.authenticate(testPassword, passwordToken)).thenReturn(true);
         assertThrows(UserNotFoundException.class, () -> {
-            userController.login(testEmail,testPassword);
+            userController.login(email,password);
         });
     }
 
@@ -92,7 +101,13 @@ class UserControllerTest {
         var passwordToken = "testToken";
         var user = new Rider();
         user.change_password_token(passwordToken);
-        when(userRepository.getUserByEmail(testEmail)).thenReturn(user);
+        try{
+
+            when(userRepository.getUserByEmail(testEmail)).thenReturn(user);
+        }
+        catch (UserNotFoundException ex) {
+            fail("shouldn't happen");
+        }
         when(passwordManager.authenticate(testPassword, passwordToken)).thenReturn(false);
         assertThrows(Exception.class, () -> {
             userController.login(testEmail,testPassword);
@@ -103,6 +118,7 @@ class UserControllerTest {
     void register_validUserCredentials_successfullyRegistered() {
         configureRegisterMockForSuccess();
         assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
+        when(serialsRepository.isExists(rpSerialNumber)).thenReturn(true);
         assertDoesNotThrow(() -> userController.register(email,password,name,lastName,phone,birthDate,gender,scooterType,licenseIssueDate,rpSerialNumber));
     }
 
@@ -111,6 +127,7 @@ class UserControllerTest {
         configureRegisterMockForSuccess();
         assertDoesNotThrow(() -> userController.add_rp_serial_number(rpSerialNumber));
         try {
+            when(serialsRepository.isExists(rpSerialNumber)).thenReturn(true);
             when(userRepository.addUser(any())).thenReturn(new Rider());
         }
         catch (Exception e) {
@@ -264,12 +281,13 @@ class UserControllerTest {
         final String BeforeToken = "beforeToken";
         final String NewPassword = "newPassword";
         rider.change_password_token(BeforeToken);
+        configureUserRepositoryChangePassword(rider);
         try{
-            doCallRealMethod().when(userRepository).changeUserPassword(any(), any());
             when(userRepository.getUserByEmail(email)).thenReturn(rider);
             when(passwordManager.authenticate(any(), any())).thenReturn(true);
             when(passwordManager.hash(NewPassword)).thenReturn("newHash");
             assertDoesNotThrow(() -> userController.change_password(email,"somePassword", NewPassword));
+            verify(userRepository, times(1)).changeUserPassword(any(), any());
             assertTrue(rider.get_password_token() == "newHash");
         }
         catch (Exception e) {
@@ -287,6 +305,7 @@ class UserControllerTest {
             when(passwordManager.authenticate(any(), any())).thenReturn(true);
             when(userRepository.getUserByEmail(email)).thenReturn(rider);
             assertThrows(Exception.class, () -> userController.change_password(email, "oldPassword", "newPassword"));
+            verify(userRepository, times(0)).changeUserPassword(any(), any());
             verify(utils, times(1)).passwordValidCheck("newPassword");
             assertTrue(rider.get_password_token() == "token");
         }
@@ -304,6 +323,7 @@ class UserControllerTest {
             when(passwordManager.authenticate(any(), any())).thenReturn(false);
             when(userRepository.getUserByEmail(email)).thenReturn(rider);
             assertThrows(Exception.class, () -> userController.change_password(email, "oldPassword", "newPassword"));
+            verify(userRepository, times(0)).changeUserPassword(any(), any());
             verify(utils, times(0)).passwordValidCheck("newPassword");
             assertTrue(rider.get_password_token() == "token");
         }
@@ -318,6 +338,7 @@ class UserControllerTest {
         try {
             when(userRepository.getUserByEmail(email)).thenReturn(null);
             assertThrows(UserNotFoundException.class, () -> userController.change_password(email, "oldPassword", "newPassword"));
+            verify(userRepository, times(0)).changeUserPassword(any(), any());
             verify(utils, times(0)).passwordValidCheck("newPassword");
             verify(passwordManager, times(0)).authenticate(any(), any());
         }
@@ -330,10 +351,10 @@ class UserControllerTest {
     void resetPassword_validEmail_SuccessfulReset() {
         configureRegisterMockForSuccess();
         var rider = new Rider();
-        final String NewPassword = "newRandomPassword";
         rider.change_password_token("token");
+        final String NewPassword = "newRandomPassword";
+        configureUserRepositoryChangePassword(rider);
         try {
-            doCallRealMethod().when(userRepository).changeUserPassword(any(), any());
             when(userRepository.getUserByEmail(email)).thenReturn(rider);
             when(utils.generateRandomPassword()).thenReturn(NewPassword);
             when(passwordManager.hash(NewPassword)).thenReturn("newHash");
@@ -356,6 +377,7 @@ class UserControllerTest {
             when(utils.generateRandomPassword()).thenReturn(NewPassword);
             when(passwordManager.hash(NewPassword)).thenReturn("newHash");
             assertThrows(UserNotFoundException.class, () -> userController.resetPassword(email));
+            verify(userRepository, times(1)).changeUserPassword(any(), any());
         }
         catch (Exception e) {
             fail("shouldn't happen");
@@ -372,6 +394,21 @@ class UserControllerTest {
             doNothing().when(utils).validate_scooter_type(anyString());
             doNothing().when(utils).validate_license_issue_date(any());
             when(userRepository.getUserByEmail(anyString())).thenReturn(null);
+            when(serialsRepository.isExists(anyString())).thenReturn(false);
+        }
+        catch (Exception e) {
+            fail("Unexpected exception when configuring the mock: " + e.getMessage());
+        }
+    }
+
+    private void configureUserRepositoryChangePassword(Rider rider) {
+        try{
+            doAnswer(invocation -> {
+                Object[] args = invocation.getArguments();
+                String password = (String) args[1];
+                rider.change_password_token(password);
+                return null;
+            }).when(userRepository).changeUserPassword(any(), anyString());
         }
         catch (Exception e) {
             fail("Unexpected exception when configuring the mock: " + e.getMessage());

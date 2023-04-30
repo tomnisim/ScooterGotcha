@@ -11,15 +11,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import gotcha.server.Utils.Location;
+
 @Component
 public class RidesController implements IRidesController {
-    private AtomicInteger id_counter;
     private final RidesRepository ridesRepository;
 
     public RidesController(RidesRepository ridesRepository)
     {
         this.ridesRepository = ridesRepository;
-        this.id_counter = new AtomicInteger(1);
     }
 
     @Override
@@ -33,9 +32,10 @@ public class RidesController implements IRidesController {
      */
     @Override
     public Ride add_ride(FinishRideRequest finishRideRequest, String userEmail, String originAddress, String destinationAddress) throws Exception {
-        int ride_id = this.id_counter.incrementAndGet();
-        Ride ride = new Ride(ride_id,userEmail, finishRideRequest, originAddress, destinationAddress);
-        this.ridesRepository.add_ride(ride, userEmail);
+        var origin = new Location(finishRideRequest.getOrigin());
+        var destination = new Location(finishRideRequest.getDestination());
+        Ride ride = new Ride(userEmail,finishRideRequest.getCity(), finishRideRequest.getStartTime(), finishRideRequest.getEndTime(),origin,destination, finishRideRequest.getRidingActions(),finishRideRequest.getJunctions(), originAddress, destinationAddress);
+        this.ridesRepository.addRide(ride, userEmail);
         return ride;
     }
 

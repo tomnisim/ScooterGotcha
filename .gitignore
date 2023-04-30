@@ -1,6 +1,5 @@
 # folders
 
-
 logFiles/
 .idea/
 RiderApp/node_modules
@@ -22,5 +21,7 @@ Server/logFiles/ServerLog.txt.lck
 Server/logFiles/SystemLog.txt.lck
 Server/LogFiles/EmailsLog.txt
 Server/LogFiles/EmailsLog.txt.1
+Server/LogFiles/EmailsLog.txt.1.lck
+Server/LogFiles/EmailsLog.txt.lck
 *.pyc
 *.pyc

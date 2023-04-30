@@ -3,9 +3,16 @@ package gotcha.server.Domain.RidesModule;
 import gotcha.server.Utils.Location;
 
 import java.time.LocalDateTime;
+import javax.persistence.*;
 
+@Entity
+@DiscriminatorValue("SharpTurn")
 public class SharpTurn extends RidingAction{
+
+    @Column(name="startDirection")
     private Double start_direction;
+
+    @Column(name="finalDirection")
     private Double final_direction;
     public SharpTurn() {
     }

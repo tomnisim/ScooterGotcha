@@ -4,28 +4,77 @@ import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.LocationDTO;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Entity
+@Table(name = "rides")
 public class Ride {
-    private int ride_id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int ride_id = 0;
+    @Column(name="riderEmail")
     private String rider_email;
+
+    @Column(name="ride")
     private LocalDate date;
+
+    @Column(name="city")
+
     private String city;
+
+    @Column(name="startTime")
+
     private LocalDateTime start_time;
+
+    @Column(name="endTime")
+
     private LocalDateTime end_time;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "longitude", column = @Column(name = "origin_longitude")),
+            @AttributeOverride(name = "latitude", column = @Column(name = "origin_latitude"))
+    })
     private Location origin;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "longitude", column = @Column(name = "destination_longitude")),
+            @AttributeOverride(name = "latitude", column = @Column(name = "destination_latitude"))
+    })
     private Location destination;
+
+    @Column(name = "originAddress", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String originAddress;
+
+    @Column(name = "destinationAddress", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String destinationAddress;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ride_id")
     private List<RidingAction> actions;
+
+    @ElementCollection
+    @CollectionTable(name = "junctions", joinColumns = @JoinColumn(name = "ride_id"))
+    @AttributeOverrides({
+            @AttributeOverride(name = "longitude", column = @Column(name = "junction_longitude")),
+            @AttributeOverride(name = "latitude", column = @Column(name = "junction_latitude"))
+    })
+
     private List<Location> junctions;
 
+    @Column(name = "duration")
     private String duration; // minutes
+
+    @Column(name = "distance")
     private double distance; // Km
 
 
@@ -34,8 +83,8 @@ public class Ride {
     {
 
     }
-    public Ride(int ride_id, String rider_email, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, List<RidingAction> actions, List<Location> junctions, String originAddress, String destinationAddress) {
-        this.ride_id = ride_id;
+
+    public Ride(String rider_email, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, List<RidingAction> actions, List<LocationDTO> junctions,  String originAddress, String destinationAddress) {
         this.rider_email = rider_email;
         this.date = start_time.toLocalDate();
         this.city = city;
@@ -48,9 +97,7 @@ public class Ride {
         this.actions = actions;
         this.distance = (origin.distanceTo(destination));
         this.duration = setDurationByTimes();
-        this.junctions = junctions;
-
-
+        this.junctions = junctions.stream().map(Location::new).collect(Collectors.toList());
     }
 
     public Ride(int rideId, String userEmail, FinishRideRequest finishRideRequest, String originAddress, String destinationAddress) {
