@@ -1,6 +1,7 @@
 package gotcha.server.Domain.RidesModule;
 
 import gotcha.server.Utils.Exceptions.RideNotFoundException;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -75,6 +76,8 @@ public class RidesRepository {
     private void LoadFromDB() {
         var ridesInDb = ridesJpaRepository.findAll();
         for(var ride : ridesInDb) {
+            Hibernate.initialize(ride.getActions());
+            Hibernate.initialize(ride.getJunctions());
             rides.put(ride.getRide_id(), ride);
             rides_by_rider.computeIfAbsent(ride.getRider_email(), k -> new HashMap<>()).putIfAbsent(ride.getRide_id(), ride);
         }
