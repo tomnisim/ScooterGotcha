@@ -51,7 +51,7 @@ class RidesControllerTest {
         var userEmail = "test@example.com";
         var origin = new Location(new BigDecimal(20), new BigDecimal(20));
         var destination = new Location(new BigDecimal(40), new BigDecimal(40));
-        var finishRideRequest = new FinishRideRequest("RP",origin, destination,"City", LocalDateTime.now().minusHours(1), LocalDateTime.now(), new ArrayList<>(),new ArrayList<>());
+        var finishRideRequest = new FinishRideRequest("RP",origin, destination,"City", LocalDateTime.now().minusHours(1), LocalDateTime.now(), new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
         // Set up the executor service for concurrent tasks
         var numberOfThreads = 1000;

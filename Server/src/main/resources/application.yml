@@ -17,6 +17,8 @@ gotcha:
   hazards_rate_threshold: 80.0
   hazards_time_to_report_in_minutes: 20
   statistics_time_to_update_in_minutes: 10
+  alert: "vocal"
+  duration: 2
   orYarukEmail: "or_yaruk@gmail.com"
   cities_emails:
       "Tel-Aviv": "tel_aviv@gmail.com"
@@ -25,9 +27,9 @@ gotcha:
       "Netanya": "netanya@gmail.com"
   Server:
     default:
-      host: "8000"
-      port: "8080"
-      protocol: "TCP"
+      host: "localhost"
+      port: "5050"
+      protocol: "http://"
 
 rate-config:
   speed_changes_per_minute:

@@ -1,29 +1,24 @@
-
-from AlertModule.Alert import Alert
-import wave
-import math
-import struct
-
-from AlertModule.Verbal import Verbal
-from AlertModule.Vibration import Vibration
-from AlertModule.Visual import Visual
-from AlertModule.Vocal import Vocal
-from RidesModule.Ride import Ride
-
-from CameraModule.CameraController import CameraController
-from CommunicationModule.TCPconnection import TCPconnection
-from GPSModule.GPSController import GPSController
-from RidesModule.Ride import Ride
+from datasets import load_dataset
+from moviepy.video.io.VideoFileClip import VideoFileClip
 from Service.Service import Service
-from VideoProccessorModule.EventDetector import EventDetector
-from VideoProccessorModule.HazardDetector import HazardDetector
-from VideoProccessorModule.RoadDetector import RoadDetector
 
+DATASET_PATH = "keremberke/pothole-segmentation"
 
+def test_datset_and_frames():
+    clip = VideoFileClip('potholes_video_bs.mp4')
+    frames_generator = clip.iter_frames()
+    frames = list(clip.iter_frames())[0:3]
+
+    ds = load_dataset(DATASET_PATH, name="full")
+    example = ds['train'][0]
 
 
 if __name__ == '__main__':
+
+
     service = Service()
+    service.run()
+
 
 
 

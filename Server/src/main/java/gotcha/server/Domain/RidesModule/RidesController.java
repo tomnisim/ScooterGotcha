@@ -1,5 +1,6 @@
 package gotcha.server.Domain.RidesModule;
 
+import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Utils.Exceptions.RideNotFoundException;
 import org.springframework.stereotype.Component;
@@ -7,6 +8,9 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import gotcha.server.Utils.Location;
 
 @Component
 public class RidesController implements IRidesController {

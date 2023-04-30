@@ -28,6 +28,11 @@ public class Location {
     // Default constructor for deserialization
     public Location() {}
 
+    public Location(LocationDTO dto) {
+        this.latitude = BigDecimal.valueOf(dto.getLatitude());
+        this.longitude = BigDecimal.valueOf(dto.getLongitude());
+    }
+
     public boolean equals(Location location) {
         if (this == location) return true;
         double distanceTo = this.distanceTo(location);

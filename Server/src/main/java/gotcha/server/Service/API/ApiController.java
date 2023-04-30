@@ -174,8 +174,7 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @RequestMapping(value = "/finish_ride")
     @CrossOrigin
     @Override
-    public Response finish_ride(FinishRideRequest finishRideRequest) {
-
+    public Response finish_ride(@RequestBody FinishRideRequest finishRideRequest) {
         Response response = facade.finish_ride(finishRideRequest);
         return response;
     }
@@ -190,10 +189,7 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @CrossOrigin
     @Override
     public Response get_rp_config_file() {
-        // TODO: Not sure we even need this, the config file should be injected
-        String config_file_data = "test";
-        Response response = new Response(config_file_data, "rp config file got successfully");
-        return response;
+        return facade.get_rp_config();
     }
 
 

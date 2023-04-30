@@ -1,6 +1,7 @@
 package gotcha.server.Service;
 
 import gotcha.server.Config.Configuration;
+import gotcha.server.Config.RpConfigDTO;
 import gotcha.server.Domain.AdvertiseModule.Advertise;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseDAO;
@@ -973,5 +974,18 @@ public class Facade {
         return null;
     }
 
+    public Response get_rp_config() {
+        try{
+            String logger_message = "User(RP) got RP configuration";
+            Response response = new Response(new RpConfigDTO(configuration), "rp config file got successfully");
+            serverLogger.add_log(logger_message);
+            return response;
+
+        }
+        catch (Exception e){
+
+        }
+        return null;
+    }
 
 }
