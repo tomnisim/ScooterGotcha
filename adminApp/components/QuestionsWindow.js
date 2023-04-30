@@ -42,10 +42,11 @@ useEffect(() => {
 
 
   const answer_question = async () => {
-    if (question_id_to_answer == "" || admin_answer == ""){
-      alert("Please Enter Answer and Chose ID.")
-    }
-    else{
+    console.log(question_id_to_answer)
+    console.log(admin_answer)
+
+
+    if (question_id_to_answer != '' && admin_answer != ''){
       let response = await questionsApi.answer_question(question_id_to_answer, admin_answer);
       if (response.was_exception){
         alert("The system cant complete your request, please try again later.")
@@ -56,6 +57,11 @@ useEffect(() => {
         get_questions_list();
 
       }
+    }
+
+    else{
+      alert("Please Enter Answer and Chose ID.")
+
     }
     
   }

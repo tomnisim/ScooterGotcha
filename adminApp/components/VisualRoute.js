@@ -80,7 +80,7 @@ export default function VisualRoute({}) {
         });
     
         // Open the popups for all the markers
-        markers.forEach((marker) => marker.openPopup());
+        //markers.forEach((marker) => marker.openPopup());
       }, [junctions]);
     
       return <div id="map" style={{ height: '500px' }} />;

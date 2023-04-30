@@ -33,7 +33,13 @@ public class QuestionController implements IQuestionController {
 
 
     @Override
-    public void add_user_question(String message, String senderEmail, BiConsumer<String, Integer> update_function) {
+    public void add_user_question(String message, String senderEmail, BiConsumer<String, Integer> update_function) throws Exception {
+        if (message.equals("")){
+            throw new Exception("message cant be blank");
+        }
+        if (message.contains("<") || message.contains(">")){
+            throw new Exception("no scripts allowed.");
+        }
         int id = this.question_ids_counter.getAndIncrement();
         Question question = new Question(id, message, senderEmail);
         this.open_questions.put(id, question);

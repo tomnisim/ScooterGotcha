@@ -11,6 +11,11 @@ public class LocationDTO {
         this.latitude = latitude;
     }
 
+    public LocationDTO(Location location){
+        this.longitude = location.getLongitude().doubleValue();
+        this.latitude = location.getLatitude().doubleValue();
+    }
+
     public double getLongitude() {
         return longitude;
     }

@@ -9,7 +9,7 @@ import java.util.List;
 public interface IRidesController {
     void load();
 
-    Ride add_ride(FinishRideRequest finishRideRequest, String userEmail) throws Exception;
+    Ride add_ride(FinishRideRequest finishRideRequest, String userEmail, String originAddress, String destinationAddress) throws Exception;
 
     void remove_ride(int ride_id) throws RideNotFoundException;
 

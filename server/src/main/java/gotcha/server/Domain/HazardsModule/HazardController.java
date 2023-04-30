@@ -3,9 +3,12 @@ package gotcha.server.Domain.HazardsModule;
 import gotcha.server.Domain.SafeRouteCalculatorModule.Route;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.SystemLogger;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -121,7 +124,7 @@ public class HazardController implements IHazardController {
         return list;
     }
 
-    public List<StationaryHazard> get_hazards_in_route(Route route) {
+    public List<StationaryHazard> get_hazards_in_route1(Route route) {
         LinkedList<StationaryHazard> list = new LinkedList<>();
         for (StationaryHazard stationaryHazard : hazardRepository.getAllHazards()){
             for (Location junction : route.getJunctions()){
@@ -133,6 +136,34 @@ public class HazardController implements IHazardController {
         }
         return list;
     }
+
+    public List<StationaryHazard> get_hazards_in_route(Route route) {
+        List<StationaryHazard> hazards = hazardRepository.getAllHazards();
+        List<Location> junctions = route.getJunctions();
+        // Create a LineString from the set of junctions
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Coordinate[] coordinates = junctions.stream()
+                .map(location -> new Coordinate(location.getLongitude().doubleValue(), location.getLatitude().doubleValue()))
+                .toArray(Coordinate[]::new);
+        LineString lineString = geometryFactory.createLineString(coordinates);
+
+        // Create a list to hold the locations on the road
+        List<StationaryHazard> hazardsOnRoad = new ArrayList<>();
+
+        // Iterate over the input locations and check if each one is on the road
+        for (StationaryHazard hazard: hazards) {
+            Location location = hazard.getLocation();
+            Coordinate coordinate = new Coordinate(location.getLongitude().doubleValue(), location.getLatitude().doubleValue());
+            Point point = geometryFactory.createPoint(coordinate);
+            if (lineString.isWithinDistance(point, 0.0001)) { // adjust tolerance as needed
+                hazardsOnRoad.add(hazard);
+            }
+        }
+
+        // Return the list of locations on the road
+        return hazardsOnRoad;
+    }
+
     @Override
 
     public Collection<StationaryHazardDAO> view_hazards() {

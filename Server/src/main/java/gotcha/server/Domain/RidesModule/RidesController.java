@@ -32,11 +32,9 @@ public class RidesController implements IRidesController {
      * @param finishRideRequest - information about the ride from RP
      */
     @Override
-    public Ride add_ride(FinishRideRequest finishRideRequest, String userEmail) throws Exception {
+    public Ride add_ride(FinishRideRequest finishRideRequest, String userEmail, String originAddress, String destinationAddress) throws Exception {
         int ride_id = this.id_counter.incrementAndGet();
-        Location origin = new Location(finishRideRequest.getOrigin());
-        Location destination = new Location(finishRideRequest.getDestination());
-        Ride ride = new Ride(ride_id, userEmail,finishRideRequest.getCity(), finishRideRequest.getStartTime(), finishRideRequest.getEndTime(),origin, destination, finishRideRequest.getRidingActions());
+        Ride ride = new Ride(ride_id,userEmail, finishRideRequest, originAddress, destinationAddress);
         this.ridesRepository.add_ride(ride, userEmail);
         return ride;
     }

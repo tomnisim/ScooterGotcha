@@ -25,23 +25,27 @@ public class RideDTO {
     private double destination_lat;
     private double origin_lat;
     private double origin_lng;
+    private String duration;
+    private double distance;
 
     public RideDTO(){}
     public RideDTO(Ride ride){
+
         this.ride_id = ride.getRide_id();
         this.rider_email = ride.getRider_email();
         this.city = ride.getCity();
         this.date = ride.getDate();
         this.start_time = ride.getStart_time().toLocalTime();
         this.end_time = ride.getEnd_time().toLocalTime();
-        this.origin = ride.getOrigin().toString();
-        this.destination = ride.getDestination().toString();
+        this.origin = ride.getOriginAddress();
+        this.destination = ride.getDestinationAddress();
         this.actions = ride.getActions();
         this.destination_lng = ride.getDestination().getLongitude().doubleValue();
         this.destination_lat = ride.getDestination().getLatitude().doubleValue();
         this.origin_lng = ride.getOrigin().getLongitude().doubleValue();
         this.origin_lat = ride.getOrigin().getLatitude().doubleValue();
-
+        this.distance = ride.getDistance();
+        this.duration = ride.getDuration();
     }
 
     public int getRide_id() {
@@ -146,5 +150,21 @@ public class RideDTO {
 
     public void setOrigin_lng(double origin_lng) {
         this.origin_lng = origin_lng;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 }

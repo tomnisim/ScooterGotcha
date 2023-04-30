@@ -16,6 +16,8 @@ public class StationaryHazard {
     private double rate;
     private boolean report;
 
+    // TODO: 28/04/2023 : Add photo field.
+
 
 
 
@@ -29,16 +31,7 @@ public class StationaryHazard {
         this.report = false;
         this.setRate();
     }
-
-    public StationaryHazard(int ride_id, Location location, String city, HazardType type, double size) {
-        this.id = id;
-        this.ride_id = ride_id;
-        this.location = location;
-        this.city = city;
-        this.type = type;
-        this.size = size;
-        this.setRate();
-    }
+    
 
     // Default Constructor for deserialization
     public StationaryHazard() {}
@@ -94,7 +87,7 @@ public class StationaryHazard {
 
     public void setRate() {
         HazardRateCalculator hazardRateCalculator = HazardRateCalculator.get_instance();
-//        this.rate = hazardRateCalculator.rate_hazard(this);
+        this.rate = hazardRateCalculator.rate_hazard(this);
 
     }
 
