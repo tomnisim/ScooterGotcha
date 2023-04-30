@@ -62,7 +62,7 @@ public class Ride {
     @JoinColumn(name = "ride_id")
     private List<RidingAction> actions;
 
-    @ElementCollection
+    @ElementCollection()
     @CollectionTable(name = "junctions", joinColumns = @JoinColumn(name = "ride_id"))
     @AttributeOverrides({
             @AttributeOverride(name = "longitude", column = @Column(name = "junction_longitude")),

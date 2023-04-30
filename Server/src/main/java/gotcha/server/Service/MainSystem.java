@@ -247,7 +247,7 @@ public class MainSystem {
         ridesController.add_ride(finishRideReq2, "email@gmail.com", originAddress1, destAddress1);
        userController.send_question_to_admin("email@gmail.com", "Happy Birthday");
        userController.send_question_to_admin("email@gmail.com", "Happy Birthday with answer");
-       this.questionController.answer_user_question(1, "because", "admin@admin.com");
+        //this.questionController.answer_user_question(1, "because", "admin@admin.com");
        if (this.advertiseController.isDbEmpty()) {
            this.advertiseController.add_advertise(birth_date, "owner", "message", "https://picsum.photos/id/237/200/200", "www.walla.com");
            this.advertiseController.add_advertise(birth_date, "owner", "message", "https://picsum.photos/id/238/200/200", "www.walla.com");

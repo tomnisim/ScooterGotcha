@@ -1,13 +1,17 @@
 package gotcha.server.Domain.RidesModule;
 
 import gotcha.server.Utils.Exceptions.RideNotFoundException;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Repository
 public class RidesRepository {
@@ -62,7 +66,7 @@ public class RidesRepository {
         return result;
     }
 
-    private Ride getRideFromDb(int rideId) throws Exception {
+    public Ride getRideFromDb(int rideId) throws Exception {
         var result = ridesJpaRepository.findById(rideId);
         if (result.isPresent()) {
             return result.get();
@@ -72,9 +76,16 @@ public class RidesRepository {
         }
     }
 
-    private void LoadFromDB() {
-        var ridesInDb = ridesJpaRepository.findAll();
-        for(var ride : ridesInDb) {
+    public void LoadFromDB() {
+        var ridesWithActions = ridesJpaRepository.findAllWithActions();
+        var ridesWithJunctions = ridesJpaRepository.findAllWithJunctions();
+
+        Map<Integer, Ride> ridesWithJunctionsById = ridesWithJunctions.stream()
+                .collect(Collectors.toMap(Ride::getRide_id, Function.identity()));
+
+        for (var ride : ridesWithActions) {
+            Ride rideWithJunctions = ridesWithJunctionsById.get(ride.getRide_id());
+            ride.setJunctions(rideWithJunctions.getJunctions());
             rides.put(ride.getRide_id(), ride);
             rides_by_rider.computeIfAbsent(ride.getRider_email(), k -> new HashMap<>()).putIfAbsent(ride.getRide_id(), ride);
         }

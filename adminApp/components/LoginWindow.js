@@ -11,7 +11,7 @@ const loginApi = new LoginApi();
 
 export default function LoginWindow({navigation}) {
   // todo: change default
-  const [user_email, setText_email] = useState("admin@gmail.com");
+  const [user_email, setText_email] = useState("admin1@gmail.com");
   const [user_password, setText_password] = useState("admin")
 
     const login = async () => {

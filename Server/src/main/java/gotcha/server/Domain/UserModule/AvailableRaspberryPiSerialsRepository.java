@@ -21,7 +21,7 @@ public class AvailableRaspberryPiSerialsRepository {
     }
 
     public HashSet<String> getAllSerials() {
-        return (HashSet<String>) availableSerials.keySet();
+        return new HashSet<>(availableSerials.keySet());
     }
 
     private String getSerialFromDb(String serialNumber) throws UserNotFoundException {

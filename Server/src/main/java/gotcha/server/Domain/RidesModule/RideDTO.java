@@ -1,10 +1,12 @@
 package gotcha.server.Domain.RidesModule;
 
 import gotcha.server.Utils.Location;
+import gotcha.server.Utils.LocationDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +29,7 @@ public class RideDTO {
     private double origin_lng;
     private String duration;
     private double distance;
+    private List<LocationDTO> junctions;
 
     public RideDTO(){}
     public RideDTO(Ride ride){
@@ -46,6 +49,10 @@ public class RideDTO {
         this.origin_lat = ride.getOrigin().getLatitude().doubleValue();
         this.distance = ride.getDistance();
         this.duration = ride.getDuration();
+        this.junctions = new ArrayList<>();
+        for (Location junction : ride.getJunctions()){
+            this.junctions.add(new LocationDTO(junction));
+        }
     }
 
     public int getRide_id() {
@@ -166,5 +173,13 @@ public class RideDTO {
 
     public void setDistance(double distance) {
         this.distance = distance;
+    }
+
+    public List<LocationDTO> getJunctions() {
+        return junctions;
+    }
+
+    public void setJunctions(List<LocationDTO> junctions) {
+        this.junctions = junctions;
     }
 }
