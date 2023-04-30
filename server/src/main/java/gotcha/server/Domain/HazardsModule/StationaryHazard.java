@@ -37,6 +37,8 @@ public class StationaryHazard {
     @Column(name="report")
     private boolean report;
 
+    // TODO: 28/04/2023 : Add photo field.
+
 
 
 
@@ -47,17 +49,6 @@ public class StationaryHazard {
         this.type = type;
         this.size = size;
         this.report = false;
-        this.setRate();
-    }
-
-
-    public StationaryHazard(int id,int ride_id, Location location, String city, HazardType type, double size) {
-        this.id = id;
-        this.ride_id = ride_id;
-        this.location = location;
-        this.city = city;
-        this.type = type;
-        this.size = size;
         this.setRate();
     }
 

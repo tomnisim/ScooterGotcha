@@ -127,7 +127,7 @@ export default function HazardsWindow({navigation}) {
      
       let junctions = []
       hazards_by_city.map((item)=>{
-        junctions.push({id:item.id, name: 'amit', lat:item.lat, lng:item.lng})
+        junctions.push({id:item.id, name: item.type, lat:item.lat, lng:item.lng})
       })
       if (junctions == ""){
         alert("There is no Hazards in "+city_to_show);

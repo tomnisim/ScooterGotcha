@@ -5,8 +5,10 @@ import gotcha.server.DAL.HibernateUtils;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
 import gotcha.server.Domain.HazardsModule.HazardController;
 import gotcha.server.Domain.HazardsModule.HazardType;
+import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
 import gotcha.server.Domain.RidesModule.RidesController;
+import gotcha.server.Domain.SafeRouteCalculatorModule.RoutesRetriever;
 import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.Domain.ExternalService.MapsAdapter;
@@ -15,6 +17,7 @@ import gotcha.server.Domain.HazardsModule.ReporterAdapter;
 import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Utils.Exceptions.ExitException;
 import gotcha.server.Utils.Location;
+import gotcha.server.Utils.LocationDTO;
 import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.SystemLogger;
 import gotcha.server.Utils.Threads.HazardsReporterThread;
@@ -39,12 +42,13 @@ public class MainSystem {
     private final AdvertiseController advertiseController;
     private final QuestionController questionController;
     private final StatisticsManager statisticsManager;
+    private final RoutesRetriever routesRetriever;
     private final SystemLogger systemLogger;
     private final ErrorLogger errorLogger;
     private final MapsAdapter maps_adapter;
 
     @Autowired
-    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, ErrorLogger errorLogger, MapsAdapterImpl mapsAdapter, StatisticsManager statisticsManager, QuestionController questionController){
+    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, ErrorLogger errorLogger, MapsAdapterImpl mapsAdapter, StatisticsManager statisticsManager, QuestionController questionController, RoutesRetriever routesRetriever){
         this.configuration = configuration;
         this.userController = userController;
         this.hazardController = hazardController;
@@ -52,6 +56,7 @@ public class MainSystem {
         this.advertiseController = advertiseController;
         this.questionController = questionController;
         this.statisticsManager = statisticsManager;
+        this.routesRetriever = routesRetriever;
         this.systemLogger = systemLogger;
         this.errorLogger = errorLogger;
         this.maps_adapter = mapsAdapter;
@@ -81,8 +86,7 @@ public class MainSystem {
         try{
             ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
             HazardsReporterThread hazardsReporterThread = new HazardsReporterThread(hazardController, systemLogger);
-            // TODO: change seconds -> minutes
-            executorService.scheduleAtFixedRate(hazardsReporterThread, 0, configuration.getHazards_time_to_report_in_minutes(), TimeUnit.SECONDS);
+            executorService.scheduleAtFixedRate(hazardsReporterThread, 0, configuration.getHazards_time_to_report_in_minutes(), TimeUnit.MINUTES);
         }
         catch (Exception e) {
             errorLogger.add_log("fail to update statistics :"+e.getMessage());
@@ -151,7 +155,6 @@ public class MainSystem {
     }
     private void set_first_admin() throws Exception {
         LocalDate birth_date = LocalDate.now();
-        // TODO: 3/26/2023 : Need to add all parameters to config file
         userController.add_first_admin(configuration.getAdminUserName(), "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
     }
 
@@ -162,8 +165,7 @@ public class MainSystem {
         try{
             ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
             StatisticsUpdateThread statistics_update_thread = new StatisticsUpdateThread(statisticsManager, systemLogger);
-            // TODO: change seconds -> minutes
-            executorService.scheduleAtFixedRate(statistics_update_thread, 0, configuration.getStatistics_time_to_update_in_minutes(), TimeUnit.SECONDS);
+            executorService.scheduleAtFixedRate(statistics_update_thread, 0, configuration.getStatistics_time_to_update_in_minutes(), TimeUnit.MINUTES);
         }
         catch (Exception e) {
             errorLogger.add_log("fail to update statistics :"+e.getMessage());
@@ -179,6 +181,16 @@ public class MainSystem {
         BigDecimal lng1 = new BigDecimal("34.797558");
         BigDecimal lat1 = new BigDecimal("31.267604");
         Location dest = new Location(lng1, lat1);
+        Location hazard_location = new Location( new BigDecimal("34.769943"),  new BigDecimal("32.063047"));
+        Location hazard_location2 = new Location( new BigDecimal("34.765202"),  new BigDecimal("32.068184"));
+        Location hazard_location3 = new Location( new BigDecimal("34.769849"),  new BigDecimal("32.0636256"));
+
+        String[] addresses = this.routesRetriever.getAddresses(new LocationDTO(origin), new LocationDTO(dest));
+        String originAddress = addresses[0];
+        String destAddress = addresses[1];
+        String[] addresses1 = this.routesRetriever.getAddresses(new LocationDTO(hazard_location2), new LocationDTO(hazard_location3));
+        String originAddress1 = addresses1[0];
+        String destAddress1 = addresses1[1];
 
 
         BigDecimal lng111 = new BigDecimal("34.80283154");
@@ -223,15 +235,16 @@ public class MainSystem {
                     birth_date, "male", "type", issue, "first123");
 //        (String rpSerialNumber, Location origin, Location destination, String city, LocalDateTime startTime, LocalDateTime endTime, List<StationaryHazard> hazards, List< RidingAction > ridingActions) {
 //            this.rpSerialNumber = rpSerialNumber;
-//        FinishRideRequest finishRideReq = new FinishRideRequest("first", origin, dest, "Netanya", start_time, start_time, hazards, new ArrayList<>(), new ArrayList<>());
-//        FinishRideRequest finishRideReq2 = new FinishRideRequest("first", origin111, dest222, "Tel-Aviv", start_time, start_time, hazards, new ArrayList<>(), new ArrayList<>());
-//        ridesController.add_ride(finishRideReq, "email@gmail.com");
-//        ridesController.add_ride(finishRideReq2, "email@gmail.com");
+
 
             userController.add_first_admin("admin1@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
             userController.add_first_admin("admin12@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
             userController.add_first_admin("admin123@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         }
+        FinishRideRequest finishRideReq = new FinishRideRequest("first", new LocationDTO(origin), new LocationDTO(dest), "Netanya", start_time, start_time.plusMinutes(47), hazards, new ArrayList<>(), new ArrayList<>());
+        FinishRideRequest finishRideReq2 = new FinishRideRequest("first", new LocationDTO(hazard_location2), new LocationDTO(hazard_location3), "Tel-Aviv", start_time, start_time.plusMinutes(47), hazards, new ArrayList<>(), new ArrayList<>());
+        ridesController.add_ride(finishRideReq, "email@gmail.com", originAddress, destAddress);
+        ridesController.add_ride(finishRideReq2, "email@gmail.com", originAddress1, destAddress1);
        userController.send_question_to_admin("email@gmail.com", "Happy Birthday");
        userController.send_question_to_admin("email@gmail.com", "Happy Birthday with answer");
        this.questionController.answer_user_question(1, "because", "admin@admin.com");

@@ -1,8 +1,12 @@
 package gotcha.server.Domain.RidesModule;
 
+import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Utils.Location;
+import gotcha.server.Utils.LocationDTO;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -45,16 +49,24 @@ public class Ride {
             @AttributeOverride(name = "latitude", column = @Column(name = "destination_latitude"))
     })
     private Location destination;
+    private String originAddress;
+    private String destinationAddress;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "ride_id")
     private List<RidingAction> actions;
+    private List<Location> junctions;
+
+    private String duration; // minutes
+    private double distance; // Km
+
+
 
     public Ride()
     {
 
     }
-    public Ride(String rider_email, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, List<RidingAction> actions) {
+    public Ride(String rider_email, String city, LocalDateTime start_time, LocalDateTime end_time, Location origin, Location destination, List<RidingAction> actions, List<Location> junctions,  String originAddress, String destinationAddress) {
         this.rider_email = rider_email;
         this.date = start_time.toLocalDate();
         this.city = city;
@@ -62,8 +74,37 @@ public class Ride {
         this.end_time = end_time;
         this.origin = origin;
         this.destination = destination;
+        this.originAddress = originAddress;
+        this.destinationAddress = destinationAddress;
         this.actions = actions;
+        this.distance = (origin.distanceTo(destination));
+        this.duration = setDurationByTimes();
+        this.junctions = junctions;
+
+
     }
+
+    public Ride(int rideId, String userEmail, FinishRideRequest finishRideRequest, String originAddress, String destinationAddress) {
+        this.ride_id = rideId;
+        this.rider_email = userEmail;
+        this.origin = new Location(finishRideRequest.getOrigin());
+        this.destination = new Location(finishRideRequest.getDestination());
+        this.originAddress = originAddress;
+        this.destinationAddress = destinationAddress;
+        this.date = finishRideRequest.getStartTime().toLocalDate();
+        this.city = finishRideRequest.getCity();
+        this.start_time = finishRideRequest.getStartTime();
+        this.end_time = finishRideRequest.getEndTime();
+        this.actions = finishRideRequest.getRidingActions();
+        this.junctions = new ArrayList<>();
+        for (LocationDTO junction : finishRideRequest.getJunctions()){
+            junctions.add(new Location(junction));
+
+        }
+        this.distance = (origin.distanceTo(destination) * 1000);
+        this.duration = setDurationByTimes();
+    }
+
 
     // ------------------------------------------ Getters & Setters ----------------------------------------------------------
 
@@ -137,5 +178,53 @@ public class Ride {
 
     public void setActions(List<RidingAction> actions) {
         this.actions = actions;
+    }
+
+    private String setDurationByTimes() {
+        Duration duration = Duration.between(start_time, end_time);
+        double seconds = duration.getSeconds();
+        int hours = (int) (seconds / 3600);
+        int minutes = (int) ((seconds % 3600) / 60);
+        return String.format("%02d.%02d", hours, minutes);
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public List<Location> getJunctions() {
+        return junctions;
+    }
+
+    public void setJunctions(List<Location> junctions) {
+        this.junctions = junctions;
+    }
+
+    public String getOriginAddress() {
+        return originAddress;
+    }
+
+    public void setOriginAddress(String originAddress) {
+        this.originAddress = originAddress;
+    }
+
+    public String getDestinationAddress() {
+        return destinationAddress;
+    }
+
+    public void setDestinationAddress(String destinationAddress) {
+        this.destinationAddress = destinationAddress;
     }
 }

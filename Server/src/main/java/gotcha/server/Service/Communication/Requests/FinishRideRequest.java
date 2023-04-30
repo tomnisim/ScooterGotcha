@@ -20,14 +20,15 @@ public class FinishRideRequest {
     private LocalDateTime endTime;
     List<StationaryHazard> hazards;
     List<RidingAction> ridingActions;
-    List<Location> junctions;
+    List<LocationDTO> junctions;
+
 
     // Default Constructor
 
     public FinishRideRequest() {}
     public FinishRideRequest(String rpSerialNumber, LocationDTO origin, LocationDTO destination, String city,
                              LocalDateTime startTime, LocalDateTime endTime, List<StationaryHazard> hazards,
-                             List<RidingAction> ridingActions, List<Location> junctions) {
+                             List<RidingAction> ridingActions, List<LocationDTO> junctions) {
         this.rpSerialNumber = rpSerialNumber;
         this.origin = origin;
         this.destination = destination;
@@ -104,11 +105,11 @@ public class FinishRideRequest {
         this.hazards = hazards;
     }
 
-    public List<Location> getJunctions() {
+    public List<LocationDTO> getJunctions() {
         return junctions;
     }
 
-    public void setJunctions(List<Location> junctions) {
+    public void setJunctions(List<LocationDTO> junctions) {
         this.junctions = junctions;
     }
 }

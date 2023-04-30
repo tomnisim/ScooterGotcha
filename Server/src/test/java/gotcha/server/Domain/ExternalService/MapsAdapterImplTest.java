@@ -3,6 +3,8 @@ package gotcha.server.Domain.ExternalService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MapsAdapterImplTest {
@@ -14,7 +16,7 @@ class MapsAdapterImplTest {
     }
 
     @Test
-    void test1(){
+    void test1() throws IOException {
         String Origin =  "1 Rothschild Boulevard, Tel Aviv-Yafo, Israel";
         String Destination = "10 HaYarkon St, Tel Aviv-Yafo, Israel";
         var answer = this.mapsAdapter.get_routes(Origin, Destination, 1);

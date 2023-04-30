@@ -17,6 +17,12 @@ public class QuestionController implements IQuestionController {
     }
     @Override
     public void add_user_question(String message, String senderEmail, BiConsumer<String, Integer> update_function) throws Exception {
+        if (message.equals("")){
+            throw new Exception("message cant be blank");
+        }
+        if (message.contains("<") || message.contains(">")){
+            throw new Exception("no scripts allowed.");
+        }
         Question question = new Question(message, senderEmail);
         this.questionsRepository.addQuestion(question);
     }
