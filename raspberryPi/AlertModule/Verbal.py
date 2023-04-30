@@ -11,5 +11,3 @@ class Verbal(Alert):
         super().alert()
         print("Verbal alert "+self.duration+" "+self.power)
 
-    def create_alerter(self):
-        pass
