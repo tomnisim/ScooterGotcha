@@ -134,7 +134,7 @@ class HazardDetector():
         # image = Image.fromarray(frame)
 
         # Show image - for testing
-        image.show()
+        # image.show()
 
         # perform inference
         results = self.potholes_model(image)

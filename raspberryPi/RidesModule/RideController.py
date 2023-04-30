@@ -19,12 +19,12 @@ import time
 
 
 clip = VideoFileClip('potholes_video_bs.mp4')
-frames_generator = clip.iter_frames()
-frames = list(clip.iter_frames())[0:3]
+frames = list(clip.iter_frames(fps=1))
+print("amit",len(frames))
 DATASET_PATH = "keremberke/pothole-segmentation"
 ds = load_dataset(DATASET_PATH, name="full")
 example = ds['train'][0]
-frames = [example['image'], example['image'], example['image']]
+# frames = [example['image'], example['image'], example['image']]
 
 junctions = []
 hazards = []
@@ -60,6 +60,7 @@ def get_frames_task(camera_controller, gps_controller):
 
         loc = gps_controller.get_location()
         frames.append((loc, image))
+
 
 def detect_hazrds_task(hazard_detector, alerter):
     global hazards
