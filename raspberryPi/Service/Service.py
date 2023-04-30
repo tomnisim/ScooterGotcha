@@ -9,7 +9,6 @@ from datetime import time
 # import RPi.GPIO as GPIO
 
 from AlertModule.Vocal import Vocal
-from AlertModule.VocalCreator import VocalCreator
 from CameraModule.CameraController import CameraController
 from Config.InitData import InitData
 from GPSModule.GPSController import GPSController
@@ -63,7 +62,7 @@ class Service:
         # create vocal alerter + GPS, camera, ride controllers
         self._GPS_controller = GPSController.get_instance()
         self._camera_controller = CameraController.get_instance()
-        self.alerter = VocalCreator()  #TODO: have to make switch case according the configuration file
+        self.alerter = Vocal()  #TODO: have to make switch case according the configuration file
         self.ride_controller = self.create_ride_controller(self._GPS_controller, self._camera_controller )
 
         # create thread that manage the live buttun
@@ -71,8 +70,7 @@ class Service:
         start_button_thread.start()
 
     def create_ride_controller(self, gps_controller, camera_controller):
-        curr_alerter = self.alerter.create_alerter()
-        ride_controller = RideController(curr_alerter, gps_controller, camera_controller)
+        ride_controller = RideController(self.alerter, gps_controller, camera_controller)
         return ride_controller
 
     def run(self):
