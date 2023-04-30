@@ -34,7 +34,6 @@ public class HazardController implements IHazardController {
         systemLogger.add_log("Hazard controller loaded successfully");
     }
 
-
     @Override
     public void add_hazard(int rideId, Location location, String city, HazardType type, double size) throws Exception {
         var newHazard = new StationaryHazard(rideId, location, city, type, size);
