@@ -11,12 +11,12 @@ class Hazard():
         self.location = location
         self.type = type
 
-        # self.frame = self.encode_image(frame)
-        self.frame = self.encode_from_PIL(frame)
+        self.frame = self.encode_image(frame)
+        # self.frame = self.encode_from_PIL(frame)
 
     def encode_image(self, frame):
         # Convert the frame to JPEG and encode as base64
-        ret, buffer = cv2.imencode('.jpg', frame)
+        ret, buffer = cv2.imencode('.png', frame)
         frame_base64 = base64.b64encode(buffer).decode('utf-8')
         return frame_base64
 
