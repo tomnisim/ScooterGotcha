@@ -34,7 +34,7 @@ export default function HomeWindow({navigation}) {
         <ImageBackground source={background} resizeMode="cover">
         <View style={{display: 'flex', flexDirection:'row', width: 550}}>
         <View style={{width:750}}>
-        <Text style={{textAlign:'center', color:'#841584', backgroundColor:'white', opacity:0.8, width: 350}}><h1>Home Screen</h1></Text>
+        <Text style={{textAlign:'center', color:'#841584', backgroundColor:'white', opacity:0.8, width: 350}}><h1>   </h1></Text>
         <Button onPress={() => navigation.navigate('Users')} title="Users Window" color='#00000000'/>
         <Button onPress={() => navigation.navigate('Admins')} title="Admins Window" color='#00000000'/>
         <Button onPress={() => navigation.navigate('Advertisements')} title="Advertisements Window" color='#00000000'/>

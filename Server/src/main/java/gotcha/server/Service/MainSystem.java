@@ -162,7 +162,7 @@ public class MainSystem {
 
 
 
-        this.hazardController.add_hazard(515, origin, "Tel-Aviv", HazardType.PoleTree, 16.5, photo);
+        //this.hazardController.add_hazard(515, origin, "Tel-Aviv", HazardType.PoleTree, 16.5, photo);
 
 
         LocalDateTime start_time = LocalDateTime.now();
