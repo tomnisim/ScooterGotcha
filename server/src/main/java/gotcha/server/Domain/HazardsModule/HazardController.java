@@ -31,8 +31,8 @@ public class HazardController implements IHazardController {
 
 
     @Override
-    public void add_hazard(int rideId, Location location, String city, HazardType type, double size) throws Exception {
-        var newHazard = new StationaryHazard(rideId, location, city, type, size, null);
+    public void add_hazard(int rideId, Location location, String city, HazardType type, double size, byte[] photo) throws Exception {
+        var newHazard = new StationaryHazard(rideId, location, city, type, size, photo);
         this.hazardRepository.addHazard(newHazard);
     }
 
@@ -76,7 +76,7 @@ public class HazardController implements IHazardController {
             double size = hazard.getSize();
             StationaryHazard current = find_hazard_if_exist(location, city, type);
             if (current == null){
-                add_hazard(ride_id, location, city, type, size);
+                add_hazard(ride_id, location, city, type, size, hazard.getFrame());
             }
             else{
                 update_hazard(current, size);

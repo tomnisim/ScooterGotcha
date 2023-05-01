@@ -711,7 +711,7 @@ public class Facade {
             Location location = new Location(lng, lat);
             HazardType hazard_type = HazardType.valueOf(type);
             double hazard_size = size.doubleValue();
-            hazard_controller.add_hazard(-1,location, city, hazard_type, hazard_size);
+            hazard_controller.add_hazard(-1,location, city, hazard_type, hazard_size, null);
             String logger_message = String.format("admin (%s) add new hazard: (%s, %s, %f)", admin_email, location, type, size);
             response = new Response(SUCCESS_OPCODE, logger_message);
             serverLogger.add_log(logger_message);

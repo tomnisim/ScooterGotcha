@@ -4,6 +4,10 @@ import gotcha.server.Utils.Logger.SystemLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -90,6 +94,36 @@ public class Utils {
 
         }
         return output;
+    }
+
+    public static byte[] getPhoto() {
+        byte[] imageBytes = null;
+        try {
+            // Specify the URL of the image
+            URL imageUrl = new URL("https://www.w3schools.com/w3images/fjords.jpg");
+
+            // Open a connection to the URL
+            HttpURLConnection connection = (HttpURLConnection) imageUrl.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+
+            // Read the image data into a byte array
+            InputStream input = connection.getInputStream();
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            byte[] buffer = new byte[4096];
+            int n = 0;
+            while (-1 != (n = input.read(buffer))) {
+                output.write(buffer, 0, n);
+            }
+            imageBytes = output.toByteArray();
+
+            // Close the input and output streams
+            input.close();
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return imageBytes;
     }
 
     public String LocalDateToString(LocalDate d) {

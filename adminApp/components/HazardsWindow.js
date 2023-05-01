@@ -1,6 +1,6 @@
 import React,{ useState } from 'react';
 import { useEffect } from 'react';
-import { ImageBackground, View, Text, Button, StyleSheet, TextInput, ScrollView} from 'react-native';
+import { ImageBackground, View, Text, Button, StyleSheet, TextInput, ScrollView, TouchableOpacity} from 'react-native';
 import Table from 'rc-table';
 import Select from 'react-select'
 import { background } from '../API/Path';
@@ -33,7 +33,6 @@ export default function HazardsWindow({navigation}) {
   const [city_to_show, setCity_to_show] = useState("")
 
 
-
   async function get_hazards_list(){
     let response = await hazardsApi.view_hazards();
     if (!response.was_exception){
@@ -48,6 +47,7 @@ export default function HazardsWindow({navigation}) {
       temp1.map((item) => list_temp.push({value: parseInt(item.key), label: item.key}))
       setHazards_ids_list(list_temp)
     }
+    console.log(response.value)
   }
 
   useEffect(() => {
@@ -141,6 +141,7 @@ export default function HazardsWindow({navigation}) {
     
     
   }
+  
 
 
   return (
@@ -285,9 +286,35 @@ const columns = [
     key: "report",
     width:200,
   },
+  {
+    title: "photo",
+    dataIndex: "report",
+    key: "report",
+    width:200,
+  },
+  {
+    title: "Photo",
+    dataIndex: "",
+    key: "photo",
+    render: (text, row) => (
+      <TouchableOpacity onPress={() => handleViewPhoto(row)} style={{color: 'blue'}}>
+        Show
+      </TouchableOpacity>      ),
+  },
 ];
 
 
+const handleViewPhoto = (row) => {
+  let byteArray = row.photo;
+  let blob = new Blob([byteArray], { type: "image/jpg" });
+
+  // Create a URL for the Blob
+  let url = URL.createObjectURL(blob);
+
+  // Open a new window with the image
+  let windowObjectReference = window.open(url, "ImageWindow");
+
+}
 
 const styles = StyleSheet.create({
   container: {

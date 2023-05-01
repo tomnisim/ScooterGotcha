@@ -22,6 +22,7 @@ import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.SystemLogger;
 import gotcha.server.Utils.Threads.HazardsReporterThread;
 import gotcha.server.Utils.Threads.StatisticsUpdateThread;
+import gotcha.server.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -156,15 +157,22 @@ public class MainSystem {
         Location dest222 = new Location(lng222, lat222);
 
         ArrayList hazards = new ArrayList();
+        byte[] photo = Utils.getPhoto();
+
+
+
+
+        this.hazardController.add_hazard(515, origin, "Tel-Aviv", HazardType.PoleTree, 16.5, photo);
+
 
         LocalDateTime start_time = LocalDateTime.now();
         if (this.hazardController.isDbEmpty()) {
-            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5);
-            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 7);
-            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 12);
-            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12);
-            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14);
-            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3);
+//            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5);
+//            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 7);
+//            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 12);
+//            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12);
+//            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14);
+//            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3);
         }
         LocalDate birth_date = LocalDate.of(1995, 05 , 05);
         LocalDate issue = LocalDate.of(2025, 05 , 05);

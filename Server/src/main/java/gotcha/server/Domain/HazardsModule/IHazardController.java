@@ -10,7 +10,7 @@ public interface IHazardController {
     void remove_hazard(int hazard_id) throws Exception;
     void update_hazards(List<StationaryHazardRPDTO> hazards, int ride_id, String city) throws Exception;
     List<StationaryHazard> get_hazards_in_route(Route route);
-    void add_hazard(int rideId, Location location, String city, HazardType type, double size) throws Exception;
+    void add_hazard(int rideId, Location location, String city, HazardType type, double size,  byte[] photo) throws Exception;
 
     Collection<StationaryHazardDTO> view_hazards();
 
