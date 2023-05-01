@@ -409,7 +409,7 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @RequestMapping(value = "/set_config")
     @CrossOrigin
     @Override
-    public Response set_config(SetConfigRequest request, @SessionAttribute("userContext") UserContext userContext) {
+    public Response set_config(@RequestBody SetConfigRequest request, @SessionAttribute("userContext") UserContext userContext) {
         return facade.set_config(request, userContext);
     }
 

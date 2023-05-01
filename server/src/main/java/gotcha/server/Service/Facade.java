@@ -968,8 +968,30 @@ public class Facade {
     }
 
     public Response set_config(SetConfigRequest request, UserContext userContext) {
-        // TODO: 12/04/2023  
-        return null;
+        Response response;
+        try{
+            check_user_is_admin_and_logged_in(userContext);
+            String admin_email = userContext.get_email();
+            this.configuration.setAdminUserName(request.getAdminUserName());
+            this.configuration.setAdminPassword(request.getAdminPassword());
+            this.configuration.setAlert(request.getAlert());
+            this.configuration.setDuration(request.getDuration());
+            this.configuration.setHazards_rate_threshold(request.getHazards_rate_threshold());
+            this.configuration.setHazards_time_to_report_in_minutes(request.getHazards_time_to_report_in_minutes());
+            this.configuration.setMinimumPasswordLength(request.getMinimumPasswordLength());
+            this.configuration.setMaximumPasswordLength(request.getMaximumPasswordLength());
+            this.configuration.setSystemEmail(request.getSystemEmail());
+            this.configuration.setSystemEmailPassword(request.getSystemEmailPassword());
+            this.configuration.setNumberOfCoordinates(request.getNumberOfCoordinates());
+            this.configuration.setNumberOfRoutes(request.getNumberOfRoutes());
+            this.configuration.setOrYarukEmail(request.getOrYarukEmail());
+            String logger_message = String.format("admin(%s) set system configuration.",admin_email);
+            response = new Response(configuration, logger_message);
+        } catch (UserException e) {
+            response = Utils.createResponse(e);
+            error_logger.add_log(e.getMessage());
+        }
+        return response;
     }
 
     public Response get_rp_config() {
