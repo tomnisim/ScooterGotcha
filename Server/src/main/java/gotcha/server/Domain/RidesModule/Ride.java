@@ -100,7 +100,7 @@ public class Ride {
         this.junctions = junctions.stream().map(Location::new).collect(Collectors.toList());
     }
 
-    public Ride(int rideId, String userEmail, FinishRideRequest finishRideRequest, String originAddress, String destinationAddress) {
+    public Ride(int rideId, String userEmail, FinishRideRequest finishRideRequest, String originAddress, String destinationAddress, String city) {
         this.ride_id = rideId;
         this.rider_email = userEmail;
         this.origin = new Location(finishRideRequest.getOrigin());
@@ -108,7 +108,7 @@ public class Ride {
         this.originAddress = originAddress;
         this.destinationAddress = destinationAddress;
         this.date = finishRideRequest.getStartTime().toLocalDate();
-        this.city = finishRideRequest.getCity();
+        this.city = city;
         this.start_time = finishRideRequest.getStartTime();
         this.end_time = finishRideRequest.getEndTime();
         this.actions = finishRideRequest.getRidingActions();

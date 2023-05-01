@@ -88,4 +88,17 @@ public class RoutesRetriever {
         }
         return answer;
     }
+
+    public String getCity(LocationDTO origin){
+        // TODO: 01/05/2023 : Hebrew / English 
+        String answer;
+        try{
+            answer =  this.google_maps.locationToCity(new Location(origin));
+        }
+        catch (Exception e){
+            answer = "default";
+        }
+        return answer;
+
+    }
 }

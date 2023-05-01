@@ -2,12 +2,12 @@ package gotcha.server.Domain.UserModule;
 /**
  * this DAO is for ADMIN application.
  */
-public class WaitingRaspberryPiDAO {
+public class WaitingRaspberryPiDTO {
     private int id;
     private String rp_serial_number;
 
-    public WaitingRaspberryPiDAO(){}
-    WaitingRaspberryPiDAO(int id, String rp_serial_number){
+    public WaitingRaspberryPiDTO(){}
+    WaitingRaspberryPiDTO(int id, String rp_serial_number){
         this.id = id;
         this.rp_serial_number = rp_serial_number;
     }

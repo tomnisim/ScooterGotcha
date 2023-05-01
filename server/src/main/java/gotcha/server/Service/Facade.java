@@ -4,24 +4,21 @@ import gotcha.server.Config.Configuration;
 import gotcha.server.Config.RpConfigDTO;
 import gotcha.server.Domain.AdvertiseModule.Advertise;
 import gotcha.server.Domain.AdvertiseModule.AdvertiseController;
-import gotcha.server.Domain.AdvertiseModule.AdvertiseDAO;
+import gotcha.server.Domain.AdvertiseModule.AdvertiseDTO;
 import gotcha.server.Domain.AdvertiseModule.IAdvertiseController;
 import gotcha.server.Domain.AwardsModule.Award;
 import gotcha.server.Domain.AwardsModule.IAwardsController;
-import gotcha.server.Domain.HazardsModule.HazardController;
-import gotcha.server.Domain.HazardsModule.HazardType;
-import gotcha.server.Domain.HazardsModule.IHazardController;
-import gotcha.server.Domain.HazardsModule.StationaryHazardDAO;
+import gotcha.server.Domain.HazardsModule.*;
 import gotcha.server.Domain.Notifications.Notification;
 import gotcha.server.Domain.QuestionsModule.IQuestionController;
 import gotcha.server.Domain.QuestionsModule.Question;
 import gotcha.server.Domain.QuestionsModule.QuestionController;
-import gotcha.server.Domain.QuestionsModule.QuestionDAO;
+import gotcha.server.Domain.QuestionsModule.QuestionDTO;
 import gotcha.server.Domain.RidesModule.IRidesController;
 import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Domain.RidesModule.RideDTO;
 import gotcha.server.Domain.RidesModule.RidesController;
-import gotcha.server.Domain.StatisticsModule.DailyStatisticDAO;
+import gotcha.server.Domain.StatisticsModule.DailyStatisticDTO;
 import gotcha.server.Domain.StatisticsModule.GeneralStatistic;
 import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.*;
@@ -151,15 +148,15 @@ public class Facade {
         return response;
     }
 
-    public Response<RiderDAO> rider_login(LoginRequest loginRequest) {
-        Response<RiderDAO> response = null;
+    public Response<RiderDTO> rider_login(LoginRequest loginRequest) {
+        Response<RiderDTO> response = null;
         try {
             var email = loginRequest.getEmail();
             var password = loginRequest.getPassword();
             var user = user_controller.login(email,password);
             var message = String.format("User with email %s Successfully logged in", email);
             serverLogger.add_log(message);
-            response = new Response<>(new RiderDAO((Rider)user),message);
+            response = new Response<>(new RiderDTO((Rider)user),message);
             serverLogger.add_log(message);
 
         }
@@ -251,7 +248,7 @@ public class Facade {
         try{
             check_user_is_logged_in(userContext);
             String user_email = userContext.get_email();
-            List<QuestionDAO> questions = question_controller.get_all_user_questions(user_email);
+            List<QuestionDTO> questions = question_controller.get_all_user_questions(user_email);
             String logger_message = user_email+ " view all user questions";
             response = new Response(questions, logger_message);
             serverLogger.add_log(logger_message);
@@ -267,7 +264,7 @@ public class Facade {
         Response response;
         try{
             check_user_is_logged_in(userContext);
-            List<AdvertiseDAO> advs = advertise_controller.get_all_advertisements_for_user();
+            List<AdvertiseDTO> advs = advertise_controller.get_all_advertisements_for_user();
             String logger_message = "user( "+userContext.get_email()+ ") view all advertisements";
             response = new Response(advs, logger_message);
             serverLogger.add_log(logger_message);
@@ -334,10 +331,11 @@ public class Facade {
             String userEmail = user_controller.get_user_email_by_rp_serial(finishRideRequest.getRpSerialNumber());
             int number_of_rides = this.rides_controller.get_number_of_rides(userEmail);
             String[] addresses = routes_retriever.getAddresses(finishRideRequest.getOrigin(), finishRideRequest.getDestination());
-            Ride ride = this.rides_controller.add_ride(finishRideRequest, userEmail, addresses[0], addresses[1]);
+            String city = routes_retriever.getCity(finishRideRequest.getOrigin());
+            Ride ride = this.rides_controller.add_ride(finishRideRequest, userEmail, addresses[0], addresses[1], city);
             int ride_id = ride.getRide_id();
             user_controller.update_user_rate(userEmail, ride, number_of_rides);
-            hazard_controller.update_hazards(finishRideRequest.getHazards(), ride_id);
+            hazard_controller.update_hazards(finishRideRequest.getHazards(), ride_id, city);
             String logger_message = "user added new ride";
             response = new Response(logger_message, logger_message);
             serverLogger.add_log(logger_message);
@@ -470,7 +468,7 @@ public class Facade {
         Response response;
         try{
             check_user_is_admin_and_logged_in(userContext);
-            DailyStatisticDAO daily_statistic = this.statisticsManager.get_current_daily_statistic();
+            DailyStatisticDTO daily_statistic = this.statisticsManager.get_current_daily_statistic();
             String logger_message = "admin view current daily statistics";
             response = new Response(daily_statistic, logger_message);
             serverLogger.add_log(logger_message);
@@ -503,7 +501,7 @@ public class Facade {
         Response response;
         try{
             check_user_is_admin_and_logged_in(userContext);
-            List<DailyStatisticDAO> all_daily_statistic = this.statisticsManager.get_all_daily_statistic();
+            List<DailyStatisticDTO> all_daily_statistic = this.statisticsManager.get_all_daily_statistic();
             String logger_message = "admin view all daily statistics";
             response = new Response(all_daily_statistic, logger_message);
             serverLogger.add_log(logger_message);
@@ -556,7 +554,7 @@ public class Facade {
         try{
             check_user_is_admin_and_logged_in(userContext);
             String admin_email = userContext.get_email();
-            Collection<StationaryHazardDAO> hazards = this.hazard_controller.view_hazards();
+            Collection<StationaryHazardDTO> hazards = this.hazard_controller.view_hazards();
             String logger_message = "admin("+admin_email+") view all hazards";
             response = new Response(hazards, logger_message);
             serverLogger.add_log(logger_message);
@@ -574,7 +572,7 @@ public class Facade {
         try{
             check_user_is_admin_and_logged_in(userContext);
             String admin_email = userContext.get_email();
-            Collection<StationaryHazardDAO> hazards = this.hazard_controller.get_hazards(city);
+            Collection<StationaryHazardDTO> hazards = this.hazard_controller.get_hazards(city);
             String logger_message = String.format("admin(%s) view all hazards in city: %s", admin_email, city);
             response = new Response(hazards, logger_message);
             serverLogger.add_log(logger_message);
@@ -671,7 +669,7 @@ public class Facade {
         try{
 
             check_user_is_admin_and_logged_in(userContext);
-            List<AdminDAO> admins_list = user_controller.view_admins();
+            List<AdminDTO> admins_list = user_controller.view_admins();
             String logger_message = "admin view all admins list";
             response = new Response(admins_list, logger_message);
             serverLogger.add_log(logger_message);
@@ -748,7 +746,7 @@ public class Facade {
         Response response;
         try{
             check_user_is_admin_and_logged_in(userContext);
-            List<RiderDAO> users_list = user_controller.get_all_riders();
+            List<RiderDTO> users_list = user_controller.get_all_riders();
             String logger_message = "admin view all users list";
             response = new Response(users_list, logger_message);
             serverLogger.add_log(logger_message);
@@ -765,7 +763,7 @@ public class Facade {
         Response response;
         try{
             check_user_is_admin_and_logged_in(userContext);
-            List<WaitingRaspberryPiDAO> waiting_rp_list = user_controller.get_waiting_rp();
+            List<WaitingRaspberryPiDTO> waiting_rp_list = user_controller.get_waiting_rp();
             String logger_message = String.format("admin (%s), view all waiting Raspberry Pi list",userContext.get_email());
             response = new Response(waiting_rp_list, logger_message);
             serverLogger.add_log(logger_message);

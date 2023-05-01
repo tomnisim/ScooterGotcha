@@ -164,6 +164,24 @@ public abstract class MapsAdapter {
         //return json.get("address").get("road").asText() + ", " + json.get("address").get("city").asText();
     }
 
+    public String locationToCity(Location location) throws IOException {
+        double lat = location.getLatitude().doubleValue();
+        double lng = location.getLongitude().doubleValue();
+        String NOMINATIM_ENDPOINT = "https://nominatim.openstreetmap.org/reverse";
+        String url = NOMINATIM_ENDPOINT + "?format=jsonv2&lat=" + lat + "&lon=" + lng;
+        String json = getJSONFromURL(url);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode rootNode = mapper.readTree(json);
+        String address = "";
+        if (rootNode.has("address")) {
+            JsonNode addressNode = rootNode.get("address");
+            if (addressNode.has("city")) {
+                address += addressNode.get("city").asText();
+            }
+        }
+        return address;
+    }
+
 
     protected String covert_address(String address){
 //        String Origin =  "1 Rothschild Boulevard, Tel Aviv-Yafo, Israel";

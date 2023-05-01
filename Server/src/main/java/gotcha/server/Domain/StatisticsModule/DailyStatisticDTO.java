@@ -2,9 +2,9 @@ package gotcha.server.Domain.StatisticsModule;
 
 import java.time.LocalDate;
 /**
- * this DAO is for ADMIN application.
+ * this DTO is for Server -> ADMIN application.
  */
-public class DailyStatisticDAO {
+public class DailyStatisticDTO {
 
     private LocalDate date;
     private int newAdmins;
@@ -28,7 +28,7 @@ public class DailyStatisticDAO {
     private int shutDownEvents;
     private int resetEvents;
 
-    public DailyStatisticDAO(DailyStatistic dailyStatistic) {
+    public DailyStatisticDTO(DailyStatistic dailyStatistic) {
         this.date = dailyStatistic.getDate();
         this.newAdmins = dailyStatistic.getNew_admins();
         this.totalAdmins = dailyStatistic.getTotal_admins();

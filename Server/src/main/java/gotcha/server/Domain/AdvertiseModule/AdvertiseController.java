@@ -41,11 +41,11 @@ public class AdvertiseController implements IAdvertiseController {
     }
 
     @Override
-    public List<AdvertiseDAO> get_all_advertisements_for_user(){
-        List<AdvertiseDAO> to_return = new LinkedList<>();
+    public List<AdvertiseDTO> get_all_advertisements_for_user(){
+        List<AdvertiseDTO> to_return = new LinkedList<>();
         for (Advertise advertise : advertiseRepository.getAllAdvertisements())
         {
-            to_return.add(new AdvertiseDAO(advertise));
+            to_return.add(new AdvertiseDTO(advertise));
         }
         return to_return;
     }

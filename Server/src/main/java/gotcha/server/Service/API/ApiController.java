@@ -1,6 +1,6 @@
 package gotcha.server.Service.API;
 
-import gotcha.server.Domain.UserModule.RiderDAO;
+import gotcha.server.Domain.UserModule.RiderDTO;
 import gotcha.server.Domain.UserModule.User;
 import gotcha.server.Service.Communication.Requests.*;
 import gotcha.server.Service.Communication.Requests.FinishRideRequest;
@@ -8,7 +8,6 @@ import gotcha.server.Service.Communication.Requests.AddAdvertisementRequest;
 import gotcha.server.Service.Communication.Requests.AddAwardRequest;
 import gotcha.server.Service.Communication.Requests.LoginRequest;
 import gotcha.server.Service.Communication.Requests.RegisterRequest;
-import gotcha.server.Service.Communication.Requests.*;
 import gotcha.server.Service.Facade;
 import gotcha.server.Service.UserContext;
 import gotcha.server.Utils.Response;
@@ -64,7 +63,7 @@ public class ApiController implements IAdminAPI, IUserAPI {
     @CrossOrigin
     public Response rider_login(@RequestBody LoginRequest loginRequest, HttpSession session){
         Response<User> response = facade.login(loginRequest);
-        Response<RiderDAO> response1 = facade.rider_login(loginRequest);
+        Response<RiderDTO> response1 = facade.rider_login(loginRequest);
         if(!response.iswas_exception()) {
             var userContext = new UserContext(response.getValue());
             session.setAttribute(USER_CONTEXT_ATTRIBUTE_NAME, userContext);

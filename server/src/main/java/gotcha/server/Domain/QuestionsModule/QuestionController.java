@@ -52,10 +52,10 @@ public class QuestionController implements IQuestionController {
      * @return open & close questions of the user
      */
     @Override
-    public List<QuestionDAO> get_all_user_questions(String user_email) {
-        ArrayList<QuestionDAO> answer = new ArrayList();
+    public List<QuestionDTO> get_all_user_questions(String user_email) {
+        ArrayList<QuestionDTO> answer = new ArrayList();
         for (Question question : this.questionsRepository.getUsersQuestions(user_email))
-            answer.add(new QuestionDAO(question));
+            answer.add(new QuestionDTO(question));
         return answer;
     }
 

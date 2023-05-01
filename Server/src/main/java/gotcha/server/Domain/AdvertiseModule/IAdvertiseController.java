@@ -12,7 +12,7 @@ public interface IAdvertiseController {
 
     List<Advertise> get_all_advertisements_for_admin();
 
-    List<AdvertiseDAO> get_all_advertisements_for_user();
+    List<AdvertiseDTO> get_all_advertisements_for_user();
 
     void add_click(int id) throws Exception;
 }

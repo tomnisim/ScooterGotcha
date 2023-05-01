@@ -1,13 +1,11 @@
 package gotcha.server.Domain.UserModule;
 
-import gotcha.server.Domain.Notifications.Notification;
-
 import java.time.LocalDate;
-import java.util.Map;
+
 /**
  * this DAO is for ADMIN application.
  */
-public class AdminDAO {
+public class AdminDTO {
     private String appointedBy;
     private LocalDate appointmentDate;
     private String userEmail;
@@ -17,9 +15,9 @@ public class AdminDAO {
     private String lastName;
     private String loggedIn;
 
-    public AdminDAO(){}
+    public AdminDTO(){}
 
-    public AdminDAO(Admin admin){
+    public AdminDTO(Admin admin){
         this.userEmail = admin.get_email();
         this.name = admin.getName();
         this.lastName = admin.getLastName();

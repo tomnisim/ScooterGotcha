@@ -1,9 +1,7 @@
 package gotcha.server.Domain.StatisticsModule;
 
 import javax.persistence.*;
-import java.lang.annotation.Target;
 import java.time.LocalDate;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Entity
 @Table(name = "dailyStatistics")
@@ -313,8 +311,8 @@ public class DailyStatistic {
 
     }
 
-    public DailyStatisticDAO getDAO() {
-        return new DailyStatisticDAO(this);
+    public DailyStatisticDTO getDTO() {
+        return new DailyStatisticDTO(this);
     }
 
     public int getStart_day__advertisements() {

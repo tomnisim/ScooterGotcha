@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * this DTO is for ADMIN.
+ * this DTO is for Server -> ADMIN.
  */
 public class RideDTO {
     private int ride_id;

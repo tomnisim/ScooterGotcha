@@ -31,7 +31,7 @@ class HazardRepositoryTest {
         BigDecimal lng = new BigDecimal("34.801402");
         BigDecimal lat = new BigDecimal("31.265106");
         Location origin = new Location(lng, lat);
-        return new StationaryHazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5);
+        return new StationaryHazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5, null);
     }
 
     @Test

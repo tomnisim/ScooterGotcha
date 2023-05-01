@@ -52,7 +52,7 @@ class RidesControllerTest {
         var userEmail = "test@example.com";
         var origin = new LocationDTO(20 ,20);
         var destination = new LocationDTO(40,40);
-        var finishRideRequest = new FinishRideRequest("RP",origin, destination,"City", LocalDateTime.now().minusHours(1), LocalDateTime.now(), new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
+        var finishRideRequest = new FinishRideRequest("RP",origin, destination, LocalDateTime.now().minusHours(1), LocalDateTime.now(), new ArrayList<>(),new ArrayList<>(), new ArrayList<>());
 
         // Set up the executor service for concurrent tasks
         var numberOfThreads = 1000;
@@ -63,7 +63,7 @@ class RidesControllerTest {
         for (int i = 0; i < numberOfThreads; i++) {
             results.add(executor.submit(() -> {
                 try {
-                    return ride_controller.add_ride(finishRideRequest, userEmail, "originAdd", "destAdd");
+                    return ride_controller.add_ride(finishRideRequest,"city", userEmail, "originAdd", "destAdd");
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
