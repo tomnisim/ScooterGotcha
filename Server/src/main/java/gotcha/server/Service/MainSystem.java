@@ -65,9 +65,6 @@ public class MainSystem {
     public void init_server() throws Exception {
         systemLogger.add_log("Start Init Server");
         connect_to_external_services();
-        create_rp_config_file();
-        connect_database();
-        load_database();
 //        if (configuration.getFirstTimeRunning())
 //            set_first_admin();
         set_statistics_update_thread();
@@ -109,50 +106,7 @@ public class MainSystem {
     }
 
 
-    /**
-     * this method init system database,
-     * if the demo option on, the system will init data from the data config file,
-     *      the init can failed and system keep running without data.
-     * if the real option on, the method will try to connect the real database.
-     * DATABASE_MODE - configuration instruction - "database:demo" or "database:real".
-     * @throws ExitException if the connection to DB fail OR wrong format of the config instruction.
-     */
 
-
-    private void connect_database() throws ExitException {
-        if (configuration.getDatabaseMode().equals("tests")){
-            // TODO: 30/12/2022 : have to connect to DB with DB_URL & DB_password.
-//            System.out.println(configuration.getDatabaseUrl());
-//            System.out.println(configuration.getDatabasePassword());
-            HibernateUtils.set_tests_mode();
-            systemLogger.add_log("Tests Database Connected Successfully");
-        }
-
-        else if (configuration.getDatabaseMode().equals("real")){
-            // TODO: 30/12/2022 : have to connect to DB with DB_URL & DB_password.
-//            System.out.println(configuration.getDatabaseUrl());
-//            System.out.println(configuration.getDatabasePassword());
-            HibernateUtils.set_normal_use();
-            systemLogger.add_log("Real Database Connected Successfully");
-
-        }
-        else {
-            throw new ExitException("System Config File - Illegal Database Mode.");
-        }
-    }
-
-    // TODO: Not sure we need to load the database here, Need to create a Repository object according to Spring Boot guidelines to access DB
-    private void load_database() {
-        // TODO: 29/12/2022 : load all controllers & set admins in the system.
-        userController.load();
-        hazardController.load();
-        ridesController.load();
-        advertiseController.load();
-    }
-
-    private void create_rp_config_file() {
-//        System.out.println(configuration.getMinimumDistanceAlert());
-    }
     private void set_first_admin() throws Exception {
         LocalDate birth_date = LocalDate.now();
         userController.add_first_admin(configuration.getAdminUserName(), "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");

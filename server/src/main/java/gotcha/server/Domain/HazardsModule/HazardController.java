@@ -29,10 +29,6 @@ public class HazardController implements IHazardController {
         this.reporterAdapter = reporterAdapter;
      }
 
-    @Override
-    public void load(){
-        systemLogger.add_log("Hazard controller loaded successfully");
-    }
 
     @Override
     public void add_hazard(int rideId, Location location, String city, HazardType type, double size) throws Exception {

@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.List;
 
 public interface IHazardController {
-    void load();
     void remove_hazard(int hazard_id) throws Exception;
     void update_hazards(List<StationaryHazard> hazards, int ride_id) throws Exception;
     List<StationaryHazard> get_hazards_in_route(Route route);

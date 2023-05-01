@@ -35,9 +35,6 @@ public class UserController implements IUserController {
         this.serialsRepository = serialsRepository;
     }
 
-    public void load() {
-
-    }
 
     public void add_first_admin(String userEmail, String name, String lastName, String password, String phoneNumber, LocalDate birthDay, String gender) throws Exception {
         // TODO: 3/26/2023 : Remove comment 

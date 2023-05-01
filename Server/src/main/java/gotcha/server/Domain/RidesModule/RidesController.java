@@ -21,11 +21,6 @@ public class RidesController implements IRidesController {
         this.ridesRepository = ridesRepository;
     }
 
-    @Override
-    public void load() {
-        //TODO : Database
-    }
-
     /**
      *
      * @param finishRideRequest - information about the ride from RP

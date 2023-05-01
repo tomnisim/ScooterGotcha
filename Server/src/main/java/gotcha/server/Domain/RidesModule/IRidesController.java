@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface IRidesController {
-    void load();
 
     Ride add_ride(FinishRideRequest finishRideRequest, String userEmail, String originAddress, String destinationAddress) throws Exception;
 

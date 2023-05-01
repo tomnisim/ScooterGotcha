@@ -11,8 +11,6 @@ public class AdvertiseController implements IAdvertiseController {
         this.advertiseRepository = advertiseRepository;
     }
 
-    @Override
-    public void load() {}
 
     @Override
     public Advertise add_advertise(LocalDate final_date, String owner, String message, String photo, String url) throws Exception {
