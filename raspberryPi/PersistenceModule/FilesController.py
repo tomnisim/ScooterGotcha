@@ -1,5 +1,6 @@
 import json
 import os
+import pickle
 import uuid
 
 
@@ -22,9 +23,10 @@ class FilesController:
 
     #private
     def load_waiting_rides(self):
+        print("self.folder_name", self.folder_name)
         rides = []
         for file_name in os.listdir(self.folder_name):
-            if file_name.endswith(".json"):
+            if file_name.endswith(".json") and os.stat(f'{self.folder_name}\{file_name}').st_size > 0:
                 with open(os.path.join(self.folder_name, file_name), "r") as json_file:
                     ride = json.load(json_file)
                     rides.append(ride)
@@ -42,6 +44,8 @@ class FilesController:
         file_name = self._generate_file_name()
         # Convert the object to JSON format and store it in the file
         with open(os.path.join(self.folder_name, file_name), "w") as json_file:
+            # Serialize the object and write it to the file
+            # pickle.dump(ride, json_file)
             json.dump(ride, json_file, ensure_ascii=False, indent=4)
 
     def _generate_file_name(self):
