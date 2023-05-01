@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 from VideoProccessorModule.EventDetector import EventDetector
 from keras.models import load_model
@@ -80,9 +81,8 @@ class HazardDetector():
     def detect_potholes(self, frame , loc):
         detected_hazards = []
 
-        is_pothole = self.predict(frame)
+        is_pothole, size = self.predict(frame)
         if is_pothole:
-            size = 1  # default size
             pothole_hazard = Hazard(size, loc ,HazardType.Pothole, frame)
             detected_hazards.append(pothole_hazard)
         return detected_hazards
@@ -163,6 +163,19 @@ class HazardDetector():
         num_potholes = size[0]
         print("num of potholes:",num_potholes)
 
+        if num_potholes>0:
+            xyxy = boxes.numpy()
+            x1 = xyxy[0][0]
+            y1 = xyxy[0][1]
+            x2 = xyxy[0][2]
+            y2 = xyxy[0][3]
+            print(x1, y1, x2, y2)
+
+            hazard_size = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+        else:
+            hazard_size = 0
+
+
         scores = result.boxes.conf
         categories = result.boxes.cls
         scores = result.probs  # for classification models
@@ -172,7 +185,7 @@ class HazardDetector():
         render = render_result(model=self.potholes_model, image=image, result=result)
         render.show()
 
-        return num_potholes > 0
+        return num_potholes > 0 , hazard_size
 
 
 

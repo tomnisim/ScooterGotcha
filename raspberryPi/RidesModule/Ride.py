@@ -6,12 +6,13 @@ import datetime
 # from VideoProccessorModule.EventDetector import EventDetector
 # from VideoProccessorModule.HazardDetector import HazardDetector
 # from VideoProccessorModule.RoadDetector import RoadDetector
+from Utils.Logger import ride_logger
 
 
 class Ride:
 
     def __init__(self,  hazards, start_loc, destination_loc, start_time, finish_time, junctions):
-        print("Ride is build.")
+        ride_logger.info('Ride is build')
 
         self.hazards = hazards
         # self._events = events

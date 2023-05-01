@@ -7,7 +7,7 @@ import requests
 
 class Hazard():
     def __init__(self, size, location, type, frame):
-        self.size = size
+        self.size=size
         self.location = location
         self.type = type
 

@@ -91,7 +91,7 @@ def detect_hazrds_task(hazard_detector, alerter):
                 hazards_detect = True
                 # ADD to ride logger
             hazards_detect_msg = 'YES' if hazards_detect else 'NO'
-            ride_logger.info(f'frame in location : lan = {loc.longitude} , lng  = {loc.latitude} \n Time : {datetime.datetime.now()} \n hazard detected : {hazards_detect_msg}')
+            ride_logger.info(f'Frame -> Location : lan = {loc.longitude} , lng  = {loc.latitude} \n Time : {datetime.datetime.now()} \n hazard detected : {hazards_detect_msg}\n')
 
 
 
