@@ -32,7 +32,6 @@ def send_ride_to_server(ride):
     data = {"rpSerialNumber": rideDTO.rpSerialNumber,
     "origin": {"longitude":rideDTO.origin.longitude, "latitude":rideDTO.origin.latitude},
     "destination": {"longitude":rideDTO.destination.longitude, "latitude":rideDTO.destination.latitude},
-    "city" :  rideDTO.city,
     "startTime" :  rideDTO.startTime,
     "endTime" :  rideDTO.endTime,
     "hazards" :  rideDTO.hazards,

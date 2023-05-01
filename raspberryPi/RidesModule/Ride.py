@@ -31,8 +31,6 @@ class FinishRideRequest:
         self.endTime = ride.end_time.strftime("%Y-%m-%d;%H:%M")
 
         self.junctions = ride.junctions
-        # --
-        self.city = "temp"
         self.ridingActions = []
         self.rpSerialNumber = "first"
 
