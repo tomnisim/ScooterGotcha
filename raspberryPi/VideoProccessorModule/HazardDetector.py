@@ -79,6 +79,7 @@ class HazardDetector():
 
     def detect_potholes(self, frame , loc):
         detected_hazards = []
+
         is_pothole = self.predict(frame)
         if is_pothole:
             size = 1  # default size
@@ -128,13 +129,27 @@ class HazardDetector():
 
         return detected_hazards
 
+
+
+    def convert_frame_to_YOLO_input(self, frame):
+        # Assume that the frame variable contains the ndarray frame
+        img = Image.fromarray(frame)
+
+        # Resize the image to (640, 640)
+        img = img.resize((640, 640))
+
+        # Convert the image to mode RGB
+        img = img.convert('RGB')
+        return img
+
     def predict(self, frame):
         image = frame
+        image = self.convert_frame_to_YOLO_input(frame)
         # image = Image.open(frame)
         # image = Image.fromarray(frame)
 
         # Show image - for testing
-        # image.show()
+        image.show()
 
         # perform inference
         results = self.potholes_model(image)

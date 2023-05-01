@@ -14,7 +14,6 @@ class CameraController:
         self.clip = VideoFileClip('potholes_video_bs.mp4')
         self.frames_generator = self.clip.iter_frames()
         num_frames = len(list(self.clip.iter_frames()))
-        print(num_frames)
         if CameraController.__instance != None:
             raise Exception("Singleton class can only be instantiated once")
         else:

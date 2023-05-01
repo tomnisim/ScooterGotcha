@@ -17,14 +17,17 @@ from moviepy.editor import VideoFileClip
 import threading
 import time
 
-
+#get_frames_for_test
 clip = VideoFileClip('potholes_video_bs.mp4')
+# clip = VideoFileClip('potholes_bs.mp4')
 frames = list(clip.iter_frames(fps=1))
-print("amit",len(frames))
+print("number of frames : ",len(frames))
 DATASET_PATH = "keremberke/pothole-segmentation"
 ds = load_dataset(DATASET_PATH, name="full")
 example = ds['train'][0]
 # frames = [example['image'], example['image'], example['image']]
+
+
 
 junctions = []
 hazards = []
