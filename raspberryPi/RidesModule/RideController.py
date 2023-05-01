@@ -37,6 +37,8 @@ stop = False # TODO: change to True
 
 end_button = False # TODO: change to False
 def manage_end_button():
+    system_logger.info(f'Start thread manage_end_button')
+
     global end_button
     while True:
         end_button_mock = input("Push to end\n")
@@ -51,6 +53,8 @@ def manage_end_button():
 
 
 def collect_junctions_task(gps_controller):
+    system_logger.info(f'Start thread collect_junctions_task')
+
     global id
 
     global junctions
@@ -61,6 +65,8 @@ def collect_junctions_task(gps_controller):
         time.sleep(60)
 
 def get_frames_task(camera_controller, gps_controller):
+    system_logger.info(f'Start thread get_frames_task')
+
     global frames
     while not stop:
         image = camera_controller.get_next_frame()

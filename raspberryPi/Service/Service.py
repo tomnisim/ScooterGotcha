@@ -4,7 +4,7 @@ import math
 import struct
 import threading
 from datetime import time
-
+import keyboard
 # this import only works on a raspberry pi
 # import RPi.GPIO as GPIO
 
@@ -24,13 +24,29 @@ button_pin = 17
 # TODO: uncomment
 # GPIO.setmode(GPIO.BCM)
 # GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+start_button = False
+
+def on_key_press(event):
+    global start_button
+    if event.name == "s":
+        start_button = not start_button
+        print("Enter key was pressed")
+
+
+
+
+# Keep the program running
+while True:
+    pass
 
 start_button = False # TODO: change to False
 def manage_start_button():
+    system_logger.info(f'Start thread manage_start_button')
     global start_button
+    keyboard.on_press(on_key_press)
+    # global start_button
     while True:
-        start_button_mock = input("Push\n")
-        while start_button_mock != "s":
+        while not start_button:
             pass
         start_button = not start_button
 
