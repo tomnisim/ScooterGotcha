@@ -1,4 +1,4 @@
-import picamera
+# import picamera
 import time
 from moviepy.editor import VideoFileClip
 import numpy as np
@@ -10,7 +10,7 @@ i=0
 class CameraController:
     __instance = None
     def __init__(self):
-        self._camera = self.init_camera() # TODO: has to connect the RP camera
+        # self._camera = self.init_camera() # TODO: has to connect the RP camera
         system_logger.info(f'Camera Controller initialization')
         self.clip = VideoFileClip('potholes_video_bs.mp4')
         self.frames_generator = self.clip.iter_frames()
