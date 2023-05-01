@@ -29,7 +29,7 @@ class CameraController:
     # Initialize the camera
     def init_camera(self):
         camera = picamera.PiCamera()
-        camera.resolution = (640, 480)
+        camera.resolution = (640, 480) # TODO: maybe 640, 640 TODO
         camera.framerate = 30
         time.sleep(2)  # Give the camera some time to warm up
         return camera

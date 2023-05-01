@@ -29,7 +29,7 @@ start_button = False # TODO: change to False
 def manage_start_button():
     global start_button
     while True:
-        start_button_mock = input("Push")
+        start_button_mock = input("Push\n")
         while start_button_mock != "s":
             pass
         start_button = not start_button

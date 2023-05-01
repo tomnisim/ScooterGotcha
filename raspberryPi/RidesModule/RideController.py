@@ -10,7 +10,7 @@ from VideoProccessorModule.EventDetector import EventDetector
 from VideoProccessorModule.HazardDetector import HazardDetector
 from VideoProccessorModule.RoadDetector import RoadDetector
 
-from datasets import load_dataset
+# from datasets import load_dataset
 
 from moviepy.editor import VideoFileClip
 
@@ -23,8 +23,8 @@ clip = VideoFileClip('potholes_video_bs.mp4')
 frames = list(clip.iter_frames(fps=1))
 print("number of frames : ",len(frames))
 DATASET_PATH = "keremberke/pothole-segmentation"
-ds = load_dataset(DATASET_PATH, name="full")
-example = ds['train'][0]
+# ds = load_dataset(DATASET_PATH, name="full")
+# example = ds['train'][0]
 # frames = [example['image'], example['image'], example['image']]
 
 
@@ -36,13 +36,17 @@ id = 0
 stop = False # TODO: change to True
 
 end_button = False # TODO: change to False
-def manage_start_button():
+def manage_end_button():
     global end_button
     while True:
-        end_button_mock = input("Push")
+        end_button_mock = input("Push to end\n")
+        print("end_button_mock", end_button_mock)
         while end_button_mock != "f":
-            pass
-        end_button = not end_button
+            print("not pushed")
+            a=6
+        end_button = True
+        print("pushed -----------------------------------------------------")
+        # end_button = not end_button
 
 
 
@@ -66,6 +70,7 @@ def get_frames_task(camera_controller, gps_controller):
 
 
 def detect_hazrds_task(hazard_detector, alerter):
+    global stop
     global hazards
     global frames
 
@@ -77,6 +82,7 @@ def detect_hazrds_task(hazard_detector, alerter):
             # loc = Location(loc)
             loc = Location("23.34.23", "43.23.12")
             current_hazards = hazard_detector.detect_hazards_in_frame(frame, loc)
+            current_hazards =[]
             hazards_detect = False
             if len(current_hazards) > 0:
                 alerter.alert()
@@ -103,12 +109,16 @@ class RideController:
         self._road_detector = RoadDetector()
         self._hazard_detector = HazardDetector()
 
+
+
     def execute_ride(self):
+
         global stop
+        global end_button
         stop = False
 
         junctions_thread = threading.Thread(target=collect_junctions_task, args=(self._GPS_controller, ))
-        frames_thread = threading.Thread(target=get_frames_task, args=(self._camera_controller, self._GPS_controller))
+        # frames_thread = threading.Thread(target=get_frames_task, args=(self._camera_controller, self._GPS_controller))
         hazards_thread = threading.Thread(target=detect_hazrds_task, args=(self._hazard_detector, self.alerter))
 
         start_time = datetime.datetime.now()
@@ -122,11 +132,14 @@ class RideController:
         hazards_thread.start()
         # #TODO : remove join
         # hazards_thread.join()
-
+        # create thread that manage the live buttun
+        end_button_thread = threading.Thread(target=manage_end_button)
+        end_button_thread.start()
 
         # TODO: uncomment
         while not end_button:
-            pass
+            # print("7")
+            a=6
 
 
 
@@ -134,7 +147,7 @@ class RideController:
 
         finish_time=datetime.datetime.now()
         destination_loc =self._GPS_controller.get_location()
-
+        print("Ride finish - Create ride object")
         ride = Ride(hazards, start_loc, destination_loc, start_time, finish_time, junctions)
 
         return ride
