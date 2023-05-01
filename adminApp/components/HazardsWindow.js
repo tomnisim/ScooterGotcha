@@ -287,12 +287,6 @@ const columns = [
     width:200,
   },
   {
-    title: "photo",
-    dataIndex: "report",
-    key: "report",
-    width:200,
-  },
-  {
     title: "Photo",
     dataIndex: "",
     key: "photo",
