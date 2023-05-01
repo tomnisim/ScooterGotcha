@@ -27,8 +27,8 @@ def send_ride_to_server(ride):
             return 'No junctions in this route\n'
         res = ""
         junction_no=1
-        for j in junctions_list:
-            res+= f'-------Junction {junction_no}----------->  Location :  lan = {j.longitude} , lng = {j.latitude} \n '
+        for id , loc in junctions_list:
+            res+= f'-------Junction {junction_no}----------->  Location :  lan = {loc.longitude} , lng = {loc.latitude} \n '
             junction_no +=1
         return res
     def get_hazards_string(hazards_list):

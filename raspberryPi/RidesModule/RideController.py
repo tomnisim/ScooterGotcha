@@ -134,7 +134,7 @@ class RideController:
 
 
         # TODO: uncomment
-        # junctions_thread.start()
+        junctions_thread.start()
         # frames_thread.start()
         hazards_thread.start()
         # #TODO : remove join
