@@ -21,4 +21,4 @@ Use-Cases:
 https://docs.google.com/document/d/1si_7fUmPvq33w4m0BhnMzMid1lejun22/edit
 
 UML:
-https://drive.google.com/file/d/1F1jfwhJMyfHAKvEk57Lb5p482_jjP0A4/view?usp=sharing
+https://drive.google.com/file/d/1hZgU1qMvHQ4WFZHD3GUk8YIK9yGRKu4f/view?usp=sharing
