@@ -1,6 +1,7 @@
-# import picamera
+import picamera
 import time
 from moviepy.editor import VideoFileClip
+import numpy as np
 
 from Utils.Logger import system_logger
 
@@ -9,7 +10,7 @@ i=0
 class CameraController:
     __instance = None
     def __init__(self):
-        # self._camera = self.init_camera() # TODO: has to connect the RP camera
+        self._camera = self.init_camera() # TODO: has to connect the RP camera
         system_logger.info(f'Camera Controller initialization')
         self.clip = VideoFileClip('potholes_video_bs.mp4')
         self.frames_generator = self.clip.iter_frames()
@@ -34,8 +35,7 @@ class CameraController:
         time.sleep(2)  # Give the camera some time to warm up
         return camera
 
-    # Get the next frame from the camera
-    def get_next_frame(self):
+    def get_next_frame_test(self):
         global i
         frame = None
         try:
@@ -47,11 +47,22 @@ class CameraController:
         i+=1
         return frame
 
+    # Get the next frame from the camera
+    def get_next_frame(self):
+        # create camera object
+        camera = picamera.PiCamera()
 
-        # # Create a bytes buffer for the image data
-        # frame_data = bytearray()
-        # camera.capture(frame_data, 'jpeg')
-        # return frame_data
+        # set camera resolution
+        camera.resolution = (640, 640)
+
+        # create numpy array to hold frame data
+        frame = np.empty((640 * 640 * 3,), dtype=np.uint8)
+
+        # capture frame
+        camera.capture(frame, format='rgb')
+
+        # reshape frame data into 3D array (height x width x channels)
+        frame = frame.reshape((640, 640, 3))
 
     # def take_still_picture(self):
     #     self.camera.start_preview()
