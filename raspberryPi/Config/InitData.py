@@ -1,27 +1,25 @@
 import configparser
 
-from PersistenceModule.CommunicationController import CommunicationController, get_rp_config_file
-
-# all variables
 # method that change the values according to server
-
+from PersistenceModule.CommunicationController import get_rp_config_file
 
 serialNumber = ""
 number_of_coordinates = ""
 SERVER_ADDRESS = ""
 minimum_distance_to_alert = ""
-alert_duration = ""
+alert_duration = 0
 alert_type = ""
 number_of_routes = ""
+time_between_junctions = ""
 
 
-class InitData():
+class InitData:
     def __init__(self):
         self.set_serial()
-        self.read_from_config()
-        self.get_config_data()
+        self.read_config_from_default()
+        self.read_config_from_server()
 
-    def get_config_data(self):
+    def read_config_from_server(self):
         config_data = get_rp_config_file()
         if config_data is False:
             pass
@@ -29,13 +27,14 @@ class InitData():
             self.set_data(config_data)
 
     def set_serial(self):
-        filename = "C:/Users/amitm/Desktop/SemH/ScooterGotcha/raspberryPi/Config/serial.txt"
+        filename = "Config\serial.txt"
         global serialNumber
         with open(filename, "r") as f:
             serialNumber = f.read().strip()
 
-    def read_from_config(self):
-        filename = "C:/Users/amitm/Desktop/SemH/ScooterGotcha/raspberryPi/Config/default_config.txt"
+    def read_config_from_default(self):
+        global alert_duration
+        filename = "Config/default_config.txt"
         # read
         config = configparser.ConfigParser()
         config.read(filename)
@@ -54,8 +53,7 @@ class InitData():
         # Appendix A
         global minimum_distance_to_alert
         minimum_distance_to_alert = config['ScooterAppendixA']['minimum_distance_to_alert']
-        global alert_duration
-        alert_duration = config['ScooterAppendixA']['alert_duration']
+        alert_duration = int(config['ScooterAppendixA']['alert_duration'])
         global alert_type
         alert_type = config['ScooterAppendixA']['alert_type']
 

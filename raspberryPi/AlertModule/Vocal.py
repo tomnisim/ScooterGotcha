@@ -8,9 +8,8 @@ from Utils.Logger import system_logger
 
 
 class Vocal(Alert):
-    def __init__(self):
+    def __init__(self, duration):
 
-        duration = 10
         power = 10
 
         super().__init__(duration, power)
@@ -18,9 +17,8 @@ class Vocal(Alert):
 
     def alert(self):
         frequency = 40
-        duration = 500
-        system_logger.info(f'Vocal alert -> frequancy: {frequency}, duration: {duration}')
+        system_logger.info(f'Vocal alert -> frequancy: {frequency}, duration: {self.duration*100}')
         # Play a simple beep sound
-        winsound.Beep(frequency, duration)
+        winsound.Beep(frequency, self.duration)
         time.sleep(2)  # wait for 2 seconds to avoid repeated alerts
 
