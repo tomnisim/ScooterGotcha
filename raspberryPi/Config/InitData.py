@@ -1,21 +1,19 @@
 import configparser
 
-from PersistenceModule.CommunicationController import CommunicationController, get_rp_config_file
-
-# all variables
 # method that change the values according to server
-
+from PersistenceModule.CommunicationController import get_rp_config_file
 
 serialNumber = ""
 number_of_coordinates = ""
 SERVER_ADDRESS = ""
 minimum_distance_to_alert = ""
-alert_duration = ""
+alert_duration = 0
 alert_type = ""
 number_of_routes = ""
+time_between_junctions = ""
 
 
-class InitData():
+class InitData:
     def __init__(self):
         self.set_serial()
         self.read_config_from_default()
@@ -35,6 +33,7 @@ class InitData():
             serialNumber = f.read().strip()
 
     def read_config_from_default(self):
+        global alert_duration
         filename = "Config/default_config.txt"
         # read
         config = configparser.ConfigParser()
@@ -54,8 +53,7 @@ class InitData():
         # Appendix A
         global minimum_distance_to_alert
         minimum_distance_to_alert = config['ScooterAppendixA']['minimum_distance_to_alert']
-        global alert_duration
-        alert_duration = config['ScooterAppendixA']['alert_duration']
+        alert_duration = int(config['ScooterAppendixA']['alert_duration'])
         global alert_type
         alert_type = config['ScooterAppendixA']['alert_type']
 

@@ -3,7 +3,8 @@ from VideoProccessorModule.EventDetector import EventDetector
 
 class RoadDetector():
     def __init__(self):
-        print("road detector build.")
+        # print("road detector build.")
+        pass
 
 
     def detect(self, frame, sidewalk, roadway):
