@@ -5,10 +5,7 @@ import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -67,25 +64,53 @@ public class RidesRepository {
     }
 
     public Ride getRideFromDb(int rideId) throws Exception {
-        var result = ridesJpaRepository.findById(rideId);
-        if (result.isPresent()) {
-            return result.get();
-        }
-        else {
+        var rideOpt = ridesJpaRepository.findById(rideId);
+        if (rideOpt.isPresent()) {
+            Ride ride = rideOpt.get();
+
+            Optional<Ride> rideWithActionsOpt = ridesJpaRepository.findByIdWithActions(ride.getRide_id());
+            Optional<Ride> rideWithJunctionsOpt = ridesJpaRepository.findByIdWithJunctions(ride.getRide_id());
+
+            if (rideWithActionsOpt.isPresent()) {
+                ride.setActions(rideWithActionsOpt.get().getActions());
+            }
+            else {
+                ride.setActions(new ArrayList<>());
+            }
+
+            if (rideWithJunctionsOpt.isPresent()) {
+                ride.setJunctions(rideWithJunctionsOpt.get().getJunctions());
+            }
+            else {
+                ride.setJunctions(new ArrayList<>());
+            }
+
+            return ride;
+        } else {
             throw new Exception("ride with id:" + rideId + " not found");
         }
     }
 
     public void LoadFromDB() {
-        var ridesWithActions = ridesJpaRepository.findAllWithActions();
-        var ridesWithJunctions = ridesJpaRepository.findAllWithJunctions();
+        var ridesInDb = ridesJpaRepository.findAll();
+        for (Ride ride : ridesInDb) {
+            Optional<Ride> rideWithActionsOpt = ridesJpaRepository.findByIdWithActions(ride.getRide_id());
+            Optional<Ride> rideWithJunctionsOpt = ridesJpaRepository.findByIdWithJunctions(ride.getRide_id());
 
-        Map<Integer, Ride> ridesWithJunctionsById = ridesWithJunctions.stream()
-                .collect(Collectors.toMap(Ride::getRide_id, Function.identity()));
+            if (rideWithActionsOpt.isPresent()) {
+                ride.setActions(rideWithActionsOpt.get().getActions());
+            }
+            else {
+                ride.setActions(new ArrayList<>());
+            }
 
-        for (var ride : ridesWithActions) {
-            Ride rideWithJunctions = ridesWithJunctionsById.get(ride.getRide_id());
-            ride.setJunctions(rideWithJunctions.getJunctions());
+            if (rideWithJunctionsOpt.isPresent()) {
+                ride.setJunctions(rideWithJunctionsOpt.get().getJunctions());
+            }
+            else {
+                ride.setJunctions(new ArrayList<>());
+            }
+
             rides.put(ride.getRide_id(), ride);
             rides_by_rider.computeIfAbsent(ride.getRider_email(), k -> new HashMap<>()).putIfAbsent(ride.getRide_id(), ride);
         }

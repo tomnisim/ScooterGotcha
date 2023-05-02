@@ -203,10 +203,10 @@ public class MainSystem {
             userController.add_first_admin("admin12@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
             userController.add_first_admin("admin123@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         }
-//        FinishRideRequest finishRideReq = new FinishRideRequest("first", new LocationDTO(origin), new LocationDTO(dest), "Netanya", start_time, start_time.plusMinutes(47), hazards, new ArrayList<>(), new ArrayList<>());
-//        FinishRideRequest finishRideReq2 = new FinishRideRequest("first", new LocationDTO(hazard_location2), new LocationDTO(hazard_location3), "Tel-Aviv", start_time, start_time.plusMinutes(47), hazards, new ArrayList<>(), new ArrayList<>());
-//        ridesController.add_ride(finishRideReq, "email@gmail.com", originAddress, destAddress);
-//        ridesController.add_ride(finishRideReq2, "email@gmail.com", originAddress1, destAddress1);
+        FinishRideRequest finishRideReq = new FinishRideRequest("first", new LocationDTO(origin), new LocationDTO(dest), start_time, start_time.plusMinutes(47), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        FinishRideRequest finishRideReq2 = new FinishRideRequest("first", new LocationDTO(hazard_location2), new LocationDTO(hazard_location3), start_time, start_time.plusMinutes(47), hazards, new ArrayList<>(), new ArrayList<>());
+        ridesController.add_ride(finishRideReq, "email@gmail.com", originAddress, destAddress, "Netanya");
+        ridesController.add_ride(finishRideReq2, "email@gmail.com", originAddress1, destAddress1,"Tel-Aviv");
        userController.send_question_to_admin("email@gmail.com", "Happy Birthday");
        userController.send_question_to_admin("email@gmail.com", "Happy Birthday with answer");
         //this.questionController.answer_user_question(1, "because", "admin@admin.com");
