@@ -53,7 +53,7 @@ class InitData:
         # Appendix A
         global minimum_distance_to_alert
         minimum_distance_to_alert = config['ScooterAppendixA']['minimum_distance_to_alert']
-        alert_duration = int(config['ScooterAppendixA']['alert_duration'])
+        alert_duration = config['ScooterAppendixA']['alert_duration']
         global alert_type
         alert_type = config['ScooterAppendixA']['alert_type']
 
