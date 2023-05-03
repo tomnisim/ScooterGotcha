@@ -92,7 +92,7 @@ def detect_hazards_task(hazard_detector, alerter):
             # TODO: uncomment
             # loc, frame = frames.pop(0)
             frame = frames.pop(0)
-            loc = Location("23.34.23", "43.23.12")
+            loc = Location("23.34", "43.23")
             current_hazards = hazard_detector.detect_hazards_in_frame(frame, loc)
             # current_hazards = []
             hazards_detect = False

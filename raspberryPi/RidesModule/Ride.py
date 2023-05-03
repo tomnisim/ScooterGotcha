@@ -12,7 +12,8 @@ from VideoProccessorModule.Hazard import Hazard
 
 
 def to_dto(ride):
-    rideDTO = vars(FinishRideRequest(ride))
+    finish_ride_request = FinishRideRequest(ride)
+    rideDTO = vars(finish_ride_request )
     return rideDTO
 
 
@@ -69,15 +70,15 @@ class FinishRideRequest:
         self.endTime = self.serialize_time(ride.end_time)
         self.junctions = self.serialize_junctions(ride.junctions)
         self.ridingActions = []
-        self.rpSerialNumber = "first12345"
+        self.rpSerialNumber = "first"
 
     def serialize_hazards(self,hazards):
         hazard_lst=[]
         for hazard in hazards:
             hazard_data = {'type': 'hazard.type',
                            'location': self.serialize_location(hazard.location),
-                           'size':hazard.size}
-                           # 'frame':hazard.frame}
+                           'size':str(hazard.size),
+                           'frame':hazard.frame}
             hazard_lst.append(hazard_data)
         return hazard_lst
 
