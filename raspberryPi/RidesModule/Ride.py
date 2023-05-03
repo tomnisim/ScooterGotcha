@@ -9,6 +9,9 @@ import datetime
 from Utils.Logger import ride_logger
 
 
+def to_dto(ride):
+    rideDTO = vars(FinishRideRequest(ride))
+    return rideDTO
 class Ride:
 
     def __init__(self,  hazards, start_loc, destination_loc, start_time, finish_time, junctions):
@@ -22,9 +25,7 @@ class Ride:
         self.end_time = finish_time
         self.junctions = junctions
 
-    def to_dto(self):
-        rideDTO = vars(FinishRideRequest(self))
-        return rideDTO
+
 
 class FinishRideRequest:
     def __init__(self, ride):

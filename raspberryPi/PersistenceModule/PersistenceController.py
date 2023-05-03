@@ -1,6 +1,6 @@
 from PersistenceModule.CommunicationController import send_ride_to_server
 from PersistenceModule.FilesController import FilesController
-from RidesModule.Ride import Ride
+from RidesModule.Ride import Ride, to_dto
 from Utils.Logger import system_logger
 
 class PersistenceController():
@@ -14,9 +14,7 @@ class PersistenceController():
         waiting_rides.append(ride)
         self.files_controller.clear_waiting_rides()
         for waiting_ride in waiting_rides:
-            print(waiting_ride)
-            print(ride)
-            rideDTO = ride.to_dto()
+            rideDTO = to_dto(ride)
             success = send_ride_to_server(waiting_ride, rideDTO)
             if not success:
                 system_logger.info(f'failed to send ride that start at {ride.start_time} to server')
