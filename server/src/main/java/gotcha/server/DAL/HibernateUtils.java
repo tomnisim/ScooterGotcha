@@ -11,12 +11,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class HibernateUtils {
-    public static void set_tests_mode() {
-    }
-
-    public static void set_normal_use() {
-    }
-
     public static Map<Integer, Question> get_questions() {
         return new Map<Integer, Question>() {
             @Override

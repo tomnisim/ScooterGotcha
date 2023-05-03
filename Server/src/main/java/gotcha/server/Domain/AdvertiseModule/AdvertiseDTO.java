@@ -1,19 +1,17 @@
 package gotcha.server.Domain.AdvertiseModule;
 
-import java.time.LocalDate;
-
 /**
- * this DAO is for RIDER application.
+ * this DTO is for Server -> RIDER application.
  */
-public class AdvertiseDAO {
+public class AdvertiseDTO {
 
     private String message;
     private String photo;
     private String url;
     private int id;
 
-    public AdvertiseDAO(){}
-    public AdvertiseDAO(Advertise advertise){
+    public AdvertiseDTO(){}
+    public AdvertiseDTO(Advertise advertise){
         this.message = advertise.getMessage();
         this.photo = advertise.getPhoto();
         this.url = advertise.getUrl();

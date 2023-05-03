@@ -1,17 +1,17 @@
 package gotcha.server.Domain.QuestionsModule;
 
 /**
- * this DAO is for RIDER application.
+ * this DTO is for Server -> RIDER application.
  */
-public class QuestionDAO {
+public class QuestionDTO {
     private String message_date;
     private String answer_date;
 
     private String message;
     private String answer;
 
-    public QuestionDAO(){}
-    public QuestionDAO(Question question){
+    public QuestionDTO(){}
+    public QuestionDTO(Question question){
         this.answer = question.getAnswer();
         this.message = question.getMessage();
         this.message_date = question.getMessage_date().toString();

@@ -100,8 +100,7 @@ export default function MyRidesScreen({navigation}) {
   }
 
   function formatMetersToKM(meters) {
-    const kilometers = meters / 1000;
-    return kilometers.toFixed(3);
+    return meters.toFixed(3);
   }
 
 

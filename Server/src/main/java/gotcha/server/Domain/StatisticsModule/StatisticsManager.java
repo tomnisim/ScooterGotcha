@@ -15,11 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 @Component
@@ -86,9 +83,9 @@ public class StatisticsManager implements iStatisticsManager {
     }
 
     @Override
-    public DailyStatisticDAO get_current_daily_statistic() {
+    public DailyStatisticDTO get_current_daily_statistic() {
         update_daily_statistic();
-        return this.current_daily_statistic.getDAO();
+        return this.current_daily_statistic.getDTO();
     }
 
     @Override
@@ -98,10 +95,10 @@ public class StatisticsManager implements iStatisticsManager {
     }
 
     @Override
-    public List<DailyStatisticDAO> get_all_daily_statistic() {
-        ArrayList<DailyStatisticDAO> list_to_return = new ArrayList<>();
+    public List<DailyStatisticDTO> get_all_daily_statistic() {
+        ArrayList<DailyStatisticDTO> list_to_return = new ArrayList<>();
         for (DailyStatistic dailyStatistic : dailyStatisticsRepository.getAllStatistics()){
-            list_to_return.add(dailyStatistic.getDAO());
+            list_to_return.add(dailyStatistic.getDTO());
         }
         return list_to_return;
     }

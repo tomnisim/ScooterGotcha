@@ -155,11 +155,15 @@ const columns = [
     key: "id",
     width: 200,
   },
+
   {
-    title: "emails",
+    title: "Emails",
     dataIndex: "emails",
     key: "emails",
-    width:200,
+    width: 200,
+    render: (emails) => {
+      return emails.join(", ");
+    },
   },
   {
     title: "Award Message",

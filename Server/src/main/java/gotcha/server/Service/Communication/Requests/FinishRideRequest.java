@@ -2,6 +2,7 @@ package gotcha.server.Service.Communication.Requests;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
+import gotcha.server.Domain.HazardsModule.StationaryHazardRPDTO;
 import gotcha.server.Domain.RidesModule.RidingAction;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.LocationDTO;
@@ -13,12 +14,11 @@ public class FinishRideRequest {
     private String rpSerialNumber;
     private LocationDTO origin;
     private LocationDTO destination;
-    private String city;
     @JsonFormat(pattern="yyyy-MM-dd;HH:mm", timezone="UTC")
     private LocalDateTime startTime;
     @JsonFormat(pattern="yyyy-MM-dd;HH:mm", timezone="UTC")
     private LocalDateTime endTime;
-    List<StationaryHazard> hazards;
+    List<StationaryHazardRPDTO> hazards;
     List<RidingAction> ridingActions;
     List<LocationDTO> junctions;
 
@@ -26,13 +26,12 @@ public class FinishRideRequest {
     // Default Constructor
 
     public FinishRideRequest() {}
-    public FinishRideRequest(String rpSerialNumber, LocationDTO origin, LocationDTO destination, String city,
-                             LocalDateTime startTime, LocalDateTime endTime, List<StationaryHazard> hazards,
+    public FinishRideRequest(String rpSerialNumber, LocationDTO origin, LocationDTO destination,
+                             LocalDateTime startTime, LocalDateTime endTime, List<StationaryHazardRPDTO> hazards,
                              List<RidingAction> ridingActions, List<LocationDTO> junctions) {
         this.rpSerialNumber = rpSerialNumber;
         this.origin = origin;
         this.destination = destination;
-        this.city = city;
         this.startTime = startTime;
         this.endTime = endTime;
         this.hazards = hazards;
@@ -73,14 +72,6 @@ public class FinishRideRequest {
         this.destination = destination;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -97,11 +88,11 @@ public class FinishRideRequest {
         this.endTime = endTime;
     }
 
-    public List<StationaryHazard> getHazards() {
+    public List<StationaryHazardRPDTO> getHazards() {
         return hazards;
     }
 
-    public void setHazards(List<StationaryHazard> hazards) {
+    public void setHazards(List<StationaryHazardRPDTO> hazards) {
         this.hazards = hazards;
     }
 

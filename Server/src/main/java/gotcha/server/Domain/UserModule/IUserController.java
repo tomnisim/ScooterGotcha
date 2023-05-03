@@ -1,12 +1,10 @@
 package gotcha.server.Domain.UserModule;
 
-import gotcha.server.Domain.AdvertiseModule.Advertise;
 import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
 import gotcha.server.Utils.Observable;
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 
 public interface IUserController extends Observable {
@@ -18,9 +16,9 @@ public interface IUserController extends Observable {
     void appoint_new_admin(String newAdminEmail,String name, String lastName, String password, String phoneNumber, LocalDate birthDay, String gender, String appointingAdminEmail) throws Exception;
     void reply_to_user_question(String adminEmail, String reply, int question_id) throws Exception;
     void send_question_to_admin(String userEmail, String message) throws Exception;
-    List<AdminDAO> view_admins();
-    List<RiderDAO> get_all_riders();
-    List<WaitingRaspberryPiDAO> get_waiting_rp();
+    List<AdminDTO> view_admins();
+    List<RiderDTO> get_all_riders();
+    List<WaitingRaspberryPiDTO> get_waiting_rp();
     void add_rp_serial_number(String rpSerial) throws Exception;
     void change_password(String userEmail, String oldPassword, String newPassword) throws Exception;
     void remove_admin_appointment(String user_email, String admin_email) throws Exception;

@@ -73,6 +73,7 @@ public class HazardRepository {
 
     public void updateHazard(StationaryHazard hazardToUpdate, double newSize) {
         hazardToUpdate.setSize(newSize);
+        hazardToUpdate.setReport(false);
         hazardJpaRepository.save(hazardToUpdate);
     }
 

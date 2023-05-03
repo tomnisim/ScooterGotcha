@@ -1,9 +1,7 @@
 package gotcha.server.Domain.SafeRouteCalculatorModule;
 
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
-import gotcha.server.Domain.HazardsModule.StationaryHazardDAO;
 import gotcha.server.Utils.Location;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

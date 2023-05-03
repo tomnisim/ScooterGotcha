@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface IAdvertiseController {
-    void load();
-
     Advertise add_advertise(LocalDate final_date, String owner, String message, String photo, String url) throws Exception;
 
     void remove_advertise(int advertise_id) throws Exception;
@@ -14,7 +12,7 @@ public interface IAdvertiseController {
 
     List<Advertise> get_all_advertisements_for_admin();
 
-    List<AdvertiseDAO> get_all_advertisements_for_user();
+    List<AdvertiseDTO> get_all_advertisements_for_user();
 
     void add_click(int id) throws Exception;
 }

@@ -32,7 +32,7 @@ public class AddAwardRequest {
     @Override
     public String toString() {
         return "AddAwardRequest{" +
-                "emails=" + emails +
+                "emails=" + emails.toString() +
                 ", award='" + award + '\'' +
                 '}';
     }

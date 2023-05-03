@@ -37,23 +37,27 @@ public class StationaryHazard {
     @Column(name="report")
     private boolean report;
 
-    // TODO: 28/04/2023 : Add photo field.
+    @Lob
+    @Column(name = "photo", columnDefinition = "BLOB")
+    private byte[] photo;
 
 
 
-
-    public StationaryHazard(int ride_id, Location location, String city, HazardType type, double size) {
+    public StationaryHazard(int ride_id, Location location, String city, HazardType type, double size, byte[] photo) {
         this.ride_id = ride_id;
         this.location = location;
         this.city = city;
         this.type = type;
         this.size = size;
+        this.photo = photo;
         this.report = false;
-        this.setRate();
+        this.calculateRate();
     }
 
     // Default Constructor for deserialization
     public StationaryHazard() {}
+
+
 
 
     public int getId() {
@@ -102,10 +106,14 @@ public class StationaryHazard {
     public double getRate() {
         return rate;
     }
-    public void setRate() {
+    public void calculateRate() {
         HazardRateCalculator hazardRateCalculator = HazardRateCalculator.get_instance();
         this.rate = hazardRateCalculator.rate_hazard(this);
 
+    }
+
+    public void setRate(double rate) {
+        this.rate = rate;
     }
 
     public boolean isReport() {
@@ -116,7 +124,15 @@ public class StationaryHazard {
         this.report = report;
     }
 
-    public StationaryHazardDAO getDAO(){
-        return new StationaryHazardDAO(this);
+    public StationaryHazardDTO getDTO(){
+        return new StationaryHazardDTO(this);
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 }

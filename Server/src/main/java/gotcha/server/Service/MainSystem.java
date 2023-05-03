@@ -22,6 +22,7 @@ import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.SystemLogger;
 import gotcha.server.Utils.Threads.HazardsReporterThread;
 import gotcha.server.Utils.Threads.StatisticsUpdateThread;
+import gotcha.server.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -65,9 +66,6 @@ public class MainSystem {
     public void init_server() throws Exception {
         systemLogger.add_log("Start Init Server");
         connect_to_external_services();
-        create_rp_config_file();
-        connect_database();
-        load_database();
 //        if (configuration.getFirstTimeRunning())
 //            set_first_admin();
         set_statistics_update_thread();
@@ -109,50 +107,7 @@ public class MainSystem {
     }
 
 
-    /**
-     * this method init system database,
-     * if the demo option on, the system will init data from the data config file,
-     *      the init can failed and system keep running without data.
-     * if the real option on, the method will try to connect the real database.
-     * DATABASE_MODE - configuration instruction - "database:demo" or "database:real".
-     * @throws ExitException if the connection to DB fail OR wrong format of the config instruction.
-     */
 
-
-    private void connect_database() throws ExitException {
-        if (configuration.getDatabaseMode().equals("tests")){
-            // TODO: 30/12/2022 : have to connect to DB with DB_URL & DB_password.
-//            System.out.println(configuration.getDatabaseUrl());
-//            System.out.println(configuration.getDatabasePassword());
-            HibernateUtils.set_tests_mode();
-            systemLogger.add_log("Tests Database Connected Successfully");
-        }
-
-        else if (configuration.getDatabaseMode().equals("real")){
-            // TODO: 30/12/2022 : have to connect to DB with DB_URL & DB_password.
-//            System.out.println(configuration.getDatabaseUrl());
-//            System.out.println(configuration.getDatabasePassword());
-            HibernateUtils.set_normal_use();
-            systemLogger.add_log("Real Database Connected Successfully");
-
-        }
-        else {
-            throw new ExitException("System Config File - Illegal Database Mode.");
-        }
-    }
-
-    // TODO: Not sure we need to load the database here, Need to create a Repository object according to Spring Boot guidelines to access DB
-    private void load_database() {
-        // TODO: 29/12/2022 : load all controllers & set admins in the system.
-        userController.load();
-        hazardController.load();
-        ridesController.load();
-        advertiseController.load();
-    }
-
-    private void create_rp_config_file() {
-//        System.out.println(configuration.getMinimumDistanceAlert());
-    }
     private void set_first_admin() throws Exception {
         LocalDate birth_date = LocalDate.now();
         userController.add_first_admin(configuration.getAdminUserName(), "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
@@ -202,15 +157,22 @@ public class MainSystem {
         Location dest222 = new Location(lng222, lat222);
 
         ArrayList hazards = new ArrayList();
+        byte[] photo = Utils.getPhoto();
+
+
+
+
+        //this.hazardController.add_hazard(515, origin, "Tel-Aviv", HazardType.PoleTree, 16.5, photo);
+
 
         LocalDateTime start_time = LocalDateTime.now();
         if (this.hazardController.isDbEmpty()) {
-            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5);
-            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 7);
-            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 12);
-            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12);
-            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14);
-            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3);
+//            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5);
+//            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 7);
+//            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 12);
+//            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12);
+//            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14);
+//            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3);
         }
         LocalDate birth_date = LocalDate.of(1995, 05 , 05);
         LocalDate issue = LocalDate.of(2025, 05 , 05);
@@ -241,10 +203,10 @@ public class MainSystem {
             userController.add_first_admin("admin12@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
             userController.add_first_admin("admin123@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         }
-        FinishRideRequest finishRideReq = new FinishRideRequest("first", new LocationDTO(origin), new LocationDTO(dest), "Netanya", start_time, start_time.plusMinutes(47), hazards, new ArrayList<>(), new ArrayList<>());
-        FinishRideRequest finishRideReq2 = new FinishRideRequest("first", new LocationDTO(hazard_location2), new LocationDTO(hazard_location3), "Tel-Aviv", start_time, start_time.plusMinutes(47), hazards, new ArrayList<>(), new ArrayList<>());
-        ridesController.add_ride(finishRideReq, "email@gmail.com", originAddress, destAddress);
-        ridesController.add_ride(finishRideReq2, "email@gmail.com", originAddress1, destAddress1);
+        FinishRideRequest finishRideReq = new FinishRideRequest("first", new LocationDTO(origin), new LocationDTO(dest), start_time, start_time.plusMinutes(47), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        FinishRideRequest finishRideReq2 = new FinishRideRequest("first", new LocationDTO(hazard_location2), new LocationDTO(hazard_location3), start_time, start_time.plusMinutes(47), hazards, new ArrayList<>(), new ArrayList<>());
+        ridesController.add_ride(finishRideReq, "email@gmail.com", originAddress, destAddress, "Netanya");
+        ridesController.add_ride(finishRideReq2, "email@gmail.com", originAddress1, destAddress1,"Tel-Aviv");
        userController.send_question_to_admin("email@gmail.com", "Happy Birthday");
        userController.send_question_to_admin("email@gmail.com", "Happy Birthday with answer");
         //this.questionController.answer_user_question(1, "because", "admin@admin.com");

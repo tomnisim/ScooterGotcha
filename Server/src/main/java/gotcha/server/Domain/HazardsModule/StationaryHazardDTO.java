@@ -1,12 +1,10 @@
 package gotcha.server.Domain.HazardsModule;
 
-import gotcha.server.Domain.RatingModule.HazardRateCalculator;
-import gotcha.server.Utils.Location;
 /**
- * this DAO is for Admin application.
+ * this DTO is Server -> Admin & Rider application.
  */
 
-public class StationaryHazardDAO {
+public class StationaryHazardDTO {
     private int id;
     private int ride_id;
     private String location;
@@ -17,10 +15,11 @@ public class StationaryHazardDAO {
     private String report;
     private double lat;
     private double lng;
+    private byte[] photo;
 
-    public StationaryHazardDAO(){}
+    public StationaryHazardDTO(){}
 
-    public StationaryHazardDAO(StationaryHazard stationaryHazard) {
+    public StationaryHazardDTO(StationaryHazard stationaryHazard) {
         this.id = stationaryHazard.getId();
         this.ride_id = stationaryHazard.getRide_id();
         this.location = stationaryHazard.getLocation().toString();
@@ -30,6 +29,7 @@ public class StationaryHazardDAO {
         this.type = stationaryHazard.getType();
         this.size = stationaryHazard.getSize();
         this.rate = stationaryHazard.getRate();
+        this.photo = stationaryHazard.getPhoto();
         if (stationaryHazard.isReport()){
             this.report = "Yes";
         }
@@ -114,5 +114,13 @@ public class StationaryHazardDAO {
 
     public void setLng(double lng) {
         this.lng = lng;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 }

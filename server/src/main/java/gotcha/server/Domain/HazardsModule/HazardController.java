@@ -29,14 +29,10 @@ public class HazardController implements IHazardController {
         this.reporterAdapter = reporterAdapter;
      }
 
-    @Override
-    public void load(){
-        systemLogger.add_log("Hazard controller loaded successfully");
-    }
 
     @Override
-    public void add_hazard(int rideId, Location location, String city, HazardType type, double size) throws Exception {
-        var newHazard = new StationaryHazard(rideId, location, city, type, size);
+    public void add_hazard(int rideId, Location location, String city, HazardType type, double size, byte[] photo) throws Exception {
+        var newHazard = new StationaryHazard(rideId, location, city, type, size, photo);
         this.hazardRepository.addHazard(newHazard);
     }
 
@@ -70,20 +66,21 @@ public class HazardController implements IHazardController {
      * else, add this hazard.
      * @param hazards
      * @param ride_id
-     */
+     * @param city
+     * */
     @Override
-    public void update_hazards(List<StationaryHazard> hazards, int ride_id) throws Exception {
-        for (StationaryHazard hazard : hazards){
-            Location location = hazard.getLocation();
-            String city = hazard.getCity();
-            HazardType type = hazard.getType();
+    public void update_hazards(List<StationaryHazardRPDTO> hazards, int ride_id, String city) throws Exception {
+        for (StationaryHazardRPDTO hazard : hazards){
+            Location location = new Location(hazard.getLocation());
+            HazardType type = HazardType.valueOf(hazard.getType());
             double size = hazard.getSize();
             StationaryHazard current = find_hazard_if_exist(location, city, type);
             if (current == null){
-                add_hazard(hazard.getRide_id(), hazard.getLocation(), hazard.getCity(), hazard.getType(), hazard.getSize());
+                add_hazard(ride_id, location, city, type, size, hazard.getFrame());
             }
-            else
+            else{
                 update_hazard(current, size);
+            }
         }
     }
 
@@ -101,11 +98,11 @@ public class HazardController implements IHazardController {
 
 
 
-    public List<StationaryHazardDAO> get_hazards(String city){
-        LinkedList<StationaryHazardDAO> list = new LinkedList<>();
+    public List<StationaryHazardDTO> get_hazards(String city){
+        LinkedList<StationaryHazardDTO> list = new LinkedList<>();
         for (StationaryHazard stationaryHazard : hazardRepository.getAllHazards()){
             if (stationaryHazard.getCity().equals(city)){
-                list.add(new StationaryHazardDAO(stationaryHazard));
+                list.add(new StationaryHazardDTO(stationaryHazard));
             }
         }
         return list;
@@ -162,10 +159,10 @@ public class HazardController implements IHazardController {
 
     @Override
 
-    public Collection<StationaryHazardDAO> view_hazards() {
-        Collection<StationaryHazardDAO> list_to_return = new ArrayList<>();
+    public Collection<StationaryHazardDTO> view_hazards() {
+        Collection<StationaryHazardDTO> list_to_return = new ArrayList<>();
         for (StationaryHazard stationaryHazard : hazardRepository.getAllHazards()){
-            list_to_return.add(stationaryHazard.getDAO());
+            list_to_return.add(stationaryHazard.getDTO());
         }
         return list_to_return;
     }
@@ -197,6 +194,8 @@ public class HazardController implements IHazardController {
         }
         return ids;
     }
+
+
 
 
     public ReporterAdapter getReporterAdapter() {

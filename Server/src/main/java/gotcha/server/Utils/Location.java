@@ -8,7 +8,6 @@ import java.util.Objects;
 
 @Embeddable
 public class Location {
-    // TODO: 31/03/2023 : move to configuration.
     @Transient
     private final double RADIOS = 0.01; // KILOMETER.
     

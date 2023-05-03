@@ -4,7 +4,7 @@ import java.time.LocalDate;
 /**
  * this DAO is for RIDER & ADMIN applications.
  */
-public class RiderDAO {
+public class RiderDTO {
     private double rating;
     private String scooterType;
     private LocalDate licenceIssueDate;
@@ -17,9 +17,9 @@ public class RiderDAO {
     private String lastName;
     private String loggedIn;
 
-    public RiderDAO(){}
+    public RiderDTO(){}
 
-    public RiderDAO(Rider rider){
+    public RiderDTO(Rider rider){
         this.rating = rider.getRating();
         this.gender = rider.get_gender();
         this.userEmail = rider.get_email();

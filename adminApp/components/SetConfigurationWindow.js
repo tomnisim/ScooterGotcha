@@ -23,7 +23,12 @@ export default function SetConfigurationWindow({navigation}) {
   const [data, setData] = useState({})
 
       const set_config = async () => {
-      let response = await settingsApi.set_config()
+        const data = {systemEmail: "", systemEmailPassword: "", adminUserName:"", adminPassword:"", numberOfRoutes:8,
+         minimumPasswordLength: 6, maximumPasswordLength:16, minimumDistanceAlert:4, numberOfCoordinates: 8, orYarukEmail:"", 
+         hazards_rate_threshold: 2.0, hazards_time_to_report_in_minutes: 5, statistics_time_to_update_in_minutes:5,
+         alert:"alert", duration:5.5};
+
+      let response = await settingsApi.set_config(data)
       if (!response.was_exception){
         alert("System Configurations has been successfully Changed.");
         get_config();
@@ -161,12 +166,9 @@ return (
     </View>
   
   </ScrollView>
-  <Text>    </Text>    
   <View style={{alignItems: 'center', justifyContent: 'center',border:'red', borderEndColor:'black', borderColor:'black' }}>
-    <Button onPress={() => set_server_config()} title="Set Server Configuration" color="#841584"/>
-    <Text> </Text>
-    <Button onPress={() => set_rp_config()} title="Set RP Configuration" color="#841584"/>
-    <Text> </Text>
+    <Button onPress={() => set_config()} title="Set Configuration" color="#841584"/>
+
   
 </View>
 </View>

@@ -35,9 +35,6 @@ public class UserController implements IUserController {
         this.serialsRepository = serialsRepository;
     }
 
-    public void load() {
-
-    }
 
     public void add_first_admin(String userEmail, String name, String lastName, String password, String phoneNumber, LocalDate birthDay, String gender) throws Exception {
         // TODO: 3/26/2023 : Remove comment 
@@ -270,13 +267,13 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public List<AdminDAO> view_admins() {
+    public List<AdminDTO> view_admins() {
 
-        var adminsList = new ArrayList<AdminDAO>();
+        var adminsList = new ArrayList<AdminDTO>();
         var allUsers = userRepository.getAllUsers();
         for (var user : allUsers) {
             if (user.is_admin()) {
-                AdminDAO to_add = new AdminDAO((Admin) user);
+                AdminDTO to_add = new AdminDTO((Admin) user);
                 adminsList.add(to_add);
             }
         }
@@ -284,11 +281,11 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public List<RiderDAO> get_all_riders() {
-        var ridersList = new ArrayList<RiderDAO>();
+    public List<RiderDTO> get_all_riders() {
+        var ridersList = new ArrayList<RiderDTO>();
         for (var user : userRepository.getAllUsers()){
             if (!user.is_admin()){
-                RiderDAO to_add = new RiderDAO(((Rider) user));
+                RiderDTO to_add = new RiderDTO(((Rider) user));
                 ridersList.add(to_add);
             }
         }
@@ -297,11 +294,11 @@ public class UserController implements IUserController {
 
 
     @Override
-    public List<WaitingRaspberryPiDAO> get_waiting_rp() {
-        List<WaitingRaspberryPiDAO> to_return = new ArrayList<>();
+    public List<WaitingRaspberryPiDTO> get_waiting_rp() {
+        List<WaitingRaspberryPiDTO> to_return = new ArrayList<>();
         int i = 0;
         for(var serial : serialsRepository.getAllSerials()) {
-            WaitingRaspberryPiDAO to_add = new WaitingRaspberryPiDAO(i, serial);
+            WaitingRaspberryPiDTO to_add = new WaitingRaspberryPiDTO(i, serial);
             to_return.add(to_add);
             i = i+1;
         }
