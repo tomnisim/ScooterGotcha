@@ -43,7 +43,7 @@ def get_hazards_string_mock(hazards_list, loc_mocks):
         res+= f'Hazard {hazard_no}-----------> Size : {size_mock} cm \n Type : {hazard.type} \n  Location : lan = {loc_mock.latitude} , lng = {loc_mock.longitude} \n'
         hazard_no +=1
     return res
-def write_to_logger_mock(ride, rideDTO):
+def write_to_logger_mock(ride):
     loc_start = Location(31.263341, 34.799084)
     loc_j1 = Location(31.263323, 34.799234)
     loc_j2 = Location(31.263296, 34.799481)
@@ -61,7 +61,7 @@ def write_to_logger_mock(ride, rideDTO):
         f'RIDE SUMMERY\n Start time : {ride.start_time} \n End time : {ride.start_time + datetime.timedelta(seconds=8)} \n Start location:  lan = {loc_start.latitude}, lng = {loc_start.longitude} \n Destination location:  lan = {loc_finish.latitude}, lng = {loc_finish.longitude} \n '
         f'Junctions : \n{get_junctions_string_mock(junctions_mock)} Hazards detected in this ride : \n{get_hazards_string_mock(ride.hazards, hazards_loc_mock)} ')
 
-def send_ride_to_server(ride, rideDTO):
+def send_ride_to_server(rideDTO):
     def get_junctions_string(junctions_list):
         if len(junctions_list) == 0:
             return 'No junctions in this route\n'
@@ -81,26 +81,25 @@ def send_ride_to_server(ride, rideDTO):
             hazard_no +=1
         return res
     def write_to_logger():
-        ride_logger.info(
-            f'RIDE SUMMERY\n Start time : {ride.start_time} \n End time : {ride.end_time} \n Start location:  lan = {ride.start_location.latitude}, lng = {ride.start_location.longitude} \n Destination location:  lan = {ride.destination_location.latitude}, lng = {ride.destination_location.longitude} \n '
-            f'Junctions : \n{get_junctions_string(ride.junctions)} Hazards detected in this ride : \n{get_hazards_string(ride.hazards)} ')
+        ride_logger.info(f'RIDE SUMMERY\n {rideDTO}')
     response = None
-    write_to_logger_mock(ride, rideDTO)
-    # write_to_logger
+    # write_to_logger_mock(rideDTO)
+    # write_to_logger()
 
     url = InitData.SERVER_ADDRESS + finish_ride_url
-    print(rideDTO)
+    # print("rideDTO before sending -> ",rideDTO)
 
 
     #TODO:uncomment
     json_data = json.dumps(rideDTO)
+    # print(json_data)
     headers = {'Content-Type': 'application/json'}
     try:
         res = requests.post(url, data=json_data, headers=headers)
         response = Response(res.json())
 
-    except:
-        pass
+    except Exception as e:
+        print('e->' ,e)
         system_logger.info('communication problem')
 
     if not response or response.was_exception:

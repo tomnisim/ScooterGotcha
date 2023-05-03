@@ -34,7 +34,7 @@ hazards = []
 id = 0
 stop = False # TODO: change to True
 end_button = False # TODO: change to False
-
+stop_flag = False
 def manage_end_button2():
     def on_key_press(event):
         print(f'Key {event.name} was pressed')
@@ -85,6 +85,7 @@ def detect_hazards_task(hazard_detector, alerter):
     global stop
     global hazards
     global frames
+    global stop_flag
 
     while not stop:
         if len(frames) > 0:
@@ -100,6 +101,7 @@ def detect_hazards_task(hazard_detector, alerter):
                 hazards += current_hazards
                 hazards_detect = True
             # ADD to ride logger
+            stop_flag = True
             hazards_detect_msg = 'YES' if hazards_detect else 'NO'
             ride_logger.info(f'Frame -> Location : lan = {loc.longitude} , lng  = {loc.latitude} \n Time : {datetime.datetime.now()} \n hazard detected : {hazards_detect_msg}\n')
 
@@ -128,6 +130,9 @@ class RideController:
         print('execute ride')
         global stop
         global end_button
+        global frames
+        global hazards
+        global stop_flag
         stop = False
 
         junctions_thread = threading.Thread(target=collect_junctions_task, args=(self._GPS_controller, ))
@@ -145,11 +150,12 @@ class RideController:
         hazards_thread.start()
 
 
-        # create thread that manage the live buttun
-        end_button_thread = threading.Thread(target=manage_start_button_task_mock)
-        end_button_thread.start()
+        # # create thread that manage the live buttun
+        # end_button_thread = threading.Thread(target=manage_start_button_task_mock)
+        # end_button_thread.start()
 
-        while Service.start_button:
+        # while Service.start_button:
+        while not stop_flag:
             a=6
         print("Finish ride")
 
