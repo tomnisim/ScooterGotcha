@@ -88,8 +88,8 @@ class Service:
                 ride = self.ride_controller.execute_ride()
                 per.save_ride(ride)
 
-                # # MOCK - for the debug video
-                # while True:
-                #     pass
+                # MOCK - for the debug video
+                while True:
+                    pass
 
 

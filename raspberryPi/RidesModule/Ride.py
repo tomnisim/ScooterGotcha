@@ -76,8 +76,8 @@ class FinishRideRequest:
         for hazard in hazards:
             hazard_data = {'type': 'hazard.type',
                            'location': self.serialize_location(hazard.location),
-                           'size':hazard.size,
-                           'frame':hazard.frame}
+                           'size':hazard.size}
+                           # 'frame':hazard.frame}
             hazard_lst.append(hazard_data)
         return hazard_lst
 
