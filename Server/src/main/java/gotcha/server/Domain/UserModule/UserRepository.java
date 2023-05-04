@@ -72,6 +72,10 @@ public class UserRepository {
     public void LoadFromDb() {
         var usersInDb = usersJpaRepositry.findAll();
         for(var user : usersInDb) {
+            if (!user.is_admin())
+            {
+                usersEmailByRaspberryPi.put(((Rider)user).getRaspberryPiSerialNumber(), user.get_email());
+            }
             allUsers.put(user.get_email(), user);
         }
     }
