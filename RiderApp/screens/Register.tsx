@@ -34,7 +34,7 @@ export default function RegisterScreen  ({ navigation })  {
             navigation.navigate("Home")
         }
         else{
-          alert("Invalid Serial number, Please Contact Gotcha Service representative.")
+          alert(response.message)
         }
       
       }
