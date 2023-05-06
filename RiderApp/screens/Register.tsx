@@ -23,7 +23,8 @@ export default function RegisterScreen  ({ navigation })  {
       async function handle_register(){
         let response = await usersApi.register(email, password, name, lastName, phone, gender, raspberryPiSerialNumber,
            licenceIssueDate, scooterType,birthDay)
-        if (!response.was_exception){
+        console.log(response)
+        if (response.was_exception != undefined && !response.was_exception){
           // Do login
 
           alert("email:"+email)
@@ -33,7 +34,7 @@ export default function RegisterScreen  ({ navigation })  {
             navigation.navigate("Home")
         }
         else{
-          alert(response.message)
+          alert("Invalid Serial number, Please Contact Gotcha Service representative.")
         }
       
       }

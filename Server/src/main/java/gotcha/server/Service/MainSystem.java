@@ -34,6 +34,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static gotcha.server.Utils.Utils.generateSerialNumber;
+
 @Component
 public class MainSystem {
     private final Configuration configuration;
@@ -129,6 +131,18 @@ public class MainSystem {
 
 
     private void begin_instructions() throws Exception {
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
         BigDecimal lng = new BigDecimal("34.801402");
         BigDecimal lat = new BigDecimal("31.265106");
         Location origin = new Location(lng, lat);

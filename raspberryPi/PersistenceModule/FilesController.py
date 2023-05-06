@@ -6,10 +6,10 @@ import uuid
 
 class FilesController:
     __instance = None
-    folder_name = "../ridesStorage/"
+    folder_name = "C:/Users/amitm/Desktop/SemH/ScooterGotcha/ridesStorage"
 
     def __init__(self):
-        if FilesController.__instance != None:
+        if FilesController.__instance is not None:
             raise Exception("Singleton class can only be instantiated once")
         else:
             FilesController.__instance = self
@@ -17,11 +17,11 @@ class FilesController:
 
     @classmethod
     def get_instance(cls):
-        if cls.__instance == None:
+        if cls.__instance is None:
             cls()
         return cls.__instance
 
-    #private
+    # private
     def load_waiting_rides(self):
         # print("self.folder_name", self.folder_name)
         rides = []
@@ -32,9 +32,18 @@ class FilesController:
                     rides.append(ride)
         return rides
 
+    """
+    :return: A list of rides who didn't send to server, in JSON format for each ride.
+    """
+
     def get_waiting_rides(self):
+        # TODO: Sort from latest to first.
         waiting_rides = self.load_waiting_rides()
         return waiting_rides
+
+    """
+    this method create a new folder in memory if dont exists.
+    """
 
     def create_folder(self):
         if not os.path.exists(self.folder_name):

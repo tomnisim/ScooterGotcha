@@ -37,10 +37,9 @@ class HazardDetector():
 
     def detect_potholes(self, frame , loc):
         detected_hazards = []
-
         is_pothole, size = self.predict(frame)
         if is_pothole:
-            pothole_hazard = Hazard(size, loc ,HazardType.Pothole, frame)
+            pothole_hazard = Hazard(size, loc, HazardType.Pothole, frame)
             detected_hazards.append(pothole_hazard)
         return detected_hazards
 

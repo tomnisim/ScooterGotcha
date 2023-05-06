@@ -14,6 +14,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import static gotcha.server.Utils.Utils.resizeByteArray;
+
 @Component
 public class HazardController implements IHazardController {
     private double HAZARD_THRESHOLD_RATE = 0;
@@ -76,7 +78,7 @@ public class HazardController implements IHazardController {
             double size = hazard.getSize();
             StationaryHazard current = find_hazard_if_exist(location, city, type);
             if (current == null){
-                add_hazard(ride_id, location, city, type, size, hazard.getFrame());
+                add_hazard(ride_id, location, city, type, size, resizeByteArray(hazard.getFrame(), 255));
             }
             else{
                 update_hazard(current, size);

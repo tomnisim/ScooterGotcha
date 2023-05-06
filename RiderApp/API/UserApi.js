@@ -54,7 +54,6 @@ export class UserApi {
     }
 
     register(email, password, name, lastName, phoneNumber, gender, rpSerial, licenseIssueDate, scooterType, birthDate) {
-        alert(email)
         const data = {
             email: email,
             password: password,
