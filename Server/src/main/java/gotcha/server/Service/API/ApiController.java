@@ -157,6 +157,13 @@ public class ApiController implements IAdminAPI, IUserAPI {
         return facade.view_notifications(userContext);
     }
 
+    @RequestMapping(value = "/update_information")
+    @CrossOrigin
+    @Override
+    public Response<Boolean> update_information(@RequestBody UpdateInformationRequest updateInformationRequest){
+        var response = facade.update_information(updateInformationRequest);
+        return response;
+    }
 
 
     /* the methods for RP */
@@ -187,6 +194,8 @@ public class ApiController implements IAdminAPI, IUserAPI {
     public Response get_rp_config_file() {
         return facade.get_rp_config();
     }
+
+
 
 
 

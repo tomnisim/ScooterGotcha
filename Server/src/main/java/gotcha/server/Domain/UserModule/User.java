@@ -48,7 +48,27 @@ User implements Observer {
 
     private boolean loggedIn;
 
-    public User(String userEmail,String name, String lastName, String userPasswordToken, String phoneNumber, LocalDate birthDay, String gender) {
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setBirthDay(LocalDate birthDay) {
+        this.birthDay = birthDay;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public User(String userEmail, String name, String lastName, String userPasswordToken, String phoneNumber, LocalDate birthDay, String gender) {
         this.userEmail = userEmail;
         this.userPasswordToken = userPasswordToken;
         this.phoneNumber = phoneNumber;
@@ -147,5 +167,14 @@ User implements Observer {
     public void edit_details(String phoneNumber, String gender) {
         this.phoneNumber = phoneNumber;
         this.gender = gender;
+    }
+
+    public void update_information(String name, String lastName, String phone, LocalDate birthDate, String gender) {
+        this.setBirthDay(birthDate);
+        this.setGender(gender);
+        this.setName(name);
+        this.setLastName(lastName);
+        this.setPhoneNumber(phone);
+
     }
 }

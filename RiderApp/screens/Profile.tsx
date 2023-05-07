@@ -3,6 +3,7 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View, TextInput, TouchableOpacity, Text, Button, ImageBackground} from 'react-native';
 import { background } from '../API/AppConstans';
+import { UserApi } from '../API/UserApi';
 
 // import { createDrawerNavigator } from '@react-navigation/drawer';
 // import { NavigationContainer } from '@react-navigation/native';
@@ -26,6 +27,27 @@ export default function ProfileScreen  ({ navigation })  {
       const [licenceIssueDate, setLicenceIssueDate] = useState(userData.licenceIssueDate);
       const [scooterType, setScooterType] = useState(userData.scooterType);
       const [rating, setRating] = useState(userData.rating);
+      const usersApi = new UserApi();
+      async function update_information(email, name, lastName, phone, gender, scooterType,birthDay){
+        
+        let response = await usersApi.update_information(email, name, lastName, phone, gender, scooterType,birthDay)
+        if (!response.was_exception){
+          
+          setBirthDay(birthDay)
+          setGender(gender)
+          setName(name)
+          setLastName(lastName)
+          setPhone(phone)
+          setScooterType(scooterType)
+          navigation.navigate('Profile')
+          alert('Update Information Successfully')
+          // window.location.reload()
+        }
+        else{
+          alert(response.message)
+        }
+      
+      }
 
 
 
@@ -99,7 +121,8 @@ export default function ProfileScreen  ({ navigation })  {
         
           </View>
         <View style={{display: 'flex', alignItems:'center',paddingLeft:68, flexDirection:'row'}}>
-       <Button title='Update Information' color={"#841584"} onPress={()=>{navigation.navigate('Profile')}} ></Button> 
+ 
+       <Button title='Update Information' color={"#841584"} onPress={()=>update_information(email, name, lastName, phone, gender, scooterType,birthDay) } ></Button> 
        <h1>       </h1>
        <Button title='Change Password' onPress={()=>{navigation.navigate('ChangePassword')}} ></Button> 
        </View>
