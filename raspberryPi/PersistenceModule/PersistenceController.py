@@ -26,6 +26,7 @@ class PersistenceController:
             success = self.communicationController.send_ride_to_server(waiting_ride)
             if not success:
                 self.files_controller.save_ride_to_file(waiting_ride)
+                system_logger.info('Save Ride into Memory.')
 
     """
     This Method Try to Read Configuration Data from Server.

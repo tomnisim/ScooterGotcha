@@ -8,12 +8,12 @@ import { setRoute } from './VisualRoute';
 import { background } from '../API/AppConstans';
 
 const userApi = new UserApi();
+let flag = true;
 
 const StartRideScreen = ({navigation})  => {
   const [Origin, setOrigin] = useState('');
   const [Destination, setDestination] = useState('');
   const [RoutesData, setRoutesData] = useState('');
-
 
 const get_current_location = () => {
   if (navigator.geolocation) {
@@ -35,8 +35,12 @@ const get_current_location = () => {
     console.log("Geolocation is not supported by this browser.");
   }
 }
+if (flag){
+  flag = false;
+  get_current_location();
+  
+}
 
-get_current_location();
 
 
   const handleStartRide = async () => {

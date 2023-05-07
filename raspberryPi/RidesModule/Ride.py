@@ -70,15 +70,18 @@ class RideDTO:
         self.endTime = self.serialize_time(ride.end_time)
         self.junctions = self.serialize_junctions(ride.junctions)
         self.ridingActions = []
-        self.rpSerialNumber = "serial"
+        self.rpSerialNumber = serial
 
     def serialize_hazards(self,hazards):
         hazard_lst=[]
+        # TODO
+        byte_array = bytearray(b'\x10\x20\x30\x40\x50')
+        byte_array = str(byte_array)
         for hazard in hazards:
             hazard_data = {'type': hazard.type.value,
                            'location': self.serialize_location(hazard.location),
                            'size': hazard.size,
-                           'frame': hazard.frame}
+                           'frame': byte_array}
             hazard_lst.append(hazard_data)
         return hazard_lst
 

@@ -14,11 +14,12 @@ public class StationaryHazardRPDTO {
 
     public StationaryHazardRPDTO(){}
 
-    public StationaryHazardRPDTO(double size, LocationDTO location, String type, byte[] frame) {
+    public StationaryHazardRPDTO(double size, LocationDTO location, String type, String frame) {
         this.type = type;
         this.size = size;
         this.location = location;
-        this.frame = frame;
+        // todo:
+        this.frame = null;
     }
 
     public String getType() {

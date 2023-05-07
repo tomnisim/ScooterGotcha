@@ -28,8 +28,8 @@ const VIEW_AWARDS_PATH = path + "view_awards"
 export class UserApi {
 
     login(username, password) {
-        username = "email@gmail.com"
-        password = "AaAa12345"
+        // username = "email@gmail.com"
+        // password = "AaAa12345"
         const data = {
             email: username,
             password: password

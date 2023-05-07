@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.*;
 
+import static gotcha.server.Utils.AddressConverter.convertToEnglish;
+
 @Component
 public class RoutesRetriever {
     private final MapsAdapter google_maps;
@@ -81,6 +83,8 @@ public class RoutesRetriever {
         try{
             answer[0] = this.google_maps.locationToAddress(new Location(origin));
             answer[1] = this.google_maps.locationToAddress(new Location(destination));
+            //answer[0] = convertToEnglish(answer[0]);
+           // answer[1] = convertToEnglish(answer[1]);
         }
         catch (Exception e){
             answer[0] = "";
@@ -94,6 +98,7 @@ public class RoutesRetriever {
         String answer;
         try{
             answer =  this.google_maps.locationToCity(new Location(origin));
+            //answer = convertToEnglish(answer);
         }
         catch (Exception e){
             answer = "default";
