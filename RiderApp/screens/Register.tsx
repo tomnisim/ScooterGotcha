@@ -25,10 +25,6 @@ export default function RegisterScreen  ({ navigation })  {
            licenceIssueDate, scooterType,birthDay)
         console.log(response)
         if (response.was_exception != undefined && !response.was_exception){
-          // Do login
-
-          alert("email:"+email)
-          alert("password:"+password)
           let response1 = await usersApi.login(email, password)
           if (!response1.was_exception)
             navigation.navigate("Home")

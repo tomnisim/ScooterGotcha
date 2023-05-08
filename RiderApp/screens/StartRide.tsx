@@ -47,12 +47,11 @@ if (flag){
     let response = await userApi.get_routes(Origin, Destination)
     if (response.was_exception || response.was_exception == null){
         console.log(response.value)
-        alert("expection routes")
+        alert("Invalid Addresses.")
     }
     else
     {
         console.log(response.value)
-        alert("nice")
         setRoute(response.value)
         navigation.navigate('VisualRoute');
       // setRoutesData(response.value)

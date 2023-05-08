@@ -35,7 +35,6 @@ export default function HomeScreen({navigation}) {
   }
 
   async function add_adv_click(adv_id){
-    alert(adv_id)
     let response = await userApi.add_adv_click(adv_id)
   }
 
