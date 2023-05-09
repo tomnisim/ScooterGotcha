@@ -13,13 +13,13 @@ class ConfigurationController:
     """
 
     def set_serial(self):
-        filename = "C:\\Users\\amitm\\Desktop\\SemH\\ScooterGotcha\\raspberryPi\\Config\\serial.txt"
+        filename = "Config/serial.txt"
         with open(filename, "r") as f:
             serialNumber = f.read().strip()
         self.constants.set_serial_number(serialNumber)
 
     def read_config_from_default(self):
-        filename = "C:\\Users\\amitm\\Desktop\\SemH\\ScooterGotcha\\raspberryPi\\Config\\default_config.txt"
+        filename = "Config/default_config.txt"
         # read
         config = configparser.ConfigParser()
         config.read(filename)

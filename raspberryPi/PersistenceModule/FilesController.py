@@ -6,7 +6,7 @@ import uuid
 
 class FilesController:
     __instance = None
-    folder_name = "C:/Users/amitm/Desktop/SemH/ScooterGotcha/ridesStorage"
+    folder_name = "../ridesStorage"
 
     def __init__(self):
         if FilesController.__instance is not None:
