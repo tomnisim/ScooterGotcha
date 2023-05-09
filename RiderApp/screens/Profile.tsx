@@ -62,12 +62,14 @@ export default function ProfileScreen  ({ navigation })  {
             style={styles.textInputer}
             placeholder={email}
             onChangeText={newText => setEmail(newText)}
+            editable={false}
           />
           <Text><b>Serial Number: </b></Text>
           <TextInput
             style={styles.textInputer}
             placeholder={raspberryPiSerialNumber}
             onChangeText={newText => setRaspberryPiSerialNumber(newText)}
+            editable={false}
           />
           
           <Text><b>Name: </b></Text>
@@ -75,6 +77,7 @@ export default function ProfileScreen  ({ navigation })  {
             style={styles.textInputer}
             placeholder={name}
             onChangeText={newText => setName(newText)}
+            
           />
           <Text><b>Last Name: </b></Text>
           <TextInput
@@ -105,12 +108,14 @@ export default function ProfileScreen  ({ navigation })  {
             style={styles.textInputer}
             placeholder={licenceIssueDate}
             onChangeText={newText => setLicenceIssueDate(newText)}
+            editable={false}
           />
           <Text><b>Rating: </b></Text>
           <TextInput
             style={styles.textInputer}
             placeholder={rating}
             onChangeText={newText => setRating(newText)}
+            editable={false}
           />
           <Text><b>Scooter Type: </b></Text>
           <TextInput
