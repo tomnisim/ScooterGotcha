@@ -73,7 +73,7 @@ public class MainSystem {
         set_statistics_update_thread();
         set_reporter_engine();
         this.hazardController.setHAZARD_THRESHOLD_RATE(configuration.getHazards_rate_threshold());
-        //begin_instructions();
+        begin_instructions();
         systemLogger.add_log("Finish Init Server");
     }
 
@@ -138,11 +138,8 @@ public class MainSystem {
         this.userController.add_rp_serial_number(generateSerialNumber());
         this.userController.add_rp_serial_number(generateSerialNumber());
         this.userController.add_rp_serial_number(generateSerialNumber());
-        this.userController.add_rp_serial_number(generateSerialNumber());
-        this.userController.add_rp_serial_number(generateSerialNumber());
-        this.userController.add_rp_serial_number(generateSerialNumber());
-        this.userController.add_rp_serial_number(generateSerialNumber());
-        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number("first");
+
         BigDecimal lng = new BigDecimal("34.801402");
         BigDecimal lat = new BigDecimal("31.265106");
         Location origin = new Location(lng, lat);
@@ -202,12 +199,12 @@ public class MainSystem {
         if (userController.isUsersTableEmpty()) {
             userController.register("email@gmail.com", password, "name", "last", "0546794211",
                     birth_date, "male", "type", issue, "first");
-            userController.register("email1@gmail.com", password, "name", "last", "0546794211",
-                    birth_date, "male", "type", issue, "first1");
-            userController.register("email12@gmail.com", password, "name", "last", "0546794211",
-                    birth_date, "male", "type", issue, "first12");
-            userController.register("email123@gmail.com", password, "name", "last", "0546794211",
-                    birth_date, "male", "type", issue, "first123");
+//            userController.register("email1@gmail.com", password, "name", "last", "0546794211",
+//                    birth_date, "male", "type", issue, "first1");
+//            userController.register("email12@gmail.com", password, "name", "last", "0546794211",
+//                    birth_date, "male", "type", issue, "first12");
+//            userController.register("email123@gmail.com", password, "name", "last", "0546794211",
+//                    birth_date, "male", "type", issue, "first123");
 //        (String rpSerialNumber, Location origin, Location destination, String city, LocalDateTime startTime, LocalDateTime endTime, List<StationaryHazard> hazards, List< RidingAction > ridingActions) {
 //            this.rpSerialNumber = rpSerialNumber;
 
