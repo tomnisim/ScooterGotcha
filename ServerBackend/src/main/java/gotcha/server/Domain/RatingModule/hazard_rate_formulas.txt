@@ -1,0 +1,3 @@
+pothole: 10+(W/2)*10
+PoleTree: 5+(W/2)*10
+RoadSign: (W/2)*10

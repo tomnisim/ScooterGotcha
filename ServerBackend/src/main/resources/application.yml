@@ -1,0 +1,73 @@
+gotcha:
+  FIRST_TIME_RUNNING: true
+  EXTERNAL_SERVICE_MODE: "real"
+  DATABASE_MODE: "real"
+  DATABASE_URL: "www.amit.com"
+  DATABASE_PASSWORD: "12345"
+  system_email: "system@gmail.com"
+  system_email_password: "123456"
+  admin_user_name: "admin@gmail.com"
+  admin_password: "admin"
+  mapsAdapter: "develop"
+  number_of_routes: 1
+  minimum_password_length: 4
+  maximum_password_length: 14
+  minimum_distance_alert: 20
+  number_of_coordinates: 8
+  hazards_rate_threshold: 80.0
+  hazards_time_to_report_in_minutes: 20
+  statistics_time_to_update_in_minutes: 10
+  alert: "vocal"
+  duration: 2
+  orYarukEmail: "or_yaruk@gmail.com"
+  cities_emails:
+      "Tel-Aviv": "tel_aviv@gmail.com"
+      "Beersheba": "beersheba@gmail.com"
+      "Haifa": "haifa@gmail.com"
+      "Netanya": "netanya@gmail.com"
+  Server:
+    default:
+      host: "localhost"
+      port: "5050"
+      protocol: "http://"
+
+rate-config:
+  speed_changes_per_minute:
+    0: 100
+    1: 95
+    2: 85
+    3: 80
+    4: 70
+    5: 60
+    6: 50
+
+  brakes_per_minute:
+    0: 100
+    1: 95
+    2: 85
+    3: 80
+    4: 70
+    5: 50
+
+  sharp_turns_per_minute:
+    0: 100
+    1: 85
+    2: 80
+    3: 70
+    4: 50
+
+  alerts_per_minute:
+    0: 100
+    1: 95
+    2: 90
+    3: 80
+    4: 75
+    5: 70
+    6: 50
+
+  on_sidewalk:
+    0: 100
+    10: 85
+    20: 75
+    30: 60
+    40: 50
