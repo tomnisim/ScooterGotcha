@@ -16,7 +16,7 @@ export const set_junctions = async (val) => {
   }
 
   export const myIcon = L.icon({
-    iconUrl: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/main/adminApp/assets/logo.png',
+    iconUrl: 'https://raw.githubusercontent.com/tomnisim/ScooterGotcha/main/RiderApp/assets/warning.png',
     iconSize: [30, 30],
     iconAnchor: [15, 15]
   });

@@ -1,6 +1,7 @@
 package gotcha.server.Service.Communication.Requests;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import javafx.util.converter.LocalDateStringConverter;
 
 import java.time.LocalDate;
 
@@ -48,7 +49,8 @@ public class RegisterRequest {
     }
 
     // Custom constructor
-    public RegisterRequest(String email, String password, String name, String lastName, String phoneNumber, String gender, String raspberrySerialNumber, LocalDate birthDate) {
+    public RegisterRequest(String email, String password, String name, String lastName, String phoneNumber, String gender,
+                           String raspberrySerialNumber, String licenseIssueDate, String scooterType, String birthDate) {
         this.email = email;
         this.password = password;
         this.name = name;
@@ -56,7 +58,10 @@ public class RegisterRequest {
         this.phoneNumber = phoneNumber;
         this.gender = gender;
         this.raspberrySerialNumber = raspberrySerialNumber;
-        this.birthDate = birthDate;
+        LocalDateStringConverter converter = new LocalDateStringConverter();
+        this.birthDate = converter.fromString(birthDate);
+        this.licenseIssueDate = converter.fromString(licenseIssueDate);
+        this.scooterType = scooterType;
     }
 
     public String getEmail() {

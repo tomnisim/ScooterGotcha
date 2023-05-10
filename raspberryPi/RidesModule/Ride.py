@@ -11,8 +11,9 @@ from Utils.Logger import ride_logger
 from VideoProccessorModule.Hazard import Hazard
 
 
-def to_dto(ride):
-    rideDTO = vars(FinishRideRequest(ride))
+def to_dto(ride, serial):
+    finish_ride_request = RideDTO(ride, serial)
+    rideDTO = vars(finish_ride_request)
     return rideDTO
 
 
@@ -44,12 +45,12 @@ def from_dto(rideDTO):
     destination_loc = Location(rideDTO['destination']['location']['latitude'], rideDTO['destination']['location']['longitude'])
     start_time = datetime.datetime.strptime(rideDTO['startTime'], "%Y-%m-%d;%H:%M")
     finish_time = datetime.datetime.strptime(rideDTO['endTime'], "%Y-%m-%d;%H:%M")
-    return Ride(hazards, start_loc, destination_loc, start_time, finish_time, junctions )
+    return Ride(hazards, start_loc, destination_loc, start_time, finish_time, junctions)
+
 class Ride:
 
     def __init__(self,  hazards, start_loc, destination_loc, start_time, finish_time, junctions):
         ride_logger.info('Ride is build')
-
         self.hazards = hazards
         # self._events = events
         self.start_location = start_loc
@@ -60,8 +61,8 @@ class Ride:
 
 
 
-class FinishRideRequest:
-    def __init__(self, ride):
+class RideDTO:
+    def __init__(self, ride, serial):
         self.hazards = self.serialize_hazards(ride.hazards)
         self.origin = self.serialize_location_with_key(ride.start_location)
         self.destination = self.serialize_location_with_key(ride.destination_location)
@@ -69,15 +70,18 @@ class FinishRideRequest:
         self.endTime = self.serialize_time(ride.end_time)
         self.junctions = self.serialize_junctions(ride.junctions)
         self.ridingActions = []
-        self.rpSerialNumber = "first12345"
+        self.rpSerialNumber = serial
 
     def serialize_hazards(self,hazards):
         hazard_lst=[]
+        # TODO
+        byte_array = bytearray(b'\x10\x20\x30\x40\x50')
+        byte_array = str(byte_array)
         for hazard in hazards:
-            hazard_data = {'type': 'hazard.type',
+            hazard_data = {'type': hazard.type.value,
                            'location': self.serialize_location(hazard.location),
-                           'size':hazard.size}
-                           # 'frame':hazard.frame}
+                           'size': hazard.size,
+                           'frame': byte_array}
             hazard_lst.append(hazard_data)
         return hazard_lst
 
@@ -88,9 +92,12 @@ class FinishRideRequest:
             junction_lst.append(junction_data)
         return junction_lst
     def serialize_location_with_key(self, location):
-        return {'location': {'latitude': location.latitude, 'longitude': location.longitude}}
+        return {'latitude': location.latitude, 'longitude': location.longitude}
     def serialize_location(self, location):
         return {'latitude': location.latitude, 'longitude': location.longitude}
 
     def serialize_time(self, time):
         return time.strftime("%Y-%m-%d;%H:%M")
+
+    def set_serial_number(self, serial):
+        self.rpSerialNumber = serial

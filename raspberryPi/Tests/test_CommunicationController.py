@@ -1,20 +1,20 @@
 from unittest import TestCase
 
-from Config.InitData import InitData
+from Config.ConfigurationController import ConfigurationController
 from GPSModule.Location import Location
-from PersistenceModule.CommunicationController import CommunicationController, get_rp_config_file, send_ride_to_server
+from PersistenceModule.CommunicationController import get_rp_config_file, send_ride_to_server
 from RidesModule.Ride import Ride
 import datetime
 
 
 class TestCommunicationController(TestCase):
     def test_get_rp_config_file(self):
-        InitData()
+        ConfigurationController()
         x = 5
         self.fail()
 
     def test_send_ride_to_server(self):
-        InitData()
+        ConfigurationController()
         hazards = []
         start_loc = Location(68.25, 72.25)
         destination_loc = Location(68.25, 72.25)

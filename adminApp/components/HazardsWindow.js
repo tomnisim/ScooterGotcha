@@ -13,8 +13,7 @@ const hazardsApi = new HazardsApi();
 
 
 const hazards_types_list = [{value: "pothole", label:"Pothole"}, {value: "PoleTree", label:"Pole Tree"}, {value: "RoadSign", label:"Road Sign"}]
-const cities_list = [{value: "Tel-Aviv", label:"Tel Aviv"}, {value: "Haifa", label:"Haifa"}, {value: "Beersheba", label:"Beersheba"},{value: "Netanya", label:"Netanya"}]
-
+const cities_list = [{value: "Tel-Aviv", label:"Tel Aviv"}, {value: "Haifa", label:"Haifa"}, {value: "Beer-Sheba", label:"Beer-Sheba"},{value: "Netanya", label:"Netanya"}]
 
 
 

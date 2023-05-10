@@ -1,6 +1,4 @@
-
 import logging
-
 
 # ------------------ ERROR LOGGER -----------------------------------
 # Create a logger for errors
@@ -17,8 +15,6 @@ error_handler.setFormatter(error_formatter)
 
 # Add the error handler to the error logger
 error_logger.addHandler(error_handler)
-
-
 
 # ------------------ SYSTEM LOGGER -----------------------------------
 
@@ -37,9 +33,6 @@ system_handler.setFormatter(system_formatter)
 # Add the event handler to the event logger
 system_logger.addHandler(system_handler)
 
-
-
-
 # ------------------ RIDE LOGGER -----------------------------------
 
 # Create a logger for events
@@ -57,7 +50,7 @@ ride_handler.setFormatter(ride_formatter)
 # Add the event handler to the event logger
 ride_logger.addHandler(ride_handler)
 
-#_-------------------------------------- HOW TO USE ----------------
+# _-------------------------------------- HOW TO USE ----------------
 
 # # Log an error  -> error_logger.error(str(e))
 # # Log an event -> event_logger.info('The program started.')

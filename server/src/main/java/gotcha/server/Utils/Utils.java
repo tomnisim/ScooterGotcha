@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 @Component
@@ -94,6 +95,19 @@ public class Utils {
 
         }
         return output;
+    }
+    public static byte[] resizeByteArray(byte[] original, int maxLength) {
+        if (original.length > maxLength) {
+            byte[] resized = new byte[maxLength];
+            System.arraycopy(original, 0, resized, 0, maxLength);
+            return resized;
+        } else {
+            return original;
+        }
+    }
+    public static String generateSerialNumber() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString().replaceAll("-", "");
     }
 
     public static byte[] getPhoto() {

@@ -38,11 +38,11 @@ export default function ContactUsScreen({navigation}) {
     {
       let response = await questionsApi.add_question(message_to_send);
       if (response.was_exception){
-        alert("The system cant complete your request, please try again later.")
+        alert("The System Cant Complete Your Request, Please Try Again Later.")
       }
       else
       {
-        alert("Your Message has been successfully added to the system.");
+        alert("Your Message Has Been Successfully Sent To The System.");
         setText_to_message_to_send('')
         get_questions_list();
 
