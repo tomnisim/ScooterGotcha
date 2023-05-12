@@ -51,7 +51,7 @@ public class StationaryHazard {
         this.size = size;
         this.photo = photo;
         this.report = false;
-        this.calculateRate();
+        //this.calculateRate();
     }
 
     // Default Constructor for deserialization

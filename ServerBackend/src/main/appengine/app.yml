@@ -1,0 +1,2 @@
+runtime: java17
+entrypoint: java -Xmx64m -jar server-0.0.1-SNAPSHOT.jar
