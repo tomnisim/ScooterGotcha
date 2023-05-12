@@ -124,14 +124,6 @@ public class UserController implements IUserController {
      */
     public Boolean update_information(String userEmail, String name, String lastName, String phone, LocalDate birthDate, String gender, String scooterType) throws Exception {
         verify_user_information_for_update(phone, birthDate, gender, scooterType);
-        User user = null;
-        try{
-            user =userRepository.getUserByEmail(userEmail);
-        }
-        catch (Exception e){
-            throw new UserNotFoundException(String.format("user with email: %s not found", userEmail));
-
-        }
         userRepository.updateUser(userEmail, name, lastName, phone, birthDate, gender, scooterType);
         return true;
     }
