@@ -68,4 +68,5 @@ public class Rider extends User{
         this.raspberryPiSerialNumber = raspberryPiSerialNumber;
     }
 
+
 }

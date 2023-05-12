@@ -1,10 +1,7 @@
 package gotcha.server.Service.API;
 
 import gotcha.server.Domain.HazardsModule.StationaryHazard;
-import gotcha.server.Service.Communication.Requests.ChangePasswordRequest;
-import gotcha.server.Service.Communication.Requests.FinishRideRequest;
-import gotcha.server.Service.Communication.Requests.LoginRequest;
-import gotcha.server.Service.Communication.Requests.RegisterRequest;
+import gotcha.server.Service.Communication.Requests.*;
 import gotcha.server.Service.UserContext;
 import gotcha.server.Utils.Response;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -36,4 +33,6 @@ public interface IUserAPI {
 
     /* maybe extend to get as input all the history rides from rp who doesn't send to the server. */
     Response get_rp_config_file();
+
+    Response update_information(UpdateInformationRequest updateInformationRequest);
 }

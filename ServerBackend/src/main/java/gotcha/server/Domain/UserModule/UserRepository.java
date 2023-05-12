@@ -6,6 +6,7 @@ import gotcha.server.Domain.RidesModule.Ride;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -105,5 +106,15 @@ public class UserRepository {
 
     public boolean isDbEmpty() {
         return usersJpaRepositry.count() == 0;
+    }
+
+    public void updateUser(String userEmail, String name, String lastName, String phone, LocalDate birthDate, String gender, String scooterType) throws Exception {
+        var user = getUserByEmail(userEmail);
+        if (user.is_admin())
+            throw new Exception("user is admin");
+
+        user.update_information(name, lastName, phone, birthDate, gender);
+        ((Rider) user).setScooterType(scooterType);
+        usersJpaRepositry.save(user);
     }
 }
