@@ -23,11 +23,8 @@ export default function RegisterScreen  ({ navigation })  {
       async function handle_register(){
         let response = await usersApi.register(email, password, name, lastName, phone, gender, raspberryPiSerialNumber,
            licenceIssueDate, scooterType,birthDay)
-        if (!response.was_exception){
-          // Do login
-
-          alert("email:"+email)
-          alert("password:"+password)
+        console.log(response)
+        if (response.was_exception != undefined && !response.was_exception){
           let response1 = await usersApi.login(email, password)
           if (!response1.was_exception)
             navigation.navigate("Home")
