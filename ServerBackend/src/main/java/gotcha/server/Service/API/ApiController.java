@@ -36,10 +36,7 @@ public class ApiController implements IAdminAPI, IUserAPI {
 
         this.facade.clear();
     }
-
-
     
-
     /**
      * this method will create a new facade for the connection.
      * @param loginRequest
@@ -157,10 +154,7 @@ public class ApiController implements IAdminAPI, IUserAPI {
         return facade.view_notifications(userContext);
     }
 
-
-
     /* the methods for RP */
-
 
     /**
      * this method is for RP usage, when user is not have to be logged in.
@@ -188,17 +182,7 @@ public class ApiController implements IAdminAPI, IUserAPI {
         return facade.get_rp_config();
     }
 
-
-
-
-
-
-
-
     // ADMIN METHODS
-
-
-
 
     @RequestMapping(value = "/view_all_open_questions")
     @CrossOrigin
@@ -291,10 +275,6 @@ public class ApiController implements IAdminAPI, IUserAPI {
         String award = addAwardRequest.getAward();
         return facade.add_award(emails,award, userContext);
     }
-
-
-
-
 
     @RequestMapping(value = "/view_admins")
     @CrossOrigin
