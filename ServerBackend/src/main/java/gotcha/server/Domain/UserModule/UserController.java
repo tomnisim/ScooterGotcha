@@ -241,7 +241,7 @@ public class UserController implements IUserController {
      * @param phoneNumber
      * @param birthDay
      * @param gender
-     * @param extraParams
+     * @param scooterType
      * @return
      */
     private void verify_user_information_for_update(String phoneNumber, LocalDate birthDay, String gender, String scooterType) throws Exception {
@@ -249,7 +249,6 @@ public class UserController implements IUserController {
         utils.validate_birth_date(birthDay);
         utils.validate_gender(gender);
         utils.validate_scooter_type(scooterType);
-
     }
 
 

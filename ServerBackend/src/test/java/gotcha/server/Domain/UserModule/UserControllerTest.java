@@ -401,6 +401,149 @@ class UserControllerTest {
         }
     }
 
+    @Test
+    public void getUserByEmail_invalidEmail_NoUserReturned() {
+        try {
+            when(userRepository.getUserByEmail(any())).thenThrow(new UserNotFoundException());
+            assertThrows(UserNotFoundException.class, () -> userController.get_user_by_email("someEmail@gmail.com"));
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void getUserByEmail_validEmail_userReturned() {
+        var user = new Rider();
+        try {
+            when(userRepository.getUserByEmail(any())).thenReturn(user);
+            var user2 = userController.get_user_by_email("someEmail@gmail.com");
+            assertEquals(user, user2);
+        } catch (UserNotFoundException e) {
+            fail("should return user and not throw exception");
+        }
+    }
+
+    @Test
+    public void updateUser_validInfo_userUpdated() {
+        var rider = new Rider();
+        configureUserRepositoryUpdateUser(rider);
+        configureRegisterMockForSuccess();
+        var newPhone = "0502224404";
+        var newName = "name";
+        var newLastName = "last";
+        var newGender = "male";
+        var newScooter = "scooter";
+        var newBirthDate = LocalDate.now();
+        try {
+            when(userRepository.getUserByEmail(anyString())).thenReturn(rider);
+            assertDoesNotThrow(() -> userController.update_information("", newName, newLastName, newPhone, newBirthDate, newGender, newScooter));
+            assertTrue(rider.getName() == newName);
+            assertTrue(rider.getLastName() == newLastName);
+            assertTrue(rider.get_gender() == newGender);
+            assertTrue(rider.get_birth_day() == newBirthDate);
+            assertTrue(rider.getScooterType() == newScooter);
+            assertTrue(rider.get_phone_number() == newPhone);
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void updateUser_invalidPhoneNumber_userNotUpdated() {
+        var rider = new Rider();
+        configureUserRepositoryUpdateUser(rider);
+        configureRegisterMockForSuccess();
+        var newPhone = "0502224404";
+        var newName = "name";
+        var newLastName = "last";
+        var newGender = "male";
+        var newScooter = "scooter";
+        var newBirthDate = LocalDate.now();
+        try {
+            when(userRepository.getUserByEmail(anyString())).thenReturn(rider);
+            doThrow(Exception.class).when(utils).validate_phone_number(newPhone);
+            assertThrows(Exception.class, () -> userController.update_information("", newName, newLastName, newPhone, newBirthDate, newGender, newScooter));
+            verifyRiderInfoIsNotChanged(newName, newLastName, newPhone, newBirthDate, newGender, newScooter,rider);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Test
+    public void updateUser_invalidBirthDate_userNotUpdated() {
+        var rider = new Rider();
+        configureUserRepositoryUpdateUser(rider);
+        configureRegisterMockForSuccess();
+        var newPhone = "0502224404";
+        var newName = "name";
+        var newLastName = "last";
+        var newGender = "male";
+        var newScooter = "scooter";
+        var newBirthDate = LocalDate.now();
+        try {
+            when(userRepository.getUserByEmail(anyString())).thenReturn(rider);
+            doThrow(Exception.class).when(utils).validate_birth_date(newBirthDate);
+            assertThrows(Exception.class, () -> userController.update_information("", newName, newLastName, newPhone, newBirthDate, newGender, newScooter));
+            verifyRiderInfoIsNotChanged(newName, newLastName, newPhone, newBirthDate, newGender, newScooter,rider);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void updateUser_invalidGender_userNotUpdated() {
+        var rider = new Rider();
+        configureUserRepositoryUpdateUser(rider);
+        configureRegisterMockForSuccess();
+        var newPhone = "0502224404";
+        var newName = "name";
+        var newLastName = "last";
+        var newGender = "male";
+        var newScooter = "scooter";
+        var newBirthDate = LocalDate.now();
+        try {
+            when(userRepository.getUserByEmail(anyString())).thenReturn(rider);
+            doThrow(Exception.class).when(utils).validate_gender(newGender);
+            assertThrows(Exception.class, () -> userController.update_information("", newName, newLastName, newPhone, newBirthDate, newGender, newScooter));
+            verifyRiderInfoIsNotChanged(newName, newLastName, newPhone, newBirthDate, newGender, newScooter,rider);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void updateUser_invalidScooterType_userNotUpdated() {
+        var rider = new Rider();
+        configureUserRepositoryUpdateUser(rider);
+        configureRegisterMockForSuccess();
+        var newPhone = "0502224404";
+        var newName = "name";
+        var newLastName = "last";
+        var newGender = "male";
+        var newScooter = "scooter";
+        var newBirthDate = LocalDate.now();
+        try {
+            when(userRepository.getUserByEmail(anyString())).thenReturn(rider);
+            doThrow(Exception.class).when(utils).validate_scooter_type(newScooter);
+            assertThrows(Exception.class, () -> userController.update_information("", newName, newLastName, newPhone, newBirthDate, newGender, newScooter));
+            verifyRiderInfoIsNotChanged(newName, newLastName, newPhone, newBirthDate, newGender, newScooter,rider);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void verifyRiderInfoIsNotChanged(String newName, String newLastName, String newPhone, LocalDate newBirthDate, String newGender, String newScooter, Rider rider) {
+        assertTrue(rider.getName() != newName);
+        assertTrue(rider.getLastName() != newLastName);
+        assertTrue(rider.get_gender() != newGender);
+        assertTrue(rider.get_birth_day() != newBirthDate);
+        assertTrue(rider.getScooterType() != newScooter);
+        assertTrue(rider.get_phone_number() != newPhone);
+    }
+
     private void configureUserRepositoryChangePassword(Rider rider) {
         try{
             doAnswer(invocation -> {
@@ -409,6 +552,26 @@ class UserControllerTest {
                 rider.change_password_token(password);
                 return null;
             }).when(userRepository).changeUserPassword(any(), anyString());
+        }
+        catch (Exception e) {
+            fail("Unexpected exception when configuring the mock: " + e.getMessage());
+        }
+    }
+
+    private void configureUserRepositoryUpdateUser(Rider rider) {
+        try{
+            doAnswer(invocation -> {
+                Object[] args = invocation.getArguments();
+                var name = (String) args[1];
+                var lastName = (String) args[2];
+                var phone = (String) args[3];
+                var birthDate = (LocalDate) args[4];
+                var gender = (String) args[5];
+                var scooterType = (String) args[6];
+                rider.update_information(name, lastName, phone, birthDate, gender);
+                rider.setScooterType(scooterType);
+                return null;
+            }).when(userRepository).updateUser(any(), any(), any(), any(), any(),any(),any());
         }
         catch (Exception e) {
             fail("Unexpected exception when configuring the mock: " + e.getMessage());
