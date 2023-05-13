@@ -29,4 +29,6 @@ public interface IUserController extends Observable {
     void update_user_rate(String user_id, Ride ride, int number_of_rides) throws Exception;
     String resetPassword(String userEmail) throws UserNotFoundException;
     String get_user_email_by_rp_serial(String rpSerialNumber) throws Exception;
+
+    Boolean update_information(String userEmail , String name, String lastName, String phone, LocalDate birthDate, String gender, String scooterType) throws Exception;
 }

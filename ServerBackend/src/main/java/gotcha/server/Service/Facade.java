@@ -24,11 +24,7 @@ import gotcha.server.Domain.StatisticsModule.StatisticsManager;
 import gotcha.server.Domain.UserModule.*;
 import gotcha.server.Domain.SafeRouteCalculatorModule.Route;
 import gotcha.server.Domain.SafeRouteCalculatorModule.RoutesRetriever;
-import gotcha.server.Service.Communication.Requests.ChangePasswordRequest;
-import gotcha.server.Service.Communication.Requests.FinishRideRequest;
-import gotcha.server.Service.Communication.Requests.LoginRequest;
-import gotcha.server.Service.Communication.Requests.RegisterRequest;
-import gotcha.server.Service.Communication.Requests.SetConfigRequest;
+import gotcha.server.Service.Communication.Requests.*;
 import gotcha.server.Utils.Exceptions.UserExceptions.UserException;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.Logger.EmailsLogger;
@@ -1005,4 +1001,26 @@ public class Facade {
         return null;
     }
 
+    public Response<Boolean> update_information(UpdateInformationRequest updateInformationRequest) {
+        System.out.println(updateInformationRequest.toString());
+        Response<Boolean> response = null;
+        try {
+            var userEmail = updateInformationRequest.getEmail();
+            var gender = updateInformationRequest.getGender();
+            var birthDate = updateInformationRequest.getBirthDate();
+            var name = updateInformationRequest.getName();
+            var lastName = updateInformationRequest.getLastName();
+            var phone = updateInformationRequest.getPhoneNumber();
+            var scooterType = updateInformationRequest.getScooterType();
+            user_controller.update_information(userEmail, name, lastName,phone,birthDate,gender,scooterType);
+            var message = "Successfully update information user with name: " + name;
+            serverLogger.add_log(message);
+            response = new Response(true,message);
+        }
+        catch (Exception e) {
+            error_logger.add_log(e.getMessage());
+            response = new Response(e.getMessage(), e);
+        }
+        return response;
+    }
 }

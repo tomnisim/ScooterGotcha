@@ -36,7 +36,7 @@ public class ApiController implements IAdminAPI, IUserAPI {
 
         this.facade.clear();
     }
-    
+
     /**
      * this method will create a new facade for the connection.
      * @param loginRequest
@@ -153,6 +153,15 @@ public class ApiController implements IAdminAPI, IUserAPI {
     public Response view_notifications(@SessionAttribute("userContext") UserContext userContext) {
         return facade.view_notifications(userContext);
     }
+
+    @RequestMapping(value = "/update_information")
+    @CrossOrigin
+    @Override
+    public Response<Boolean> update_information(@RequestBody UpdateInformationRequest updateInformationRequest){
+        var response = facade.update_information(updateInformationRequest);
+        return response;
+    }
+
 
     /* the methods for RP */
 

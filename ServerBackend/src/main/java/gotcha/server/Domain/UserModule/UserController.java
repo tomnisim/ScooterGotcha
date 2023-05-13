@@ -108,6 +108,27 @@ public class UserController implements IUserController {
         return true;
     }
 
+
+
+    /**
+     * Update information to logged user, throws exception if one of user credentials is invalid
+     *
+     * @param userEmail
+     * @param name
+     * @param lastName
+     * @param phone
+     * @param birthDate
+     * @param gender
+     * @param scooterType
+     * @return
+     */
+    public Boolean update_information(String userEmail, String name, String lastName, String phone, LocalDate birthDate, String gender, String scooterType) throws Exception {
+        verify_user_information_for_update(phone, birthDate, gender, scooterType);
+        userRepository.updateUser(userEmail, name, lastName, phone, birthDate, gender, scooterType);
+        return true;
+    }
+
+
     /**
      * Login user with email {userEmail}, throws exception if user not found or invalid password
      *
@@ -211,6 +232,24 @@ public class UserController implements IUserController {
             utils.validate_scooter_type((String) extraParams[0]);
         if (extraParams[1] != null)
             utils.validate_license_issue_date((LocalDate) extraParams[1]);
+    }
+
+
+    /**
+     * Verifies the user information is valid
+     *
+     * @param phoneNumber
+     * @param birthDay
+     * @param gender
+     * @param extraParams
+     * @return
+     */
+    private void verify_user_information_for_update(String phoneNumber, LocalDate birthDay, String gender, String scooterType) throws Exception {
+        utils.validate_phone_number(phoneNumber);
+        utils.validate_birth_date(birthDay);
+        utils.validate_gender(gender);
+        utils.validate_scooter_type(scooterType);
+
     }
 
 
