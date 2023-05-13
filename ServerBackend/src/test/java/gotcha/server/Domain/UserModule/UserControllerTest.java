@@ -61,7 +61,6 @@ class UserControllerTest {
 
     @Test
     void login_userExists_successfullyLoggedIn() {
-        fail();
         var passwordToken = "testToken";
         var user = new Rider();
         user.change_password_token(passwordToken);
