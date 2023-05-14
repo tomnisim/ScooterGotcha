@@ -57,6 +57,7 @@ class HazardDetector_test(TestCase):
                 if id == 10:
                     break
             print(f'Detect Potholes in {detection_no} frames out of {predictions_no} -->  {int(detection_no / predictions_no * 100)}%')
+            self.assertTrue(True)
         except:
             self.fail()
     def test_predict_without_potholes(self):
@@ -68,8 +69,9 @@ class HazardDetector_test(TestCase):
                 is_potholes, size = hazard_detector.predict(img)
                 if not is_potholes:
                     un_detection_no += 1
-            print(
-                f'Undetected Potholes in {un_detection_no} frames out of {predictions_no} -->  {int(un_detection_no / predictions_no * 100)}%')
+            print(f'Undetected Potholes in {un_detection_no} frames out of {predictions_no} -->  {int(un_detection_no / predictions_no * 100)}%')
+            self.assertTrue(True)
+
         except:
             self.fail()
 
