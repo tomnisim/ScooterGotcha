@@ -19,7 +19,7 @@ public class StationaryHazardRPDTO {
         this.size = size;
         this.location = location;
         // todo:
-        this.frame = null;
+        this.frame = new byte[5];
     }
 
     public String getType() {
