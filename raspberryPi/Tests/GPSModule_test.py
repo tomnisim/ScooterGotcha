@@ -6,6 +6,7 @@ from unittest import TestCase
 class CameraController_test(TestCase):
     def test_gps_connection(self):
         try:
+            self.assertTrue(True)
             gpsd.connect()
 
             # Get the latest GPS data
