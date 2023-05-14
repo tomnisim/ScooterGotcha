@@ -9,12 +9,14 @@ import Table from 'rc-table';
 
 const userApi = new UserApi();
 
-
+let temp_name = ""
 export const setName = (name) =>{
-    console.log(name)
+  temp_name = name;
 }
 
 export default function TaskBar({navigation}) {
+
+
 
     const [showTextBox, setShowTextBox] = useState(false);
     const [notifications_list, setNotifications_list] = useState([{_message:1},{_message:2},{_message:3},{_message:4}])
@@ -29,17 +31,23 @@ export default function TaskBar({navigation}) {
     const logout = async () => {
         setIsLoggedIn(!isLoggedIn);
         await userApi.logout()
-        navigation.navigate("Login")
+        setName("Guest");
+        // TODO : BUG
+        navigation.navigate('Login')
+
+       
     }
     
     async function get_notifications_list(){
       let response = await userApi.view_notifications();
+      console.log(response.value)
       if (!response.was_exception){
         setNotifications_list(response.value)
       }
     }
     useEffect(() => {
       get_notifications_list();
+      setIsLoggedIn(temp_name)
     }, [])
 
     const handleClick = () => {
@@ -48,12 +56,15 @@ export default function TaskBar({navigation}) {
 
 
     return (
+      
       <div className="task-bar">
+        
         <text>Hello {name},</text>
         <br></br>
+        
         <button onClick={handleButtonClick}>Notifications</button>
-        <button onClick={logout}>
-            {isLoggedIn ? "Logout" : "Login"}
+
+        <button onClick={logout}>Logout
             </button>
 
          <View style={{display: 'flex', flexDirection:'column', width: 450}}>
@@ -63,17 +74,25 @@ export default function TaskBar({navigation}) {
                   </ScrollView>
          
       }
+    
       </View>
 
       </div>
+    
     );
   }
   
   const columns = [
     {
       title: " ",
-      dataIndex: "_message",
-      key: "_message",
+      dataIndex: "message",
+      key: "message",
+      width: 200,
+    },
+    {
+      title: " ",
+      dataIndex: "senderEmail",
+      key: "senderEmail",
       width: 200,
     },
   ];

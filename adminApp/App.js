@@ -37,6 +37,7 @@ const setNotifications_list = (value) => {
 
 export async function get_notifications_list(){
   let response = await loginApi.view_notifications();
+  console.log(response)
   if (!response.was_exception){
     setNotifications_list(response.value)
     if (response.value.length > 0)
@@ -144,8 +145,14 @@ const styles = StyleSheet.create({
 const columns = [
   {
     title: " ",
-    dataIndex: "_message",
-    key: "_message",
+    dataIndex: "message",
+    key: "message",
+    width: 200,
+  },
+  {
+    title: " ",
+    dataIndex: "senderEmail",
+    key: "senderEmail",
     width: 200,
   },
 ];

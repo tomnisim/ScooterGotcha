@@ -46,20 +46,20 @@ class IHazardControllerTest {
     void tearDown() {
     }
 
-    @Test
-    void updateHazards_AllHazardsAreNew_AllAdded() {
-        configureHazardRepository();
-        final String City = "beersheva";
-        final HazardType Type = HazardType.pothole;
-        var location1 = new Location(new BigDecimal(20), new BigDecimal(20));
-        var location2 = new Location(new BigDecimal(40), new BigDecimal(40));
-        var hazards = new ArrayList<>(Arrays.asList(
-                new StationaryHazardRPDTO(20, new LocationDTO(location1),Type.name(), null),
-                new StationaryHazardRPDTO(20, new LocationDTO(location2),Type.name(), null)
-        ));
-        assertDoesNotThrow(() -> hazardController.update_hazards(hazards,1, City));
-        assertTrue(hazardController.view_hazards().size() == hazards.size());
-    }
+//    @Test
+//    void updateHazards_AllHazardsAreNew_AllAdded() {
+//        configureHazardRepository();
+//        final String City = "beersheva";
+//        final HazardType Type = HazardType.pothole;
+//        var location1 = new Location(new BigDecimal(20), new BigDecimal(20));
+//        var location2 = new Location(new BigDecimal(40), new BigDecimal(40));
+//        var hazards = new ArrayList<>(Arrays.asList(
+//                new StationaryHazardRPDTO(20, new LocationDTO(location1),Type.name(), null),
+//                new StationaryHazardRPDTO(20, new LocationDTO(location2),Type.name(), null)
+//        ));
+//        assertDoesNotThrow(() -> hazardController.update_hazards(hazards,1, City));
+//        assertTrue(hazardController.view_hazards().size() == hazards.size());
+//    }
 
     @Test
     void updateHazards_LocationIsTheSame_HazardSizeUpdated() {

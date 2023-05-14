@@ -5,9 +5,7 @@ import gotcha.server.Utils.Observer;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -44,7 +42,7 @@ User implements Observer {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "notification_id")
     )
-    private Map<Integer, Notification> userNotifications;
+    private Set<Notification> userNotifications;
 
     private boolean loggedIn;
 
@@ -75,7 +73,7 @@ User implements Observer {
         this.birthDay = birthDay;
         this.gender = gender;
         this.loggedIn = false;
-        this.userNotifications = new HashMap<>();
+        this.userNotifications = new HashSet<>();
         this.name = name;
         this.lastName = lastName;
     }
@@ -137,10 +135,9 @@ User implements Observer {
      * @return
      */
     public boolean notify_user(Notification notification) {
-        boolean wasAdded = userNotifications.putIfAbsent(notification.getId(), notification) == null;
-        if (!wasAdded) {
+        if (userNotifications.contains(notification))
             return false;
-        }
+        userNotifications.add(notification);
         return true;
 
     }
@@ -150,7 +147,7 @@ User implements Observer {
      * @throws Exception
      */
     public void notify_user() throws Exception {
-        for(var notification : userNotifications.values()) {
+        for(var notification : userNotifications) {
             if (!notification.isWasSeen()) {
                 notify_user(notification);
             }
@@ -158,7 +155,7 @@ User implements Observer {
     }
 
     public Collection<Notification> get_notifications(){
-        return this.userNotifications.values();
+        return this.userNotifications;
     }
     public Boolean is_admin() {
         return false;

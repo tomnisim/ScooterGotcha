@@ -12,8 +12,7 @@ import java.util.Scanner;
 public class HazardRateCalculator implements IHazardRateCalculator {
 
     private Dictionary<HazardType, Formula> formulas;
-    private final String formulas_txt_file_path = "src\\main\\java\\gotcha\\server\\Domain\\RatingModule\\hazard_rate_formulas.txt";
-
+    private final String formulas_txt_file_path = "src/main/java/gotcha/server/Domain/RatingModule/hazard_rate_formulas.txt";
     private static class SingletonHolder {
         private static HazardRateCalculator instance = new HazardRateCalculator();
     }
@@ -23,8 +22,7 @@ public class HazardRateCalculator implements IHazardRateCalculator {
 
     public HazardRateCalculator() {
         this.formulas = new Hashtable<HazardType, Formula>();
-        // TODO: 4/30/2023 : remove comment when file will be found
-        //this.set_formulas();
+        this.set_formulas();
     }
 
 
@@ -38,9 +36,7 @@ public class HazardRateCalculator implements IHazardRateCalculator {
     @Override
     public double rate_hazard(StationaryHazard hazard){
         Formula formula = formulas.get(hazard.getType());
-        return 2;
-        // TODO: 4/30/2023 : remove comment when file will be found
-        //return formula.evaluate(hazard.getSize());
+        return formula.evaluate(hazard.getSize());
     }
 
     /**

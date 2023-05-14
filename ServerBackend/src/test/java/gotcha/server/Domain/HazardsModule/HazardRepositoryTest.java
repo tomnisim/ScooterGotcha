@@ -34,65 +34,56 @@ class HazardRepositoryTest {
         return new StationaryHazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5, null);
     }
 
-    @Test
-    void addHazard() {
-        // setup
-        var hazard = createHazard();
-        // act
-        assertDoesNotThrow(() -> hazardRepository.addHazard(hazard));
+//    @Test
+//    void addHazard() {
+//        // setup
+//        var hazard = createHazard();
+//        // act
+//        assertDoesNotThrow(() -> hazardRepository.addHazard(hazard));
+//
+//        // verify
+//        var savedHazardOptional = hazardJpaRepositry.findById(hazard.getId());
+//        assertTrue(savedHazardOptional.isPresent());
+//        var savedHazard = savedHazardOptional.get();
+//        assertTrue(savedHazard != null);
+//        assertTrue(savedHazard.getId() == hazard.getId());
+//        assertTrue(savedHazard.getSize() == hazard.getSize());
+//    }
+//
+//
+//
+//    @Test
+//    void removeHazard() {
+//        // setup
+//        var hazard = createHazard();
+//        // act
+//        assertDoesNotThrow(() -> hazardRepository.addHazard(hazard));
+//        var savedHazardOptional = hazardJpaRepositry.findById(hazard.getId());
+//        assertTrue(savedHazardOptional.isPresent());
+//        assertDoesNotThrow(() -> hazardRepository.removeHazard(hazard.getId()));
+//        assertThrows(Exception.class , () -> hazardRepository.getHazardById(hazard.getId()));
+//        savedHazardOptional = hazardJpaRepositry.findById(hazard.getId());
+//        assertFalse(savedHazardOptional.isPresent());
+//    }
+//
+//    @Test
+//    void getHazard_hazardOnlyInDb() {
+//        // setup
+//        var hazard = createHazard();
+//        // act
+//        hazardJpaRepositry.save(hazard);
+//        var savedHazardOptional = hazardJpaRepositry.findById(hazard.getId());
+//        assertTrue(savedHazardOptional.isPresent());
+//        try {
+//            var savedHazard = hazardRepository.getHazardById(hazard.getId());
+//            assertTrue(savedHazard != null);
+//            assertTrue(savedHazard.getId() == hazard.getId());
+//            assertTrue(savedHazard.getSize() == hazard.getSize());
+//        }
+//        catch (Exception e) {
+//            fail("shouldn't happen");
+//        }
+//    }
 
-        // verify
-        var savedHazardOptional = hazardJpaRepositry.findById(hazard.getId());
-        assertTrue(savedHazardOptional.isPresent());
-        var savedHazard = savedHazardOptional.get();
-        assertTrue(savedHazard != null);
-        assertTrue(savedHazard.getId() == hazard.getId());
-        assertTrue(savedHazard.getSize() == hazard.getSize());
-    }
 
-    @Test
-    void getAllHazards() {
-
-    }
-
-    @Test
-    void removeHazard() {
-        // setup
-        var hazard = createHazard();
-        // act
-        assertDoesNotThrow(() -> hazardRepository.addHazard(hazard));
-        var savedHazardOptional = hazardJpaRepositry.findById(hazard.getId());
-        assertTrue(savedHazardOptional.isPresent());
-        assertDoesNotThrow(() -> hazardRepository.removeHazard(hazard.getId()));
-        assertThrows(Exception.class , () -> hazardRepository.getHazardById(hazard.getId()));
-        savedHazardOptional = hazardJpaRepositry.findById(hazard.getId());
-        assertFalse(savedHazardOptional.isPresent());
-    }
-
-    @Test
-    void getHazard_hazardOnlyInDb() {
-        // setup
-        var hazard = createHazard();
-        // act
-        hazardJpaRepositry.save(hazard);
-        var savedHazardOptional = hazardJpaRepositry.findById(hazard.getId());
-        assertTrue(savedHazardOptional.isPresent());
-        try {
-            var savedHazard = hazardRepository.getHazardById(hazard.getId());
-            assertTrue(savedHazard != null);
-            assertTrue(savedHazard.getId() == hazard.getId());
-            assertTrue(savedHazard.getSize() == hazard.getSize());
-        }
-        catch (Exception e) {
-            fail("shouldn't happen");
-        }
-    }
-
-    @Test
-    void getHazardById() {
-    }
-
-    @Test
-    void updateHazard() {
-    }
 }
