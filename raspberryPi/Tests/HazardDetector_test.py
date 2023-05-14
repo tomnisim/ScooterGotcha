@@ -44,7 +44,7 @@ frames_with_potholes , frames_without_potholes  = get_frames()
 
 
 
-class TestHazardDetector(TestCase):
+class HazardDetector_test(TestCase):
 
     def test_predict_with_potholes(self):
         detection_no = 0

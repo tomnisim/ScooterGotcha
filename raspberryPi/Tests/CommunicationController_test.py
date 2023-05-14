@@ -7,7 +7,7 @@ from RidesModule.Ride import Ride
 import datetime
 
 
-class TestCommunicationController(TestCase):
+class CommunicationController_test(TestCase):
     def test_get_rp_config_file(self):
         ConfigurationController()
         x = 5

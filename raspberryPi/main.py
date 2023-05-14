@@ -10,15 +10,15 @@ import datetime
 import keyboard
 
 from Service.Service import Service
-# from picamera import PiCamera
+from picamera import PiCamera
 # from time import sleep
 def run_for_tests():
-    pass
+    print("HI")
 
 if __name__ == '__main__':
     run_for_tests()
-    service = Service()
-    service.run()
+    # service = Service()
+    # service.run()
 
 
 

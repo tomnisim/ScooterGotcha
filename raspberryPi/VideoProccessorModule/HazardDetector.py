@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import math
 
 from Utils.Logger import system_logger
-from keras.models import load_model
+# from keras.models import load_model
 from VideoProccessorModule.Hazard import Hazard
 from VideoProccessorModule.HazardType import HazardType
 
