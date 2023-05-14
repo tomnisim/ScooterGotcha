@@ -14,24 +14,24 @@ public class Advertise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id = 0;
-    @Column(name="startDate")
+    @Column(name="startDate", nullable = false)
     private LocalDate start_date;
-    @Column(name="finalDate")
+    @Column(name="finalDate", nullable = false)
     private LocalDate final_date;
 
-    @Column(name = "owner")
+    @Column(name = "owner", nullable = false)
     private String owner;
 
-    @Column(name = "message")
+    @Column(name = "message", columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", nullable = false)
     private String message;
 
-    @Column(name = "photo")
+    @Column(name = "photo", nullable = false)
     private String photo;
 
-    @Column(name = "url")
+    @Column(name = "url", nullable = false)
     private String url;
 
-    @Column(name = "userClicks")
+    @Column(name = "userClicks", nullable = false)
     private int users_clicks;
 
     public Advertise(LocalDate final_date, String owner, String message, String photo, String url) {

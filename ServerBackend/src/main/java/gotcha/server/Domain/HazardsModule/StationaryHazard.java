@@ -14,31 +14,31 @@ public class StationaryHazard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id = 0;
-    @Column(name="rideId")
+    @Column(name="rideId", nullable = false)
     private int ride_id;
 
-    @Column(name="location")
+    @Column(name="location", nullable = false)
     @Embedded
     private Location location;
 
-    @Column(name="city")
+    @Column(name="city", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", nullable = false)
     private String city;
 
     @Enumerated
-    @Column(name="hazardType")
+    @Column(name="hazardType", nullable = false)
     private HazardType type;
 
-    @Column(name="size")
+    @Column(name="size", nullable = false)
     private double size;
 
-    @Column(name="rate")
+    @Column(name="rate", nullable = false)
     private double rate;
 
-    @Column(name="report")
+    @Column(name="report", nullable = false)
     private boolean report;
 
     @Lob
-    @Column(name = "photo", columnDefinition = "BLOB")
+    @Column(name = "photo", columnDefinition = "BLOB", nullable = false)
     private byte[] photo;
 
 

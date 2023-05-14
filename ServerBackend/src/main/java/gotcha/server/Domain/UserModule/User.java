@@ -5,9 +5,7 @@ import gotcha.server.Utils.Observer;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -19,23 +17,23 @@ User implements Observer {
     @Column(name="email")
     private String userEmail;
 
-    @Column(name="password")
+    @Column(name="password", nullable = false)
     private String userPasswordToken;
-    @Column(name="phoneNumber")
+    @Column(name="phoneNumber", nullable = false)
 
     private String phoneNumber;
-    @Column(name="gender")
+    @Column(name="gender", nullable = false)
 
     private String gender;
 
-    @Column(name="birthDay")
+    @Column(name="birthDay", nullable = false)
 
     private LocalDate birthDay;
 
-    @Column(name="name")
+    @Column(name="name", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", nullable = false)
 
     private String name;
-    @Column(name="lastName")
+    @Column(name="lastName", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", nullable = false)
 
     private String lastName;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
@@ -44,7 +42,7 @@ User implements Observer {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "notification_id")
     )
-    private Map<Integer, Notification> userNotifications;
+    private Set<Notification> userNotifications;
 
     private boolean loggedIn;
 
@@ -75,7 +73,7 @@ User implements Observer {
         this.birthDay = birthDay;
         this.gender = gender;
         this.loggedIn = false;
-        this.userNotifications = new HashMap<>();
+        this.userNotifications = new HashSet<>();
         this.name = name;
         this.lastName = lastName;
     }
@@ -137,12 +135,7 @@ User implements Observer {
      * @return
      */
     public boolean notify_user(Notification notification) {
-        boolean wasAdded = userNotifications.putIfAbsent(notification.getId(), notification) == null;
-        if (!wasAdded) {
-            return false;
-        }
-        return true;
-
+        return userNotifications.add(notification);
     }
 
     /**
@@ -150,7 +143,7 @@ User implements Observer {
      * @throws Exception
      */
     public void notify_user() throws Exception {
-        for(var notification : userNotifications.values()) {
+        for(var notification : userNotifications) {
             if (!notification.isWasSeen()) {
                 notify_user(notification);
             }
@@ -158,7 +151,7 @@ User implements Observer {
     }
 
     public Collection<Notification> get_notifications(){
-        return this.userNotifications.values();
+        return this.userNotifications;
     }
     public Boolean is_admin() {
         return false;

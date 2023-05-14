@@ -10,7 +10,7 @@ public class Admin extends User{
     @JoinColumn(name = "appointed_by_admin_id")
     private Admin appintedBy;
 
-    @Column(name="appointmentDate")
+    @Column(name="appointmentDate", nullable = false)
     private LocalDate appointmentDate;
 
     public Admin(String userEmail, String name, String lastName, String userPasswordToken, String phoneNumber, LocalDate birthDay, String gender, Admin appointedBy) {
