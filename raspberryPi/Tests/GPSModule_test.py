@@ -1,4 +1,4 @@
-import gpsd
+# import gpsd
 from unittest import TestCase
 
 

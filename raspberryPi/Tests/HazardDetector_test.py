@@ -19,8 +19,8 @@ def convert_frame_to_YOLO_input(frame):
 
 hazard_detector = HazardDetector()
 def get_frames():
-    with_potholes_path = 'frames_with_potholes'
-    without_potholes_path = 'frames_without_potholes'
+    with_potholes_path = 'Tests/frames_with_potholes'
+    without_potholes_path = 'Tests/frames_without_potholes'
     with_potholes_list = []
     without_potholes_list = []
 #
