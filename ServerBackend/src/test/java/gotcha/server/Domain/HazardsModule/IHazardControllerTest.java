@@ -58,7 +58,7 @@ class IHazardControllerTest {
                 new StationaryHazardRPDTO(20, new LocationDTO(location2),Type.name(), null)
         ));
         assertDoesNotThrow(() -> hazardController.update_hazards(hazards,1, City));
-        assertFalse(hazardController.view_hazards().size() == hazards.size());
+        assertTrue(hazardController.view_hazards().size() == hazards.size());
     }
 
     @Test
