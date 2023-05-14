@@ -3,9 +3,15 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View, TextInput, TouchableOpacity, Text, Button, ImageBackground} from 'react-native';
 import { background } from '../API/AppConstans';
+import Select from 'react-select'
+
 import { UserApi } from '../API/UserApi';
 
 const usersApi = new UserApi();
+
+const gender_list = [{value: "Male", label:"Male"}, {value: "Female", label:"Female"}];
+const types_list = [{value:"Regular", label:"Regular"}];
+
 
 
 export default function RegisterScreen  ({ navigation })  {
@@ -79,11 +85,11 @@ export default function RegisterScreen  ({ navigation })  {
             onChangeText={newText => setPhone(newText)}
           />
           <Text><b>Gender: </b></Text>
-          <TextInput
-            style={styles.textInputer}
-            placeholder=""
-            onChangeText={newText => setGender(newText)}
-          />
+          <Select
+            placeholder="Gender: "
+            options={gender_list}
+            onChange={newText => setGender(newText.value)}
+        ></Select>
           <Text><b>Birth Day: </b></Text>
           <TextInput
             style={styles.textInputer}
@@ -97,11 +103,11 @@ export default function RegisterScreen  ({ navigation })  {
             onChangeText={newText => setLicenceIssueDate(newText)}
           />
           <Text><b>Scooter Type: </b></Text>
-          <TextInput
-            style={styles.textInputer}
-            placeholder={scooterType}
-            onChangeText={newText => setScooterType(newText)}
-          />
+          <Select
+            placeholder="Type"
+            options={types_list}
+            onChange={newText => setScooterType(newText.value)}
+        ></Select>
         
           </View>
         <View style={{display: 'flex', alignItems:'center',paddingLeft:68, flexDirection:'row'}}>
