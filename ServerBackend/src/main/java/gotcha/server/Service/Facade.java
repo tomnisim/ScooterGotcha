@@ -237,6 +237,7 @@ public class Facade {
             response = Utils.createResponse(e);
             error_logger.add_log(e.getMessage());
         }
+
         return response;
     }
     public Response view_all_user_questions(UserContext userContext) {
@@ -412,7 +413,7 @@ public class Facade {
             String user_email = question_controller.answer_user_question(question_id, answer, admin_email);
             List<String> emails = new ArrayList<>();
             emails.add(user_email);
-            user_controller.notify_users(admin_email, emails, "Your Question Was Answerd By System Admin.");
+            user_controller.notify_users(admin_email, emails, "Your Question Was Answered By System Admin.");
             String logger_message = "admin answer question : " + question_id;
             response = new Response("", logger_message);
             serverLogger.add_log(logger_message);

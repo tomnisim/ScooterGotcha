@@ -3,10 +3,11 @@ package gotcha.server.Domain.Notifications;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "notification")
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id = 0;
+    private int id = 0;
 
     @Column(name="message")
     private String message;
