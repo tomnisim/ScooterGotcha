@@ -78,7 +78,11 @@ public class HazardController implements IHazardController {
             double size = hazard.getSize();
             StationaryHazard current = find_hazard_if_exist(location, city, type);
             if (current == null){
-                add_hazard(ride_id, location, city, type, size, resizeByteArray(hazard.getFrame(), 255));
+                if (hazard.getFrame() == null)
+                    add_hazard(ride_id, location, city, type, size, null);
+                else{
+                    add_hazard(ride_id, location, city, type, size, resizeByteArray(hazard.getFrame(), 255));
+                }
             }
             else{
                 update_hazard(current, size);
