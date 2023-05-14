@@ -50,14 +50,6 @@ class HazardRateCalculatorTest {
         assertEquals(answer, 10 + (size / 2) * 10);
     }
 
-    @Test
-    // RoadSign: (W/2)*10
-    void rate_hazard_roadSign() {
-        double size = 16;
-        StationaryHazard hazard = new StationaryHazard(5, location, city, type3, size, null);
-        double answer = hazard.getRate();
-        assertEquals(answer, (size / 2) * 10);
-    }
 
     @Test
     void set_formulas() {

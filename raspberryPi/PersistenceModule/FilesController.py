@@ -2,6 +2,8 @@ import json
 import os
 import pickle
 import uuid
+from shutil import disk_usage
+from pathlib import Path
 
 
 class FilesController:
@@ -50,12 +52,35 @@ class FilesController:
             os.makedirs(self.folder_name)
 
     def save_ride_to_file(self, ride):
-        file_name = self._generate_file_name()
-        # Convert the object to JSON format and store it in the file
-        with open(os.path.join(self.folder_name, file_name), "w") as json_file:
-            # Serialize the object and write it to the file
-            # pickle.dump(ride, json_file)
-            json.dump(ride, json_file, ensure_ascii=False, indent=4)
+        if self._is_space_available():
+            file_name = self._generate_file_name()
+            with open(os.path.join(self.folder_name, file_name), "w") as json_file:
+                # Serialize the object and write it to the file
+                # pickle.dump(ride, json_file)
+                json.dump(ride, json_file, ensure_ascii=False, indent=4)
+        else:
+            self._delete_oldest_file()
+            self.save_ride_to_file(ride)
+
+    def _is_space_available(self, min_space_mb=1):
+        _, _, free = disk_usage(self.folder_name)
+        free_mb = free // (1024 * 1024)
+        return free_mb >= min_space_mb
+
+    def _delete_oldest_file(self):
+        files = Path(self.folder_name).glob('*')
+        oldest_file = None
+        min_mtime = float('inf')
+
+        for file in files:
+            if file.is_file():
+                mtime = file.stat().st_mtime
+                if mtime < min_mtime:
+                    min_mtime = mtime
+                    oldest_file = file
+
+        if oldest_file is not None:
+            oldest_file.unlink()
 
     def _generate_file_name(self):
         while True:
