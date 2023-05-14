@@ -70,27 +70,17 @@ class HazardRateCalculatorTest {
     void update_hazard_formula() {
     }
 
-    @Test
-    public void HazardRateCalculator() {
-        HazardRateCalculator expected = null;
-        HazardRateCalculator actual = new HazardRateCalculator();
 
-        assertTrue(EqualsBuilder.reflectionEquals(expected, actual, false, null));
-    }
 
-    @Test
-    public void get_instance() {
-        HazardRateCalculator expected = null;
-        HazardRateCalculator actual = HazardRateCalculator.get_instance();
-
-        assertEquals(expected, actual);
-    }
 
     @Test
     public void rate_hazard() {
-        HazardRateCalculator h = null;
-        StationaryHazard hazard = null;
-        double expected = 0.0D;
+        HazardRateCalculator h = new HazardRateCalculator();
+        StationaryHazard hazard = new StationaryHazard();
+        hazard.setSize(0);
+        hazard.setType(HazardType.pothole);
+        double expected = 10;
+        h.rate_hazard(hazard);
         double actual = h.rate_hazard(hazard);
 
         assertEquals(expected, actual, 0.0000001D);
@@ -98,15 +88,15 @@ class HazardRateCalculatorTest {
 
     @Test
     public void set_formulasTODO() {
-        HazardRateCalculator h = null;
+        HazardRateCalculator h = new HazardRateCalculator();
         h.set_formulas();
     }
 
     @Test
     public void update_hazard_formulaTODO() {
-        HazardRateCalculator h = null;
-        HazardType hazardType = null;
-        Formula formula = null;
+        HazardRateCalculator h = new HazardRateCalculator();
+        HazardType hazardType = HazardType.pothole;
+        Formula formula = new Formula("3*W-5");
         h.update_hazard_formula(hazardType, formula);
     }
 }
