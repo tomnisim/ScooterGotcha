@@ -8,6 +8,7 @@
 # from VideoProccessorModule.Hazard import Hazard
 # from VideoProccessorModule.HazardType import HazardType
 #
+from moviepy.video.io.VideoFileClip import VideoFileClip
 from ultralytics.yolo.v8.segment import SegmentationValidator
 from ultralyticsplus import YOLO, render_result
 # from PIL import Image
@@ -71,18 +72,41 @@ POTHOLES_DETECTION_MODEL_ID = 'keremberke/yolov8n-pothole-segmentation'
 #     camera = picam2
 #
 
+from PIL import Image
+import os
 
+
+from roboflow import Roboflow
 
 
 
 
 def run_for_tests():
-    model = YOLO(POTHOLES_DETECTION_MODEL_ID)
-    vv = model.val(model.model.yaml['yaml_file'])
-    v = SegmentationValidator(dataloader=model.model.yaml['yaml_file'])
-    a = v.init_metrics(model.model)
-    i = model.info()  # display model information
-    a=5
+    rf = Roboflow(api_key="1EQ1Efjqv4OtzzFRD7SB")
+    project = rf.workspace().project("gotcha")
+    model = project.version(2).model
+    v = VideoFileClip('potholes_video_bs.mp4')
+
+    frames_generator =v.iter_frames()
+    lst =list(frames_generator)
+    print(len(lst))
+    # Navigate to the folder
+    os.chdir('C:\\Users\\Tom\\Desktop\\university\\fourthYear\\semester8\\SeminarProject\\raspberryPi\\Image_tests')
+    for i in range(1, 187 ,10):
+        img = Image.fromarray(lst[i])
+        # img = img.resize((640, 640))
+        # img = img.convert('RGB')
+        # # Open the image file
+        # img = Image.open('example.jpg')
+        # Save the image to a folder
+        img.save(f'test{i}.jpg')
+
+    for id_ in range(1, 187, 10):
+        pred= model.predict(f"C:\\Users\\Tom\\Desktop\\university\\fourthYear\\semester8\\SeminarProject\\raspberryPi\\image_tests\\\\test{id_}.jpg",  overlap=30)
+        if len(pred.predictions)>0:
+            print(f'found pothole in image {id_}')
+        model.predict(f"C:\\Users\\Tom\\Desktop\\university\\fourthYear\\semester8\\SeminarProject\\raspberryPi\\image_tests\\\\test{id_}.jpg",  overlap=30).save(
+            f"pred{id_}.jpg")
 
 if __name__ == '__main__':
     run_for_tests()

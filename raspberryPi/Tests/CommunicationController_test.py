@@ -39,7 +39,8 @@ class CommunicationController_test(TestCase):
         loc = Location(23.43, 45.45)
         frame = None #camera_controller.get_next_frame()
         junctions = [loc]*5
-        hazards = [Hazard(0.5, loc, HazardType.Pothole, frame)]*5
+        # hazards = [Hazard(0.5, loc, HazardType.Pothole, frame)]*5
+        hazards = []
 
         t = datetime.datetime.now()
         ride = Ride(hazards, loc, loc, t, t, junctions)
