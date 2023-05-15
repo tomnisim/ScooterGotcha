@@ -25,3 +25,16 @@ Server/LogFiles/EmailsLog.txt.1.lck
 Server/LogFiles/EmailsLog.txt.lck
 *.pyc
 *.pyc
+raspberryPi/GPSModule/__pycache__/__init__.cpython-39.pyc
+raspberryPi/error.log
+raspberryPi/.idea/raspberryPi.iml
+raspberryPi/AlertModule/__pycache__/Vocal.cpython-39.pyc
+raspberryPi/CameraModule/__pycache__/CameraController.cpython-39.pyc
+raspberryPi/GPSModule/__pycache__/GPSController.cpython-39.pyc
+raspberryPi/ride.log
+raspberryPi/system.log
+*.pyc
+*.iml
+ServerBackend/profiles.xml
+ServerBackend/pom.xml
+

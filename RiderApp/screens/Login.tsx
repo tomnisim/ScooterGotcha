@@ -17,7 +17,7 @@ const LoginScreen= ({ navigation }) => {
     let response = await userApi.login(email, password)
     if (response.was_exception || response.was_exception == undefined){
         if (response.was_exception == undefined)
-            alert("There is No connection, Please come back later.")
+            alert("The System is Unavailable Right Now, Please come back later.")
         else
             alert(response.message)
     }
@@ -34,17 +34,16 @@ const LoginScreen= ({ navigation }) => {
   }
 
   const handleForgotPassword = async () => {
-    alert(email)
     if (email == ""){
       alert("Please Enter An Email")
       return
     }
     let response = await userApi.reset_password(email)
     if (response.was_exception){
-      alert("There is no such an email.")
+      alert("There is No Such an Email.")
     }
     else{
-      alert("Your Password Is Reset Now, Please Check Your Email.")
+      alert("Your Password Has Been Reset, Please Check Your Email.")
     }
     
     // Handle forgot password logic here

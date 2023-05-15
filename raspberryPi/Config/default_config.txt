@@ -18,6 +18,7 @@ protocol:http://
 
 minimum_distance_to_alert:5
 alert_duration:5
+time_between_junctions: 60
 
 duration_unit : seconds
 alert_type : Vocal

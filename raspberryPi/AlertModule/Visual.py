@@ -1,3 +1,4 @@
+from gpiozero import LED
 
 from AlertModule.Alert import Alert
 # from gpiozero import LED
@@ -14,6 +15,3 @@ class Visual(Alert):
         led = LED(4)
         for i in range(self.number_of_blinks):
             led.blink()
-        pause()
-    def create_alerter(self):
-        pass

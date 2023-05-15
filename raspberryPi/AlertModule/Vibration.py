@@ -9,5 +9,3 @@ class Vibration(Alert):
         super().alert()
         print("Vibration alert "+self.duration+" "+self.power)
 
-    def create_alerter(self):
-        pass

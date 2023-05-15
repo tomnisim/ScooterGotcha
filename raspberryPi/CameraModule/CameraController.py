@@ -1,75 +1,73 @@
 # import picamera
 import time
 from moviepy.editor import VideoFileClip
+import numpy as np
 
+from Config.Constants import Constants
 from Utils.Logger import system_logger
 
-i=0
+i = 0
+
 
 class CameraController:
     __instance = None
+
     def __init__(self):
-        # self._camera = self.init_camera() # TODO: has to connect the RP camera
+        self.clip = None
+        self.frames_generator = None
+        self.index = -1
+        self._camera = self.init_camera()
         system_logger.info(f'Camera Controller initialization')
-        self.clip = VideoFileClip('potholes_video_bs.mp4')
-        self.frames_generator = self.clip.iter_frames()
-        num_frames = len(list(self.clip.iter_frames()))
-        print(num_frames)
-        if CameraController.__instance != None:
+        if CameraController.__instance is not None:
             raise Exception("Singleton class can only be instantiated once")
         else:
             CameraController.__instance = self
 
-
     @classmethod
     def get_instance(cls):
-        if cls.__instance == None:
+        if cls.__instance is None:
             cls()
         return cls.__instance
 
     # Initialize the camera
     def init_camera(self):
+        if Constants.get_instance().get_MOCK_RUNNING():
+            return self.init_camera_mock()
+        else:
+            return self.init_camera_realtime()
+    def init_camera_realtime(self):
         camera = picamera.PiCamera()
-        camera.resolution = (640, 480)
+        camera.resolution = (640, 480)  # TODO: maybe 640, 640 TODO
         camera.framerate = 30
         time.sleep(2)  # Give the camera some time to warm up
         return camera
 
-    # Get the next frame from the camera
-    def get_next_frame(self):
-        global i
-        frame = None
-        try:
-            frame = next(self.frames_generator)
-        except StopIteration:
-            print('No more frames')
+    # Initialize the camera
+    def init_camera_mock(self):
+        self.clip = VideoFileClip('potholes_video_bs.mp4')
+        self.frames_generator = self.clip.iter_frames()
+        num_frames = len(list(self.clip.iter_frames()))
+        print("num_frames:"+ str(num_frames))
 
-        print(f' frame number {i}')
-        i+=1
+    # Get the next frame from the camera
+    def get_next_frame_realtime(self):
+        # create numpy array to hold frame data
+        frame = np.empty((640 * 640 * 3,), dtype=np.uint8)
+        # capture frame
+        self._camera.capture(frame, format='rgb')
+
+        # reshape frame data into 3D array (height x width x channels)
+        frame = frame.reshape((640, 640, 3))
         return frame
 
+    def get_next_frame(self):
+        if Constants.get_instance().get_MOCK_RUNNING():
+            self.frames = list(self.clip.iter_frames(fps=1))[7:]
+            return self.get_next_frame_mock()
+        else:
+            return self.get_next_frame_realtime()
 
-        # # Create a bytes buffer for the image data
-        # frame_data = bytearray()
-        # camera.capture(frame_data, 'jpeg')
-        # return frame_data
-
-    # def take_still_picture(self):
-    #     self.camera.start_preview()
-    #     time.sleep(5)
-    #     self.camera.capture('/home/pi/Desktop/image.jpg')
-    #     self.camera.stop_preview()
-    #
-    # def take_5_still_pictures(self):
-    #     self.camera.start_preview()
-    #     for i in range(5):
-    #         time.sleep(5)
-    #         self.camera.capture('/home/pi/Desktop/image%s.jpg' % i)
-    #     self.camera.stop_preview()
-    #
-    # def record_video(self):
-    #     self.camera.start_preview()
-    #     self.camera.start_recording('/home/pi/Desktop/video.h264')
-    #     time.sleep(5)
-    #     self.camera.stop_recording()
-    #     self.camera.stop_preview()
+    def get_next_frame_mock(self):
+        self.index = self.index + 1
+        print("frame #"+str(self.index))
+        return self.frames[self.index]

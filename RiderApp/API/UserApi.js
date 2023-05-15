@@ -22,14 +22,14 @@ const GET_ROUTES_PATH = path + "get_safe_routes"
 const VIEW_ADVERTISEMENTS_PATH = path + "view_all_advertisement"
 const ADD_ADV_CLICK_PATH = path + "add_adv_click" 
 const VIEW_AWARDS_PATH = path + "view_awards"
-
+const UPDATE_INFORMATION_PATH = path + "update_information"
 
 
 export class UserApi {
 
     login(username, password) {
-        username = "email@gmail.com"
-        password = "AaAa12345"
+        // username = "email@gmail.com"
+        // password = "AaAa12345"
         const data = {
             email: username,
             password: password
@@ -54,7 +54,6 @@ export class UserApi {
     }
 
     register(email, password, name, lastName, phoneNumber, gender, rpSerial, licenseIssueDate, scooterType, birthDate) {
-        alert(email)
         const data = {
             email: email,
             password: password,
@@ -68,6 +67,26 @@ export class UserApi {
             birthDate: birthDate.substring(0,10)
           };
         return axios.post(REGISTER_PATH,data)
+            .then(async (res) => {
+                return new Response(res.data);
+            })
+            .catch(res => {
+                return new Response(1);
+            });
+    }
+
+
+    update_information(email, name, lastName, phone, gender, scooterType,birthDay) {
+        const data = {
+            email, email,
+            name: name,
+            lastName: lastName,
+            phoneNumber: phone,
+            gender: gender,
+            scooterType: scooterType,
+            birthDate: birthDay.substring(0,10)
+          };
+        return axios.post(UPDATE_INFORMATION_PATH,data)
             .then(async (res) => {
                 return new Response(res.data);
             })

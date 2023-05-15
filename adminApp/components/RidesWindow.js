@@ -18,7 +18,7 @@ export default function RidesWindow({navigation}) {
 
   const show_visual = async () => {
     if (ride_to_show == ""){
-      alert("Please Chose a Ride.")
+      alert("Please Choose a Ride.")
     }
     else
     {
@@ -178,8 +178,7 @@ function convertToHHMM(dateTimeStr) {
 }
 
 function formatMetersToKM(meters) {
-  const kilometers = meters / 1000;
-  return kilometers.toFixed(3);
+  return meters.toFixed(3);
 }
 
 

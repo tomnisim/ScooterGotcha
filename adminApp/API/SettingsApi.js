@@ -72,11 +72,7 @@ export class SettingsApi {
             .catch(res => Response.create(CATCH,true, CONNECTION_ERROR ));    
     }
 
-    set_config() {
-        const data = {
-            email: "username",
-            password: "password"
-          };
+    set_config(data) {
         return axios.post(SET_CONFIG_PATH,data)
             .then(res => {
                 return new Response(res.data);

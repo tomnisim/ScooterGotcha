@@ -1,24 +1,24 @@
-from datasets import load_dataset
-from moviepy.video.io.VideoFileClip import VideoFileClip
+import json
+
+# from Service.Service import Service
+import os
+# import RPi.GPIO as GPIO
+import time
+import subprocess
+import datetime
+
+import keyboard
+
 from Service.Service import Service
-
-DATASET_PATH = "keremberke/pothole-segmentation"
-
-def test_datset_and_frames():
-    clip = VideoFileClip('potholes_video_bs.mp4')
-    frames_generator = clip.iter_frames()
-    frames = list(clip.iter_frames())[0:3]
-
-    ds = load_dataset(DATASET_PATH, name="full")
-    example = ds['train'][0]
-
+# from picamera import PiCamera
+# from time import sleep
+def run_for_tests():
+    pass
 
 if __name__ == '__main__':
-
-
+    run_for_tests()
     service = Service()
     service.run()
-
 
 
 
