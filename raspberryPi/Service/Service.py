@@ -44,7 +44,7 @@ class Service:
                 ride = self.ride_controller.execute_ride()
                 self.persistence_controller.save_ride(ride)
                 # MOCK - for the debug video
-                while True:
-                    pass
+                # while True:
+                #     pass
 
 

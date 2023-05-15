@@ -3,3 +3,357 @@
 2023-05-14 17:30:56,362 Communication Problem: Cant get Raspberry Pi Configuration File From Server.
 2023-05-14 17:56:59,729 Camera Controller initialization
 2023-05-14 17:57:11,664 Camera Controller initialization
+2023-05-15 16:27:03,606 Communication Problem: Cant get Raspberry Pi Configuration File From Server.
+2023-05-15 16:28:03,743 Communication Problem: Cant get Raspberry Pi Configuration File From Server.
+2023-05-15 16:30:27,126 Communication Problem: Cant get Raspberry Pi Configuration File From Server.
+2023-05-15 16:45:42,184 GPS Controller initialization
+2023-05-15 16:45:43,664 Camera Controller initialization
+2023-05-15 16:45:44,118 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 16:45:44,918 Ride Controller initialization
+2023-05-15 16:45:44,919 HazardDetector build.
+2023-05-15 16:46:11,188 GPS Controller initialization
+2023-05-15 16:46:11,993 Camera Controller initialization
+2023-05-15 16:46:11,993 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 16:46:11,994 Ride Controller initialization
+2023-05-15 16:46:11,994 HazardDetector build.
+2023-05-15 16:46:21,752 Start thread get_frames_task
+2023-05-15 16:46:21,756 Start thread collect_junctions_task
+2023-05-15 16:46:21,765 Start Thread manage_end_button_task_mock
+2023-05-15 16:47:29,863 GPS Controller initialization
+2023-05-15 16:47:30,692 Camera Controller initialization
+2023-05-15 16:47:30,692 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 16:47:30,692 Ride Controller initialization
+2023-05-15 16:47:30,692 HazardDetector build.
+2023-05-15 16:47:35,715 Start thread get_frames_task
+2023-05-15 16:47:35,717 Start thread collect_junctions_task
+2023-05-15 16:47:35,728 Start Thread manage_end_button_task_mock
+2023-05-15 16:48:43,186 GPS Controller initialization
+2023-05-15 16:48:44,071 Camera Controller initialization
+2023-05-15 16:48:44,071 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 16:48:44,071 Ride Controller initialization
+2023-05-15 16:48:44,071 HazardDetector build.
+2023-05-15 16:48:54,411 GPS Controller initialization
+2023-05-15 16:48:55,334 Camera Controller initialization
+2023-05-15 16:48:55,334 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 16:48:55,334 Ride Controller initialization
+2023-05-15 16:48:55,334 HazardDetector build.
+2023-05-15 16:48:56,875 Start thread get_frames_task
+2023-05-15 16:48:56,875 Start thread collect_junctions_task
+2023-05-15 16:48:56,890 Start Thread manage_end_button_task_mock
+2023-05-15 16:49:35,704 GPS Controller initialization
+2023-05-15 16:49:36,543 Camera Controller initialization
+2023-05-15 16:49:36,543 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 16:49:36,543 Ride Controller initialization
+2023-05-15 16:49:36,543 HazardDetector build.
+2023-05-15 16:49:40,470 Start thread get_frames_task
+2023-05-15 16:49:40,470 Start thread collect_junctions_task
+2023-05-15 16:49:40,488 Start Thread manage_end_button_task_mock
+2023-05-15 16:55:49,579 GPS Controller initialization
+2023-05-15 16:55:50,439 Camera Controller initialization
+2023-05-15 16:55:50,440 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 16:55:50,440 Ride Controller initialization
+2023-05-15 16:55:50,440 HazardDetector build.
+2023-05-15 16:55:52,129 Start thread get_frames_task
+2023-05-15 16:55:52,129 Start thread collect_junctions_task
+2023-05-15 16:55:52,140 Start Thread manage_end_button_task_mock
+2023-05-15 16:56:32,909 GPS Controller initialization
+2023-05-15 16:56:33,998 Camera Controller initialization
+2023-05-15 16:56:33,998 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 16:56:33,998 Ride Controller initialization
+2023-05-15 16:56:33,998 HazardDetector build.
+2023-05-15 16:56:35,970 Start thread get_frames_task
+2023-05-15 16:56:35,971 Start thread collect_junctions_task
+2023-05-15 16:56:35,981 Start Thread manage_end_button_task_mock
+2023-05-15 16:57:22,542 GPS Controller initialization
+2023-05-15 16:57:23,545 Camera Controller initialization
+2023-05-15 16:57:23,545 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 16:57:23,545 Ride Controller initialization
+2023-05-15 16:57:23,545 HazardDetector build.
+2023-05-15 16:57:25,177 Start thread get_frames_task
+2023-05-15 16:57:25,178 Start thread collect_junctions_task
+2023-05-15 16:57:25,190 Start Thread manage_end_button_task_mock
+2023-05-15 16:58:37,124 GPS Controller initialization
+2023-05-15 16:58:37,894 Camera Controller initialization
+2023-05-15 16:58:37,894 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 16:58:37,894 Ride Controller initialization
+2023-05-15 16:58:37,894 HazardDetector build.
+2023-05-15 16:58:38,766 Start thread get_frames_task
+2023-05-15 16:58:38,766 Start thread collect_junctions_task
+2023-05-15 16:58:38,786 Start Thread manage_end_button_task_mock
+2023-05-15 16:59:38,350 GPS Controller initialization
+2023-05-15 16:59:39,345 Camera Controller initialization
+2023-05-15 16:59:39,346 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 16:59:39,346 Ride Controller initialization
+2023-05-15 16:59:39,346 HazardDetector build.
+2023-05-15 16:59:41,054 Start thread get_frames_task
+2023-05-15 16:59:41,054 Start thread collect_junctions_task
+2023-05-15 16:59:41,120 Start Thread manage_end_button_task_mock
+2023-05-15 17:00:23,432 GPS Controller initialization
+2023-05-15 17:00:24,236 Camera Controller initialization
+2023-05-15 17:00:24,237 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:00:24,237 Ride Controller initialization
+2023-05-15 17:00:24,237 HazardDetector build.
+2023-05-15 17:00:25,903 Start thread get_frames_task
+2023-05-15 17:00:25,904 Start thread collect_junctions_task
+2023-05-15 17:00:25,927 Start Thread manage_end_button_task_mock
+2023-05-15 17:12:11,602 GPS Controller initialization
+2023-05-15 17:12:12,514 Camera Controller initialization
+2023-05-15 17:12:12,514 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:12:12,514 Ride Controller initialization
+2023-05-15 17:12:12,514 HazardDetector build.
+2023-05-15 17:12:39,689 GPS Controller initialization
+2023-05-15 17:12:40,506 Camera Controller initialization
+2023-05-15 17:12:40,507 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:12:40,507 Ride Controller initialization
+2023-05-15 17:12:40,507 HazardDetector build.
+2023-05-15 17:14:34,015 GPS Controller initialization
+2023-05-15 17:14:34,878 Camera Controller initialization
+2023-05-15 17:14:34,879 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:14:34,879 Ride Controller initialization
+2023-05-15 17:14:34,879 HazardDetector build.
+2023-05-15 17:15:12,079 GPS Controller initialization
+2023-05-15 17:15:12,888 Camera Controller initialization
+2023-05-15 17:15:12,888 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:15:12,888 Ride Controller initialization
+2023-05-15 17:15:12,888 HazardDetector build.
+2023-05-15 17:15:14,563 Start thread get_frames_task
+2023-05-15 17:15:14,565 Start thread collect_junctions_task
+2023-05-15 17:15:14,615 Start Thread manage_end_button_task_mock
+2023-05-15 17:15:51,192 GPS Controller initialization
+2023-05-15 17:15:52,230 Camera Controller initialization
+2023-05-15 17:15:52,230 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:15:52,230 Ride Controller initialization
+2023-05-15 17:15:52,230 HazardDetector build.
+2023-05-15 17:15:53,912 Start thread get_frames_task
+2023-05-15 17:15:53,913 Start thread collect_junctions_task
+2023-05-15 17:15:53,947 Start Thread manage_end_button_task_mock
+2023-05-15 17:16:19,118 GPS Controller initialization
+2023-05-15 17:16:19,956 Camera Controller initialization
+2023-05-15 17:16:19,956 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:16:19,956 Ride Controller initialization
+2023-05-15 17:16:19,956 HazardDetector build.
+2023-05-15 17:16:22,006 Start thread get_frames_task
+2023-05-15 17:16:22,007 Start thread collect_junctions_task
+2023-05-15 17:16:22,059 Start Thread manage_end_button_task_mock
+2023-05-15 17:18:29,428 GPS Controller initialization
+2023-05-15 17:18:30,198 Camera Controller initialization
+2023-05-15 17:18:30,198 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:18:30,198 Ride Controller initialization
+2023-05-15 17:18:30,198 HazardDetector build.
+2023-05-15 17:18:31,852 Start thread get_frames_task
+2023-05-15 17:18:31,853 Start thread collect_junctions_task
+2023-05-15 17:18:31,886 Start Thread manage_end_button_task_mock
+2023-05-15 17:22:40,577 GPS Controller initialization
+2023-05-15 17:22:41,485 Camera Controller initialization
+2023-05-15 17:22:41,486 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:22:41,486 Ride Controller initialization
+2023-05-15 17:22:41,486 HazardDetector build.
+2023-05-15 17:22:43,261 Start thread get_frames_task
+2023-05-15 17:22:43,262 Start thread collect_junctions_task
+2023-05-15 17:22:43,289 Start Thread manage_end_button_task_mock
+2023-05-15 17:25:25,651 GPS Controller initialization
+2023-05-15 17:25:26,438 Camera Controller initialization
+2023-05-15 17:25:26,438 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:25:26,438 Ride Controller initialization
+2023-05-15 17:25:26,438 HazardDetector build.
+2023-05-15 17:25:28,311 Start thread get_frames_task
+2023-05-15 17:25:28,311 Start thread collect_junctions_task
+2023-05-15 17:25:28,360 Start Thread manage_end_button_task_mock
+2023-05-15 17:27:38,714 GPS Controller initialization
+2023-05-15 17:27:39,530 Camera Controller initialization
+2023-05-15 17:27:39,530 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:27:39,530 Ride Controller initialization
+2023-05-15 17:27:39,530 HazardDetector build.
+2023-05-15 17:27:41,303 Start thread get_frames_task
+2023-05-15 17:27:41,304 Start thread collect_junctions_task
+2023-05-15 17:27:41,329 Start Thread manage_end_button_task_mock
+2023-05-15 17:28:15,977 GPS Controller initialization
+2023-05-15 17:28:17,013 Camera Controller initialization
+2023-05-15 17:28:17,014 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:28:17,014 Ride Controller initialization
+2023-05-15 17:28:17,014 HazardDetector build.
+2023-05-15 17:28:18,210 Start thread get_frames_task
+2023-05-15 17:28:18,211 Start thread collect_junctions_task
+2023-05-15 17:28:18,246 Start Thread manage_end_button_task_mock
+2023-05-15 17:31:15,449 GPS Controller initialization
+2023-05-15 17:31:16,357 Camera Controller initialization
+2023-05-15 17:31:16,357 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:31:16,357 Ride Controller initialization
+2023-05-15 17:31:16,357 HazardDetector build.
+2023-05-15 17:31:18,026 Start thread get_frames_task
+2023-05-15 17:31:18,027 Start thread collect_junctions_task
+2023-05-15 17:31:18,050 Start Thread manage_end_button_task_mock
+2023-05-15 17:31:37,168 GPS Controller initialization
+2023-05-15 17:31:38,108 Camera Controller initialization
+2023-05-15 17:31:38,108 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:31:38,108 Ride Controller initialization
+2023-05-15 17:31:38,108 HazardDetector build.
+2023-05-15 17:31:39,657 Start thread get_frames_task
+2023-05-15 17:31:39,657 Start thread collect_junctions_task
+2023-05-15 17:31:39,681 Start Thread manage_end_button_task_mock
+2023-05-15 17:33:12,969 GPS Controller initialization
+2023-05-15 17:33:13,912 Camera Controller initialization
+2023-05-15 17:33:13,912 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:33:13,912 Ride Controller initialization
+2023-05-15 17:33:13,912 HazardDetector build.
+2023-05-15 17:33:15,993 Start thread get_frames_task
+2023-05-15 17:33:15,993 Start thread collect_junctions_task
+2023-05-15 17:33:16,028 Start Thread manage_end_button_task_mock
+2023-05-15 17:33:35,772 GPS Controller initialization
+2023-05-15 17:33:36,600 Camera Controller initialization
+2023-05-15 17:33:36,601 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:33:36,601 Ride Controller initialization
+2023-05-15 17:33:36,601 HazardDetector build.
+2023-05-15 17:33:38,223 Start thread get_frames_task
+2023-05-15 17:33:38,224 Start thread collect_junctions_task
+2023-05-15 17:33:38,269 Start Thread manage_end_button_task_mock
+2023-05-15 17:37:30,640 GPS Controller initialization
+2023-05-15 17:37:31,485 Camera Controller initialization
+2023-05-15 17:37:31,485 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:37:31,485 Ride Controller initialization
+2023-05-15 17:37:31,485 HazardDetector build.
+2023-05-15 17:37:33,637 Start thread get_frames_task
+2023-05-15 17:37:33,638 Start thread collect_junctions_task
+2023-05-15 17:37:33,669 Start Thread manage_end_button_task_mock
+2023-05-15 17:37:34,795 Start thread get_frames_task
+2023-05-15 17:37:34,795 Start thread collect_junctions_task
+2023-05-15 17:37:34,821 Start Thread manage_end_button_task_mock
+2023-05-15 17:38:00,784 GPS Controller initialization
+2023-05-15 17:38:01,640 Camera Controller initialization
+2023-05-15 17:38:01,640 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:38:01,640 Ride Controller initialization
+2023-05-15 17:38:01,640 HazardDetector build.
+2023-05-15 17:38:04,230 Start thread get_frames_task
+2023-05-15 17:38:04,231 Start thread collect_junctions_task
+2023-05-15 17:38:04,277 Start Thread manage_end_button_task_mock
+2023-05-15 17:38:06,359 Start thread get_frames_task
+2023-05-15 17:38:06,360 Start thread collect_junctions_task
+2023-05-15 17:38:06,387 Start Thread manage_end_button_task_mock
+2023-05-15 17:40:41,415 GPS Controller initialization
+2023-05-15 17:40:42,222 Camera Controller initialization
+2023-05-15 17:40:42,222 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:40:42,222 Ride Controller initialization
+2023-05-15 17:40:42,222 HazardDetector build.
+2023-05-15 17:40:43,880 Start thread get_frames_task
+2023-05-15 17:40:43,881 Start thread collect_junctions_task
+2023-05-15 17:40:43,907 Start Thread manage_end_button_task_mock
+2023-05-15 17:40:45,951 Start thread get_frames_task
+2023-05-15 17:40:45,952 Start thread collect_junctions_task
+2023-05-15 17:40:45,997 Start Thread manage_end_button_task_mock
+2023-05-15 17:40:58,633 GPS Controller initialization
+2023-05-15 17:40:59,507 Camera Controller initialization
+2023-05-15 17:40:59,507 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:40:59,507 Ride Controller initialization
+2023-05-15 17:40:59,507 HazardDetector build.
+2023-05-15 17:41:01,077 Start thread get_frames_task
+2023-05-15 17:41:01,078 Start thread collect_junctions_task
+2023-05-15 17:41:01,111 Start Thread manage_end_button_task_mock
+2023-05-15 17:41:16,023 GPS Controller initialization
+2023-05-15 17:41:16,912 Camera Controller initialization
+2023-05-15 17:41:16,913 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:41:16,913 Ride Controller initialization
+2023-05-15 17:41:16,913 HazardDetector build.
+2023-05-15 17:41:18,357 Start thread get_frames_task
+2023-05-15 17:41:18,358 Start thread collect_junctions_task
+2023-05-15 17:41:18,382 Start Thread manage_end_button_task_mock
+2023-05-15 17:41:20,421 Start thread get_frames_task
+2023-05-15 17:41:20,422 Start thread collect_junctions_task
+2023-05-15 17:41:20,451 Start Thread manage_end_button_task_mock
+2023-05-15 17:43:16,665 GPS Controller initialization
+2023-05-15 17:43:17,561 Camera Controller initialization
+2023-05-15 17:43:17,561 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:43:17,561 Ride Controller initialization
+2023-05-15 17:43:17,561 HazardDetector build.
+2023-05-15 17:43:19,253 Start thread get_frames_task
+2023-05-15 17:43:19,254 Start thread collect_junctions_task
+2023-05-15 17:43:19,278 Start Thread manage_end_button_task_mock
+2023-05-15 17:43:42,482 GPS Controller initialization
+2023-05-15 17:43:43,439 Camera Controller initialization
+2023-05-15 17:43:43,439 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:43:43,439 Ride Controller initialization
+2023-05-15 17:43:43,439 HazardDetector build.
+2023-05-15 17:43:45,413 Start thread get_frames_task
+2023-05-15 17:43:45,413 Start thread collect_junctions_task
+2023-05-15 17:43:45,437 Start Thread manage_end_button_task_mock
+2023-05-15 17:44:00,083 GPS Controller initialization
+2023-05-15 17:44:01,078 Camera Controller initialization
+2023-05-15 17:44:01,078 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:44:01,078 Ride Controller initialization
+2023-05-15 17:44:01,078 HazardDetector build.
+2023-05-15 17:44:02,657 Start thread get_frames_task
+2023-05-15 17:44:02,658 Start thread collect_junctions_task
+2023-05-15 17:44:02,687 Start Thread manage_end_button_task_mock
+2023-05-15 17:44:05,739 Start thread get_frames_task
+2023-05-15 17:44:05,739 Start thread collect_junctions_task
+2023-05-15 17:44:05,767 Start Thread manage_end_button_task_mock
+2023-05-15 17:44:48,974 GPS Controller initialization
+2023-05-15 17:44:49,887 Camera Controller initialization
+2023-05-15 17:44:49,887 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:44:49,887 Ride Controller initialization
+2023-05-15 17:44:49,887 HazardDetector build.
+2023-05-15 17:44:51,215 Start thread get_frames_task
+2023-05-15 17:44:51,216 Start thread collect_junctions_task
+2023-05-15 17:44:51,251 Start Thread manage_end_button_task_mock
+2023-05-15 17:44:54,307 Start thread get_frames_task
+2023-05-15 17:44:54,308 Start thread collect_junctions_task
+2023-05-15 17:44:54,396 Start Thread manage_end_button_task_mock
+2023-05-15 17:46:35,497 GPS Controller initialization
+2023-05-15 17:46:40,812 GPS Controller initialization
+2023-05-15 17:46:41,625 Camera Controller initialization
+2023-05-15 17:46:41,625 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:46:41,625 Ride Controller initialization
+2023-05-15 17:46:41,625 HazardDetector build.
+2023-05-15 17:46:43,279 Start thread get_frames_task
+2023-05-15 17:46:43,280 Start thread collect_junctions_task
+2023-05-15 17:46:43,339 Start Thread manage_end_button_task_mock
+2023-05-15 17:46:46,415 Start thread get_frames_task
+2023-05-15 17:46:46,416 Start thread collect_junctions_task
+2023-05-15 17:46:46,488 Start Thread manage_end_button_task_mock
+2023-05-15 17:47:05,530 GPS Controller initialization
+2023-05-15 17:47:06,355 Camera Controller initialization
+2023-05-15 17:47:06,355 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:47:06,355 Ride Controller initialization
+2023-05-15 17:47:06,355 HazardDetector build.
+2023-05-15 17:47:07,570 Start thread get_frames_task
+2023-05-15 17:47:07,571 Start thread collect_junctions_task
+2023-05-15 17:47:07,603 Start Thread manage_end_button_task_mock
+2023-05-15 17:47:09,660 Start thread get_frames_task
+2023-05-15 17:47:09,660 Start thread collect_junctions_task
+2023-05-15 17:47:09,705 Start Thread manage_end_button_task_mock
+2023-05-15 17:47:12,707 Start thread get_frames_task
+2023-05-15 17:47:12,708 Start thread collect_junctions_task
+2023-05-15 17:47:12,767 Start Thread manage_end_button_task_mock
+2023-05-15 17:47:16,766 Start thread get_frames_task
+2023-05-15 17:47:16,767 Start thread collect_junctions_task
+2023-05-15 17:47:16,812 Start Thread manage_end_button_task_mock
+2023-05-15 17:47:21,892 Start thread get_frames_task
+2023-05-15 17:47:21,893 Start thread collect_junctions_task
+2023-05-15 17:47:21,920 Start Thread manage_end_button_task_mock
+2023-05-15 17:50:03,234 Camera Controller initialization
+2023-05-15 17:50:07,331 communication problem
+2023-05-15 17:50:07,332 Communication Problem: Cant Send Ride to Server.
+2023-05-15 17:50:22,420 Camera Controller initialization
+2023-05-15 17:50:26,499 communication problem
+2023-05-15 17:50:26,499 Communication Problem: Cant Send Ride to Server.
+2023-05-15 17:50:30,658 Communication Problem: Cant get Raspberry Pi Configuration File From Server.
+2023-05-15 17:51:14,348 HazardDetector build.
+2023-05-15 17:53:00,665 GPS Controller initialization
+2023-05-15 17:53:01,463 Camera Controller initialization
+2023-05-15 17:53:01,463 Vocal alerter creation ->  duration: 0, power: 10
+2023-05-15 17:53:01,463 Ride Controller initialization
+2023-05-15 17:53:01,463 HazardDetector build.
+2023-05-15 17:53:03,555 Start thread get_frames_task
+2023-05-15 17:53:03,556 Start thread collect_junctions_task
+2023-05-15 17:53:03,600 Start Thread manage_end_button_task_mock
+2023-05-15 17:53:05,634 Start thread get_frames_task
+2023-05-15 17:53:05,634 Start thread collect_junctions_task
+2023-05-15 17:53:05,663 Start Thread manage_end_button_task_mock
+2023-05-15 17:53:08,761 Start thread get_frames_task
+2023-05-15 17:53:08,761 Start thread collect_junctions_task
+2023-05-15 17:53:08,790 Start Thread manage_end_button_task_mock
+2023-05-15 17:53:12,873 Start thread get_frames_task
+2023-05-15 17:53:12,874 Start thread collect_junctions_task
+2023-05-15 17:53:12,916 Start Thread manage_end_button_task_mock
+2023-05-15 17:53:17,913 Start thread get_frames_task
+2023-05-15 17:53:17,913 Start thread collect_junctions_task
+2023-05-15 17:53:17,957 Start Thread manage_end_button_task_mock

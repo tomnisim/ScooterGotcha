@@ -12,6 +12,9 @@ from VideoProccessorModule.HazardType import HazardType
 
 
 class CommunicationController_test(TestCase):
+    def setUp(self):
+        ConfigurationController()
+
     def test_set_serial(self):
         try:
             constants = Constants.get_instance()

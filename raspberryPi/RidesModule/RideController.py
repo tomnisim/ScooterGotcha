@@ -8,7 +8,6 @@ from GPSModule.GPSController import GPSController
 from GPSModule.Location import Location
 from PersistenceModule.PersistenceController import PersistenceController
 from RidesModule.Ride import Ride
-from Service import Service
 from Service.EndButtonThread import EndButtonThread
 from Utils.Logger import ride_logger, system_logger
 from VideoProccessorModule.EventDetector import EventDetector
@@ -38,7 +37,8 @@ def collect_junctions_task(gps_controller):
     while not stop:
         loc = gps_controller.get_location()
         junctions.append(loc)
-        time.sleep(int(Constants.get_instance().get_minimum_distance_to_alert()))
+        time_between_junctions = Constants.get_instance().get_time_between_junctions()
+        time.sleep(float(time_between_junctions))
 
 
 def get_frames_task(camera_controller, gps_controller):
@@ -85,6 +85,7 @@ class RideController:
         self._event_detector = EventDetector()
         self._road_detector = RoadDetector()
         self._hazard_detector = HazardDetector()
+        self.end_button_thread = EndButtonThread()
 
     def execute_ride(self):
         print('execute ride')
@@ -109,11 +110,11 @@ class RideController:
 
         # create thread that manage end button
 
-        end_button_thread = EndButtonThread()
-        endbutton_thread = threading.Thread(target=end_button_thread.task())
+
+        endbutton_thread = threading.Thread(target=self.end_button_thread.task)
         endbutton_thread.start()
 
-        while not end_button_thread.get_end_button():
+        while not self.end_button_thread.get_end_button():
             pass
         print("Finish ride")
 

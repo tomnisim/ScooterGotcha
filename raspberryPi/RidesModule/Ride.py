@@ -58,6 +58,12 @@ class Ride:
         self.start_time = start_time
         self.end_time = finish_time
         self.junctions = junctions
+    def get_junctions(self):
+        return self.junctions
+    def get_end_time(self):
+        return self.end_time
+    def get_start_time(self):
+        return self.start_time
 
 
 

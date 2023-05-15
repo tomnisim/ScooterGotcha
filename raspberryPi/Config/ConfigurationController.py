@@ -1,6 +1,6 @@
 import configparser
 from Config.Constants import Constants
-
+import os
 
 class ConfigurationController:
     def __init__(self):
@@ -14,15 +14,21 @@ class ConfigurationController:
 
     def set_serial(self):
         filename = 'Config/serial.txt'
+        original_dir = os.getcwd()
+        os.chdir('../')
         with open(filename, "r") as f:
             serialNumber = f.read().strip()
         self.constants.set_serial_number(serialNumber)
+        os.chdir(original_dir)
 
     def read_config_from_default(self):
         filename = 'Config/default_config.txt'
+        original_dir = os.getcwd()
+        os.chdir('../')
         # read
         config = configparser.ConfigParser()
         config.read(filename)
+        os.chdir(original_dir)
 
         # server address
         SERVER_ADDRESS = config['ServerAddress']['protocol'] + config['ServerAddress']['host'] + ":" + \
@@ -41,11 +47,22 @@ class ConfigurationController:
         minimum_distance_to_alert = config['ScooterAppendixA']['minimum_distance_to_alert']
         self.constants.set_minimum_distance_to_alert(minimum_distance_to_alert)
 
+        # alert duration
         alert_duration = config['ScooterAppendixA']['alert_duration']
         self.constants.set_alert_duration(alert_duration)
 
+        # alert type
         alert_type = config['ScooterAppendixA']['alert_type']
         self.constants.set_alert_type(alert_type)
+
+        # time between junctions
+        time_between_junctions = config['ScooterAppendixA']['time_between_junctions']
+        self.constants.set_time_between_junctions(time_between_junctions)
+
+        # time between frames
+        time_between_frames = config['ScooterAppendixA']['time_between_frames']
+        self.constants.set_time_between_frames(time_between_frames)
+
 
     def set_data(self, config_data):
         # server address

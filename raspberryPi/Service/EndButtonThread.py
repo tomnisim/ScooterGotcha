@@ -13,6 +13,10 @@ class EndButtonThread:
         # GPIO.setmode(GPIO.BCM)
         # GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
+    def set_end_button_mock(self, end_button):
+        self.end_button = end_button
+        print("Update End Button to ", end_button)
+
     def get_end_button(self):
         return self.end_button
 
