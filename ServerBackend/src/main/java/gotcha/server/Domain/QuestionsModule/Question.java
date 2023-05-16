@@ -13,13 +13,13 @@ public class Question {
 
     @Column(name="messageDate", nullable = false)
     protected LocalDateTime message_date;
-    @Column(name="answerDate", nullable = false)
+    @Column(name="answerDate")
     protected LocalDateTime answer_date;
 
     @Column(name="message", columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", nullable = false)
     protected String message;
 
-    @Column(name="answer", columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", nullable = false)
+    @Column(name="answer", columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
 
     protected String answer;
 
@@ -29,7 +29,7 @@ public class Question {
     @Column(name="senderEmail", nullable = false)
     protected String senderEmail;
 
-    @Column(name="responderEmail", nullable = false)
+    @Column(name="responderEmail")
 
     protected String responderEmail;
 
