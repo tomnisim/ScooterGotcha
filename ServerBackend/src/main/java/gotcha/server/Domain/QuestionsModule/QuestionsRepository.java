@@ -54,7 +54,10 @@ public class QuestionsRepository {
     }
 
     public List<Question> getUsersQuestions(String userEmail) {
-        return new ArrayList<>(users_questions.get(userEmail).values());
+        HashMap<Integer,Question> users_questions_map = users_questions.get(userEmail);
+        List<Question> questions = new ArrayList<>();
+        questions.addAll(users_questions_map.values());
+        return questions;
     }
 
     private Question getQuestionFromDb(int questionId) throws Exception {

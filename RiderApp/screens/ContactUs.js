@@ -17,6 +17,7 @@ export default function ContactUsScreen({navigation}) {
 
 
   async function get_questions_list(){
+    console.log("get questions list")
     let response = await questionsApi.view_questions();
     console.log(response)
     if (!response.was_exception){
@@ -44,6 +45,8 @@ export default function ContactUsScreen({navigation}) {
       {
         alert("Your Message Has Been Successfully Sent To The System.");
         setText_to_message_to_send('')
+        // navigation.navigate('ContactUs')
+        // window.location.reload()
         get_questions_list();
 
       }

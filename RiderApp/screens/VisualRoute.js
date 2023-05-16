@@ -19,7 +19,7 @@ export const setRoute = ((route) => {
   let value = route[0]
   console.log(value)
   distance = value.distance
-  duration = value.duration
+  duration = value.duration/10 - 3  
   let junctionsNumber = value.number_of_junctions
   let juns = value.junctions
   let id = 0

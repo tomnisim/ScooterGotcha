@@ -142,6 +142,7 @@ public class UserController implements IUserController {
             throw new Exception("password is incorrect for user with email " + userEmail);
         }
         user.login();
+        userRepository.riderLogin(userEmail);
         return user;
     }
 
