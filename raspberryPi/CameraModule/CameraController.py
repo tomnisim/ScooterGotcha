@@ -1,10 +1,10 @@
-# import picamera
 import time
 from moviepy.editor import VideoFileClip
 import numpy as np
 
 from Config.Constants import Constants
 from Utils.Logger import system_logger
+from picamera2 import Picamera2, Preview
 
 i = 0
 
@@ -35,12 +35,14 @@ class CameraController:
             return self.init_camera_mock()
         else:
             return self.init_camera_realtime()
+        
     def init_camera_realtime(self):
-        camera = picamera.PiCamera()
-        camera.resolution = (640, 480)  # TODO: maybe 640, 640 TODO
-        camera.framerate = 30
-        time.sleep(2)  # Give the camera some time to warm up
-        return camera
+        picam2 = Picamera2()
+        camera_config = picam2.create_still_configuration(lores={"size": (640, 640)}, display="lores", raw=picam2.sensor_modes[2])
+        picam2.configure(camera_config)
+        picam2.video_configuration.controls.FrameRate = 25.0
+        picam2.start()
+        return  picam2
 
     # Initialize the camera
     def init_camera_mock(self):

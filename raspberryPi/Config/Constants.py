@@ -3,7 +3,7 @@ class Constants:
     __instance = None
 
     def __init__(self):
-        self.MOCK_RUNNING = True
+        self.MOCK_RUNNING = False
         self.serialNumber = ""
         self.number_of_coordinates = ""
         self.SERVER_ADDRESS = ""
