@@ -19,8 +19,11 @@ def convert_frame_to_YOLO_input(frame):
 
 hazard_detector = HazardDetector()
 def get_frames():
-    with_potholes_path = 'frames_with_potholes'
-    without_potholes_path = 'frames_without_potholes'
+    with_potholes_path = 'Tests/frames_with_potholes'
+    with_potholes_path = 'C:\\Users\\Tom\\Desktop\\university\\fourthYear\\semester8\\SeminarProject\\raspberryPi\\Image_tests'
+    without_potholes_path = 'Tests/frames_without_potholes'
+    without_potholes_path = 'C:\\Users\\Tom\\Desktop\\university\\fourthYear\\semester8\\SeminarProject\\raspberryPi\\Image_tests'
+
     with_potholes_list = []
     without_potholes_list = []
 #
@@ -44,7 +47,7 @@ frames_with_potholes , frames_without_potholes  = get_frames()
 
 
 
-class TestHazardDetector(TestCase):
+class HazardDetector_test(TestCase):
 
     def test_predict_with_potholes(self):
         detection_no = 0
@@ -57,6 +60,7 @@ class TestHazardDetector(TestCase):
                 if id == 10:
                     break
             print(f'Detect Potholes in {detection_no} frames out of {predictions_no} -->  {int(detection_no / predictions_no * 100)}%')
+            self.assertTrue(True)
         except:
             self.fail()
     def test_predict_without_potholes(self):
@@ -68,8 +72,9 @@ class TestHazardDetector(TestCase):
                 is_potholes, size = hazard_detector.predict(img)
                 if not is_potholes:
                     un_detection_no += 1
-            print(
-                f'Undetected Potholes in {un_detection_no} frames out of {predictions_no} -->  {int(un_detection_no / predictions_no * 100)}%')
+            print(f'Undetected Potholes in {un_detection_no} frames out of {predictions_no} -->  {int(un_detection_no / predictions_no * 100)}%')
+            self.assertTrue(True)
+
         except:
             self.fail()
 

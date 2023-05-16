@@ -8,17 +8,23 @@ Type: V2
 GPS: default
 num_of_coordinates: 8
 
+#[ServerAddress]
+#host:
+#port:
+#protocol:https://gold-rock-386508.oa.r.appspot.com
+
 [ServerAddress]
 host: localhost
 port: 5050
 protocol:http://
 
-
 [ScooterAppendixA]
 
 minimum_distance_to_alert:5
 alert_duration:5
-time_between_junctions: 60
+# TODO - change to 60
+time_between_junctions:2
+time_between_frames : 1
 
 duration_unit : seconds
 alert_type : Vocal
