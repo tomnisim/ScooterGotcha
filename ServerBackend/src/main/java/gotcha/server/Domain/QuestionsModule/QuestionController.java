@@ -3,6 +3,7 @@ package gotcha.server.Domain.QuestionsModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -23,7 +24,8 @@ public class QuestionController implements IQuestionController {
         if (message.contains("<") || message.contains(">")){
             throw new Exception("no scripts allowed.");
         }
-        Question question = new Question(message, senderEmail);
+//        Question question = new Question(message, senderEmail);
+        Question question = new Question(LocalDateTime.now(), LocalDateTime.now(), message, "", false, senderEmail,  "");
         this.questionsRepository.addQuestion(question);
     }
 
@@ -54,7 +56,8 @@ public class QuestionController implements IQuestionController {
     @Override
     public List<QuestionDTO> get_all_user_questions(String user_email) {
         ArrayList<QuestionDTO> answer = new ArrayList();
-        for (Question question : this.questionsRepository.getUsersQuestions(user_email))
+        List<Question> users_questions_from_db = this.questionsRepository.getUsersQuestions(user_email);
+        for (Question question : users_questions_from_db)
             answer.add(new QuestionDTO(question));
         return answer;
     }

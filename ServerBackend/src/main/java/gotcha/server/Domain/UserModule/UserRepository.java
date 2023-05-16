@@ -127,5 +127,11 @@ public class UserRepository {
         usersJpaRepositry.save(user);
     }
 
+    public void riderLogin(String userEmail) throws UserNotFoundException {
+        var user = getUserByEmail(userEmail);
+        usersJpaRepositry.save(user);
+
+    }
+
 
 }

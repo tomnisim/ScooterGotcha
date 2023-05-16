@@ -47,6 +47,7 @@ public class Question {
         this.has_answer = false;
         this.senderEmail = senderEmail;
         this.message_date = LocalDateTime.now();
+        this.answer_date = LocalDateTime.MAX;
     }
 
     /**
