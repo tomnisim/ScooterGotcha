@@ -5,6 +5,7 @@ import numpy as np
 from Config.Constants import Constants
 from Utils.Logger import system_logger
 from picamera2 import Picamera2, Preview
+import cv2
 
 i = 0
 
@@ -37,13 +38,21 @@ class CameraController:
             return self.init_camera_realtime()
         
     def init_camera_realtime(self):
+        print('init real camera')
         picam2 = Picamera2()
-        camera_config = picam2.create_still_configuration(lores={"size": (640, 640)}, display="lores", raw=picam2.sensor_modes[2])
-        picam2.configure(camera_config)
-        picam2.video_configuration.controls.FrameRate = 25.0
-        picam2.start()
-        return  picam2
-
+        try:
+            
+            camera_config = picam2.create_still_configuration(lores={"size": (640, 640)}, display="lores")
+            picam2.configure(camera_config)
+            return  picam2
+        finally:
+            picam2.close()
+        
+        
+    def start_camera(self):
+        self._camera.start()
+    def close_camera(self):
+        self._camera.close()
     # Initialize the camera
     def init_camera_mock(self):
         self.clip = VideoFileClip('potholes_video_bs.mp4')
@@ -53,14 +62,16 @@ class CameraController:
 
     # Get the next frame from the camera
     def get_next_frame_realtime(self):
-        # create numpy array to hold frame data
-        frame = np.empty((640 * 640 * 3,), dtype=np.uint8)
-        # capture frame
-        self._camera.capture(frame, format='rgb')
-
-        # reshape frame data into 3D array (height x width x channels)
-        frame = frame.reshape((640, 640, 3))
-        return frame
+        print('get next real frame')
+        camera_config = self._camera.create_still_configuration(lores={"size": (640, 640)}, display="lores")
+        self._camera.configure(camera_config)
+        self._camera.capture_file("test.jpg")
+        image_path = 'test.jpg'
+        image = cv2.imread(image_path)
+        cv2.imshow('Image', image)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+        return image
 
     def get_next_frame(self):
         if Constants.get_instance().get_MOCK_RUNNING():

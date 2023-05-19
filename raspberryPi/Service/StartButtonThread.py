@@ -18,7 +18,8 @@ class StartButtonThread:
         if Constants.get_instance().get_MOCK_RUNNING():
             self.manage_start_button_task_mock()
         else:
-            self.manage_start_button_task()
+            self.manage_start_button_task_mock()
+            # self.manage_start_button_task()
 
     def manage_start_button_task_mock(self):
         system_logger.info(f'Start thread manage_start_button_task_mock')

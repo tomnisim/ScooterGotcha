@@ -95,6 +95,7 @@ class RideController:
         global hazards
         global stop_flag
         stop = False
+        # self._camera_controller.start_camera()
 
         junctions_thread = threading.Thread(target=collect_junctions_task, args=(self._GPS_controller,))
         frames_thread = threading.Thread(target=get_frames_task, args=(self._camera_controller, self._GPS_controller))
@@ -102,26 +103,29 @@ class RideController:
 
         start_time = datetime.datetime.now()
         start_loc = self._GPS_controller.get_location_mock()
+        try:
+            # TODO: uncomment
+            frames_thread.start()
+            junctions_thread.start()
+            hazards_thread.start()
 
-        # TODO: uncomment
-        frames_thread.start()
-        junctions_thread.start()
-        hazards_thread.start()
-
-        # create thread that manage end button
+            # create thread that manage end button
 
 
-        endbutton_thread = threading.Thread(target=self.end_button_thread.task)
-        endbutton_thread.start()
+            endbutton_thread = threading.Thread(target=self.end_button_thread.task)
+            endbutton_thread.start()
 
-        while not self.end_button_thread.get_end_button():
-            pass
-        print("Finish ride")
+            while not self.end_button_thread.get_end_button():
+                pass
+            print("Finish ride")
+            self._camera_controller.close_camera()
+            stop = True
 
-        stop = True
+            finish_time = datetime.datetime.now()
+            destination_loc = self._GPS_controller.get_location_mock()
 
-        finish_time = datetime.datetime.now()
-        destination_loc = self._GPS_controller.get_location_mock()
-
-        ride = Ride(hazards, start_loc, destination_loc, start_time, finish_time, junctions)
-        return ride
+            ride = Ride(hazards, start_loc, destination_loc, start_time, finish_time, junctions)
+            return ride
+        finally:
+            print("Crash - execute finally")
+            self._camera_controller.close_camera()
