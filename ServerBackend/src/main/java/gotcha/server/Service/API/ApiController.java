@@ -177,6 +177,12 @@ public class ApiController implements IAdminAPI, IUserAPI {
         Response response = facade.finish_ride(finishRideRequest);
         return response;
     }
+    @RequestMapping(value = "/send_ride_test")
+    @CrossOrigin
+    public void send_ride_test(@RequestBody test t) {
+        int a = 4;
+    }
+
 
     /**
      * this method is for RP usage, when user is not have to be logged in.

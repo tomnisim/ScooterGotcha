@@ -97,7 +97,36 @@ def predict(frame):
     
     render.show()
 
+def test_send():
+    c = CameraController.get_instance()
+    c.start_camera()
+    frame = c.get_next_frame()
+    # Convert the frame to a JSON string
+    frame_json = json.dumps(frame.tolist())
 
+    # Convert the frame to binary data
+    frame_bytes = frame.tobytes()
+
+    # Step 3: Prepare the data payload for the POST request
+    # If using JSON
+    payload = {
+        'frame': frame_json
+    }
+
+    # If using binary data
+    payload = {
+        'frame': frame_bytes
+    }
+
+    # Step 4: Send the POST request to the server
+    url = 'http://192.168.1.13:5050/send_ride_test'
+    response = requests.post(url, data=payload)
+
+    # Step 5: Check the response from the server
+    if response.status_code == 200:
+        print('Frame sent successfully!')
+    else:
+        print('Error sending frame. Status code:', response.status_code)
 
 def run_for_tests():
     c = CameraController.get_instance()
@@ -140,7 +169,8 @@ if __name__ == '__main__':
     # run_for_tests_detection()
     try:
         print("hello")
-        run_for_tests()
+        test_send()
+        # run_for_tests()
         # service = Service()
         # service.run()
     except Exception as e:
