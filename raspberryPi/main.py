@@ -115,8 +115,9 @@ if __name__ == '__main__':
     # img = Image.fromarray(f)
     # img.open()
     # run_for_tests_detection()
+    print("hello")
     service = Service()
-    service.run()
+    # service.run()
 
 
 
