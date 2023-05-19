@@ -98,29 +98,31 @@ def predict(frame):
     render.show()
 
 def test_send():
-    c = CameraController.get_instance()
-    c.start_camera()
-    frame = c.get_next_frame()
-    # Convert the frame to a JSON string
-    frame_json = json.dumps(frame.tolist())
+    # c = CameraController.get_instance()
+    # c.start_camera()
+    # frame = c.get_next_frame()
+    # # Convert the frame to a JSON string
+    # frame_json = json.dumps(frame.tolist())
 
-    # Convert the frame to binary data
-    frame_bytes = frame.tobytes()
+    # # Convert the frame to binary data
+    # frame_bytes = frame.tobytes()
 
-    # Step 3: Prepare the data payload for the POST request
-    # If using JSON
-    payload = {
-        'frame': frame_json
-    }
+    # # Step 3: Prepare the data payload for the POST request
+    # # If using JSON
+    # payload = {
+    #     'frame': frame_json
+    # }
 
     # If using binary data
     payload = {
-        'frame': frame_bytes
+        'data': 'data'
     }
+    json_data = json.dumps(payload)
 
     # Step 4: Send the POST request to the server
     url = 'http://192.168.1.13:5050/send_ride_test'
-    response = requests.post(url, data=payload)
+    headers = {'Content-Type': 'application/json'}
+    response = requests.post(url, data=json_data, headers=headers)
 
     # Step 5: Check the response from the server
     if response.status_code == 200:
