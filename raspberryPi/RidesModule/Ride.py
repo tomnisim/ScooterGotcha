@@ -87,7 +87,7 @@ class RideDTO:
             hazard_data = {'type': hazard.type.value,
                            'location': self.serialize_location(hazard.location),
                            'size': hazard.size,
-                           'frame': byte_array}
+                           'frame': hazard.frame.tolist()}
             hazard_lst.append(hazard_data)
         return hazard_lst
 

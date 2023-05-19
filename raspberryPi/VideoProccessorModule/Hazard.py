@@ -10,8 +10,9 @@ class Hazard():
         self.size=size
         self.location = location
         self.type = type
+        self.frame=frame
 
-        self.frame = self.encode_image(frame)
+        # self.frame = self.encode_image(frame)
         # self.frame = self.encode_from_PIL(frame)
 
     def encode_image(self, frame):

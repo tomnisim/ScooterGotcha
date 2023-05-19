@@ -46,8 +46,12 @@ def get_frames_task(camera_controller, gps_controller):
     global frames
     while not stop:
         image = camera_controller.get_next_frame()
+        time_between_frames = int(Constants.get_instance().get_time_between_frames())
+
+        time.sleep(time_between_frames)
         loc = gps_controller.get_location()
         frames.append((loc, image))
+        print('add frame')
 
 
 def detect_hazards_task(hazard_detector, alerter):
@@ -59,6 +63,7 @@ def detect_hazards_task(hazard_detector, alerter):
     while not stop:
         if len(frames) > 0:
             loc, frame = frames.pop(0)
+            print('get frame from frames list')
             current_hazards = hazard_detector.detect_hazards_in_frame(frame, loc)
             # current_hazards = []
             hazards_detect = False
@@ -97,7 +102,7 @@ class RideController:
         stop = False
         self._camera_controller.start_camera()
 
-        junctions_thread = threading.Thread(target=collect_junctions_task, args=(self._GPS_controller,))
+        # junctions_thread = threading.Thread(target=collect_junctions_task, args=(self._GPS_controller,))
         frames_thread = threading.Thread(target=get_frames_task, args=(self._camera_controller, self._GPS_controller))
         hazards_thread = threading.Thread(target=detect_hazards_task, args=(self._hazard_detector, self.alerter))
 
@@ -106,7 +111,7 @@ class RideController:
         try:
             # TODO: uncomment
             frames_thread.start()
-            junctions_thread.start()
+            # junctions_thread.start()
             hazards_thread.start()
 
             # create thread that manage end button

@@ -78,8 +78,8 @@ class HazardDetector:
         return img
 
     def predict(self, frame):
-        image = frame
-        # image = self.convert_frame_to_YOLO_input(frame)
+        # image = frame
+        image = self.convert_frame_to_YOLO_input(frame)
         # if the frame is ndarray and we want to show it
         # image = Image.open(frame)
         # image = Image.fromarray(frame)

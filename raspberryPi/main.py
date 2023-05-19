@@ -1,8 +1,10 @@
 #
+import datetime
 import numpy as np
 # import matplotlib.pyplot as plt
 # import math
-
+import requests
+import json
 import cv2
 from matplotlib import pyplot as plt
 # from Utils.Logger import system_logger
@@ -15,8 +17,25 @@ from moviepy.video.io.VideoFileClip import VideoFileClip
 from ultralytics.yolo.v8.segment import SegmentationValidator
 from ultralyticsplus import YOLO, render_result
 from CameraModule.CameraController import CameraController
-
+import signal
+import sys
+from GPSModule.Location import Location
+from RidesModule.Ride import Ride, to_dto
 from Service.Service import Service
+from Utils.Response import Response
+from VideoProccessorModule.Hazard import Hazard
+from VideoProccessorModule.HazardType import HazardType
+
+def close_camera(signal, frame):
+    print("Signal received, closing camera...")
+    CameraController.get_instance().close_camera()
+    sys.exit(0)
+
+# Register the signal handlers
+signal.signal(signal.SIGINT, close_camera)
+signal.signal(signal.SIGTSTP, close_camera)
+
+
 POTHOLES_DETECTION_MODEL_ID = 'keremberke/yolov8n-pothole-segmentation'
 
 model = YOLO(POTHOLES_DETECTION_MODEL_ID)
@@ -81,31 +100,34 @@ def predict(frame):
 
 
 def run_for_tests():
-    rf = Roboflow(api_key="1EQ1Efjqv4OtzzFRD7SB")
-    project = rf.workspace().project("gotcha")
-    model = project.version(2).model
-    v = VideoFileClip('potholes_video_bs.mp4')
+    c = CameraController.get_instance()
+    c.start_camera()
+    frame = c.get_next_frame()
+    # frame = np.array([1, 2, 3])
+    print(frame)
+    print(list(frame))
+    print(type(frame))
+    print(len(frame))
+    hazard = Hazard(0.5, Location(21.32, 32.32), HazardType.Pothole, frame)
+    print('skghevbbkwbvfkgb')
+    hazards=[hazard]
+    start_loc = destination_loc = Location(12.21, 32.21)
+    start_time= finish_time = datetime.datetime.now()
+    junctions=[Location(21.32, 32.32)]*5
+    ride = Ride(hazards, start_loc, destination_loc, start_time, finish_time, junctions)
+    rideDTO = to_dto(ride, 'first1')
+    # print(rideDTO)
+    url = 'http://192.168.1.13:5050/finish_ride'
 
-    frames_generator =v.iter_frames()
-    lst =list(frames_generator)
-    print(len(lst))
-    # Navigate to the folder
-    os.chdir('C:\\Users\\Tom\\Desktop\\university\\fourthYear\\semester8\\SeminarProject\\raspberryPi\\Image_tests')
-    for i in range(1, 187 ,10):
-        img = Image.fromarray(lst[i])
-        # img = img.resize((640, 640))
-        # img = img.convert('RGB')
-        # # Open the image file
-        # img = Image.open('example.jpg')
-        # Save the image to a folder
-        img.save(f'test{i}.jpg')
+    json_data = json.dumps(rideDTO)
+    # print(json_data)
+    headers = {'Content-Type': 'application/json'}
+    try:
+        res = requests.post(url, data=json_data)
+        response = Response(res.json())
 
-    for id_ in range(1, 187, 10):
-        pred= model.predict(f"C:\\Users\\Tom\\Desktop\\university\\fourthYear\\semester8\\SeminarProject\\raspberryPi\\image_tests\\\\test{id_}.jpg",  overlap=30)
-        if len(pred.predictions)>0:
-            print(f'found pothole in image {id_}')
-        model.predict(f"C:\\Users\\Tom\\Desktop\\university\\fourthYear\\semester8\\SeminarProject\\raspberryPi\\image_tests\\\\test{id_}.jpg",  overlap=30).save(
-            f"pred{id_}.jpg")
+    except Exception as e:
+        print('e->>>', e)
 
 if __name__ == '__main__':
     # run_for_tests()
@@ -118,8 +140,12 @@ if __name__ == '__main__':
     # run_for_tests_detection()
     try:
         print("hello")
-        service = Service()
-        service.run()
+        run_for_tests()
+        # service = Service()
+        # service.run()
+    except Exception as e:
+        print('e->', e)
+        CameraController.get_instance().close_camera()
     finally:
         CameraController.get_instance().close_camera()
 

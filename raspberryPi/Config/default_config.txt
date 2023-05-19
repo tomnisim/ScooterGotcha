@@ -14,7 +14,7 @@ num_of_coordinates: 8
 #protocol:https://gold-rock-386508.oa.r.appspot.com
 
 [ServerAddress]
-host: localhost
+host: 192.168.1.13
 port: 5050
 protocol:http://
 

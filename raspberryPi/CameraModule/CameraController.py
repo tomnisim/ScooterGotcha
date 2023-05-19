@@ -40,17 +40,18 @@ class CameraController:
     def init_camera_realtime(self):
         print('init real camera')
         picam2 = Picamera2()
-        try:
-            camera_config = picam2.create_still_configuration(lores={"size": (640, 640)}, display="lores")
-            picam2.configure(camera_config)
-            return  picam2
-        finally:
-            picam2.close()
+        camera_config = picam2.create_still_configuration(lores={"size": (640, 640)}, display="lores")
+        picam2.configure(camera_config)
+        return  picam2
+        # finally:
+        #     picam2.close()
         
         
     def start_camera(self):
+        print("start camera")
         self._camera.start()
     def close_camera(self):
+        print("close camera")
         self._camera.close()
     # Initialize the camera
     def init_camera_mock(self):
@@ -64,12 +65,12 @@ class CameraController:
         print('get next real frame')
         # camera_config = self._camera.create_still_configuration(lores={"size": (640, 640)}, display="lores")
         # self._camera.configure(camera_config)
-        self._camera.capture_file("test.jpg")
-        image_path = 'test.jpg'
+        self._camera.capture_file("test1.jpg")
+        image_path = 'test1.jpg'
         image = cv2.imread(image_path)
-        cv2.imshow('Image', image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        # cv2.imshow('Image', image)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
         return image
 
     def get_next_frame(self):

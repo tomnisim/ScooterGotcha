@@ -28,7 +28,9 @@ class FilesController:
         # print("self.folder_name", self.folder_name)
         rides = []
         for file_name in os.listdir(self.folder_name):
-            if file_name.endswith(".json") and os.stat(f'{self.folder_name}\{file_name}').st_size > 0:
+            print(os.getcwd())
+            print(f'{self.folder_name}/{file_name}')
+            if file_name.endswith(".json") and os.stat(f'{self.folder_name}/{file_name}').st_size > 0:
                 with open(os.path.join(self.folder_name, file_name), "r") as json_file:
                     ride = json.load(json_file)
                     rides.append(ride)
