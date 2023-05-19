@@ -29,7 +29,8 @@ class GPSController:
         if Constants.get_instance().get_MOCK_RUNNING():
             return self.get_location_mock()
         else:
-            return self.get_location_realtime()
+            return self.get_location_mock()
+            # return self.get_location_realtime()
 
     def init_gps(self):
         if Constants.get_instance().get_MOCK_RUNNING():

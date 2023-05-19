@@ -95,7 +95,7 @@ class RideController:
         global hazards
         global stop_flag
         stop = False
-        # self._camera_controller.start_camera()
+        self._camera_controller.start_camera()
 
         junctions_thread = threading.Thread(target=collect_junctions_task, args=(self._GPS_controller,))
         frames_thread = threading.Thread(target=get_frames_task, args=(self._camera_controller, self._GPS_controller))

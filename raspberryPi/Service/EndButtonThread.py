@@ -24,7 +24,9 @@ class EndButtonThread:
         if Constants.get_instance().get_MOCK_RUNNING():
             self.manage_end_button_task_mock()
         else:
-            self.manage_end_button_task()
+            self.manage_end_button_task_mock()
+
+            # self.manage_end_button_task()
 
     def manage_end_button_task_mock(self):
         system_logger.info(f'Start Thread manage_end_button_task_mock')

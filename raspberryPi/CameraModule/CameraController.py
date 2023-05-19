@@ -41,7 +41,6 @@ class CameraController:
         print('init real camera')
         picam2 = Picamera2()
         try:
-            
             camera_config = picam2.create_still_configuration(lores={"size": (640, 640)}, display="lores")
             picam2.configure(camera_config)
             return  picam2
@@ -63,8 +62,8 @@ class CameraController:
     # Get the next frame from the camera
     def get_next_frame_realtime(self):
         print('get next real frame')
-        camera_config = self._camera.create_still_configuration(lores={"size": (640, 640)}, display="lores")
-        self._camera.configure(camera_config)
+        # camera_config = self._camera.create_still_configuration(lores={"size": (640, 640)}, display="lores")
+        # self._camera.configure(camera_config)
         self._camera.capture_file("test.jpg")
         image_path = 'test.jpg'
         image = cv2.imread(image_path)

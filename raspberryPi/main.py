@@ -14,6 +14,7 @@ from picamera2 import Picamera2, Preview
 from moviepy.video.io.VideoFileClip import VideoFileClip
 from ultralytics.yolo.v8.segment import SegmentationValidator
 from ultralyticsplus import YOLO, render_result
+from CameraModule.CameraController import CameraController
 
 from Service.Service import Service
 POTHOLES_DETECTION_MODEL_ID = 'keremberke/yolov8n-pothole-segmentation'
@@ -115,9 +116,12 @@ if __name__ == '__main__':
     # img = Image.fromarray(f)
     # img.open()
     # run_for_tests_detection()
-    print("hello")
-    service = Service()
-    # service.run()
+    try:
+        print("hello")
+        service = Service()
+        service.run()
+    finally:
+        CameraController.get_instance().close_camera()
 
 
 
