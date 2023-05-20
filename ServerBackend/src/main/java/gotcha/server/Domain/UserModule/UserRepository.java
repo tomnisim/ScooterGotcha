@@ -7,11 +7,10 @@ import gotcha.server.Utils.Exceptions.UserExceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 @Repository
 public class UserRepository {
@@ -28,6 +27,16 @@ public class UserRepository {
 
     public List<User> getAllUsers() {
         return new ArrayList<User>(this.allUsers.values());
+    }
+
+    public Stream<User> getAllAdmins(){
+        return this.allUsers.values().stream().filter(new Predicate<User>() {
+            @Override
+            public boolean test(User user) {
+                return user.is_admin();
+            }
+        });
+
     }
 
     public User getUserByEmail(String userEmail) throws UserNotFoundException {
@@ -117,4 +126,12 @@ public class UserRepository {
         ((Rider) user).setScooterType(scooterType);
         usersJpaRepositry.save(user);
     }
+
+    public void riderLogin(String userEmail) throws UserNotFoundException {
+        var user = getUserByEmail(userEmail);
+        usersJpaRepositry.save(user);
+
+    }
+
+
 }

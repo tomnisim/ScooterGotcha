@@ -13,6 +13,7 @@ class Constants:
         self.number_of_routes = ""
         self.time_between_junctions = ""
         self.camera_type = ""
+        self.time_between_frames = ""
 
         if Constants.__instance is not None:
             raise Exception("Singleton class can only be instantiated once")
@@ -34,6 +35,9 @@ class Constants:
     def get_SERVER_ADDRESS(self):
         return self.SERVER_ADDRESS
 
+    def get_time_between_junctions(self):
+        return self.time_between_junctions
+
     def set_SERVER_ADDESS(self, SERVER_ADDRESS):
         self.SERVER_ADDRESS = SERVER_ADDRESS
 
@@ -48,6 +52,9 @@ class Constants:
 
     def get_alert_duration(self):
         return self.alert_duration
+    def get_time_between_frames(self):
+        return self.time_between_frames
+
 
     def set_alert_duration(self, alert_duration):
         self.alert_duration = alert_duration
@@ -57,6 +64,10 @@ class Constants:
 
     def set_alert_type(self, alert_type):
         self.alert_type = alert_type
+    def set_time_between_junctions(self, time_between_junctions):
+        self.time_between_junctions = time_between_junctions
+    def set_time_between_frames(self, time_between_frames):
+        self.time_between_frames = time_between_frames
 
     def get_MOCK_RUNNING(self):
         return self.MOCK_RUNNING

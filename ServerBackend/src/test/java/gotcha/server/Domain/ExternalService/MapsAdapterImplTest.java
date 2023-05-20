@@ -16,7 +16,7 @@ class MapsAdapterImplTest {
     }
 
     @Test
-    void test1() throws IOException {
+    void test_1() throws IOException {
         String Origin =  "1 Rothschild Boulevard, Tel Aviv-Yafo, Israel";
         String Destination = "10 HaYarkon St, Tel Aviv-Yafo, Israel";
         var answer = this.mapsAdapter.get_routes(Origin, Destination, 1);

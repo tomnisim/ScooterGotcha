@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 @Component
 public class UserController implements IUserController {
@@ -42,12 +44,7 @@ public class UserController implements IUserController {
         var passwordToken = passwordManager.hash(password);
         var admin = new Admin(userEmail, name, lastName, passwordToken, phoneNumber, birthDay, gender, null);
         userRepository.addUser(admin);
-        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti1"));
-        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti12"));
-        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti123"));
-        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti1234"));
-        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti12345"));
-        userRepository.notifyUser(admin, new Notification("sender@gmail.com", "noti123456"));
+
     }
 
     /**
@@ -145,6 +142,7 @@ public class UserController implements IUserController {
             throw new Exception("password is incorrect for user with email " + userEmail);
         }
         user.login();
+        userRepository.riderLogin(userEmail);
         return user;
     }
 
@@ -283,7 +281,7 @@ public class UserController implements IUserController {
             for (var user : allUsers) {
                 if (user.is_admin()) {
                     var newNotification = new Notification(senderEmail, "you got a new question:" + questionId);
-                    user.notify_user(newNotification);
+                    this.userRepository.notifyUser(user, newNotification);
                 }
             }
         };
@@ -303,6 +301,8 @@ public class UserController implements IUserController {
             throw new UserNotFoundException("Invalid user email :" + userEmail);
         }
         questionController.add_user_question(message, sender.get_email(), create_notify_all_admins_callback());
+        this.notify_admins(userEmail, message);
+
     }
 
     @Override
@@ -394,18 +394,28 @@ public class UserController implements IUserController {
     public void notify_all_users(String senderEmail, String message) throws Exception {
         Notification notification = new Notification(senderEmail, message);
         for (User user : userRepository.getAllUsers()) {
-            user.notify_user(notification);
+            this.userRepository.notifyUser(user, notification);
         }
     }
     // change all users
 
     public void notify_users(String senderEmail, List<String> emails, String message) throws UserNotFoundException {
         Notification notification = new Notification(senderEmail, message);
-        List<User> allUsers = userRepository.getAllUsers();
         for (String email : emails) {
             User user = userRepository.getUserByEmail(email);
             if (user != null) {
-                user.notify_user(notification);
+                this.userRepository.notifyUser(user, notification);
+
+            }
+        }
+    }
+
+    public void notify_admins(String senderEmail , String message) {
+        Notification notification = new Notification(senderEmail, "New User Question");
+        for (User user : this.userRepository.getAllUsers()){
+            if (user.is_admin()){
+                this.userRepository.notifyUser(user, notification);
+
             }
         }
     }

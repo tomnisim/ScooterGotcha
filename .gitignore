@@ -35,3 +35,6 @@ raspberryPi/ride.log
 raspberryPi/system.log
 *.pyc
 *.iml
+ServerBackend/profiles.xml
+ServerBackend/pom.xml
+

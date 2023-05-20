@@ -135,7 +135,11 @@ User implements Observer {
      * @return
      */
     public boolean notify_user(Notification notification) {
-        return userNotifications.add(notification);
+        if (userNotifications.contains(notification))
+            return false;
+        userNotifications.add(notification);
+        return true;
+
     }
 
     /**

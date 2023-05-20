@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import math
 
 from Utils.Logger import system_logger
-from keras.models import load_model
+# from keras.models import load_model
 from VideoProccessorModule.Hazard import Hazard
 from VideoProccessorModule.HazardType import HazardType
 
@@ -13,13 +13,13 @@ from PIL import Image
 
 POTHOLES_DETECTION_MODEL_ID = 'keremberke/yolov8n-pothole-segmentation'
 
-class HazardDetector():
+class HazardDetector:
 
     def __init__(self):
         system_logger.info("HazardDetector build.")
         self.potholes_model = self.load_potholes_model(POTHOLES_DETECTION_MODEL_ID)
-        self.pole_tree_model = self.load_pole_tree_model('my_model.h5')
-        self.road_sign_model = self.load_road_sign_model('traffic_classifier.h5')
+        # self.pole_tree_model = self.load_pole_tree_model('my_model.h5')
+        # self.road_sign_model = self.load_road_sign_model('traffic_classifier.h5')
 
 
     def load_potholes_model(self, pothole_path):
@@ -79,7 +79,7 @@ class HazardDetector():
 
     def predict(self, frame):
         image = frame
-        image = self.convert_frame_to_YOLO_input(frame)
+        # image = self.convert_frame_to_YOLO_input(frame)
         # if the frame is ndarray and we want to show it
         # image = Image.open(frame)
         # image = Image.fromarray(frame)

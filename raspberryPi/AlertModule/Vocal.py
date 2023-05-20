@@ -2,7 +2,7 @@ from AlertModule.Alert import Alert
 # from gpiozero import Buzzer
 # import RPi.GPIO as GPIO
 import time
-import winsound
+# import winsound
 # import pygame.mixer
 from Utils.Logger import system_logger
 

@@ -47,6 +47,7 @@ public class Question {
         this.has_answer = false;
         this.senderEmail = senderEmail;
         this.message_date = LocalDateTime.now();
+        this.answer_date = LocalDateTime.MAX;
     }
 
     /**
@@ -82,22 +83,26 @@ public class Question {
     // question to string for user and admin
     public String toString_for_admin() {
         String ans = has_answer ? answer : "No Answer Yet";
+        String answer_date1 = has_answer? answer_date.toString() : "";
         String has_ans = has_answer ? "Yes" : "No";
         return "UserQuestion{" +
                 ", question_id=" + question_id +
                 ", message_date=" + message_date +
-                ", answer_date=" + answer_date +
+                ", answer_date=" + answer_date1 +
                 ", message=" + message +
                 ", answer=" + ans +
                 ", has_answer=" + has_ans +
                 '}';
     }
     public String toString_for_user() {
+        String ans = has_answer ? answer : "No Answer Yet";
+        String answer_date1 = has_answer? answer_date.toString() : "";
+        String has_ans = has_answer ? "Yes" : "No";
         return "Question to admin :" +
                 ", message_date=" + message_date +
-                ", answer_date=" + answer_date +
+                ", answer_date=" + answer_date1 +
                 ", message=" + message +
-                ", answer=" + answer +
+                ", answer=" + ans +
                 '}';
     }
 
