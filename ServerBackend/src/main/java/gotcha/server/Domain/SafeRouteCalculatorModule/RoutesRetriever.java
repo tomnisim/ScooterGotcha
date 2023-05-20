@@ -95,15 +95,14 @@ public class RoutesRetriever {
 
     public String getCity(LocationDTO origin){
         // TODO: 01/05/2023 : Hebrew / English 
-        String answer;
         try{
-            answer =  this.google_maps.locationToCity(new Location(origin));
-            //answer = convertToEnglish(answer);
+            var answer =  this.google_maps.locationToCity(new Location(origin));
+            return answer;
         }
         catch (Exception e){
-            answer = "default";
+
         }
-        return answer;
+        return "default";
 
     }
 }

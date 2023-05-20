@@ -2,6 +2,7 @@ package gotcha.server.Domain.ExternalService;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gotcha.server.Domain.CitiesModule.City;
 import gotcha.server.Domain.SafeRouteCalculatorModule.Route;
 import gotcha.server.Utils.Location;
 import org.json.JSONArray;
@@ -168,7 +169,7 @@ public abstract class MapsAdapter {
         double lat = location.getLatitude().doubleValue();
         double lng = location.getLongitude().doubleValue();
         String NOMINATIM_ENDPOINT = "https://nominatim.openstreetmap.org/reverse";
-        String url = NOMINATIM_ENDPOINT + "?format=jsonv2&lat=" + lat + "&lon=" + lng;
+        String url = NOMINATIM_ENDPOINT + "&accept-language=en?format=jsonv2&lat=" + lat + "&lon=" + lng;
         String json = getJSONFromURL(url);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode rootNode = mapper.readTree(json);
