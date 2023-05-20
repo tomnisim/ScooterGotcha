@@ -101,9 +101,9 @@ def test_send():
     # c = CameraController.get_instance()
     # c.start_camera()
     # frame = c.get_next_frame()
-    # # Convert the frame to a JSON string
+    # # # Convert the frame to a JSON string
     # frame_json = json.dumps(frame.tolist())
-
+    # print("gggg")
     # # Convert the frame to binary data
     # frame_bytes = frame.tobytes()
 
@@ -112,17 +112,24 @@ def test_send():
     # payload = {
     #     'frame': frame_json
     # }
+    image_path = 'test1.jpg'
+    frame = cv2.imread(image_path)
+    print(type(frame))
+    print(frame.shape)
+    print(len(list(frame.tobytes())))
+    # frame_json = json.dumps(frame.tolist())
+    print("gggg")
 
     # If using binary data
     payload = {
-        'data': 'data'
+        'data': list(frame.tobytes())
     }
     json_data = json.dumps(payload)
 
     # Step 4: Send the POST request to the server
     url = 'http://192.168.1.13:5050/send_ride_test'
     headers = {'Content-Type': 'application/json'}
-    response = requests.post(url, data=json_data, headers=headers)
+    response = requests.post(url, data=json_data,headers=headers)
 
     # Step 5: Check the response from the server
     if response.status_code == 200:
