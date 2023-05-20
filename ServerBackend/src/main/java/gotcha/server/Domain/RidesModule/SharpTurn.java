@@ -9,10 +9,10 @@ import javax.persistence.*;
 @DiscriminatorValue("SharpTurn")
 public class SharpTurn extends RidingAction{
 
-    @Column(name="startDirection")
+    @Column(name="startDirection", nullable = false)
     private Double start_direction;
 
-    @Column(name="finalDirection")
+    @Column(name="finalDirection", nullable = false)
     private Double final_direction;
     public SharpTurn() {
     }

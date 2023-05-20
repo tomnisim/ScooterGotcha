@@ -146,6 +146,12 @@ public class MainSystem {
         this.userController.add_rp_serial_number(generateSerialNumber());
         this.userController.add_rp_serial_number(generateSerialNumber());
         this.userController.add_rp_serial_number("first");
+        this.userController.add_rp_serial_number("first1");
+        this.userController.add_rp_serial_number("first12");
+        this.userController.add_rp_serial_number("first123");
+        this.userController.add_rp_serial_number("first1234");
+        this.userController.add_rp_serial_number("first12345");
+        this.userController.add_rp_serial_number("first123456");
 
         BigDecimal lng = new BigDecimal("34.801402");
         BigDecimal lat = new BigDecimal("31.265106");
@@ -184,12 +190,12 @@ public class MainSystem {
 
         LocalDateTime start_time = LocalDateTime.now();
         if (this.hazardController.isDbEmpty()) {
-//            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5);
-//            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 7);
-//            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 12);
-//            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12);
-//            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14);
-//            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3);
+            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5, new byte[5]);
+            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 7, new byte[5]);
+            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 12, new byte[5]);
+            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12, new byte[5]);
+            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14, new byte[5]);
+            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3, new byte[5]);
         }
         LocalDate birth_date = LocalDate.of(1995, 05 , 05);
         LocalDate issue = LocalDate.of(2025, 05 , 05);
@@ -206,12 +212,12 @@ public class MainSystem {
         if (userController.isUsersTableEmpty()) {
             userController.register("email@gmail.com", password, "name", "last", "0546794211",
                     birth_date, "male", "type", issue, "first");
-//            userController.register("email1@gmail.com", password, "name", "last", "0546794211",
-//                    birth_date, "male", "type", issue, "first1");
-//            userController.register("email12@gmail.com", password, "name", "last", "0546794211",
-//                    birth_date, "male", "type", issue, "first12");
-//            userController.register("email123@gmail.com", password, "name", "last", "0546794211",
-//                    birth_date, "male", "type", issue, "first123");
+            userController.register("email1@gmail.com", password, "name", "last", "0546794211",
+                    birth_date, "male", "type", issue, "first1");
+            userController.register("email12@gmail.com", password, "name", "last", "0546794211",
+                    birth_date, "male", "type", issue, "first12");
+            userController.register("email123@gmail.com", password, "name", "last", "0546794211",
+                    birth_date, "male", "type", issue, "first123");
 //        (String rpSerialNumber, Location origin, Location destination, String city, LocalDateTime startTime, LocalDateTime endTime, List<StationaryHazard> hazards, List< RidingAction > ridingActions) {
 //            this.rpSerialNumber = rpSerialNumber;
 
@@ -226,6 +232,8 @@ public class MainSystem {
         ridesController.add_ride(finishRideReq2, "email@gmail.com", originAddress1, destAddress1,"Tel-Aviv");
        userController.send_question_to_admin("email@gmail.com", "Happy Birthday");
        userController.send_question_to_admin("email@gmail.com", "Happy Birthday with answer");
+       userController.reply_to_user_question("admin1@gmail.com", "Happy Birthday with answer 1", 1);
+       userController.reply_to_user_question("admin1@gmail.com", "Happy Birthday with answer 2 ", 2);
         //this.questionController.answer_user_question(1, "because", "admin@admin.com");
        if (this.advertiseController.isDbEmpty()) {
            this.advertiseController.add_advertise(birth_date, "owner", "message", "https://picsum.photos/id/237/200/200", "www.walla.com");

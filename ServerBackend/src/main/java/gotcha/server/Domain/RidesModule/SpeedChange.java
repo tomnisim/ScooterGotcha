@@ -10,9 +10,9 @@ import javax.persistence.*;
 @DiscriminatorValue("SpeedChange")
 public class SpeedChange extends RidingAction{
 
-    @Column(name="startSpeed")
+    @Column(name="startSpeed", nullable = false)
     private Double start_speed;
-    @Column(name="finalSpeed")
+    @Column(name="finalSpeed", nullable = false)
     private Double final_speed;
 
     public SpeedChange() {
