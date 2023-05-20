@@ -13,16 +13,16 @@ import java.time.LocalDate;
 @DiscriminatorValue("Rider")
 public class Rider extends User{
 
-    @Column(name="rating", nullable = false)
+    @Column(name="rating")
     private double rating;
 
-    @Column(name="scooterType", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", nullable = false)
+    @Column(name="scooterType", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String scooterType;
 
-    @Column(name= "licenseIssueDate", nullable = false)
+    @Column(name= "licenseIssueDate")
     private LocalDate licenseIssueDate;
 
-    @Column(name="rpSerialNumber", nullable = false)
+    @Column(name="rpSerialNumber")
 
     private String raspberryPiSerialNumber;
 
