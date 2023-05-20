@@ -15,8 +15,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.swing.*;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import javax.imageio.ImageIO;
+import java.io.ByteArrayInputStream;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JFrame;
 
 @RestController
 public class ApiController implements IAdminAPI, IUserAPI {
@@ -179,8 +187,45 @@ public class ApiController implements IAdminAPI, IUserAPI {
     }
     @RequestMapping(value = "/send_ride_test")
     @CrossOrigin
-    public void send_ride_test(@RequestBody test t) {
+    public void send_ride_test(@RequestBody test t) throws IOException {
         int a = 4;
+        byte[] imageBytes = t.getData();
+        ImageIcon icon = new ImageIcon(imageBytes);
+        int l  = imageBytes.length;
+        int r=8;
+        // Create a JLabel and set the icon to it
+        JLabel label = new JLabel(icon);
+
+// Create a JFrame
+        JFrame frame = new JFrame();
+
+// Add the JLabel to the JFrame
+        frame.getContentPane().add(label);
+
+// Set the JFrame settings
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+//        // Convert byte array into BufferedImage
+//        ByteArrayInputStream bais = new ByteArrayInputStream(imageBytes);
+//        BufferedImage image = ImageIO.read(bais);
+//// Create a JFrame
+//        JFrame frame = new JFrame();
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//// Create an ImageIcon from the BufferedImage
+//        ImageIcon icon = new ImageIcon(image);
+//
+//// Add the ImageIcon to a JLabel
+//        JLabel label = new JLabel(icon);
+//
+//// Add the JLabel to the JFrame
+//        frame.add(label);
+//
+//// Display the JFrame
+//        frame.pack();
+//        frame.setVisible(true);
+
     }
 
 

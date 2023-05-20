@@ -11,22 +11,21 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class test {
-    private byte[] frame;
+    private byte[] data;
+    public byte[] getData() {
+        return data;
+    }
+
 
 
     // Default Constructor
 
     public test() {}
-    public test(byte[] frame) {
-        this.frame =frame;
+    public test(byte[] data) {
+        this.data = data;
     }
 
-
-    public byte[] getFrame() {
-        return frame;
-    }
-
-    public void setFrame(byte[] frame) {
-        this.frame = frame;
+    public void setData(byte [] data) {
+        this.data = data;
     }
 }
