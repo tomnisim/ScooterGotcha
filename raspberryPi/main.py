@@ -25,15 +25,46 @@ from Service.Service import Service
 from Utils.Response import Response
 from VideoProccessorModule.Hazard import Hazard
 from VideoProccessorModule.HazardType import HazardType
+from gpiozero import LED, Button
+from signal import pause 
+import RPi.GPIO as GPIO
+
+
+
+# GPIO.setmode(GPIO.BOARD)
+# buzzer =18
+# ledPin = 12
+# buttonPin=16
+# # 
+# GPIO.setup(ledPin, GPIO.OUT)
+# GPIO.setup(buzzer, GPIO.OUT)
+# GPIO.setup(buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+# print("here")
+# while True:
+#     bs = GPIO.input(buttonPin)
+    
+#     if bs==False:
+#         GPIO.output(ledPin, GPIO.HIGH)
+#         GPIO.output(buzzer, GPIO.HIGH)
+#     else:
+#         GPIO.output(ledPin, GPIO.LOW)
+#         GPIO.output(buzzer, GPIO.LOW)
+
+
+
 
 def close_camera(signal, frame):
-    print("Signal received, closing camera...")
+    print("Signal received, closing camera, and clean GPIO...")
     CameraController.get_instance().close_camera()
+    GPIO.cleanup() 
     sys.exit(0)
+    
 
 # Register the signal handlers
 signal.signal(signal.SIGINT, close_camera)
 signal.signal(signal.SIGTSTP, close_camera)
+
 
 
 POTHOLES_DETECTION_MODEL_ID = 'keremberke/yolov8n-pothole-segmentation'
@@ -167,6 +198,13 @@ def run_for_tests():
     except Exception as e:
         print('e->>>', e)
 
+
+def test_button():
+    led = LED(25)
+    b = Button(2)
+    b.when_pressed = led.on
+    b.when_released = led.off
+    pause()
 if __name__ == '__main__':
     # run_for_tests()
     # c = run_for_tests_camera()
@@ -178,10 +216,12 @@ if __name__ == '__main__':
     # run_for_tests_detection()
     try:
         print("hello")
-        test_send()
+        # test_button()
+        # print("BI")
+        # test_send()
         # run_for_tests()
-        # service = Service()
-        # service.run()
+        service = Service()
+        service.run()
     except Exception as e:
         print('e->', e)
         CameraController.get_instance().close_camera()
