@@ -98,7 +98,12 @@
 			<artifactId>javafx-graphics</artifactId>
 			<version>17.0.7</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.11</version>
+        </dependency>
+    </dependencies>
 	<build>
 		<plugins>
 			<plugin>
