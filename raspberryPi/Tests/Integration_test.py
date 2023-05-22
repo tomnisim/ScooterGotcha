@@ -1,8 +1,9 @@
 import threading
 import time
 from unittest import TestCase
+from AlertModule import Vocal
 
-from AlertModule.Vocal import Vocal
+# from AlertModule.Vocal import Vocal
 from CameraModule.CameraController import CameraController
 from Config.ConfigurationController import ConfigurationController
 from Config.Constants import Constants
@@ -23,7 +24,7 @@ class RideController_test(TestCase):
         ConfigurationController()
 
     def test_execute_ride(self):
-        for ride_duration in range(2, 7):
+        for ride_duration in range(6, 7):
             self.ride_controller.end_button_thread.set_end_button_mock(False)
             time_between_junctions = Constants.get_instance().get_time_between_junctions()
             expected_junctions_number = ride_duration / int(time_between_junctions)

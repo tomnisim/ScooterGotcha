@@ -14,7 +14,7 @@ from VideoProccessorModule.EventDetector import EventDetector
 from VideoProccessorModule.HazardDetector import HazardDetector
 from VideoProccessorModule.RoadDetector import RoadDetector
 from moviepy.editor import VideoFileClip
-
+import RPi.GPIO as GPIO
 import threading
 import time
 
@@ -34,9 +34,12 @@ stop_flag = False
 def collect_junctions_task(gps_controller):
     system_logger.info(f'Start thread collect_junctions_task')
     global junctions
+    junction_no = 1 
     while not stop:
         loc = gps_controller.get_location()
         junctions.append(loc)
+        system_logger.info(f'Junction #{junction_no} Was Collected - TIME -> {datetime.datetime.now()}')
+        junction_no+=1
         time_between_junctions = Constants.get_instance().get_time_between_junctions()
         time.sleep(float(time_between_junctions))
 
@@ -51,10 +54,11 @@ def get_frames_task(camera_controller, gps_controller):
         time.sleep(time_between_frames)
         loc = gps_controller.get_location()
         frames.append((loc, image))
-        print('add frame')
+        system_logger.info(f'frame is added - TIME ->  {datetime.datetime.now()}')
 
 
 def detect_hazards_task(hazard_detector, alerter):
+    system_logger.info(f'Start thread get_frames_task')
     global stop
     global hazards
     global frames
@@ -63,7 +67,7 @@ def detect_hazards_task(hazard_detector, alerter):
     while not stop:
         if len(frames) > 0:
             loc, frame = frames.pop(0)
-            print('get frame from frames list')
+            system_logger.info(f'get frame from frames list - TIME -> {datetime.datetime.now()}')
             current_hazards = hazard_detector.detect_hazards_in_frame(frame, loc)
             # current_hazards = []
             hazards_detect = False
@@ -90,10 +94,10 @@ class RideController:
         self._event_detector = EventDetector()
         self._road_detector = RoadDetector()
         self._hazard_detector = HazardDetector()
-        self.end_button_thread = EndButtonThread()
+        
 
     def execute_ride(self):
-        print('execute ride')
+        system_logger.info('execute ride')
         global stop
         global end_button
         global frames
@@ -102,35 +106,32 @@ class RideController:
         stop = False
         self._camera_controller.start_camera()
 
-        # junctions_thread = threading.Thread(target=collect_junctions_task, args=(self._GPS_controller,))
+        junctions_thread = threading.Thread(target=collect_junctions_task, args=(self._GPS_controller,))
         frames_thread = threading.Thread(target=get_frames_task, args=(self._camera_controller, self._GPS_controller))
         hazards_thread = threading.Thread(target=detect_hazards_task, args=(self._hazard_detector, self.alerter))
 
         start_time = datetime.datetime.now()
         start_loc = self._GPS_controller.get_location_mock()
-        try:
-            # TODO: uncomment
-            frames_thread.start()
-            # junctions_thread.start()
-            hazards_thread.start()
+        frames_thread.start()
+        junctions_thread.start()
+        hazards_thread.start()
 
-            # create thread that manage end button
+        # create thread that manage end button
 
+        end_button_thread = EndButtonThread()
+        endbutton_thread = threading.Thread(target=end_button_thread.task())
+        endbutton_thread.start()
 
-            endbutton_thread = threading.Thread(target=self.end_button_thread.task)
-            endbutton_thread.start()
+        while not end_button_thread.get_end_button():
+            # print("NOT PUSHED")
+            pass
+        system_logger.info(f"Finish ride")
+        self._camera_controller.close_camera()
+        stop = True
 
-            while not self.end_button_thread.get_end_button():
-                pass
-            print("Finish ride")
-            self._camera_controller.close_camera()
-            stop = True
+        finish_time = datetime.datetime.now()
+        destination_loc = self._GPS_controller.get_location_mock()
 
-            finish_time = datetime.datetime.now()
-            destination_loc = self._GPS_controller.get_location_mock()
-
-            ride = Ride(hazards, start_loc, destination_loc, start_time, finish_time, junctions)
-            return ride
-        finally:
-            print("Crash - execute finally")
-            self._camera_controller.close_camera()
+        ride = Ride(hazards, start_loc, destination_loc, start_time, finish_time, junctions)
+        return ride
+      

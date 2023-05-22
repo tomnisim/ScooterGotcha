@@ -38,6 +38,7 @@ class HazardDetector:
     def detect_potholes(self, frame , loc):
         detected_hazards = []
         is_pothole, size = self.predict(frame)
+        print(f'is pothole {is_pothole}')
         if is_pothole:
             pothole_hazard = Hazard(size, loc, HazardType.Pothole, frame)
             detected_hazards.append(pothole_hazard)

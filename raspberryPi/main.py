@@ -67,9 +67,9 @@ signal.signal(signal.SIGTSTP, close_camera)
 
 
 
-POTHOLES_DETECTION_MODEL_ID = 'keremberke/yolov8n-pothole-segmentation'
+# POTHOLES_DETECTION_MODEL_ID = 'keremberke/yolov8n-pothole-segmentation'
 
-model = YOLO(POTHOLES_DETECTION_MODEL_ID)
+# model = YOLO(POTHOLES_DETECTION_MODEL_ID)
 def run_for_tests_camera():
     picam2 = Picamera2()
     camera_config = picam2.create_still_configuration(lores={"size": (640, 640)}, display="lores")
@@ -149,14 +149,14 @@ def test_send():
     print(frame.shape)
     print(len(list(frame.tobytes())))
     # frame_json = json.dumps(frame.tolist())
-    print("gggg")
+    
 
     # If using binary data
     payload = {
         'data': list(frame.tobytes())
     }
     json_data = json.dumps(payload)
-
+    print("gggg")
     # Step 4: Send the POST request to the server
     url = 'http://192.168.1.13:5050/send_ride_test'
     headers = {'Content-Type': 'application/json'}
@@ -183,7 +183,7 @@ def run_for_tests():
     start_time= finish_time = datetime.datetime.now()
     junctions=[Location(21.32, 32.32)]*5
     ride = Ride(hazards, start_loc, destination_loc, start_time, finish_time, junctions)
-    rideDTO = to_dto(ride, 'first1')
+    rideDTO = to_dto(ride, 'first')
     # print(rideDTO)
     url = 'http://192.168.1.13:5050/finish_ride'
 
@@ -191,7 +191,7 @@ def run_for_tests():
     # print(json_data)
     headers = {'Content-Type': 'application/json'}
     try:
-        res = requests.post(url, data=json_data)
+        res = requests.post(url, data=json_data, headers=headers)
         response = Response(res.json())
 
     except Exception as e:

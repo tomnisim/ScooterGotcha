@@ -23,7 +23,7 @@ class CommunicationController:
     def get_rp_config_file(self):
         response = None
         url = self.get_url() + self.get_rp_config_file_suffix
-        print('url is:', url)
+
         try:
             res = requests.get(url)
             response = Response(res.json())
