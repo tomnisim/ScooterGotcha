@@ -30,7 +30,7 @@ from Config.Constants import Constants
 from GPSModule.GPSController import GPSController
 from GPSModule.Location import Location
 from RidesModule.Ride import Ride, to_dto
-# from Service.Service import Service
+from Service.Service import Service
 from RidesModule.RideController import RideController
 from Tests.Integration_test import update_end_button_task
 from Utils.Response import Response
@@ -51,7 +51,6 @@ import RPi.GPIO as GPIO
 # GPIO.setup(buzzer, GPIO.OUT)
 # GPIO.setup(buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-# print("here")
 # while True:
 #     bs = GPIO.input(buttonPin)
     
@@ -96,8 +95,6 @@ def get_next_frame_realtime(picam2):
     picam2.capture_file("test.jpg")
     image_path = 'test.jpg'
     image = cv2.imread(image_path)
-    print(image)
-    print(image.data)
     cv2.imshow('Image', image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
@@ -218,7 +215,7 @@ if __name__ == '__main__':
         print("hello")
         # run_for_tests()
         # test_send_image()
-        test_send_ride()
+        # test_send_ride()
         # service = Service()
         # service.run()
         # test_button()

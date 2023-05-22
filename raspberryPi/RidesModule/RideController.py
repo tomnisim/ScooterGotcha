@@ -122,10 +122,11 @@ class RideController:
         endbutton_thread = threading.Thread(target=end_button_thread.task())
         endbutton_thread.start()
 
-        while not end_button_thread.get_end_button():
-            # print("NOT PUSHED")
-            pass
-        system_logger.info(f"Finish ride")
+        while True: 
+            if not end_button_thread.get_end_button():
+                a=6
+            break
+        system_logger.info(f"----------------------------- Finish ride  ---------------------------------------------")
         self._camera_controller.close_camera()
         stop = True
 

@@ -16,7 +16,6 @@ class ConfigurationController:
         filename = 'serial.txt'
         original_dir = os.getcwd()
         os.chdir("/home/tomnisim/ScooterGotcha/raspberryPi/Config")
-        print(os.getcwd())
         with open(filename, "r") as f:
             serialNumber = f.read().strip()
         self.constants.set_serial_number(serialNumber)

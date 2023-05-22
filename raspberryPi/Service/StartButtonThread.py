@@ -39,16 +39,16 @@ class StartButtonThread:
     def manage_start_button_task(self):
         system_logger.info(f'Start thread manage_start_button_task')
         print("PRESS (s) TO START - real\n")
-        try:
-            while True:
-                button_state = GPIO.input(self.button_pin)
-                if button_state == False:
-                    system_logger.info("Live Button Press - start")
-                    self.start_button = not self.start_button
-                    time.sleep(1)  # Debounce
-                    break
-        finally:
-            GPIO.cleanup()
+
+        while True:
+            button_state = GPIO.input(self.button_pin)
+            if button_state == False:
+                system_logger.info("Live Button Press - start")
+                self.start_button = not self.start_button
+                time.sleep(1)  # Debounce
+                break
+   
+        print(f'finish start button thread')
 
     # def manage_start_button_task_mock2():
     #
