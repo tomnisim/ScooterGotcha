@@ -1,8 +1,11 @@
 package gotcha.server.Domain.HazardsModule;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +71,16 @@ public class HazardRepository {
         var hazardsInDb = hazardJpaRepository.findAll();
         for(var hazard : hazardsInDb) {
             stationaryHazardsList.put(hazard.getId(), hazard);
+            String filePath = "image_test1.jpg";
+
+            try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                // Save the byte array as an image file
+                byte[] byteArrayImage = Base64.decodeBase64(hazard.getPhoto());
+                fos.write(byteArrayImage);
+                System.out.println("Image saved successfully!");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

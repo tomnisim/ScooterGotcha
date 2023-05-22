@@ -38,7 +38,7 @@ public class StationaryHazard {
     private boolean report;
 
     @Lob
-    @Column(name = "photo", columnDefinition = "BLOB")
+    @Column(name = "photo", columnDefinition = "LONGBLOB")
     private byte[] photo;
 
 

@@ -169,9 +169,8 @@ def test_send():
         print('Error sending frame. Status code:', response.status_code)
 
 def run_for_tests():
-    c = CameraController.get_instance()
-    c.start_camera()
-    frame = c.get_next_frame()
+    image_path = 'test1.jpg'
+    frame = cv2.imread(image_path)
     # frame = np.array([1, 2, 3])
     print(frame)
     print(list(frame))

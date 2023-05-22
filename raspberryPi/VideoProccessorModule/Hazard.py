@@ -10,24 +10,14 @@ class Hazard():
         self.size=size
         self.location = location
         self.type = type
-        self.frame=frame
+        print(len(frame))
 
-        # self.frame = self.encode_image(frame)
-        # self.frame = self.encode_from_PIL(frame)
+        self.frame= self.convert_frame_to_byte_string(frame)
+        print(len(self.frame))
 
-    def encode_image(self, frame):
-        # Convert the frame to JPEG and encode as base64
-        ret, buffer = cv2.imencode('.png', frame)
-        frame_base64 = base64.b64encode(buffer).decode('utf-8')
-        return frame_base64
+    def convert_frame_to_byte_string(self, frame):
+        image_bytes = cv2.imencode('.jpg', frame)[1].tobytes()
+        # base64_string = base64.b64encode(image_bytes).decode('utf-8')
+        return list(image_bytes)
 
-    def encode_from_PIL(self, image):
-        # Create an in-memory binary stream
-        stream = BytesIO()
-
-        # Save the image to the stream in PNG format
-        image.save(stream, format='PNG')
-
-        # Get the encoded bytes from the stream
-        encoded_image = stream.getvalue()
 

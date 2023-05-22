@@ -15,7 +15,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static gotcha.server.Utils.Utils.resizeByteArray;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.io.IOException;
 @Component
 public class HazardController implements IHazardController {
     private double HAZARD_THRESHOLD_RATE = 0;
@@ -81,7 +83,10 @@ public class HazardController implements IHazardController {
                 if (hazard.getFrame() == null)
                     add_hazard(ride_id, location, city, type, size, null);
                 else{
-                    add_hazard(ride_id, location, city, type, size, resizeByteArray(hazard.getFrame(), 255));
+                    String path = "C:\\Users\\Tom\\Desktop\\university\\fourthYear\\semester8\\SeminarProject\\ServerBackend\\image_test.jpg";
+                    byte[] a = Files.readAllBytes(Path.of(path));
+                    System.out.println("----------------------------------------> "+ hazard.getFrame().length);
+                    add_hazard(ride_id, location, city, type, size, hazard.getFrame());
                 }
             }
             else{
