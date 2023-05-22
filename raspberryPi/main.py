@@ -1,5 +1,8 @@
 #
+import base64
 import datetime
+import threading
+
 import numpy as np
 # import matplotlib.pyplot as plt
 # import math
@@ -12,16 +15,24 @@ from matplotlib import pyplot as plt
 # from VideoProccessorModule.Hazard import Hazard
 # from VideoProccessorModule.HazardType import HazardType
 from PIL import Image
-from picamera2 import Picamera2, Preview
+# from picamera2 import Picamera2, Preview
 from moviepy.video.io.VideoFileClip import VideoFileClip
 from ultralytics.yolo.v8.segment import SegmentationValidator
 from ultralyticsplus import YOLO, render_result
-from CameraModule.CameraController import CameraController
+# from CameraModule.CameraController import CameraController
 import signal
 import sys
+
+from AlertModule.Vocal import Vocal
+from CameraModule.CameraController import CameraController
+from Config.ConfigurationController import ConfigurationController
+from Config.Constants import Constants
+from GPSModule.GPSController import GPSController
 from GPSModule.Location import Location
 from RidesModule.Ride import Ride, to_dto
-from Service.Service import Service
+# from Service.Service import Service
+from RidesModule.RideController import RideController
+from Tests.Integration_test import update_end_button_task
 from Utils.Response import Response
 from VideoProccessorModule.Hazard import Hazard
 from VideoProccessorModule.HazardType import HazardType
@@ -97,36 +108,18 @@ def predict(frame):
     
     render.show()
 
-def test_send():
-    # c = CameraController.get_instance()
-    # c.start_camera()
-    # frame = c.get_next_frame()
-    # # # Convert the frame to a JSON string
-    # frame_json = json.dumps(frame.tolist())
-    # print("gggg")
-    # # Convert the frame to binary data
-    # frame_bytes = frame.tobytes()
+def test_send_image():
 
-    # # Step 3: Prepare the data payload for the POST request
-    # # If using JSON
-    # payload = {
-    #     'frame': frame_json
-    # }
     image_path = 'test1.jpg'
     frame = cv2.imread(image_path)
-    print(type(frame))
-    print(frame.shape)
-    print(len(list(frame.tobytes())))
-    # frame_json = json.dumps(frame.tolist())
-    print("gggg")
-
+    image_bytes = cv2.imencode('.jpg', frame)[1].tobytes()
+    # base64_string = base64.b64encode(image_bytes).decode('utf-8')
     # If using binary data
+    print(len(image_bytes))
     payload = {
-        'data': list(frame.tobytes())
+        'data': list(image_bytes)
     }
     json_data = json.dumps(payload)
-
-    # Step 4: Send the POST request to the server
     url = 'http://192.168.1.13:5050/send_ride_test'
     headers = {'Content-Type': 'application/json'}
     response = requests.post(url, data=json_data,headers=headers)
@@ -137,48 +130,59 @@ def test_send():
     else:
         print('Error sending frame. Status code:', response.status_code)
 
-def run_for_tests():
+def test_send_ride():
     image_path = 'test1.jpg'
+    start_loc = Location(34.801402, 31.265106)
+    destination_loc = Location(34.797558, 31.267604)
     frame = cv2.imread(image_path)
-    # frame = np.array([1, 2, 3])
-    print(frame)
-    print(list(frame))
-    print(type(frame))
-    print(len(frame))
     hazard = Hazard(0.5, Location(21.32, 32.32), HazardType.Pothole, frame)
     print('skghevbbkwbvfkgb')
     hazards=[hazard]
-    start_loc = destination_loc = Location(12.21, 32.21)
     start_time= finish_time = datetime.datetime.now()
     junctions=[Location(21.32, 32.32)]*5
     ride = Ride(hazards, start_loc, destination_loc, start_time, finish_time, junctions)
-    rideDTO = to_dto(ride, 'first1')
-    # print(rideDTO)
+    rideDTO = to_dto(ride, 'first')
     url = 'http://192.168.1.13:5050/finish_ride'
 
     json_data = json.dumps(rideDTO)
-    # print(json_data)
     headers = {'Content-Type': 'application/json'}
     try:
-        res = requests.post(url, data=json_data)
+        res = requests.post(url, data=json_data, headers=headers)
         response = Response(res.json())
+        print(response.value)
+        print(response.was_exception)
+        print(response.message)
 
     except Exception as e:
         print('e->>>', e)
 
-if __name__ == '__main__':
-    # run_for_tests()
-    # c = run_for_tests_camera()
-    # image = get_next_frame_realtime(c)
-    # predict(image)
 
-    # img = Image.fromarray(f)
-    # img.open()
-    # run_for_tests_detection()
+def test_execute_ride():
+    _GPS_controller = GPSController.get_instance()
+    _camera_controller = CameraController.get_instance()
+    alerter = Vocal(Constants.get_instance().get_alert_duration())
+    ride_controller = RideController(alerter, _GPS_controller, _camera_controller)
+    ConfigurationController()
+    ride_duration = 5
+    ride_controller.end_button_thread.set_end_button_mock(False)
+    time_between_junctions = Constants.get_instance().get_time_between_junctions()
+    expected_junctions_number = ride_duration / int(time_between_junctions)
+
+    time_between_frames = Constants.get_instance().get_time_between_frames()
+    try:
+        end_ride_thread = threading.Thread(target=update_end_button_task, args=(ride_duration, ride_controller))
+        end_ride_thread.start()
+        ride = ride_controller.execute_ride()
+        actual_junctions_number = len(ride.get_junctions())
+        actual_ride_duration = (ride.get_end_time() - ride.get_start_time()).total_seconds()
+    except Exception as e:
+        print("Error -> "+e)
+if __name__ == '__main__':
     try:
         print("hello")
-        test_send()
         # run_for_tests()
+        # test_send_image()
+        test_send_ride()
         # service = Service()
         # service.run()
     except Exception as e:
