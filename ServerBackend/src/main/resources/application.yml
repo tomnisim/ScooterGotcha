@@ -28,7 +28,7 @@ gotcha:
   Server:
     default:
       host: "localhost"
-      port: "5050"
+      port: "8080"
       protocol: "http://"
 
 rate-config:
