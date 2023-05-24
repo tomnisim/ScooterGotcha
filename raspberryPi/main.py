@@ -39,6 +39,7 @@ from VideoProccessorModule.HazardType import HazardType
 from gpiozero import LED, Button
 from signal import pause 
 import RPi.GPIO as GPIO
+from roboflow import Roboflow
 
 
 
@@ -188,7 +189,15 @@ def test_send_ride():
 
 
 
+def test_roboflow():
 
+    rf = Roboflow(api_key="1EQ1Efjqv4OtzzFRD7SB")
+    project = rf.workspace().project("gotcha")
+    model = project.version(3).model
+
+    # infer on a local image
+    print(model.predict("RideImages/img2.jpg", confidence=40, overlap=30).json())
+    model.predict("RideImages/img2.jpg", confidence=40, overlap=30).save('pred_roboflow.jpg')
 
 def test_execute_ride():
     _GPS_controller = GPSController.get_instance()
@@ -213,6 +222,7 @@ def test_execute_ride():
 if __name__ == '__main__':
     try:
         print("hello")
+        # test_roboflow()
         # run_for_tests()
         # test_send_image()
         # test_send_ride()

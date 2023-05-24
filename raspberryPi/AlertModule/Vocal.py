@@ -19,6 +19,6 @@ class Vocal(Alert):
         frequency = 40
         system_logger.info(f'Vocal alert -> frequancy: {frequency}, duration: {int(self.duration)*100}')
         # Play a simple beep sound
-        winsound.Beep(frequency, int(self.duration))
-        time.sleep(2)  # wait for 2 seconds to avoid repeated alerts
+        # winsound.Beep(frequency, int(self.duration))
+        # time.sleep(2)  # wait for 2 seconds to avoid repeated alerts
 

@@ -14,6 +14,7 @@ class Constants:
         self.time_between_junctions = ""
         self.camera_type = ""
         self.time_between_frames = ""
+        self.model = ""
 
         if Constants.__instance is not None:
             raise Exception("Singleton class can only be instantiated once")
@@ -71,3 +72,8 @@ class Constants:
 
     def get_MOCK_RUNNING(self):
         return self.MOCK_RUNNING
+    
+    def get_model(self):
+        return self.model
+    def set_model(self, model):
+        self.model=model

@@ -63,6 +63,10 @@ class ConfigurationController:
         time_between_frames = config['ScooterAppendixA']['time_between_frames']
         self.constants.set_time_between_frames(time_between_frames)
 
+        # model
+        model = config['ScooterAppendixA']['model']
+        self.constants.set_model(model)
+
 
     def set_data(self, config_data):
         # server address
