@@ -88,8 +88,8 @@ public class MainSystem {
         set_reporter_engine();
         this.hazardController.setHAZARD_THRESHOLD_RATE(configuration.getHazards_rate_threshold());
         //createSerials();
-        begin_instructions();
-        saveAllHazardsImages();
+        //begin_instructions();
+        //saveAllHazardsImages();
         systemLogger.add_log("Finish Init Server");
     }
 
