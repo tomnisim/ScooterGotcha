@@ -25,7 +25,7 @@ public class CorsConfig {
                 String origin = request.getHeader("Origin");
                 if (origin != null && origin.startsWith("http://localhost")) {
                     CorsConfiguration corsConfiguration = new CorsConfiguration();
-                    corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
+                    corsConfiguration.setAllowedOriginPatterns(Arrays.asList("*"));
                     corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"));
                     corsConfiguration.setAllowCredentials(true);
                     corsConfiguration.addAllowedHeader("Access-Control-Request-Method");
