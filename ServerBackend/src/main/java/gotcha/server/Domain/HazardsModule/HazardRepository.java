@@ -1,5 +1,6 @@
 package gotcha.server.Domain.HazardsModule;
 
+import gotcha.server.Domain.s3.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,15 +13,23 @@ import java.util.concurrent.ConcurrentHashMap;
 public class HazardRepository {
     private Map<Integer, StationaryHazard> stationaryHazardsList;
     private final IHazardRepository hazardJpaRepository;
+    private final S3Service s3Service;
 
     @Autowired
-    public HazardRepository(IHazardRepository hazardJpaRepository) {
+    public HazardRepository(IHazardRepository hazardJpaRepository, S3Service s3Service) {
         this.stationaryHazardsList = new ConcurrentHashMap<>();
         this.hazardJpaRepository = hazardJpaRepository;
+        this.s3Service = s3Service;
         LoadFromDB();
     }
 
-    public void addHazard(StationaryHazard newHazard) throws Exception {
+    public void addHazard(StationaryHazard newHazard, byte[] photo) throws Exception {
+        hazardJpaRepository.save(newHazard);
+        var photoS3Key = "hazardImage"+newHazard.getId();
+        newHazard.setPhotoS3Key(photoS3Key);
+        newHazard.setPhoto(photo);
+        s3Service.putImage(photoS3Key, photo);
+        // update the hazard with the s3 key
         hazardJpaRepository.save(newHazard);
         var addRideResult = this.stationaryHazardsList.putIfAbsent(newHazard.getId(), newHazard);
         if (addRideResult != null) {
@@ -57,7 +66,9 @@ public class HazardRepository {
     private StationaryHazard getHazardFromDb(int hazardId) throws Exception {
         var result = hazardJpaRepository.findById(hazardId);
         if (result.isPresent()) {
-            return result.get();
+            var hazard = result.get();
+            hazard.setPhoto(s3Service.getImage(hazard.getPhotoS3Key()));
+            return hazard;
         }
         else {
             throw new Exception("hazard with id:" + hazardId + " not found");
@@ -67,6 +78,7 @@ public class HazardRepository {
     private void LoadFromDB() {
         var hazardsInDb = hazardJpaRepository.findAll();
         for(var hazard : hazardsInDb) {
+            hazard.setPhoto(s3Service.getImage(hazard.getPhotoS3Key()));
             stationaryHazardsList.put(hazard.getId(), hazard);
         }
     }

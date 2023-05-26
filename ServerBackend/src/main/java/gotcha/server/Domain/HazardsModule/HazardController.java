@@ -34,13 +34,14 @@ public class HazardController implements IHazardController {
 
     @Override
     public void add_hazard(int rideId, Location location, String city, HazardType type, double size, byte[] photo) throws Exception {
-        var newHazard = new StationaryHazard(rideId, location, city, type, size, photo);
-        this.hazardRepository.addHazard(newHazard);
+        var newHazard = new StationaryHazard(rideId, location, city, type, size);
+        this.hazardRepository.addHazard(newHazard, photo);
     }
 
     private void update_hazard(StationaryHazard hazard, double size) {
         this.hazardRepository.updateHazard(hazard, size);
     }
+
 
     /**
      *

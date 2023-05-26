@@ -37,20 +37,22 @@ public class StationaryHazard {
     @Column(name="report", nullable = false)
     private boolean report;
 
-    @Lob
-    @Column(name = "photo", columnDefinition = "BLOB", nullable = false)
+
+    @Transient
     private byte[] photo;
+    @Column(name="s3Key", nullable = false)
+    private String photoS3Key;
 
 
 
-    public StationaryHazard(int ride_id, Location location, String city, HazardType type, double size, byte[] photo) {
+    public StationaryHazard(int ride_id, Location location, String city, HazardType type, double size) {
         this.ride_id = ride_id;
         this.location = location;
         this.city = city;
         this.type = type;
         this.size = size;
-        this.photo = photo;
         this.report = false;
+        this.photoS3Key = "";
         //this.calculateRate();
     }
 
@@ -58,7 +60,13 @@ public class StationaryHazard {
     public StationaryHazard() {}
 
 
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
 
+    public byte[] getPhoto() {
+        return photo;
+    }
 
     public int getId() {
         return id;
@@ -128,11 +136,11 @@ public class StationaryHazard {
         return new StationaryHazardDTO(this);
     }
 
-    public byte[] getPhoto() {
-        return photo;
+    public String getPhotoS3Key() {
+        return photoS3Key;
     }
 
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
+    public void setPhotoS3Key(String photoS3Key) {
+        this.photoS3Key = photoS3Key;
     }
 }
