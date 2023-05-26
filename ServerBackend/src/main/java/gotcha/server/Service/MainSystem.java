@@ -88,7 +88,7 @@ public class MainSystem {
         set_reporter_engine();
         this.hazardController.setHAZARD_THRESHOLD_RATE(configuration.getHazards_rate_threshold());
         //createSerials();
-        //begin_instructions();
+        begin_instructions();
         //saveAllHazardsImages();
         systemLogger.add_log("Finish Init Server");
     }
@@ -168,13 +168,13 @@ public class MainSystem {
 
 
     private void begin_instructions() throws Exception {
-//        this.userController.add_rp_serial_number(generateSerialNumber());
-//        this.userController.add_rp_serial_number(generateSerialNumber());
-//        this.userController.add_rp_serial_number(generateSerialNumber());
-//        this.userController.add_rp_serial_number(generateSerialNumber());
-//        this.userController.add_rp_serial_number(generateSerialNumber());
-//        this.userController.add_rp_serial_number(generateSerialNumber());
-//        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
+        this.userController.add_rp_serial_number(generateSerialNumber());
 //        this.userController.add_rp_serial_number("first");
 //        this.userController.add_rp_serial_number("first1");
 //        this.userController.add_rp_serial_number("first12");
