@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import static gotcha.server.Utils.Cities.city_permutation;
 import static gotcha.server.Utils.Utils.resizeByteArray;
 
 @Component
@@ -104,7 +105,8 @@ public class HazardController implements IHazardController {
     public List<StationaryHazardDTO> get_hazards(String city){
         LinkedList<StationaryHazardDTO> list = new LinkedList<>();
         for (StationaryHazard stationaryHazard : hazardRepository.getAllHazards()){
-            if (stationaryHazard.getCity().equals(city)){
+
+            if (city_permutation(stationaryHazard.getCity()).equals(city_permutation(city))){
                 list.add(new StationaryHazardDTO(stationaryHazard));
             }
         }

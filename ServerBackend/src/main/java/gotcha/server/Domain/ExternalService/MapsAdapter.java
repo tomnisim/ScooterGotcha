@@ -139,7 +139,6 @@ public abstract class MapsAdapter {
         String json = getJSONFromURL(url);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode rootNode = mapper.readTree(json);
-        System.out.println(rootNode.toString());
         String address = "";
 
         if (rootNode.has("address")) {

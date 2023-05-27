@@ -6,6 +6,7 @@ import gotcha.server.Domain.HazardsModule.StationaryHazard;
 import gotcha.server.Domain.ExternalService.MapsAdapter;
 import gotcha.server.Domain.ExternalService.MapsAdapterImpl;
 import gotcha.server.Domain.ExternalService.MapsAdapterRealTime;
+import gotcha.server.Utils.Cities;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.LocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.util.*;
 
 import static gotcha.server.Utils.AddressConverter.convertToEnglish;
+import static gotcha.server.Utils.Cities.city_permutation;
 
 @Component
 public class RoutesRetriever {
@@ -99,6 +101,7 @@ public class RoutesRetriever {
         String answer;
         try{
             answer =  this.google_maps.locationToCity(new Location(origin));
+            answer = city_permutation(answer);
             //answer = convertToEnglish(answer);
         }
         catch (Exception e){
@@ -107,4 +110,6 @@ public class RoutesRetriever {
         return answer;
 
     }
+
+
 }

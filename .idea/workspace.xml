@@ -5,8 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8394b8d-4a9c-44d1-8624-56aa6c7f6cdf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/ServerBackend/src/main/java/gotcha/server/Utils/Cities.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ServerBackend/src/main/java/gotcha/server/Service/MainSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/ServerBackend/src/main/java/gotcha/server/Service/MainSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerBackend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ServerBackend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerBackend/src/main/java/gotcha/server/Domain/ExternalService/MapsAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/ServerBackend/src/main/java/gotcha/server/Domain/ExternalService/MapsAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerBackend/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ServerBackend/src/main/java/gotcha/server/Domain/HazardsModule/HazardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerBackend/src/main/java/gotcha/server/Domain/SafeRouteCalculatorModule/RoutesRetriever.java" beforeDir="false" afterPath="$PROJECT_DIR$/ServerBackend/src/main/java/gotcha/server/Domain/SafeRouteCalculatorModule/RoutesRetriever.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerBackend/src/main/java/gotcha/server/Service/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/ServerBackend/src/main/java/gotcha/server/Service/Facade.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +24,7 @@
         <option value="JUnit5 Test Class" />
         <option value="Class" />
         <option value="Interface" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
