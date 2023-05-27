@@ -89,6 +89,7 @@ public class RoutesRetriever {
         catch (Exception e){
             answer[0] = "";
             answer[1] = "";
+            System.out.println(e.getMessage());
         }
         return answer;
     }
