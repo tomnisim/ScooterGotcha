@@ -27,7 +27,7 @@ gotcha:
       "Netanya": "netanya@gmail.com"
   Server:
     default:
-      host: "localhost"
+      host: "16.170.252.135"
       port: "5050"
       protocol: "http://"
 
