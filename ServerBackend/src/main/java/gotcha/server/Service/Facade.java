@@ -325,10 +325,18 @@ public class Facade {
     public Response finish_ride(FinishRideRequest finishRideRequest) {
         Response response;
         try{
+            systemLogger.add_log("startTime is:" + finishRideRequest.getStartTime());
+            systemLogger.add_log("endTime is:" + finishRideRequest.getEndTime());
+            systemLogger.add_log("origin is:" + finishRideRequest.getOrigin().toString());
+            systemLogger.add_log("destination is:" + finishRideRequest.getDestination().toString());
+
             String userEmail = user_controller.get_user_email_by_rp_serial(finishRideRequest.getRpSerialNumber());
             int number_of_rides = this.rides_controller.get_number_of_rides(userEmail);
             String[] addresses = routes_retriever.getAddresses(finishRideRequest.getOrigin(), finishRideRequest.getDestination());
             String city = routes_retriever.getCity(finishRideRequest.getOrigin());
+            systemLogger.add_log("City is:" + city);
+            systemLogger.add_log("address[0] is:" + addresses[0]);
+            systemLogger.add_log("address[1] is:" + addresses[1]);
             Ride ride = this.rides_controller.add_ride(finishRideRequest, userEmail, addresses[0], addresses[1], city);
             int ride_id = ride.getRide_id();
             user_controller.update_user_rate(userEmail, ride, number_of_rides);
