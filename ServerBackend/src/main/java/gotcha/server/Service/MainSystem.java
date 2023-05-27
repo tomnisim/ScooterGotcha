@@ -175,13 +175,13 @@ public class MainSystem {
         this.userController.add_rp_serial_number(generateSerialNumber());
         this.userController.add_rp_serial_number(generateSerialNumber());
         this.userController.add_rp_serial_number(generateSerialNumber());
-//        this.userController.add_rp_serial_number("first");
-//        this.userController.add_rp_serial_number("first1");
-//        this.userController.add_rp_serial_number("first12");
-//        this.userController.add_rp_serial_number("first123");
-//        this.userController.add_rp_serial_number("first1234");
-//        this.userController.add_rp_serial_number("first12345");
-//        this.userController.add_rp_serial_number("first123456");
+        this.userController.add_rp_serial_number("first");
+        this.userController.add_rp_serial_number("first1");
+        this.userController.add_rp_serial_number("first12");
+        this.userController.add_rp_serial_number("first123");
+        this.userController.add_rp_serial_number("first1234");
+        this.userController.add_rp_serial_number("first12345");
+        this.userController.add_rp_serial_number("first123456");
 
         BigDecimal lng = new BigDecimal("34.801402");
         BigDecimal lat = new BigDecimal("31.265106");
