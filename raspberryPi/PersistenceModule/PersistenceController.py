@@ -20,8 +20,8 @@ class PersistenceController:
         waiting_rides = self.files_controller.get_waiting_rides()
         if ride is not None:
             #TODO - uncomment
-            # rideDTO = to_dto(ride, self.configurationController.get_serial())
-            rideDTO = to_dto(ride, 'first')
+            rideDTO = to_dto(ride, self.configurationController.get_serial())
+            # rideDTO = to_dto(ride, 'first')
             waiting_rides.append(rideDTO)
         self.files_controller.clear_waiting_rides()
         for waiting_ride in waiting_rides:

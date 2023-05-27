@@ -1,20 +1,6 @@
 import logging
 
-# ------------------ ERROR LOGGER -----------------------------------
-# Create a logger for errors
-error_logger = logging.getLogger('error_logger')
-error_logger.setLevel(logging.ERROR)
 
-# Create a file handler for the error logger
-error_handler = logging.FileHandler('error.log')
-error_handler.setLevel(logging.ERROR)
-
-# Create a formatter for the error handler
-error_formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-error_handler.setFormatter(error_formatter)
-
-# Add the error handler to the error logger
-error_logger.addHandler(error_handler)
 
 # ------------------ SYSTEM LOGGER -----------------------------------
 

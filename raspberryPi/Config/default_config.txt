@@ -8,13 +8,10 @@ Type: V2
 GPS: default
 num_of_coordinates: 8
 
-#[ServerAddress]
-#host:
-#port:
-#protocol:https://gold-rock-386508.oa.r.appspot.com
+
 
 [ServerAddress]
-host: 192.168.1.13
+host: 16.170.252.135
 port: 5050
 protocol:http://
 

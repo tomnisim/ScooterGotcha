@@ -20,11 +20,15 @@ class HazardDetector:
     def __init__(self):
         system_logger.info("HazardDetector build.")
         self.model_type = int(Constants.get_instance().get_model())
-        print(f'model type {self.model_type}')
+        system_logger.info(f'model type {self.model_type}')
         if self.model_type == 0:
             self.potholes_model = self.load_potholes_model(POTHOLES_DETECTION_MODEL_ID)
         elif self.model_type==1:
-            self.roboflow_model = self.load_roboflow_model(API_KEY)
+            try:
+                self.roboflow_model = self.load_roboflow_model(API_KEY)
+            except:
+                self.potholes_model = self.load_potholes_model(POTHOLES_DETECTION_MODEL_ID)
+                self.model_type=0
         
         
         # self.pole_tree_model = self.load_pole_tree_model('my_model.h5')
@@ -39,7 +43,7 @@ class HazardDetector:
    
     def load_potholes_model(self, pothole_path):
         model = YOLO(pothole_path)
-        image_path = 'test1.jpg'
+        image_path = 'test.jpg'
         frame = cv2.imread(image_path)
         image = self.convert_frame_to_YOLO_input(frame)
         results = model(image)
@@ -54,17 +58,22 @@ class HazardDetector:
 
 
 
-    def detect_potholes(self, frame , loc):
+    def detect_potholes(self, frame, image_path , loc):
         detected_hazards = []
         is_pothole , size= None, None
         if self.model_type == 0:
             is_pothole, size = self.predict_yolo(frame)
         elif self.model_type==1:
-            is_pothole, size = self.predict_roboflow(frame)
-
+            try:
+                is_pothole, size = self.predict_roboflow(frame)
+            except:
+                is_pothole, size = self.predict_yolo(frame)
+                self.model_type=0
+        # #TODO:delete line below
+        is_pothole = True
         print(f'is pothole {is_pothole}')
         if is_pothole:
-            pothole_hazard = Hazard(size, loc, HazardType.Pothole, frame)
+            pothole_hazard = Hazard(size, loc, HazardType.Pothole, image_path)
             detected_hazards.append(pothole_hazard)
         return detected_hazards
 
@@ -84,10 +93,10 @@ class HazardDetector:
             detected_hazards.append(road_sign_hazard)
 
         return detected_hazards
-    def detect_hazards_in_frame(self, frame, loc):
+    def detect_hazards_in_frame(self, frame, image_path, loc):
         detected_hazards = []
         
-        detected_hazards += self.detect_potholes(frame, loc)
+        detected_hazards += self.detect_potholes(frame, image_path, loc)
             
         # detected_hazards += self.detect_road_signs(frame, loc)
         # is_pole_tree = self.pole_tree_model.predict(frame)
@@ -96,58 +105,33 @@ class HazardDetector:
 
 
     def convert_frame_to_YOLO_input(self, frame):
-        # Assume that the frame variable contains the ndarray frame
         img = Image.fromarray(frame)
-        # Resize the image to (640, 640)
-        img = img.resize((640, 640))
-        # Convert the image to mode RGB
         img = img.convert('RGB')
         return img
 
     def predict_yolo(self, frame):
-        # image = frame
         image = self.convert_frame_to_YOLO_input(frame)
-        # if the frame is ndarray and we want to show it
-        # image = Image.open(frame)
-        # image = Image.fromarray(frame)
-
-        # Show image - for testing
-        # image.show()
-
-        # perform inference
-        results = self.potholes_model(image)
-
-        # parse results
+        results = self.potholes_model(frame)
         result = results[0]
-
         boxes = result.boxes.xyxy  # x1, y1, x2, y2
-        # Get the size of the tensor
         size = boxes.size()
         num_potholes = size[0]
-        print("num of potholes:",num_potholes)
-
+        system_logger.info(f"num of potholes:{num_potholes}")
         if num_potholes>0:
+            #TODO: get size
             xyxy = boxes.numpy()
             x1 = xyxy[0][0]
             y1 = xyxy[0][1]
             x2 = xyxy[0][2]
             y2 = xyxy[0][3]
             # print(x1, y1, x2, y2)
-
             hazard_size = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
         else:
             hazard_size = 0
-
-
-        scores = result.boxes.conf
-        categories = result.boxes.cls
-        scores = result.probs  # for classification models
-        masks = result.masks  # for segmentation models
-
-        # show results on image - for testing
         
         if num_potholes>0:
             render = render_result(model=self.potholes_model, image=image, result=result)
+
             render.show()
 
         return num_potholes > 0 , hazard_size
@@ -155,12 +139,8 @@ class HazardDetector:
     def predict_roboflow(self, frame):
         size = 0
         image_to_save = Image.fromarray(frame)
-        # Save the image with a new filename
         image_to_save.save(f'imageRoboflow.jpg')
-        
         result = self.roboflow_model.predict("imageRoboflow.jpg", confidence=40, overlap=30).json()
-        # self.roboflow_model.predict("imageRoboflow.jpg", confidence=40, overlap=30).save('pred_roboflow.jpg')
-        # print(f'predictionsRoboflow {result["predictions"]}')
         return len(result['predictions'])>0, size
 
 

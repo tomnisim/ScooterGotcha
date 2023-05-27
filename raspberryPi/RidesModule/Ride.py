@@ -101,6 +101,7 @@ class RideDTO:
 
     def serialize_time(self, time):
         return time.strftime("%Y-%m-%d;%H:%M")
+        # return time.strftime("%yyyy-%MM-%dd;%HH:%mm")
 
     def set_serial_number(self, serial):
         self.rpSerialNumber = serial

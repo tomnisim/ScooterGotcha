@@ -7,7 +7,7 @@ from Config import ConfigurationController
 from Config.Constants import Constants
 from GPSModule.Location import Location
 from PersistenceModule.urls import finish_ride_url, get_rp_config_file_url
-from Utils.Logger import ride_logger, system_logger, error_logger
+from Utils.Logger import ride_logger, system_logger
 from Utils.Response import Response
 
 
@@ -29,34 +29,37 @@ class CommunicationController:
             res = requests.get(url)
             response = Response(res.json())
         except Exception as e:
+            print(f'e->{e}')
             system_logger.info('e->', e)
         # Failed to get Configuration File:
         if not response or response.was_exception:
-            error_logger.info('Communication Problem: Cant get Raspberry Pi Configuration File From Server.')
+            system_logger.error('Communication Problem: Cant get Raspberry Pi Configuration File From Server.')
             return False
         # Success to get Configuration File:
         system_logger.info('Got Raspberry Pi Configuration File From Server Successfully.')
         return response.value
 
     def send_ride_to_server(self, rideDTO):
+        system_logger.info("start send ride to")
         response = None
         url = self.get_url() + self.finish_ride_suffix
+        print(url)
         #TODO: delete the line below - it for specific ip machine
-        url = 'http://192.168.1.13:5050'+ self.finish_ride_suffix
+        # url = 'http://192.168.1.13:5050'+ self.finish_ride_suffix
 
         json_data = json.dumps(rideDTO)
         headers = {'Content-Type': 'application/json'}
         try:
-            res = requests.post(url, data=json_data, headers=headers)
+            res = requests.post(url, data=json_data, headers=headers, timeout=20)
             response = Response(res.json())
 
         except Exception as e:
-            print('e->', e)
-            error_logger.info(f'communication problem -> {e}')
+            print(f'e->{e}')
+            system_logger.error(f'communication problem -> {e}')
 
         # Failed to Send Ride:
         if not response or response.was_exception:
-            error_logger.info('Communication Problem: Cant Send Ride to Server.')
+            system_logger.error('Communication Problem: Cant Send Ride to Server.')
             return False
         # Success to Send Ride:
         else:

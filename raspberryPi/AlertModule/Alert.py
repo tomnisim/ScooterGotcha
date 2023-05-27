@@ -8,7 +8,7 @@ class Alert(ABC):
 
     @abstractmethod
     def alert(self, duration):
-        print("start alert, analyze hazard and save details about it ")
+        system_logger.info("start alert, analyze hazard and save details about it ")
 
 
 

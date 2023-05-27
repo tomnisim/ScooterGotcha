@@ -1,6 +1,7 @@
 import configparser
 from Config.Constants import Constants
 import os
+from Utils.Logger import ride_logger, system_logger
 
 class ConfigurationController:
     def __init__(self):
@@ -22,6 +23,8 @@ class ConfigurationController:
         os.chdir(original_dir)
 
     def read_config_from_default(self):
+
+        system_logger.info("read from default config")
         filename = 'default_config.txt'
         original_dir = os.getcwd()
         os.chdir("/home/tomnisim/ScooterGotcha/raspberryPi/Config")

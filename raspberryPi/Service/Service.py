@@ -12,7 +12,8 @@ from RidesModule.RideController import RideController
 from Service.StartButtonThread import StartButtonThread
 from Service.UpdateConfigThread import UpdateConfigThread
 from Utils.Logger import system_logger
-
+import os
+import glob
 
 
 class Service:
@@ -33,18 +34,29 @@ class Service:
         self.alerter = Vocal(Constants.get_instance().get_alert_duration())  #TODO: have to make switch case according the configuration file
         self.ride_controller = RideController(self.alerter, self._GPS_controller, self._camera_controller)
 
-        # Create Thread for Managing 'live button'
-        self.start_button_thread = StartButtonThread()
-        start_button_task = threading.Thread(target=self.start_button_thread.run())
-        start_button_task.start()
+    def clear_ride_images(self):
+        path = '/home/tomnisim/ScooterGotcha/raspberryPi/RideImages/*'
+        files = glob.glob(path)
+        for file in files:
+            try:
+                os.remove(file)
+            except:
+                pass
 
     def run(self):
+        self._camera_controller.start_camera()
         while True:
-            if self.start_button_thread.get_start_button():
+            
+            # Create Thread for Managing 'live button'
+            start_button_thread = StartButtonThread()
+            start_button_task = threading.Thread(target=start_button_thread.run())
+            start_button_task.start()
+            if start_button_thread.get_start_button():
+                
                 ride = self.ride_controller.execute_ride()
                 self.persistence_controller.save_ride(ride)
-                # MOCK - for the debug video
-                # while True:
-                #     pass
+                self.clear_ride_images()
 
+
+        
 

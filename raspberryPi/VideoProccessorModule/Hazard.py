@@ -10,14 +10,16 @@ class Hazard():
         self.size=size
         self.location = location
         self.type = type
-        print(len(frame))
+        self.frame= self.convert_frame_to_byte_array(frame)
 
-        self.frame= self.convert_frame_to_byte_string(frame)
-        print(len(self.frame))
-
-    def convert_frame_to_byte_string(self, frame):
-        image_bytes = cv2.imencode('.jpg', frame)[1].tobytes()
-        # base64_string = base64.b64encode(image_bytes).decode('utf-8')
-        return list(image_bytes)
+    def convert_frame_to_byte_array(self, frame_path):
+        # img =Image.fromarray(frame, 'RGB')
+        # return list(img.read())
+        path =f'{frame_path}'
+        with open(path, 'rb') as img:
+            return list(img.read())
+        # image_bytes = cv2.imencode('.jpg', frame)[1].tobytes()
+        # image_bytes = bytearray(frame.tobytes())
+        # return image_bytes
 
 

@@ -13,6 +13,7 @@ class GPSController:
     def __init__(self):
         self.gps_serial = self.init_gps()
         self.index = -1
+        self.x = 0.001
         system_logger.info(f'GPS Controller initialization')
         if GPSController.__instance is not None:
             raise Exception("Singleton class can only be instantiated once")
@@ -49,8 +50,11 @@ class GPSController:
         return None
 
     def get_location_mock(self):
-        latitude = 31.265106
-        longitude = 34.801402
+        
+        latitude = 34.801402 
+        longitude = 31.265106 + self.x
+        self.x+=0.001
+    
         return Location(latitude, longitude)
         # self.index = self.index + 1
         # loc1 = Location("34.801738", "31.265175")

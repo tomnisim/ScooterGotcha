@@ -2,7 +2,7 @@
 import base64
 import datetime
 import threading
-
+from transformers import AutoModel
 import numpy as np
 # import matplotlib.pyplot as plt
 # import math
@@ -16,12 +16,12 @@ from matplotlib import pyplot as plt
 # from VideoProccessorModule.HazardType import HazardType
 from PIL import Image
 # from picamera2 import Picamera2, Preview
-from moviepy.video.io.VideoFileClip import VideoFileClip
 from ultralytics.yolo.v8.segment import SegmentationValidator
 from ultralyticsplus import YOLO, render_result
 # from CameraModule.CameraController import CameraController
 import signal
 import sys
+from Utils.Logger import system_logger
 
 from AlertModule.Vocal import Vocal
 from CameraModule.CameraController import CameraController
@@ -36,37 +36,44 @@ from Tests.Integration_test import update_end_button_task
 from Utils.Response import Response
 from VideoProccessorModule.Hazard import Hazard
 from VideoProccessorModule.HazardType import HazardType
-from gpiozero import LED, Button
+# from gpiozero import LED, Buzzer, Button
 from signal import pause 
 import RPi.GPIO as GPIO
 from roboflow import Roboflow
 
 
 
-# GPIO.setmode(GPIO.BOARD)
-# buzzer =18
-# ledPin = 12
-# buttonPin=16
-# # 
-# GPIO.setup(ledPin, GPIO.OUT)
-# GPIO.setup(buzzer, GPIO.OUT)
-# GPIO.setup(buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
+# GPIO.setmode(GPIO.BOARD)
+# # GPIO.setmode(GPIO.BCM)
+# buttonPin =16
+# ledPin = 18
+
+
+# GPIO.setup(ledPin, GPIO.OUT)
+# # GPIO.setup(buzz, GPIO.OUT)
+# GPIO.setup(buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+# # while True:
+# #     GPIO.output(ledPin, GPIO.LOW)
 # while True:
+#     # GPIO.output(buzz, GPIO.HIGH)
 #     bs = GPIO.input(buttonPin)
-    
+#     # led.on()
+#     # buzzer.on()
 #     if bs==False:
 #         GPIO.output(ledPin, GPIO.HIGH)
-#         GPIO.output(buzzer, GPIO.HIGH)
+        
+#         # buzzer.on()
+#         # GPIO.output(buzz, True)
 #     else:
 #         GPIO.output(ledPin, GPIO.LOW)
-#         GPIO.output(buzzer, GPIO.LOW)
+#         # GPIO.output(buzz, False)
 
 
 
 
 def close_camera(signal, frame):
-    print("Signal received, closing camera, and clean GPIO...")
+    system_logger.info("Signal received, closing camera, and clean GPIO...")
     CameraController.get_instance().close_camera()
     GPIO.cleanup() 
     sys.exit(0)
@@ -108,14 +115,16 @@ def get_next_frame_realtime(picam2):
     # reshape frame data into 3D array (height x width x channels)
     return image
 
+POTHOLES_DETECTION_MODEL_ID = 'keremberke/yolov8n-pothole-segmentation'
 
 def predict(frame):
     img = Image.fromarray(frame)
     # Resize the image to (640, 640)
-    img = img.resize((640, 640))
+    # img = img.resize((640, 640))
     # Convert the image to mode RGB
     img = img.convert('RGB')
     image = img
+    model = YOLO(POTHOLES_DETECTION_MODEL_ID)
     results = model(img)
 
     # parse results
@@ -136,13 +145,15 @@ def predict(frame):
     render = render_result(model=model, image=image, result=result)
     
     render.show()
+    return result
 
 def test_send_image():
 
-    image_path = 'test1.jpg'
+    image_path = 'test.jpg'
     frame = cv2.imread(image_path)
 
-    image_bytes = cv2.imencode('.jpg', frame)[1].tobytes()
+    # image_bytes = cv2.imencode('.jpg', frame)[1].tobytes()
+    image_bytes = bytearray(frame.tobytes())
     # base64_string = base64.b64encode(image_bytes).decode('utf-8')
     # If using binary data
     print(len(image_bytes))
@@ -150,7 +161,7 @@ def test_send_image():
         'data': list(image_bytes)
     }
     json_data = json.dumps(payload)
-    url = 'http://192.168.1.13:5050/send_ride_test'
+    url = 'http://16.170.252.135:5050/send_ride_test'
     headers = {'Content-Type': 'application/json'}
     response = requests.post(url, data=json_data,headers=headers)
 
@@ -161,12 +172,11 @@ def test_send_image():
         print('Error sending frame. Status code:', response.status_code)
 
 def test_send_ride():
-    image_path = 'test1.jpg'
+    image_path = 'test.jpg'
     start_loc = Location(34.801402, 31.265106)
     destination_loc = Location(34.797558, 31.267604)
     frame = cv2.imread(image_path)
     hazard = Hazard(0.5, Location(21.32, 32.32), HazardType.Pothole, frame)
-    print('skghevbbkwbvfkgb')
     hazards=[hazard]
     start_time= finish_time = datetime.datetime.now()
     junctions=[Location(21.32, 32.32)]*5
@@ -232,12 +242,19 @@ if __name__ == '__main__':
         # print("BI")
         # test_send()
         # run_for_tests()
+        # image_path='test1.jpg'
+        # frame = cv2.imread(image_path)
+        # a=predict(frame)
+        # b=2
+        # model = AutoModel.from_pretrained(POTHOLES_DETECTION_MODEL_ID)
+        # model.save_pretrained('./my_yolo_model')
         service = Service()
         service.run()
     except Exception as e:
         print('e->', e)
         CameraController.get_instance().close_camera()
     finally:
+        GPIO.cleanup() 
         CameraController.get_instance().close_camera()
 
 

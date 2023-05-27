@@ -6,9 +6,9 @@ from Config.Constants import Constants
 from Utils.Logger import system_logger
 from picamera2 import Picamera2, Preview
 import cv2
-
-i = 0
-
+import io
+from PIL import Image
+CAPTURED_IMG_FILE = 'RideImages/frame'
 
 class CameraController:
     __instance = None
@@ -17,6 +17,7 @@ class CameraController:
         self.clip = None
         self.frames_generator = None
         self.index = -1
+        self.i=389
         self._camera = self.init_camera()
         system_logger.info(f'Camera Controller initialization')
         if CameraController.__instance is not None:
@@ -40,20 +41,18 @@ class CameraController:
     def init_camera_realtime(self):
         system_logger.info('init real camera')
         picam2 = Picamera2()
-        camera_config = picam2.create_still_configuration(lores={"size": (640, 640)}, display="lores")
+        camera_config = picam2.create_still_configuration(main={"size": (640, 480)}, lores={"size": (640, 480)}, display="lores")
         picam2.configure(camera_config)
         return  picam2
-        # finally:
-        #     picam2.close()
+
         
         
     def start_camera(self):
         system_logger.info("start camera")
         self._camera.start()
     def close_camera(self):
-        print("close camera")
+        system_logger.info("close camera")
         self._camera.close()
-    # Initialize the camera
     def init_camera_mock(self):
         self.clip = VideoFileClip('potholes_video_bs.mp4')
         self.frames_generator = self.clip.iter_frames()
@@ -62,15 +61,12 @@ class CameraController:
 
     # Get the next frame from the camera
     def get_next_frame_realtime(self):
-        # camera_config = self._camera.create_still_configuration(lores={"size": (640, 640)}, display="lores")
-        # self._camera.configure(camera_config)
-        self._camera.capture_file("test1.jpg")
-        image_path = 'test1.jpg'
+        image_path = f'{CAPTURED_IMG_FILE}{self.i}.jpg' 
+        print(image_path)
+        self._camera.capture_file(image_path)
+        self.i+=1
         image = cv2.imread(image_path)
-        # cv2.imshow('Image', image)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
-        return image
+        return image, image_path
 
     def get_next_frame(self):
         if Constants.get_instance().get_MOCK_RUNNING():

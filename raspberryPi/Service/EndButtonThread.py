@@ -47,7 +47,7 @@ class EndButtonThread:
        
     def manage_end_button_task(self):
         system_logger.info(f'Start thread manage_end_button_task - REAL')
-        print("PRESS (e) TO END - REAL\n")
+        system_logger.info("PRESS (e) TO END - REAL\n")
         while True:
             button_state = GPIO.input(self.button_pin)
             if button_state == False:
