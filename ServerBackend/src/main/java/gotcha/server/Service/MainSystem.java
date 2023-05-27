@@ -231,15 +231,15 @@ public class MainSystem {
         }
 
         LocalDateTime start_time = LocalDateTime.now();
-        if (this.hazardController.isDbEmpty()) {
-            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5, imageData);
-            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 7,imageData);
-            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 12, imageData);
-            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12, imageData);
-            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14, imageData);
-            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3, imageData);
-            s3Service.saveAllImages();
-        }
+//        if (this.hazardController.isDbEmpty()) {
+//            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5, imageData);
+//            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 7,imageData);
+//            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 12, imageData);
+//            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12, imageData);
+//            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14, imageData);
+//            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3, imageData);
+//            s3Service.saveAllImages();
+//        }
         LocalDate birth_date = LocalDate.of(1995, 05 , 05);
         LocalDate issue = LocalDate.of(2025, 05 , 05);
         String password = "AaAa12345";
@@ -269,19 +269,19 @@ public class MainSystem {
             userController.add_first_admin("admin12@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
             userController.add_first_admin("admin123@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
         }
-        FinishRideRequest finishRideReq = new FinishRideRequest("first", new LocationDTO(origin), new LocationDTO(dest), start_time, start_time.plusMinutes(47), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        FinishRideRequest finishRideReq2 = new FinishRideRequest("first", new LocationDTO(hazard_location2), new LocationDTO(hazard_location3), start_time, start_time.plusMinutes(47), hazards, new ArrayList<>(), new ArrayList<>());
-        ridesController.add_ride(finishRideReq, "email@gmail.com", originAddress, destAddress, "Netanya");
-        ridesController.add_ride(finishRideReq2, "email@gmail.com", originAddress1, destAddress1,"Tel-Aviv");
-       userController.send_question_to_admin("email@gmail.com", "Happy Birthday");
-        userController.send_question_to_admin("email@gmail.com", "Happy Birthday with answer");
+//        FinishRideRequest finishRideReq = new FinishRideRequest("first", new LocationDTO(origin), new LocationDTO(dest), start_time, start_time.plusMinutes(47), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+//        FinishRideRequest finishRideReq2 = new FinishRideRequest("first", new LocationDTO(hazard_location2), new LocationDTO(hazard_location3), start_time, start_time.plusMinutes(47), hazards, new ArrayList<>(), new ArrayList<>());
+//        ridesController.add_ride(finishRideReq, "email@gmail.com", originAddress, destAddress, "Netanya");
+//        ridesController.add_ride(finishRideReq2, "email@gmail.com", originAddress1, destAddress1,"Tel-Aviv");
+//       userController.send_question_to_admin("email@gmail.com", "Happy Birthday");
+//        userController.send_question_to_admin("email@gmail.com", "Happy Birthday with answer");
 //        userController.reply_to_user_question("admin1@gmail.com", "Happy Birthday with answer 1", 1);
 //        userController.reply_to_user_question("admin1@gmail.com", "Happy Birthday with answer 2 ", 2);
         //this.questionController.answer_user_question(1, "because", "admin@admin.com");
-       if (this.advertiseController.isDbEmpty()) {
-           this.advertiseController.add_advertise(birth_date, "owner", "message", "https://picsum.photos/id/237/200/200", "www.walla.com");
-           this.advertiseController.add_advertise(birth_date, "owner", "message", "https://picsum.photos/id/238/200/200", "www.walla.com");
-       }
+//       if (this.advertiseController.isDbEmpty()) {
+//           this.advertiseController.add_advertise(birth_date, "owner", "message", "https://picsum.photos/id/237/200/200", "www.walla.com");
+//           this.advertiseController.add_advertise(birth_date, "owner", "message", "https://picsum.photos/id/238/200/200", "www.walla.com");
+//       }
 //        Facade user_facade = new Facade();
 //        Facade admin_facade = new Facade();
 //        user_facade.register(EMAIL, PASSWORD, NAME, LAST_NAME, BIRTH_DATE, PHONE, GENDER);
