@@ -83,7 +83,9 @@ public class HazardController implements IHazardController {
                     add_hazard(ride_id, location, city, type, size, hazard.getFrame());
             }
             else{
-                update_hazard(current, size);
+                // TODO: update photo and remove comment
+                // update_hazard(current, size);
+                add_hazard(ride_id, location, city, type, size, hazard.getFrame());
             }
         }
     }
