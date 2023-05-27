@@ -9,20 +9,19 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id = 0;
 
-    @Column(name="message")
+    @Column(name="message", columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci",nullable = false)
     private String message;
 
-    @Column(name="senderEmail")
+    @Column(name="senderEmail", nullable = false)
     private String senderEmail;
 
-    @Column(name="wasSeen")
+    @Column(name="wasSeen", nullable = false)
     private boolean wasSeen;
 
     public Notification(String senderEmail, String message) {
         this.senderEmail = senderEmail;
         this.wasSeen = false;
         this.message = message;
-
     }
 
     public Notification(){}

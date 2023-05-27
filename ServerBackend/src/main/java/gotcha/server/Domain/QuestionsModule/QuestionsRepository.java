@@ -66,7 +66,7 @@ public class QuestionsRepository {
             return result.get();
         }
         else {
-            throw new Exception("advertisement with id:" + questionId + " not found");
+            throw new Exception("question with id:" + questionId + " not found");
         }
     }
 

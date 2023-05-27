@@ -14,43 +14,45 @@ public class StationaryHazard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id = 0;
-    @Column(name="rideId")
+    @Column(name="rideId", nullable = false)
     private int ride_id;
 
-    @Column(name="location")
+    @Column(name="location", nullable = false)
     @Embedded
     private Location location;
 
-    @Column(name="city")
+    @Column(name="city", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", nullable = false)
     private String city;
 
     @Enumerated
-    @Column(name="hazardType")
+    @Column(name="hazardType", nullable = false)
     private HazardType type;
 
-    @Column(name="size")
+    @Column(name="size", nullable = false)
     private double size;
 
-    @Column(name="rate")
+    @Column(name="rate", nullable = false)
     private double rate;
 
-    @Column(name="report")
+    @Column(name="report", nullable = false)
     private boolean report;
 
-    @Lob
-    @Column(name = "photo", columnDefinition = "BLOB")
+
+    @Transient
     private byte[] photo;
+    @Column(name="s3Key", nullable = false)
+    private String photoS3Key;
 
 
 
-    public StationaryHazard(int ride_id, Location location, String city, HazardType type, double size, byte[] photo) {
+    public StationaryHazard(int ride_id, Location location, String city, HazardType type, double size) {
         this.ride_id = ride_id;
         this.location = location;
         this.city = city;
         this.type = type;
         this.size = size;
-        this.photo = photo;
         this.report = false;
+        this.photoS3Key = "";
         //this.calculateRate();
     }
 
@@ -58,7 +60,13 @@ public class StationaryHazard {
     public StationaryHazard() {}
 
 
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
 
+    public byte[] getPhoto() {
+        return photo;
+    }
 
     public int getId() {
         return id;
@@ -128,11 +136,11 @@ public class StationaryHazard {
         return new StationaryHazardDTO(this);
     }
 
-    public byte[] getPhoto() {
-        return photo;
+    public String getPhotoS3Key() {
+        return photoS3Key;
     }
 
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
+    public void setPhotoS3Key(String photoS3Key) {
+        this.photoS3Key = photoS3Key;
     }
 }

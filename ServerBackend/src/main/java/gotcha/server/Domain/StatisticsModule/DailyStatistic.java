@@ -10,66 +10,66 @@ public class DailyStatistic {
     @Column(nullable = false)
     private LocalDate date;
 
-    @Column(name = "start_day_advertisements")
+    @Column(name = "start_day_advertisements", nullable = false)
     private int start_day__advertisements;
 
-    @Column(name = "total_advertisements")
+    @Column(name = "total_advertisements", nullable = false)
     private int total_advertisements;
 
-    @Column(name = "start_day_awards")
+    @Column(name = "start_day_awards", nullable = false)
     private int start_day__awards;
 
-    @Column(name = "total_awards")
+    @Column(name = "total_awards", nullable = false)
     private int total_awards;
 
-    @Column(name = "start_day_hazards")
+    @Column(name = "start_day_hazards", nullable = false)
     private int start_day__hazards;
 
-    @Column(name = "total_hazards")
+    @Column(name = "total_hazards", nullable = false)
     private int total_hazards;
 
-    @Column(name = "start_day_users_questions")
+    @Column(name = "start_day_users_questions", nullable = false)
     private int start_day__users_questions;
 
-    @Column(name = "total_users_questions")
+    @Column(name = "total_users_questions", nullable = false)
     private int total_users_questions;
 
-    @Column(name = "start_day_admin_answers")
+    @Column(name = "start_day_admin_answers", nullable = false)
     private int start_day__admin_answers;
 
-    @Column(name = "total_admin_answers")
+    @Column(name = "total_admin_answers", nullable = false)
     private int total_admin_answers;
 
-    @Column(name = "start_day_rides")
+    @Column(name = "start_day_rides", nullable = false)
     private int start_day__rides;
 
-    @Column(name = "total_rides")
+    @Column(name = "total_rides", nullable = false)
     private int total_rides;
 
-    @Column(name = "start_day_users")
+    @Column(name = "start_day_users", nullable = false)
     private int start_day__users;
 
-    @Column(name = "total_users")
+    @Column(name = "total_users", nullable = false)
     private int total_users;
 
-    @Column(name = "start_day_admins")
+    @Column(name = "start_day_admins", nullable = false)
     private int start_day__admins;
 
-    @Column(name = "total_admins")
+    @Column(name = "total_admins", nullable = false)
     private int total_admins;
 
-    @Column(name = "online_users")
+    @Column(name = "online_users", nullable = false)
 
     private int online_users; // login
 
-    @Column(name = "online_guests")
+    @Column(name = "online_guests", nullable = false)
 
     private int online_guests; // logout
 
-    @Column(name = "shutdown_events")
+    @Column(name = "shutdown_events", nullable = false)
 
     private int shut_down_events;
-    @Column(name = "reset_events")
+    @Column(name = "reset_events", nullable = false)
 
     private int reset_events;
 

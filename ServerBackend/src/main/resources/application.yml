@@ -31,6 +31,9 @@ gotcha:
       port: "5050"
       protocol: "http://"
 
+s3:
+  bucketName: "scootergotcha"
+
 rate-config:
   speed_changes_per_minute:
     0: 100

@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8394b8d-4a9c-44d1-8624-56aa6c7f6cdf" name="Changes" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/ServerBackend/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/ServerBackend/src/main/resources/application.yml" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerBackend/src/main/java/gotcha/server/Domain/QuestionsModule/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/ServerBackend/src/main/java/gotcha/server/Domain/QuestionsModule/Question.java" afterDir="false" />
+>>>>>>> 63a98f537a7c04cdb59a319d3dd40ce39bb7c973
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

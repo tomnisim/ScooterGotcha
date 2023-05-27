@@ -14,6 +14,7 @@ import gotcha.server.Domain.UserModule.UserController;
 import gotcha.server.Domain.ExternalService.MapsAdapter;
 import gotcha.server.Domain.ExternalService.MapsAdapterImpl;
 import gotcha.server.Domain.HazardsModule.ReporterAdapter;
+import gotcha.server.Domain.s3.S3Service;
 import gotcha.server.Service.Communication.Requests.FinishRideRequest;
 import gotcha.server.Utils.Exceptions.ExitException;
 import gotcha.server.Utils.Location;
@@ -26,7 +27,18 @@ import gotcha.server.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -49,9 +61,10 @@ public class MainSystem {
     private final SystemLogger systemLogger;
     private final ErrorLogger errorLogger;
     private final MapsAdapter maps_adapter;
+    private final S3Service s3Service;
 
     @Autowired
-    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, ErrorLogger errorLogger, MapsAdapterImpl mapsAdapter, StatisticsManager statisticsManager, QuestionController questionController, RoutesRetriever routesRetriever){
+    public MainSystem(Configuration configuration, UserController userController, HazardController hazardController, RidesController ridesController, AdvertiseController advertiseController, SystemLogger systemLogger, ErrorLogger errorLogger, MapsAdapterImpl mapsAdapter, StatisticsManager statisticsManager, QuestionController questionController, RoutesRetriever routesRetriever, S3Service s3Service){
         this.configuration = configuration;
         this.userController = userController;
         this.hazardController = hazardController;
@@ -63,6 +76,7 @@ public class MainSystem {
         this.systemLogger = systemLogger;
         this.errorLogger = errorLogger;
         this.maps_adapter = mapsAdapter;
+        this.s3Service = s3Service;
     }
 
     public void init_server() throws Exception {
@@ -74,8 +88,24 @@ public class MainSystem {
         set_reporter_engine();
         this.hazardController.setHAZARD_THRESHOLD_RATE(configuration.getHazards_rate_threshold());
         //createSerials();
-        //begin_instructions();
+        begin_instructions();
+        //saveAllHazardsImages();
         systemLogger.add_log("Finish Init Server");
+    }
+
+    private void saveAllHazardsImages() {
+        var allHazards = hazardController.view_hazards();
+        int i=1;
+        for (var hazard  : allHazards) {
+            var imageBytes = hazard.getPhoto();
+            try {
+                var targetDirectory = "src/main/java/gotcha/server/Service/" + "hazardImage" + i + ".jpg";
+                i++;
+                Files.write(Path.of(targetDirectory), imageBytes, StandardOpenOption.CREATE);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        }
     }
 
     private void createSerials() throws Exception {
@@ -145,7 +175,13 @@ public class MainSystem {
         this.userController.add_rp_serial_number(generateSerialNumber());
         this.userController.add_rp_serial_number(generateSerialNumber());
         this.userController.add_rp_serial_number(generateSerialNumber());
-        this.userController.add_rp_serial_number("first");
+//        this.userController.add_rp_serial_number("first");
+//        this.userController.add_rp_serial_number("first1");
+//        this.userController.add_rp_serial_number("first12");
+//        this.userController.add_rp_serial_number("first123");
+//        this.userController.add_rp_serial_number("first1234");
+//        this.userController.add_rp_serial_number("first12345");
+//        this.userController.add_rp_serial_number("first123456");
 
         BigDecimal lng = new BigDecimal("34.801402");
         BigDecimal lat = new BigDecimal("31.265106");
@@ -181,15 +217,28 @@ public class MainSystem {
 
         //this.hazardController.add_hazard(515, origin, "Tel-Aviv", HazardType.PoleTree, 16.5, photo);
 
+        byte[] imageData;
+
+        try {
+            // Get the path of the image file relative to the MainSystem class
+            Path imagePath = Paths.get("src/main/java/gotcha/server/Service/pothole1.jpg");
+
+            // Read all bytes from the image file into a byte array
+            imageData = Files.readAllBytes(imagePath);
+        } catch (IOException e) {
+            System.err.println("Error reading image file: " + e.getMessage());
+            imageData = new byte[0]; // fallback to an empty array if there's an error
+        }
 
         LocalDateTime start_time = LocalDateTime.now();
         if (this.hazardController.isDbEmpty()) {
-//            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5);
-//            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 7);
-//            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 12);
-//            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12);
-//            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14);
-//            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3);
+            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5, imageData);
+            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 7,imageData);
+            this.hazardController.add_hazard(5, origin, "Tel-Aviv", HazardType.RoadSign, 12, imageData);
+            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 12, imageData);
+            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.pothole, 14, imageData);
+            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3, imageData);
+            s3Service.saveAllImages();
         }
         LocalDate birth_date = LocalDate.of(1995, 05 , 05);
         LocalDate issue = LocalDate.of(2025, 05 , 05);
@@ -206,12 +255,12 @@ public class MainSystem {
         if (userController.isUsersTableEmpty()) {
             userController.register("email@gmail.com", password, "name", "last", "0546794211",
                     birth_date, "male", "type", issue, "first");
-//            userController.register("email1@gmail.com", password, "name", "last", "0546794211",
-//                    birth_date, "male", "type", issue, "first1");
-//            userController.register("email12@gmail.com", password, "name", "last", "0546794211",
-//                    birth_date, "male", "type", issue, "first12");
-//            userController.register("email123@gmail.com", password, "name", "last", "0546794211",
-//                    birth_date, "male", "type", issue, "first123");
+            userController.register("email1@gmail.com", password, "name", "last", "0546794211",
+                    birth_date, "male", "type", issue, "first1");
+            userController.register("email12@gmail.com", password, "name", "last", "0546794211",
+                    birth_date, "male", "type", issue, "first12");
+            userController.register("email123@gmail.com", password, "name", "last", "0546794211",
+                    birth_date, "male", "type", issue, "first123");
 //        (String rpSerialNumber, Location origin, Location destination, String city, LocalDateTime startTime, LocalDateTime endTime, List<StationaryHazard> hazards, List< RidingAction > ridingActions) {
 //            this.rpSerialNumber = rpSerialNumber;
 
@@ -225,7 +274,9 @@ public class MainSystem {
         ridesController.add_ride(finishRideReq, "email@gmail.com", originAddress, destAddress, "Netanya");
         ridesController.add_ride(finishRideReq2, "email@gmail.com", originAddress1, destAddress1,"Tel-Aviv");
        userController.send_question_to_admin("email@gmail.com", "Happy Birthday");
-       userController.send_question_to_admin("email@gmail.com", "Happy Birthday with answer");
+        userController.send_question_to_admin("email@gmail.com", "Happy Birthday with answer");
+//        userController.reply_to_user_question("admin1@gmail.com", "Happy Birthday with answer 1", 1);
+//        userController.reply_to_user_question("admin1@gmail.com", "Happy Birthday with answer 2 ", 2);
         //this.questionController.answer_user_question(1, "because", "admin@admin.com");
        if (this.advertiseController.isDbEmpty()) {
            this.advertiseController.add_advertise(birth_date, "owner", "message", "https://picsum.photos/id/237/200/200", "www.walla.com");
