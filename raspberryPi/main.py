@@ -40,6 +40,7 @@ from VideoProccessorModule.HazardType import HazardType
 from signal import pause 
 import RPi.GPIO as GPIO
 from roboflow import Roboflow
+import gpsd
 
 
 
@@ -229,9 +230,21 @@ def test_execute_ride():
         actual_ride_duration = (ride.get_end_time() - ride.get_start_time()).total_seconds()
     except Exception as e:
         print("Error -> "+e)
+def test_gps():
+
+    # Connect to the local gpsd
+    gpsd.connect()
+
+    # Get gps position
+    packet = gpsd.get_current()
+
+    # See the inline docs for GpsResponse for the available data
+    print(packet.position())
+
 if __name__ == '__main__':
     try:
         print("hello")
+        test_gps()
         # test_roboflow()
         # run_for_tests()
         # test_send_image()
@@ -248,8 +261,8 @@ if __name__ == '__main__':
         # b=2
         # model = AutoModel.from_pretrained(POTHOLES_DETECTION_MODEL_ID)
         # model.save_pretrained('./my_yolo_model')
-        service = Service()
-        service.run()
+        # service = Service()
+        # service.run()
     except Exception as e:
         print('e->', e)
         CameraController.get_instance().close_camera()
