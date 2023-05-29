@@ -53,12 +53,13 @@ public class HazardController implements IHazardController {
      * @return StationaryHazard if the hazard exist in the system.
      */
     private StationaryHazard find_hazard_if_exist(Location location, String city, HazardType type) {
+        String city_perm = city_permutation(city);
         StationaryHazard hazard = null;
         for (StationaryHazard stationaryHazard : hazardRepository.getAllHazards()) {
-            if (stationaryHazard.getCity().equals(city) && stationaryHazard.getType().equals(type) && stationaryHazard.getLocation().equals(location))
-                hazard = stationaryHazard;
+            if (city_permutation(stationaryHazard.getCity()).equals(city_perm) && stationaryHazard.getType().equals(type) && stationaryHazard.getLocation().equals(location))
+                return stationaryHazard;
         }
-        return hazard;
+        return null;
     }
     public void remove_hazard(int hazard_id) throws Exception {
         this.hazardRepository.removeHazard(hazard_id);
@@ -80,6 +81,7 @@ public class HazardController implements IHazardController {
             double size = hazard.getSize();
             StationaryHazard current = find_hazard_if_exist(location, city, type);
             if (current == null){
+
                     add_hazard(ride_id, location, city, type, size, hazard.getFrame());
             }
             else{
@@ -103,6 +105,9 @@ public class HazardController implements IHazardController {
 
 
 
+    public List<StationaryHazard> get_hazards(){
+        return hazardRepository.getAllHazards();
+    }
 
     public List<StationaryHazardDTO> get_hazards(String city){
         LinkedList<StationaryHazardDTO> list = new LinkedList<>();
