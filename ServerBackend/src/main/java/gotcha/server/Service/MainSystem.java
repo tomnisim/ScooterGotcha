@@ -22,6 +22,7 @@ import gotcha.server.Utils.LocationDTO;
 import gotcha.server.Utils.Logger.ErrorLogger;
 import gotcha.server.Utils.Logger.SystemLogger;
 import gotcha.server.Utils.Threads.HazardsReporterThread;
+import gotcha.server.Utils.Threads.HazardsSizeCalculatorThread;
 import gotcha.server.Utils.Threads.StatisticsUpdateThread;
 import gotcha.server.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,12 +87,21 @@ public class MainSystem {
 //            set_first_admin();
         set_statistics_update_thread();
         set_reporter_engine();
+        set_size_engine();
         this.hazardController.setHAZARD_THRESHOLD_RATE(configuration.getHazards_rate_threshold());
         //createSerials();
-        begin_instructions();
+        try
+        {
+            begin_instructions();
+        }
+        catch (Exception e){
+            errorLogger.add_log(e.getMessage());
+        }
         //saveAllHazardsImages();
         systemLogger.add_log("Finish Init Server");
     }
+
+
 
     private void saveAllHazardsImages() {
         var allHazards = hazardController.view_hazards();
@@ -132,6 +142,18 @@ public class MainSystem {
 
     }
 
+    private void set_size_engine() {
+        try{
+            ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+            HazardsSizeCalculatorThread hazardsSizeCalculatorThread = new HazardsSizeCalculatorThread(hazardController, systemLogger, s3Service);
+            executorService.scheduleAtFixedRate(hazardsSizeCalculatorThread, 0, 1, TimeUnit.MINUTES);
+        }
+        catch (Exception e) {
+            errorLogger.add_log("fail to update hazards size :"+e.getMessage());
+        }
+        systemLogger.add_log("Finish Loading Size Update Engine");
+
+    }
 
     /** Connect the system to the external services after set the services according the configuration file.
      * @throws ExitException if the handshake fail.
@@ -168,21 +190,15 @@ public class MainSystem {
 
 
     private void begin_instructions() throws Exception {
-        this.userController.add_rp_serial_number(generateSerialNumber());
-        this.userController.add_rp_serial_number(generateSerialNumber());
-        this.userController.add_rp_serial_number(generateSerialNumber());
-        this.userController.add_rp_serial_number(generateSerialNumber());
-        this.userController.add_rp_serial_number(generateSerialNumber());
-        this.userController.add_rp_serial_number(generateSerialNumber());
-        this.userController.add_rp_serial_number(generateSerialNumber());
-        this.userController.add_rp_serial_number("first");
-        this.userController.add_rp_serial_number("first1");
-        this.userController.add_rp_serial_number("first12");
-        this.userController.add_rp_serial_number("first123");
-        this.userController.add_rp_serial_number("first1234");
-        this.userController.add_rp_serial_number("first12345");
-        this.userController.add_rp_serial_number("first123456");
-
+        LocalDate birth_date = LocalDate.of(1995, 05 , 05);
+        LocalDate issue = LocalDate.of(2025, 05 , 05);
+        String password = "AaAa12345";
+        String serial = generateSerialNumber();
+        this.userController.add_rp_serial_number(serial);
+        userController.add_first_admin("admin1@gmail.com", "name" , "name", configuration.getAdminPassword(), "0546794211",birth_date,"male");
+        userController.register("email@gmail.com", password, "name", "last", "0546794211",
+                birth_date, "male", "type", issue, serial);
+        System.out.println("AMIT : "+serial);
         BigDecimal lng = new BigDecimal("34.801402");
         BigDecimal lat = new BigDecimal("31.265106");
         Location origin = new Location(lng, lat);
@@ -240,9 +256,7 @@ public class MainSystem {
 //            this.hazardController.add_hazard(6, origin, "Netanya", HazardType.RoadSign, 3, imageData);
 //            s3Service.saveAllImages();
 //        }
-        LocalDate birth_date = LocalDate.of(1995, 05 , 05);
-        LocalDate issue = LocalDate.of(2025, 05 , 05);
-        String password = "AaAa12345";
+
         if (userController.isSerialsTableEmpty()) {
             userController.add_rp_serial_number("first");
             userController.add_rp_serial_number("first1");
