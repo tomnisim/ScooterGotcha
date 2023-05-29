@@ -97,12 +97,10 @@ public class RoutesRetriever {
     }
 
     public String getCity(LocationDTO origin){
-        // TODO: 01/05/2023 : Hebrew / English 
         String answer;
         try{
             answer =  this.google_maps.locationToCity(new Location(origin));
             answer = city_permutation(answer);
-            //answer = convertToEnglish(answer);
         }
         catch (Exception e){
             answer = "default";
