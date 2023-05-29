@@ -12,7 +12,7 @@ public enum Cities {
         if (city.contains("אביב") || city.contains("tel") || city.contains("aviv") || city.contains("Tel") || city.contains("Aviv")) {
             return Cities.TelAviv.name();
         }
-        return "default";
+        return city;
     }
 }
 

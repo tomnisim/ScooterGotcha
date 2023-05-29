@@ -1,73 +1,92 @@
 package gotcha.server.Utils;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.vision.v1.*;
+import com.google.protobuf.ByteString;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-
-
-import org.opencv.core.*;
-import org.opencv.imgproc.Imgproc;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.io.*;
+import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
+import javax.imageio.ImageIO;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
 
 public class PotholeWidthDetection {
-    public void detect() {
-        // Load the OpenCV library
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
-        // Load the image using ImageIO
-        BufferedImage bufferedImage = null;
+
+    /**
+     * this method get an image who should contain a pothole,
+     * @param my_path - path to an image
+     * @return double[] where double[0] is width and double[1] is height.
+     * @return 0 in cases of no pothole detection or broken image.
+     */
+    public static double[] detect(byte[] imageArray) {
+        double[] answer = new double[2];
+
         try {
-            bufferedImage = ImageIO.read(new File("C:\\Users\\amitm\\Desktop\\Workspace\\Seminar\\Iteration 3\\1164270.jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            String encoded = Base64.getEncoder().encodeToString(imageArray);
+            byte[] data = encoded.getBytes("ASCII");
+            String api_key = "1EQ1Efjqv4OtzzFRD7SB"; // Your API Key
+            String model_endpoint = "gotcha/3"; // Set model endpoint
 
-        // Convert the image to OpenCV Mat format
-        Mat image = bufferedImageToMat(bufferedImage);
+            // Construct the URL
+            String uploadURL =
+                    "https://detect.roboflow.com/" + model_endpoint + "?api_key=" + api_key
+                            + "&name=YOUR_IMAGE.jpg";
 
-        // Convert the image to grayscale
-        Mat grayImage = new Mat();
-        Imgproc.cvtColor(image, grayImage, Imgproc.COLOR_BGR2GRAY);
+            // Service Request Config
+            System.setProperty("https.protocols", "TLSv1.2");
 
-        // Apply thresholding to convert to binary image
-        Mat binaryImage = new Mat();
-        Imgproc.threshold(grayImage, binaryImage, 0, 255, Imgproc.THRESH_BINARY | Imgproc.THRESH_OTSU);
+            // Configure Request
+            URL url = new URL(uploadURL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setDoOutput(true);
+            connection.setFixedLengthStreamingMode(data.length);
 
-        // Find contours
-        Mat contours = new Mat();
-        Mat hierarchy = new Mat();
-        Imgproc.findContours(binaryImage, (List<MatOfPoint>) contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-
-        // Filter contours based on size or area
-        Mat filteredContours = new Mat();
-        double minContourArea = 100; // Minimum area to filter out small contours
-        for (int i = 0; i < contours.size().height; i++) {
-            double[] contourArea = new double[]{Imgproc.contourArea(contours.row(i))};
-            if (contourArea[0] > minContourArea) {
-                filteredContours.push_back(contours.row(i));
+            // Write Data
+            try (OutputStream outputStream = connection.getOutputStream()) {
+                outputStream.write(data);
             }
-        }
 
-        // Calculate width of the largest contour
-        double maxWidth = 0;
-        for (int i = 0; i < filteredContours.size().height; i++) {
-            Rect boundingRect = Imgproc.boundingRect(new MatOfPoint(filteredContours.row(i)));
-            double width = boundingRect.width;
-            if (width > maxWidth) {
-                maxWidth = width;
+            // Get Response
+            StringBuilder responseContent = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    responseContent.append(line);
+                }
             }
-        }
 
-        System.out.println("Pothole width: " + maxWidth);
-    }
-    // Utility method to convert BufferedImage to Mat
-    private static Mat bufferedImageToMat(BufferedImage image) {
-        Mat mat = new Mat(image.getHeight(), image.getWidth(), CvType.CV_8UC3);
-        byte[] data = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
-        mat.put(0, 0, data);
-        return mat;
+            JSONObject jsonObject = new JSONObject(responseContent);
+            JSONArray predictions = jsonObject.getJSONArray("predictions");
+            for (int i = 0; i < predictions.length(); i++) {
+                JSONObject prediction = predictions.getJSONObject(i);
+                double confidence = prediction.getDouble("confidence");
+                if (confidence > 0.75) {
+                    answer[0] = prediction.getDouble("width");
+                    answer[1] = prediction.getDouble("height");
+                    return answer;
+                }
+            }
+        } catch (Exception e) {
+
+        }
+        answer[0] = 0;
+        answer[1] = 0;
+        return answer;
     }
 }

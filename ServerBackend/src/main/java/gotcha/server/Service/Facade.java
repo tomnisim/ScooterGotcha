@@ -325,16 +325,24 @@ public class Facade {
     public Response finish_ride(FinishRideRequest finishRideRequest) {
         Response response;
         try{
-
-
             String userEmail = user_controller.get_user_email_by_rp_serial(finishRideRequest.getRpSerialNumber());
             int number_of_rides = this.rides_controller.get_number_of_rides(userEmail);
             String[] addresses = routes_retriever.getAddresses(finishRideRequest.getOrigin(), finishRideRequest.getDestination());
             String city = routes_retriever.getCity(finishRideRequest.getOrigin());
             Ride ride = this.rides_controller.add_ride(finishRideRequest, userEmail, addresses[0], addresses[1], city);
             int ride_id = ride.getRide_id();
-            user_controller.update_user_rate(userEmail, ride, number_of_rides);
-            hazard_controller.update_hazards(finishRideRequest.getHazards(), ride_id, city);
+            try{
+                user_controller.update_user_rate(userEmail, ride, number_of_rides);
+            }
+            catch (Exception e){
+                error_logger.add_log("Failed to update user rate :" +e.getMessage());
+            }
+            try{
+                hazard_controller.update_hazards(finishRideRequest.getHazards(), ride_id, city);
+            }
+            catch (Exception e){
+                error_logger.add_log("Failed to update hazards :" +e.getMessage());
+            }
             String logger_message = "user added new ride";
             response = new Response(logger_message, logger_message);
             serverLogger.add_log(logger_message);
