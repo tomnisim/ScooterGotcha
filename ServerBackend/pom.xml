@@ -103,6 +103,20 @@
 			<artifactId>javafx-controls</artifactId>
 			<version>17.0.7</version>
 		</dependency>
+		<!-- Google Cloud Vision API -->
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-vision</artifactId>
+			<version>3.15.0</version>
+		</dependency>
+
+		<!-- Google Cloud Protobuf -->
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>3.17.3</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-graphics</artifactId>
