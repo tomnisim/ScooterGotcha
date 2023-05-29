@@ -2,6 +2,8 @@ package gotcha.server.Utils;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.vision.v1.*;
 import com.google.protobuf.ByteString;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,7 +11,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-
+import java.io.*;
+import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
 import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -17,166 +24,70 @@ import java.io.File;
 
 
 public class PotholeWidthDetection {
-    String my_path = "C:\\Users\\amitm\\Desktop\\Workspace\\Seminar\\Iteration 3\\1234.jpg";
 
-    public void detect1(){
-        try (ImageAnnotatorClient vision = ImageAnnotatorClient.create()) {
-            // Read the image file
-            Path path = Paths.get(my_path);
-            byte[] data = Files.readAllBytes(path);
-            ByteString imgBytes = ByteString.copyFrom(data);
 
-            // Create an image object
-            Image image = Image.newBuilder().setContent(imgBytes).build();
+    /**
+     * this method get an image who should contain a pothole,
+     * @param my_path - path to an image
+     * @return double[] where double[0] is width and double[1] is height.
+     * @return 0 in cases of no pothole detection or broken image.
+     */
+    public double[] detect(String my_path) {
+        double[] answer = new double[2];
 
-            // Create a feature for circle detection
-            Feature feature = Feature.newBuilder().setType(Feature.Type.OBJECT_LOCALIZATION).build();
-
-            // Create the request
-            AnnotateImageRequest request =
-                    AnnotateImageRequest.newBuilder()
-                            .addFeatures(feature)
-                            .setImage(image)
-                            .build();
-
-            // Send the request and get the response
-            BatchAnnotateImagesResponse response = vision.batchAnnotateImages(List.of(request));
-
-            // Process the response
-            if (response.getResponsesCount() > 0) {
-                AnnotateImageResponse annotateImageResponse = response.getResponses(0);
-                if (annotateImageResponse.hasError()) {
-                    System.out.println("Error: " + annotateImageResponse.getError().getMessage());
-                } else {
-                    List<LocalizedObjectAnnotation> annotations = annotateImageResponse.getLocalizedObjectAnnotationsList();
-                    if (annotations.isEmpty()) {
-                        System.out.println("No circle found in the image.");
-                    } else {
-                        // Assuming there's only one circle detected
-                        LocalizedObjectAnnotation circleAnnotation = annotations.get(0);
-                        double circleSize = 2 * Math.PI * circleAnnotation.getBoundingPoly().getNormalizedVertices(0).getX();
-
-                        // Output the circle size
-                        System.out.println("Circle size: " + circleSize);
-                    }
-                }
-            } else {
-                System.out.println("No response received.");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    public void detect() {
         try {
-            // Load the image file
-            GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("/path/to/service_account_key.json"));
-            BufferedImage image = ImageIO.read(new File(my_path));
+            byte[] imageArray = Files.readAllBytes(Paths.get(my_path));
+            String encoded = Base64.getEncoder().encodeToString(imageArray);
+            byte[] data = encoded.getBytes("ASCII");
+            String api_key = "1EQ1Efjqv4OtzzFRD7SB"; // Your API Key
+            String model_endpoint = "gotcha/3"; // Set model endpoint
 
-            // Convert the image to grayscale
-            BufferedImage grayImage = convertToGrayscale(image);
+            // Construct the URL
+            String uploadURL =
+                    "https://detect.roboflow.com/" + model_endpoint + "?api_key=" + api_key
+                            + "&name=YOUR_IMAGE.jpg";
 
-            // Detect circles using Hough Circle Transform
-            int minRadius = 1; // Minimum radius of the circles to detect
-            int maxRadius = 250; // Maximum radius of the circles to detect
-            int threshold = 150; // Threshold for circle detection
-            Circle[] circles = detectCircles(grayImage, minRadius, maxRadius, threshold);
+            // Service Request Config
+            System.setProperty("https.protocols", "TLSv1.2");
 
-            // Find the largest circle
-            Circle largestCircle = findLargestCircle(circles);
+            // Configure Request
+            URL url = new URL(uploadURL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setDoOutput(true);
+            connection.setFixedLengthStreamingMode(data.length);
 
-            if (largestCircle != null) {
-                // Calculate the circle size based on its radius
-                double circleSize = 2 * Math.PI * largestCircle.radius;
-
-                // Output the circle size
-                System.out.println("Circle size: " + circleSize);
-            } else {
-                System.out.println("No blue circle found in the image.");
+            // Write Data
+            try (OutputStream outputStream = connection.getOutputStream()) {
+                outputStream.write(data);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-
-    // Convert an image to grayscale
-    private static BufferedImage convertToGrayscale(BufferedImage image) {
-        BufferedImage grayImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
-        grayImage.getGraphics().drawImage(image, 0, 0, null);
-        return grayImage;
-    }
-
-    // Circle detection using Hough Circle Transform
-    private static Circle[] detectCircles(BufferedImage image, int minRadius, int maxRadius, int threshold) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-        int[] pixels = image.getRaster().getPixels(0, 0, width, height, (int[]) null);
-
-        // Accumulator array to store the votes for circle centers
-        int[][][] accumulator = new int[width][height][maxRadius - minRadius + 1];
-
-        // Voting
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                int pixelValue = pixels[y * width + x];
-                if (pixelValue == Color.BLUE.getRGB()) {
-                    for (int r = minRadius; r <= maxRadius; r++) {
-                        for (int theta = 0; theta < 360; theta++) {
-                            int a = x - (int) (r * Math.cos(Math.toRadians(theta)));
-                            int b = y - (int) (r * Math.sin(Math.toRadians(theta)));
-
-                            if (a >= 0 && a < width && b >= 0 && b < height) {
-                                accumulator[a][b][r - minRadius]++;
-                            }
-                        }
-                    }
+            // Get Response
+            StringBuilder responseContent = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    responseContent.append(line);
                 }
             }
-        }
 
-        // Find circles with enough votes
-        Circle[] circles = new Circle[width * height * (maxRadius - minRadius + 1)];
-        int circleCount = 0;
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                for (int r = minRadius; r <= maxRadius; r++) {
-                    if (accumulator[x][y][r - minRadius] >= threshold) {
-                        circles[circleCount++] = new Circle(x, y, r);
-                    }
+            JSONObject jsonObject = new JSONObject(responseContent);
+            JSONArray predictions = jsonObject.getJSONArray("predictions");
+            for (int i = 0; i < predictions.length(); i++) {
+                JSONObject prediction = predictions.getJSONObject(i);
+                double confidence = prediction.getDouble("confidence");
+                if (confidence > 0.75) {
+                    answer[0] = prediction.getDouble("width");
+                    answer[1] = prediction.getDouble("height");
+                    return answer;
                 }
             }
+        } catch (Exception e) {
+
         }
-
-        // Trim the circles array to the actual number of circles found
-        return circleCount > 0 ? java.util.Arrays.copyOf(circles, circleCount) : new Circle[0];
-    }
-
-    // Find the largest circle in an array of circles
-    private static Circle findLargestCircle(Circle[] circles) {
-        Circle largestCircle = null;
-        double maxRadius = 0;
-        for (Circle circle : circles) {
-            if (circle.radius > maxRadius) {
-                largestCircle = circle;
-                maxRadius = circle.radius;
-            }
-        }
-        return largestCircle;
-    }
-
-    // Class representing a circle with center coordinates and radius
-    private static class Circle {
-        int centerX;
-        int centerY;
-        int radius;
-
-        Circle(int centerX, int centerY, int radius) {
-            this.centerX = centerX;
-            this.centerY = centerY;
-            this.radius = radius;
-        }
+        answer[0] = 0;
+        answer[1] = 0;
+        return answer;
     }
 }
