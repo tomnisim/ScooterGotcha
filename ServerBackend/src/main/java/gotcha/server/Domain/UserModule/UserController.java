@@ -39,8 +39,6 @@ public class UserController implements IUserController {
 
 
     public void add_first_admin(String userEmail, String name, String lastName, String password, String phoneNumber, LocalDate birthDay, String gender) throws Exception {
-        // TODO: 3/26/2023 : Remove comment 
-        //verify_user_information(userEmail, password, phoneNumber, birthDay, gender);
         var passwordToken = passwordManager.hash(password);
         var admin = new Admin(userEmail, name, lastName, passwordToken, phoneNumber, birthDay, gender, null);
         userRepository.addUser(admin);
