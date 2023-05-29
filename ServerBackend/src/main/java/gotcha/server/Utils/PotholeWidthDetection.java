@@ -32,7 +32,7 @@ public class PotholeWidthDetection {
      * @return double[] where double[0] is width and double[1] is height.
      * @return 0 in cases of no pothole detection or broken image.
      */
-    public double[] detect(String my_path) {
+    public static double[] detect(String my_path) {
         double[] answer = new double[2];
 
         try {
