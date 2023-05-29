@@ -31,6 +31,7 @@ public class UserRateCalculator implements IUserRateCalculator {
     public void update_user_rating(Rider rider, Ride ride, int number_of_rides){
         double new_rate;
         double user_previous_rate = rider.getRating();
+        number_of_rides = number_of_rides+1;
         double current_ride_rate = this.calculate_rate_for_ride(ride);
         new_rate = user_previous_rate * number_of_rides;
         new_rate = new_rate + current_ride_rate;

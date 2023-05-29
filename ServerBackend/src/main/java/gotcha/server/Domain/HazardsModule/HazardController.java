@@ -39,8 +39,8 @@ public class HazardController implements IHazardController {
         this.hazardRepository.addHazard(newHazard, photo);
     }
 
-    public void update_hazard(StationaryHazard hazard, double size) {
-        this.hazardRepository.updateHazard(hazard, size);
+    public void update_hazard(StationaryHazard hazard, double size, byte[] frame) {
+        this.hazardRepository.updateHazard(hazard, size, frame);
     }
 
 
@@ -86,8 +86,8 @@ public class HazardController implements IHazardController {
             }
             else{
                 // TODO: update photo and remove comment
-                // update_hazard(current, size);
-                add_hazard(ride_id, location, city, type, size, hazard.getFrame());
+                update_hazard(current, hazard.getSize(), hazard.getFrame());
+                //add_hazard(ride_id, location, city, type, size, hazard.getFrame());
             }
         }
     }

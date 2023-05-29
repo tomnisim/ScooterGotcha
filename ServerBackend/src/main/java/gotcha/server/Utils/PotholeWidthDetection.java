@@ -1,7 +1,4 @@
 package gotcha.server.Utils;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.vision.v1.*;
-import com.google.protobuf.ByteString;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -28,7 +25,6 @@ public class PotholeWidthDetection {
 
     /**
      * this method get an image who should contain a pothole,
-     * @param my_path - path to an image
      * @return double[] where double[0] is width and double[1] is height.
      * @return 0 in cases of no pothole detection or broken image.
      */

@@ -30,7 +30,7 @@ public class Rider extends User{
         super(userEmail,name, lastName, userPassword, phoneNumber, birthDay, gender);
         this.licenseIssueDate = licenceIssueDate;
         this.scooterType = scooterType;
-        this.rating = 0.0;
+        this.rating = 1.0;
         this.raspberryPiSerialNumber = raspberryPiSerialNumber;
     }
 

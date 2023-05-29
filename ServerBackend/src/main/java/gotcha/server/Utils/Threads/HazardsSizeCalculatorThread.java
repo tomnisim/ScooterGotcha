@@ -31,7 +31,7 @@ public class HazardsSizeCalculatorThread implements Runnable {
                 {
                     byte[] frame = s3Service.getImage(hazard.getPhotoS3Key());
                     double[] sizes = detect(frame);
-                    hazardController.update_hazard(hazard, sizes[0]);
+                    hazardController.update_hazard(hazard, sizes[0], frame);
                     this.systemLogger.add_log(String.format("Update Hazard with id : %s to Size: %s", hazard.getId(), hazard.getSize()));
                 }
                 catch (Exception e){

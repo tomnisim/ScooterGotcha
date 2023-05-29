@@ -83,9 +83,10 @@ public class HazardRepository {
         }
     }
 
-    public void updateHazard(StationaryHazard hazardToUpdate, double newSize) {
+    public void updateHazard(StationaryHazard hazardToUpdate, double newSize, byte[] frame) {
         hazardToUpdate.setSize(newSize);
         hazardToUpdate.setReport(false);
+        s3Service.putImage(hazardToUpdate.getPhotoS3Key(), frame);
         hazardJpaRepository.save(hazardToUpdate);
     }
 
