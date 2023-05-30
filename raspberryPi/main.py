@@ -42,9 +42,6 @@ import RPi.GPIO as GPIO
 from roboflow import Roboflow
 import gpsd
 
-
-
-
 # GPIO.setmode(GPIO.BOARD)
 # # GPIO.setmode(GPIO.BCM)
 # buttonPin =16
@@ -85,6 +82,34 @@ signal.signal(signal.SIGINT, close_camera)
 signal.signal(signal.SIGTSTP, close_camera)
 
 
+if __name__ == '__main__':
+    try:
+        print("hello")
+        
+        # test_roboflow()
+        # run_for_tests()
+        # test_send_image()
+        # test_send_ride()
+        # service = Service()
+        # service.run()
+        # test_button()
+        # print("BI")
+        # test_send()
+        # run_for_tests()
+        # image_path='test1.jpg'
+        # frame = cv2.imread(image_path)
+        # a=predict(frame)
+        # b=2
+        # model = AutoModel.from_pretrained(POTHOLES_DETECTION_MODEL_ID)
+        # model.save_pretrained('./my_yolo_model')
+        service = Service()
+        service.run()
+    except Exception as e:
+        print('e->', e)
+        CameraController.get_instance().close_camera()
+    finally:
+        GPIO.cleanup() 
+        CameraController.get_instance().close_camera()
 
 # POTHOLES_DETECTION_MODEL_ID = 'keremberke/yolov8n-pothole-segmentation'
 
@@ -182,6 +207,7 @@ def test_send_ride():
     start_time= finish_time = datetime.datetime.now()
     junctions=[Location(21.32, 32.32)]*5
     ride = Ride(hazards, start_loc, destination_loc, start_time, finish_time, junctions)
+
     rideDTO = to_dto(ride, 'first')
 
     url = 'http://192.168.1.13:5050/finish_ride'
@@ -197,8 +223,6 @@ def test_send_ride():
 
     except Exception as e:
         print('e->>>', e)
-
-
 
 def test_roboflow():
 
@@ -230,46 +254,6 @@ def test_execute_ride():
         actual_ride_duration = (ride.get_end_time() - ride.get_start_time()).total_seconds()
     except Exception as e:
         print("Error -> "+e)
-def test_gps():
-
-    # Connect to the local gpsd
-    gpsd.connect()
-
-    # Get gps position
-    packet = gpsd.get_current()
-
-    # See the inline docs for GpsResponse for the available data
-    print(packet.position())
-
-if __name__ == '__main__':
-    try:
-        print("hello")
-        test_gps()
-        # test_roboflow()
-        # run_for_tests()
-        # test_send_image()
-        # test_send_ride()
-        # service = Service()
-        # service.run()
-        # test_button()
-        # print("BI")
-        # test_send()
-        # run_for_tests()
-        # image_path='test1.jpg'
-        # frame = cv2.imread(image_path)
-        # a=predict(frame)
-        # b=2
-        # model = AutoModel.from_pretrained(POTHOLES_DETECTION_MODEL_ID)
-        # model.save_pretrained('./my_yolo_model')
-        # service = Service()
-        # service.run()
-    except Exception as e:
-        print('e->', e)
-        CameraController.get_instance().close_camera()
-    finally:
-        GPIO.cleanup() 
-        CameraController.get_instance().close_camera()
-
 
 
 

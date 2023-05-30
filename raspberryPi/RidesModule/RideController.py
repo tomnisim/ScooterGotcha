@@ -45,23 +45,23 @@ def collect_junctions_task(gps_controller):
 
 
 # def get_frames_task(camera_controller, gps_controller):
-    system_logger.info(f'Start thread get_frames_task')
-    global frames
-    num=1
-    while not stop:
-        image = camera_controller.get_next_frame()
-        print(f'Time between frames : {Constants.get_instance().get_time_between_frames()}')
-        time_between_frames = int(Constants.get_instance().get_time_between_frames())
-        # print(f'')
-        image_to_save = Image.fromarray(image)
+    # system_logger.info(f'Start thread get_frames_task')
+    # global frames
+    # num=1
+    # while not stop:
+    #     image = camera_controller.get_next_frame()
+    #     print(f'Time between frames : {Constants.get_instance().get_time_between_frames()}')
+    #     time_between_frames = int(Constants.get_instance().get_time_between_frames())
+    #     # print(f'')
+    #     image_to_save = Image.fromarray(image)
 
-        # Save the image with a new filename
-        image_to_save.save(f'RideImages/img{num}.jpg')
-        num+=1
-        time.sleep(time_between_frames)
-        loc = gps_controller.get_location()
-        frames.append((loc, image))
-        ride_logger.info(f'frame is added - TIME ->  {datetime.datetime.now()}')
+    #     # Save the image with a new filename
+    #     image_to_save.save(f'RideImages/img{num}.jpg')
+    #     num+=1
+    #     time.sleep(time_between_frames)
+    #     loc = gps_controller.get_location()
+    #     frames.append((loc, image))
+    #     ride_logger.info(f'frame is added - TIME ->  {datetime.datetime.now()}')
 
 
 # def detect_hazards_task(hazard_detector, alerter):

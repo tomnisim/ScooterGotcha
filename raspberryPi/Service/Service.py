@@ -14,6 +14,7 @@ from Service.UpdateConfigThread import UpdateConfigThread
 from Utils.Logger import system_logger
 import os
 import glob
+import gpsd
 
 
 class Service:
@@ -43,7 +44,21 @@ class Service:
             except:
                 pass
 
+    def test_gps(self):
+        try:
+            # Connect to the local gpsd
+            gpsd.connect()
+
+            # Get gps position
+            packet = gpsd.get_current()
+
+            # See the inline docs for GpsResponse for the available data
+            print(packet.position())
+            system_logger.info('yess')
+        except:
+            system_logger.error('fuck')
     def run(self):
+        self.test_gps()
         self._camera_controller.start_camera()
         while True:
             

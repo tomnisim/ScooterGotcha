@@ -20,19 +20,34 @@ class HazardDetector:
     def __init__(self):
         system_logger.info("HazardDetector build.")
         self.model_type = int(Constants.get_instance().get_model())
-        system_logger.info(f'model type {self.model_type}')
-        if self.model_type == 0:
+        
+        
+
+        load_yolo=load_roboflow = False
+        try :
             self.potholes_model = self.load_potholes_model(POTHOLES_DETECTION_MODEL_ID)
-        elif self.model_type==1:
-            try:
-                self.roboflow_model = self.load_roboflow_model(API_KEY)
-            except:
-                self.potholes_model = self.load_potholes_model(POTHOLES_DETECTION_MODEL_ID)
-                self.model_type=0
+            load_yolo = True
+            self.model_type = 0
+        except:
+            pass
+        try :
+            self.roboflow_model = self.load_roboflow_model(API_KEY)
+            load_roboflow = True
+            self.model_type = 1
+        except:
+            pass
+        if not load_roboflow and not load_yolo:
+            system_logger.info('Failed to load potholes detection model')
+            system_logger.error('Failed to load potholes detection model')
+
+        self.log_model_type("model type",self.model_type)
         
+    def log_model_type(msg, model_type):
+        model_type_str = "YOLO"
+        if model_type == 1:
+            model_type_str = "ROBOFLOW"
+        system_logger.info(f'{msg} - {model_type_str}')   
         
-        # self.pole_tree_model = self.load_pole_tree_model('my_model.h5')
-        # self.road_sign_model = self.load_road_sign_model('traffic_classifier.h5')
 
     def load_roboflow_model(self, api_key):
         rf = Roboflow(api_key=api_key)
@@ -65,13 +80,13 @@ class HazardDetector:
             is_pothole, size = self.predict_yolo(frame)
         elif self.model_type==1:
             try:
-                is_pothole, size = self.predict_roboflow(frame)
+                is_pothole, size = self.predict_roboflow(image_path)
             except:
                 is_pothole, size = self.predict_yolo(frame)
                 self.model_type=0
-        # #TODO:delete line below
-        is_pothole = True
-        print(f'is pothole {is_pothole}')
+        
+        self.log_model_type("Detect With",self.model_type)
+
         if is_pothole:
             pothole_hazard = Hazard(size, loc, HazardType.Pothole, image_path)
             detected_hazards.append(pothole_hazard)
@@ -111,37 +126,32 @@ class HazardDetector:
 
     def predict_yolo(self, frame):
         image = self.convert_frame_to_YOLO_input(frame)
-        results = self.potholes_model(frame)
+        results = self.potholes_model(image)
         result = results[0]
         boxes = result.boxes.xyxy  # x1, y1, x2, y2
         size = boxes.size()
         num_potholes = size[0]
         system_logger.info(f"num of potholes:{num_potholes}")
-        if num_potholes>0:
-            #TODO: get size
-            xyxy = boxes.numpy()
-            x1 = xyxy[0][0]
-            y1 = xyxy[0][1]
-            x2 = xyxy[0][2]
-            y2 = xyxy[0][3]
-            # print(x1, y1, x2, y2)
-            hazard_size = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
-        else:
-            hazard_size = 0
+        
         
         if num_potholes>0:
             render = render_result(model=self.potholes_model, image=image, result=result)
 
             render.show()
 
-        return num_potholes > 0 , hazard_size
+        return num_potholes > 0 , 0
 
-    def predict_roboflow(self, frame):
-        size = 0
-        image_to_save = Image.fromarray(frame)
-        image_to_save.save(f'imageRoboflow.jpg')
-        result = self.roboflow_model.predict("imageRoboflow.jpg", confidence=40, overlap=30).json()
-        return len(result['predictions'])>0, size
+    def predict_roboflow(self, image_path):
+        answer = self.roboflow_model.predict(image_path, confidence=40, overlap=30)
+        result = answer.json()
+        
+        predictions = result['predictions']
+        if len(predictions)>0:
+            answer.save(image_path)
+            size=predictions[0]['width']
+            return True, size
+        
+        return False, 0
 
 
 

@@ -1,7 +1,7 @@
 import time
 from moviepy.editor import VideoFileClip
 import numpy as np
-
+import os
 from Config.Constants import Constants
 from Utils.Logger import system_logger
 from picamera2 import Picamera2, Preview
@@ -61,6 +61,8 @@ class CameraController:
 
     # Get the next frame from the camera
     def get_next_frame_realtime(self):
+        if not os.path.exists(CAPTURED_IMG_FILE):
+            os.makedirs(CAPTURED_IMG_FILE)
         image_path = f'{CAPTURED_IMG_FILE}{self.i}.jpg' 
         print(image_path)
         self._camera.capture_file(image_path)

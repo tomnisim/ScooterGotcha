@@ -19,7 +19,6 @@ protocol:http://
 
 minimum_distance_to_alert:5
 alert_duration:5
-# TODO - change to 60
 time_between_junctions:60
 time_between_frames : 2
 
