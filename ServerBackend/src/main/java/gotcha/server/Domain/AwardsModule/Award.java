@@ -13,16 +13,17 @@ public class Award {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id = 0;
 
-    @Column(name="message")
+    @Column(name="message", columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", nullable = false)
     private String message;
 
-    @Column(name="adminEmail")
+    @Column(name="adminEmail", nullable = false)
     private String admin_email;
 
-    @Column(name="emails")
+    @Column(name="emails", nullable = false)
     @Convert(converter = StringArrayConverter.class)
     private List<String> emails;
 
+    @Column(name="date", nullable = false)
     private LocalDate date;
 
     /**

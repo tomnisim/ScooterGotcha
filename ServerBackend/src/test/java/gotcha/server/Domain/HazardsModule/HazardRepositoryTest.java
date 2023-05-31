@@ -1,5 +1,6 @@
 package gotcha.server.Domain.HazardsModule;
 
+import gotcha.server.Domain.s3.S3Service;
 import gotcha.server.Utils.Location;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,16 +23,19 @@ class HazardRepositoryTest {
     @Autowired
     IHazardRepository hazardJpaRepositry;
 
+    @Autowired
+    S3Service s3Service;
+
     @BeforeEach
     void setUp() {
-        hazardRepository = new HazardRepository(hazardJpaRepositry);
+        hazardRepository = new HazardRepository(hazardJpaRepositry, s3Service);
     }
 
     private StationaryHazard createHazard() {
         BigDecimal lng = new BigDecimal("34.801402");
         BigDecimal lat = new BigDecimal("31.265106");
         Location origin = new Location(lng, lat);
-        return new StationaryHazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5, null);
+        return new StationaryHazard(5, origin, "Tel-Aviv", HazardType.PoleTree, 16.5);
     }
 
 //    @Test

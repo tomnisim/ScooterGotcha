@@ -297,9 +297,16 @@ const columns = [
 ];
 
 
+
+
 const handleViewPhoto = (row) => {
-  let byteArray = row.photo;
-  let blob = new Blob([byteArray], { type: "image/jpg" });
+  let base64String = row.photo;
+  let byteString = atob(base64String); // decode base64 string to byte string
+  let typedArray = new Uint8Array(byteString.length);
+  for (let i = 0; i < byteString.length; i++) {
+      typedArray[i] = byteString.charCodeAt(i);
+  }
+  let blob = new Blob([typedArray], { type: "image/jpg" });
 
   // Create a URL for the Blob
   let url = URL.createObjectURL(blob);

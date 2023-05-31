@@ -1,6 +1,7 @@
 package gotcha.server.Utils;
 
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.math.BigDecimal;
@@ -10,8 +11,13 @@ import java.util.Objects;
 public class Location {
     @Transient
     private final double RADIOS = 0.01; // KILOMETER.
-    
+
+    @Column(precision = 15, scale = 12)
+
     private BigDecimal longitude;
+
+    @Column(precision = 15, scale = 12)
+
     private BigDecimal latitude;
 
     public Location(BigDecimal lng, BigDecimal lat){
