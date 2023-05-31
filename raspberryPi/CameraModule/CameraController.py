@@ -1,13 +1,14 @@
-# import picamera
 import time
 from moviepy.editor import VideoFileClip
 import numpy as np
-
+import os
 from Config.Constants import Constants
 from Utils.Logger import system_logger
-
-i = 0
-
+from picamera2 import Picamera2, Preview
+import cv2
+import io
+from PIL import Image
+CAPTURED_IMG_FILE = 'RideImages/frame'
 
 class CameraController:
     __instance = None
@@ -16,6 +17,7 @@ class CameraController:
         self.clip = None
         self.frames_generator = None
         self.index = -1
+        self.i=389
         self._camera = self.init_camera()
         system_logger.info(f'Camera Controller initialization')
         if CameraController.__instance is not None:
@@ -35,14 +37,22 @@ class CameraController:
             return self.init_camera_mock()
         else:
             return self.init_camera_realtime()
+        
     def init_camera_realtime(self):
-        camera = picamera.PiCamera()
-        camera.resolution = (640, 480)  # TODO: maybe 640, 640 TODO
-        camera.framerate = 30
-        time.sleep(2)  # Give the camera some time to warm up
-        return camera
+        system_logger.info('init real camera')
+        picam2 = Picamera2()
+        camera_config = picam2.create_still_configuration(main={"size": (640, 480)}, lores={"size": (640, 480)}, display="lores")
+        picam2.configure(camera_config)
+        return  picam2
 
-    # Initialize the camera
+        
+        
+    def start_camera(self):
+        system_logger.info("start camera")
+        self._camera.start()
+    def close_camera(self):
+        system_logger.info("close camera")
+        self._camera.close()
     def init_camera_mock(self):
         self.clip = VideoFileClip('potholes_video_bs.mp4')
         self.frames_generator = self.clip.iter_frames()
@@ -51,14 +61,14 @@ class CameraController:
 
     # Get the next frame from the camera
     def get_next_frame_realtime(self):
-        # create numpy array to hold frame data
-        frame = np.empty((640 * 640 * 3,), dtype=np.uint8)
-        # capture frame
-        self._camera.capture(frame, format='rgb')
-
-        # reshape frame data into 3D array (height x width x channels)
-        frame = frame.reshape((640, 640, 3))
-        return frame
+        if not os.path.exists(CAPTURED_IMG_FILE):
+            os.makedirs(CAPTURED_IMG_FILE)
+        image_path = f'{CAPTURED_IMG_FILE}{self.i}.jpg' 
+        print(image_path)
+        self._camera.capture_file(image_path)
+        self.i+=1
+        image = cv2.imread(image_path)
+        return image, image_path
 
     def get_next_frame(self):
         if Constants.get_instance().get_MOCK_RUNNING():

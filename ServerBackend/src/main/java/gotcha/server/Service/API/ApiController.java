@@ -15,8 +15,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.swing.*;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.List;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JFrame;
+import org.apache.commons.codec.binary.Base64;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 @RestController
 public class ApiController implements IAdminAPI, IUserAPI {
@@ -177,6 +194,25 @@ public class ApiController implements IAdminAPI, IUserAPI {
         Response response = facade.finish_ride(finishRideRequest);
         return response;
     }
+    @RequestMapping(value = "/send_ride_test")
+    @CrossOrigin
+    public void send_ride_test(@RequestBody test t) throws IOException {
+        int a = 4;
+        byte[] byteArrayImage = t.getData(); // Replace with your method to get the Base64-encoded string
+        int b=byteArrayImage.length;
+// Decode the Base64 string to a byte array
+//        // Specify the file path and name to save the image
+        String filePath = "image_test2.jpg";
+//
+        try (FileOutputStream fos = new FileOutputStream(filePath)) {
+            // Save the byte array as an image file
+            fos.write(byteArrayImage);
+            System.out.println("Image saved successfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * this method is for RP usage, when user is not have to be logged in.

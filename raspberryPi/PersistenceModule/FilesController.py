@@ -4,7 +4,8 @@ import pickle
 import uuid
 from shutil import disk_usage
 from pathlib import Path
-
+import datetime
+from Utils.Logger import ride_logger, system_logger
 
 class FilesController:
     __instance = None
@@ -28,7 +29,7 @@ class FilesController:
         # print("self.folder_name", self.folder_name)
         rides = []
         for file_name in os.listdir(self.folder_name):
-            if file_name.endswith(".json") and os.stat(f'{self.folder_name}\{file_name}').st_size > 0:
+            if file_name.endswith(".json") and os.stat(f'{self.folder_name}/{file_name}').st_size > 0:
                 with open(os.path.join(self.folder_name, file_name), "r") as json_file:
                     ride = json.load(json_file)
                     rides.append(ride)
@@ -84,7 +85,7 @@ class FilesController:
 
     def _generate_file_name(self):
         while True:
-            file_name = f"obj{uuid.uuid4()}.json"
+            file_name = f"{datetime.datetime.now()}-{uuid.uuid4()}.json"
             if not os.path.exists(os.path.join(self.folder_name, file_name)):
                 break
         return file_name
@@ -95,7 +96,7 @@ class FilesController:
             if os.path.exists(file_path):
                 os.remove(file_path)
             else:
-                print(f"File '{file_name}' not found in folder '{self.folder_name}'.")
+                system_logger.error(f"File '{file_name}' not found in folder '{self.folder_name}'.")
         else:
             for file_name in os.listdir(self.folder_name):
                 file_path = os.path.join(self.folder_name, file_name)

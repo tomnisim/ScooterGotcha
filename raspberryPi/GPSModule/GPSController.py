@@ -13,6 +13,7 @@ class GPSController:
     def __init__(self):
         self.gps_serial = self.init_gps()
         self.index = -1
+        self.x = 0.001
         system_logger.info(f'GPS Controller initialization')
         if GPSController.__instance is not None:
             raise Exception("Singleton class can only be instantiated once")
@@ -29,13 +30,15 @@ class GPSController:
         if Constants.get_instance().get_MOCK_RUNNING():
             return self.get_location_mock()
         else:
-            return self.get_location_realtime()
+            return self.get_location_mock()
+            # return self.get_location_realtime()
 
     def init_gps(self):
         if Constants.get_instance().get_MOCK_RUNNING():
             return self.init_gps_mock()
         else:
-            return self.init_gps_realtime()
+            return self.init_gps_mock()
+            # return self.init_gps_realtime()
 
     def init_gps_realtime(self):
         global session
@@ -47,15 +50,21 @@ class GPSController:
         return None
 
     def get_location_mock(self):
-        self.index = self.index + 1
-        loc1 = Location("34.801738", "31.265175")
-        loc2 = Location("34.800288", "31.265134")
-        loc3 = Location("34.799254", "31.265184")
-        loc4 = Location("34.799241", "31.266148")
-        loc5 = Location("34.798181", "31.266117")
-        loc6 = Location("34.798159", "31.267327")
-        my_list = [loc1, loc2, loc3, loc4, loc5, loc6]
-        print("Junction #" + str(self.index) + "Was Collected.")
+        
+        latitude = 34.801402 
+        longitude = 31.265106 + self.x
+        self.x+=0.001
+    
+        return Location(latitude, longitude)
+        # self.index = self.index + 1
+        # loc1 = Location("34.801738", "31.265175")
+        # loc2 = Location("34.800288", "31.265134")
+        # loc3 = Location("34.799254", "31.265184")
+        # loc4 = Location("34.799241", "31.266148")
+        # loc5 = Location("34.798181", "31.266117")
+        # loc6 = Location("34.798159", "31.267327")
+        # my_list = [loc1, loc2, loc3, loc4, loc5, loc6]
+        # print("Junction #" + str(self.index) + "Was Collected.")
         return my_list[self.index % 6]
 
     # Get the current location from the GPS module

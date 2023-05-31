@@ -1,15 +1,20 @@
 from Config.Constants import Constants
 from Utils.Logger import system_logger
 import time
-
-
+import RPi.GPIO as GPIO
+# buzzer =18
+# ledPin = 12
+# buttonPin=16 
 class StartButtonThread:
     def __init__(self):
-        self.button_pin = 17
+        self.button_pin = 16
+        self.ledPin = 12
         self.start_button = False
         # TODO: uncomment
-        # GPIO.setmode(GPIO.BCM)
-        # GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(self.ledPin, GPIO.OUT)
+        # GPIO.setup(buzzer, GPIO.OUT)
+        GPIO.setup(self.button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
     def get_start_button(self):
         return self.start_button
@@ -18,6 +23,7 @@ class StartButtonThread:
         if Constants.get_instance().get_MOCK_RUNNING():
             self.manage_start_button_task_mock()
         else:
+            # self.manage_start_button_task_mock()
             self.manage_start_button_task()
 
     def manage_start_button_task_mock(self):
@@ -32,16 +38,17 @@ class StartButtonThread:
 
     def manage_start_button_task(self):
         system_logger.info(f'Start thread manage_start_button_task')
-        try:
-            while True:
-                button_state = GPIO.input(self.button_pin)
-                if button_state == False:
-                    system_logger.info("Live Button Press")
-                    self.start_button = not self.start_button
-                    time.sleep(1)  # Debounce
-                    break
-        finally:
-            GPIO.cleanup(self)
+        system_logger.info("PRESS (s) TO START - real\n")
+
+        while True:
+            button_state = GPIO.input(self.button_pin)
+            if button_state == False:
+                system_logger.info("Live Button Press - start")
+                self.start_button = not self.start_button
+                time.sleep(1)  # Debounce
+                break
+   
+        system_logger.info(f'finish start button thread')
 
     # def manage_start_button_task_mock2():
     #

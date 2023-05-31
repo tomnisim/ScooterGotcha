@@ -1,6 +1,7 @@
 import configparser
 from Config.Constants import Constants
 import os
+from Utils.Logger import ride_logger, system_logger
 
 class ConfigurationController:
     def __init__(self):
@@ -13,18 +14,22 @@ class ConfigurationController:
     """
 
     def set_serial(self):
-        filename = 'Config/serial.txt'
+        system_logger.info('set serial')
+        filename = 'serial.txt'
         original_dir = os.getcwd()
-        os.chdir('../')
+        #TODO - change
+        os.chdir("/home/tomnisim/ScooterGotcha/raspberryPi/Config")
         with open(filename, "r") as f:
             serialNumber = f.read().strip()
         self.constants.set_serial_number(serialNumber)
         os.chdir(original_dir)
 
     def read_config_from_default(self):
-        filename = 'Config/default_config.txt'
+
+        system_logger.info("read from default config")
+        filename = 'default_config.txt'
         original_dir = os.getcwd()
-        os.chdir('../')
+        os.chdir("/home/tomnisim/ScooterGotcha/raspberryPi/Config")
         # read
         config = configparser.ConfigParser()
         config.read(filename)
@@ -62,6 +67,10 @@ class ConfigurationController:
         # time between frames
         time_between_frames = config['ScooterAppendixA']['time_between_frames']
         self.constants.set_time_between_frames(time_between_frames)
+
+        # model
+        model = config['ScooterAppendixA']['model']
+        self.constants.set_model(model)
 
 
     def set_data(self, config_data):

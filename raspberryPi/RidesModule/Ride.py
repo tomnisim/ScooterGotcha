@@ -80,14 +80,11 @@ class RideDTO:
 
     def serialize_hazards(self,hazards):
         hazard_lst=[]
-        # TODO
-        byte_array = bytearray(b'\x10\x20\x30\x40\x50')
-        byte_array = str(byte_array)
         for hazard in hazards:
             hazard_data = {'type': hazard.type.value,
                            'location': self.serialize_location(hazard.location),
                            'size': hazard.size,
-                           'frame': byte_array}
+                           'frame': hazard.frame}
             hazard_lst.append(hazard_data)
         return hazard_lst
 
@@ -104,6 +101,7 @@ class RideDTO:
 
     def serialize_time(self, time):
         return time.strftime("%Y-%m-%d;%H:%M")
+        # return time.strftime("%yyyy-%MM-%dd;%HH:%mm")
 
     def set_serial_number(self, serial):
         self.rpSerialNumber = serial
