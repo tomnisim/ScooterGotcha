@@ -171,7 +171,7 @@ public class ApiController implements IAdminAPI, IUserAPI {
         return facade.view_notifications(userContext);
     }
 
-    @RequestMapping(value = "/update_information")
+    @RequestMapping(value = "/updated _information")
     @CrossOrigin
     @Override
     public Response<Boolean> update_information(@RequestBody UpdateInformationRequest updateInformationRequest){

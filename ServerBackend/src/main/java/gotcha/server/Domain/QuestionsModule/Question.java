@@ -11,22 +11,22 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int question_id = 0;
 
-    @Column(name="messageDate")
+    @Column(name="messageDate", nullable = false)
     protected LocalDateTime message_date;
     @Column(name="answerDate")
     protected LocalDateTime answer_date;
 
-    @Column(name="message")
+    @Column(name="message", columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", nullable = false)
     protected String message;
 
-    @Column(name="answer")
+    @Column(name="answer", columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
 
     protected String answer;
 
-    @Column(name="hasAnswer")
+    @Column(name="hasAnswer", nullable = false)
     protected boolean has_answer;
 
-    @Column(name="senderEmail")
+    @Column(name="senderEmail", nullable = false)
     protected String senderEmail;
 
     @Column(name="responderEmail")

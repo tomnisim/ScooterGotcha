@@ -31,4 +31,9 @@ public class LocationDTO {
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
+
+    @Override
+    public String toString() {
+        return "longitude is:" + longitude + "\n latitude is:" + latitude + "\n";
+    }
 }

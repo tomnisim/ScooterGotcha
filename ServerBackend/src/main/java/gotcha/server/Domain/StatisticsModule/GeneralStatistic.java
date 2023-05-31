@@ -9,31 +9,31 @@ public class GeneralStatistic {
     @Id
     private final Long id = 1L;
 
-    @Column(name = "total_advertisements")
+    @Column(name = "total_advertisements", nullable = false)
     private int total_advertisements;
 
-    @Column(name = "total_awards")
+    @Column(name = "total_awards", nullable = false)
     private int total_awards;
 
-    @Column(name = "total_hazards")
+    @Column(name = "total_hazards", nullable = false)
     private int total_hazards;
 
-    @Column(name = "total_users_questions")
+    @Column(name = "total_users_questions", nullable = false)
     private int total_users_questions;
 
-    @Column(name = "total_admin_answers")
+    @Column(name = "total_admin_answers", nullable = false)
     private int total_admin_answers;
 
-    @Column(name = "total_rides")
+    @Column(name = "total_rides", nullable = false)
     private int total_rides;
 
-    @Column(name = "total_users")
+    @Column(name = "total_users", nullable = false)
     private int total_users;
 
-    @Column(name = "total_admins")
+    @Column(name = "total_admins", nullable = false)
     private int total_admins;
 
-    @Column(name = "last_initial_time")
+    @Column(name = "last_initial_time", nullable = false)
     private String last_initial_time;
 
     public GeneralStatistic(){

@@ -20,42 +20,42 @@ public class Ride {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ride_id = 0;
-    @Column(name="riderEmail")
+    @Column(name="riderEmail", nullable = false)
     private String rider_email;
 
-    @Column(name="ride")
+    @Column(name="ride", nullable = false)
     private LocalDate date;
 
-    @Column(name="city")
+    @Column(name="city", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", nullable = false)
 
     private String city;
 
-    @Column(name="startTime")
+    @Column(name="startTime", nullable = false)
 
     private LocalDateTime start_time;
 
-    @Column(name="endTime")
+    @Column(name="endTime", nullable = false)
 
     private LocalDateTime end_time;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "longitude", column = @Column(name = "origin_longitude")),
-            @AttributeOverride(name = "latitude", column = @Column(name = "origin_latitude"))
+            @AttributeOverride(name = "longitude", column = @Column(name = "origin_longitude", nullable = false)),
+            @AttributeOverride(name = "latitude", column = @Column(name = "origin_latitude", nullable = false))
     })
     private Location origin;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "longitude", column = @Column(name = "destination_longitude")),
-            @AttributeOverride(name = "latitude", column = @Column(name = "destination_latitude"))
+            @AttributeOverride(name = "longitude", column = @Column(name = "destination_longitude", nullable = false)),
+            @AttributeOverride(name = "latitude", column = @Column(name = "destination_latitude", nullable = false))
     })
     private Location destination;
 
-    @Column(name = "originAddress", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
+    @Column(name = "originAddress", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", nullable = false)
     private String originAddress;
 
-    @Column(name = "destinationAddress", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
+    @Column(name = "destinationAddress", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", nullable = false)
     private String destinationAddress;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -65,16 +65,16 @@ public class Ride {
     @ElementCollection()
     @CollectionTable(name = "junctions", joinColumns = @JoinColumn(name = "ride_id"))
     @AttributeOverrides({
-            @AttributeOverride(name = "longitude", column = @Column(name = "junction_longitude")),
-            @AttributeOverride(name = "latitude", column = @Column(name = "junction_latitude"))
+            @AttributeOverride(name = "longitude", column = @Column(name = "junction_longitude", nullable = false)),
+            @AttributeOverride(name = "latitude", column = @Column(name = "junction_latitude", nullable = false))
     })
 
     private List<Location> junctions;
 
-    @Column(name = "duration")
+    @Column(name = "duration", nullable = false)
     private String duration; // minutes
 
-    @Column(name = "distance")
+    @Column(name = "distance", nullable = false)
     private double distance; // Km
 
 

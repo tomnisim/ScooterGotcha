@@ -17,23 +17,23 @@ User implements Observer {
     @Column(name="email")
     private String userEmail;
 
-    @Column(name="password")
+    @Column(name="password", nullable = false)
     private String userPasswordToken;
-    @Column(name="phoneNumber")
+    @Column(name="phoneNumber", nullable = false)
 
     private String phoneNumber;
-    @Column(name="gender")
+    @Column(name="gender", nullable = false)
 
     private String gender;
 
-    @Column(name="birthDay")
+    @Column(name="birthDay", nullable = false)
 
     private LocalDate birthDay;
 
-    @Column(name="name")
+    @Column(name="name", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", nullable = false)
 
     private String name;
-    @Column(name="lastName")
+    @Column(name="lastName", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", nullable = false)
 
     private String lastName;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

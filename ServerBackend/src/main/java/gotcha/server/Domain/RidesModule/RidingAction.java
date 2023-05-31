@@ -20,7 +20,7 @@ public abstract class RidingAction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="time")
+    @Column(name="time", nullable = false)
     private LocalDateTime time;
     @Embedded
     private Location location;

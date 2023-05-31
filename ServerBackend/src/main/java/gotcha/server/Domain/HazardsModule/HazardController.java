@@ -14,10 +14,9 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import static gotcha.server.Utils.Cities.city_permutation;
 import static gotcha.server.Utils.Utils.resizeByteArray;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.io.IOException;
+
 @Component
 public class HazardController implements IHazardController {
     private double HAZARD_THRESHOLD_RATE = 0;
@@ -36,13 +35,14 @@ public class HazardController implements IHazardController {
 
     @Override
     public void add_hazard(int rideId, Location location, String city, HazardType type, double size, byte[] photo) throws Exception {
-        var newHazard = new StationaryHazard(rideId, location, city, type, size, photo);
-        this.hazardRepository.addHazard(newHazard);
+        var newHazard = new StationaryHazard(rideId, location, city, type, size);
+        this.hazardRepository.addHazard(newHazard, photo);
     }
 
-    private void update_hazard(StationaryHazard hazard, double size) {
-        this.hazardRepository.updateHazard(hazard, size);
+    public void update_hazard(StationaryHazard hazard, double size, byte[] frame) {
+        this.hazardRepository.updateHazard(hazard, size, frame);
     }
+
 
     /**
      *
@@ -53,12 +53,13 @@ public class HazardController implements IHazardController {
      * @return StationaryHazard if the hazard exist in the system.
      */
     private StationaryHazard find_hazard_if_exist(Location location, String city, HazardType type) {
+        String city_perm = city_permutation(city);
         StationaryHazard hazard = null;
         for (StationaryHazard stationaryHazard : hazardRepository.getAllHazards()) {
-            if (stationaryHazard.getCity().equals(city) && stationaryHazard.getType().equals(type) && stationaryHazard.getLocation().equals(location))
-                hazard = stationaryHazard;
+            if (city_permutation(stationaryHazard.getCity()).equals(city_perm) && stationaryHazard.getType().equals(type) && stationaryHazard.getLocation().equals(location))
+                return stationaryHazard;
         }
-        return hazard;
+        return null;
     }
     public void remove_hazard(int hazard_id) throws Exception {
         this.hazardRepository.removeHazard(hazard_id);
@@ -80,17 +81,13 @@ public class HazardController implements IHazardController {
             double size = hazard.getSize();
             StationaryHazard current = find_hazard_if_exist(location, city, type);
             if (current == null){
-                if (hazard.getFrame() == null)
-                    add_hazard(ride_id, location, city, type, size, null);
-                else{
-                    String path = "C:\\Users\\Tom\\Desktop\\university\\fourthYear\\semester8\\SeminarProject\\ServerBackend\\image_test.jpg";
-                    byte[] a = Files.readAllBytes(Path.of(path));
-                    System.out.println("----------------------------------------> "+ hazard.getFrame().length);
+
                     add_hazard(ride_id, location, city, type, size, hazard.getFrame());
-                }
             }
             else{
-                update_hazard(current, size);
+                // TODO: update photo and remove comment
+                update_hazard(current, hazard.getSize(), hazard.getFrame());
+                //add_hazard(ride_id, location, city, type, size, hazard.getFrame());
             }
         }
     }
@@ -108,11 +105,15 @@ public class HazardController implements IHazardController {
 
 
 
+    public List<StationaryHazard> get_hazards(){
+        return hazardRepository.getAllHazards();
+    }
 
     public List<StationaryHazardDTO> get_hazards(String city){
         LinkedList<StationaryHazardDTO> list = new LinkedList<>();
         for (StationaryHazard stationaryHazard : hazardRepository.getAllHazards()){
-            if (stationaryHazard.getCity().equals(city)){
+
+            if (city_permutation(stationaryHazard.getCity()).equals(city_permutation(city))){
                 list.add(new StationaryHazardDTO(stationaryHazard));
             }
         }

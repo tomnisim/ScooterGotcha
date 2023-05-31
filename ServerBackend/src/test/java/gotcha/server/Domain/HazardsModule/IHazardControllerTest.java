@@ -1,5 +1,6 @@
 package gotcha.server.Domain.HazardsModule;
 
+import gotcha.server.Domain.s3.S3Service;
 import gotcha.server.Utils.Location;
 import gotcha.server.Utils.LocationDTO;
 import gotcha.server.Utils.Logger.SystemLogger;
@@ -32,12 +33,15 @@ class IHazardControllerTest {
     @Mock
     private IHazardRepository iHazardRepository;
 
+    @Mock
+    private S3Service s3Service;
+
     private HazardRepository hazardRepository;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        hazardRepository = new HazardRepository(iHazardRepository);
+        hazardRepository = new HazardRepository(iHazardRepository, s3Service);
         hazardController = new HazardController(systemLogger, hazardRepository, reporterAdapter);
         hazardController.setHAZARD_THRESHOLD_RATE(20.0);
     }
@@ -67,8 +71,8 @@ class IHazardControllerTest {
         final String City = "beersheva";
         final HazardType Type = HazardType.pothole;
         var location1 = new Location(new BigDecimal(20), new BigDecimal(20));
-        var hazard1 = new StationaryHazard(1,location1,City,Type,20, null);
-        var hazard2 = new StationaryHazard(1,location1,City,Type,40,null);
+        var hazard1 = new StationaryHazard(1,location1,City,Type,20);
+        var hazard2 = new StationaryHazard(1,location1,City,Type,40);
         var hazards1 = new ArrayList<>(Arrays.asList(
                 hazard1
         ));
@@ -101,8 +105,8 @@ class IHazardControllerTest {
 
         Location location1 = new Location(longitude1, latitude1);
         Location location2 = new Location(longitude2, latitude2);
-        var hazard1 = new StationaryHazard(1,location1,City,Type,20,null);
-        var hazard2 = new StationaryHazard(1,location2,City,Type,40,null);
+        var hazard1 = new StationaryHazard(1,location1,City,Type,20);
+        var hazard2 = new StationaryHazard(1,location2,City,Type,40);
         var hazards1 = new ArrayList<>(Arrays.asList(
                 hazard1
         ));

@@ -16,7 +16,7 @@ public class Rider extends User{
     @Column(name="rating")
     private double rating;
 
-    @Column(name="scooterType")
+    @Column(name="scooterType", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String scooterType;
 
     @Column(name= "licenseIssueDate")
@@ -30,7 +30,7 @@ public class Rider extends User{
         super(userEmail,name, lastName, userPassword, phoneNumber, birthDay, gender);
         this.licenseIssueDate = licenceIssueDate;
         this.scooterType = scooterType;
-        this.rating = 0.0;
+        this.rating = 1.0;
         this.raspberryPiSerialNumber = raspberryPiSerialNumber;
     }
 
