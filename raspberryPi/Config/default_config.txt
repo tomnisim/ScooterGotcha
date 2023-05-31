@@ -18,7 +18,7 @@ protocol:http://
 [ScooterAppendixA]
 
 minimum_distance_to_alert:5
-alert_duration:5
+alert_duration:2
 time_between_junctions:60
 time_between_frames : 2
 

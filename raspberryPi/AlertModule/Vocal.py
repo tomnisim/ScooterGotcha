@@ -1,3 +1,4 @@
+import threading
 from AlertModule.Alert import Alert
 # from gpiozero import Buzzer
 # import RPi.GPIO as GPIO
@@ -19,13 +20,16 @@ class Vocal(Alert):
         system_logger.info(f'Vocal alerter creation ->  duration: {str(self.duration)}, power: {str(self.power)}')
 
     def alert(self):
-        frequency = 40
-        system_logger.info(f'Vocal alert -> frequancy: {frequency}, duration: {int(self.duration)*100}')
-        GPIO.output(self.ledPin, GPIO.HIGH)
-        time.sleep(1)
-        GPIO.output(self.ledPin, GPIO.LOW)
+        alert_thread = threading.Thread(target=self.alert_task, args=(self.ledPin,self.duration))
+        alert_thread.start()
 
-        # Play a simple beep sound
-        # winsound.Beep(frequency, int(self.duration))
-        # time.sleep(2)  # wait for 2 seconds to avoid repeated alerts
-
+    def alert_task(self, led_pin, duration):
+        system_logger.info(f'Start thread alert task')
+        flag = True
+        while flag:
+            GPIO.output(led_pin, GPIO.HIGH)
+            time.sleep(1)
+            flag = False
+        GPIO.output(led_pin, GPIO.LOW)
+        system_logger.info(f'Vocal alert -> duration: {duration}')
+   

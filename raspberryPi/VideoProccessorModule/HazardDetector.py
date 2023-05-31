@@ -42,7 +42,7 @@ class HazardDetector:
 
         self.log_model_type("model type",self.model_type)
         
-    def log_model_type(msg, model_type):
+    def log_model_type(self, msg, model_type):
         model_type_str = "YOLO"
         if model_type == 1:
             model_type_str = "ROBOFLOW"

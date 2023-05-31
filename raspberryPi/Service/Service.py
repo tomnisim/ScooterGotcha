@@ -46,17 +46,12 @@ class Service:
 
     def test_gps(self):
         try:
-            # Connect to the local gpsd
             gpsd.connect()
-
-            # Get gps position
             packet = gpsd.get_current()
-
-            # See the inline docs for GpsResponse for the available data
             print(packet.position())
-            system_logger.info('yess')
+            system_logger.info('GPS WORKS!!!!')
         except:
-            system_logger.error('fuck')
+            system_logger.error('ERROR - GPS dont work')
     def run(self):
         self.test_gps()
         self._camera_controller.start_camera()
