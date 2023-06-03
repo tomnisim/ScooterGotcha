@@ -19,7 +19,6 @@
     "expo": "~47.0.9",
     "expo-status-bar": "~1.4.2",
     "leaflet": "^1.9.3",
-    "pod": "^0.9.0",
     "rc-table": "^7.31.1",
     "react": "18.2.0",
     "react-bootstrap-table": "^4.3.1",
