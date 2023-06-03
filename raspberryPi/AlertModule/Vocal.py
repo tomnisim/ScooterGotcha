@@ -26,10 +26,8 @@ class Vocal(Alert):
     def alert_task(self, led_pin, duration):
         system_logger.info(f'Start thread alert task')
         flag = True
-        while flag:
-            GPIO.output(led_pin, GPIO.HIGH)
-            time.sleep(1)
-            flag = False
+        GPIO.output(led_pin, GPIO.HIGH)
+        time.sleep(2)
         GPIO.output(led_pin, GPIO.LOW)
         system_logger.info(f'Vocal alert -> duration: {duration}')
    

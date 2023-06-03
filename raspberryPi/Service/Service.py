@@ -1,5 +1,5 @@
 import threading
-from datetime import time
+import time
 
 import keyboard
 from AlertModule.Vocal import Vocal
@@ -15,6 +15,7 @@ from Utils.Logger import system_logger
 import os
 import glob
 import gpsd
+import RPi.GPIO as GPIO
 
 
 class Service:
@@ -52,8 +53,24 @@ class Service:
             system_logger.info('GPS WORKS!!!!')
         except:
             system_logger.error('ERROR - GPS dont work')
+
+
+    def turn_on_led(self, duration):
+        ledPin = 18
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(ledPin, GPIO.OUT)
+        led_thread = threading.Thread(target=self.led_task, args=(ledPin,duration))
+        led_thread.start()
+
+    def led_task(self, led_pin, duration):
+        system_logger.info(f'Start thread led task')
+        GPIO.output(led_pin, GPIO.HIGH)
+        time.sleep(duration)
+        GPIO.output(led_pin, GPIO.LOW)
+        system_logger.info(f'Led on -> duration: {duration}')
     def run(self):
         self.test_gps()
+        self.turn_on_led(2)
         self._camera_controller.start_camera()
         while True:
             

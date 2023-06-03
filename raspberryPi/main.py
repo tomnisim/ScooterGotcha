@@ -41,18 +41,24 @@ from signal import pause
 import RPi.GPIO as GPIO
 from roboflow import Roboflow
 import gpsd
-
-# GPIO.setmode(GPIO.BOARD)
+import time
+GPIO.setmode(GPIO.BOARD)
 # # GPIO.setmode(GPIO.BCM)
 # buttonPin =16
 # ledPin = 18
 
 
 # GPIO.setup(ledPin, GPIO.OUT)
-# # GPIO.setup(buzz, GPIO.OUT)
+# buzz=3
+# GPIO.setup(buzz, GPIO.OUT)
+# p = GPIO.PWM(3, 100)
+# p.start(50)
+# time.sleep(5)
+# p.ChangeDutyCycle(0)
+# time.sleep(1)
 # GPIO.setup(buttonPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-# # while True:
-# #     GPIO.output(ledPin, GPIO.LOW)
+# while True:
+#     GPIO.output(buzz, GPIO.HIGH)
 # while True:
 #     # GPIO.output(buzz, GPIO.HIGH)
 #     bs = GPIO.input(buttonPin)
