@@ -39,3 +39,6 @@ ServerBackend/profiles.xml
 ServerBackend/pom.xml
 
 ServerBackend/pom.xml
+
+# Local Netlify folder
+.netlify
