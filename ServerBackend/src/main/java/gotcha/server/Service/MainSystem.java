@@ -89,7 +89,7 @@ public class MainSystem {
         set_reporter_engine();
         set_size_engine();
         this.hazardController.setHAZARD_THRESHOLD_RATE(configuration.getHazards_rate_threshold());
-        createSerials();
+        //createSerials();
         try
         {
             begin_instructions();
