@@ -27,7 +27,7 @@ gotcha:
       "Netanya": "netanya@gmail.com"
   Server:
     default:
-      host: "16.170.252.135"
+      host: "16.16.199.51"
       port: "443"
       protocol: "https://"
 
