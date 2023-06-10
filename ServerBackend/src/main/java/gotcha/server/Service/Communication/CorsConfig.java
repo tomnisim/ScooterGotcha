@@ -23,7 +23,7 @@ public class CorsConfig {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 String origin = request.getHeader("Origin");
-                if (origin != null && (origin.startsWith("http://79.178.130.112") || origin.startsWith("http://localhost") || origin.startsWith("https://scootergotcha.netlify.app"))) {
+                if (origin != null && (origin.startsWith("http://79.178.130.112") || origin.startsWith("http://localhost") || origin.startsWith("https://scootergotcha.onrender.com"))) {
                     CorsConfiguration corsConfiguration = new CorsConfiguration();
                     corsConfiguration.setAllowedOriginPatterns(Arrays.asList("*"));
                     corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"));
