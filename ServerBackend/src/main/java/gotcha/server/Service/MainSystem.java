@@ -89,7 +89,7 @@ public class MainSystem {
         set_reporter_engine();
         set_size_engine();
         this.hazardController.setHAZARD_THRESHOLD_RATE(configuration.getHazards_rate_threshold());
-        createSerials();
+        //createSerials();
         try
         {
             begin_instructions();
@@ -119,7 +119,7 @@ public class MainSystem {
     }
 
     private void createSerials() throws Exception {
-        for (int i=1;i<1001;i++) {
+        for (int i=1;i<101;i++) {
             this.userController.add_rp_serial_number(String.valueOf(i));
         }
     }
