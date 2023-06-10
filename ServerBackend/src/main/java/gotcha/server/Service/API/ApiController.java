@@ -36,7 +36,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 @RestController
-@CrossOrigin(origins = "https://scootergotcha.onrender.com/")
+@CrossOrigin
 public class ApiController implements IAdminAPI, IUserAPI {
     private final Facade facade;
     private final String USER_CONTEXT_ATTRIBUTE_NAME = "userContext";
