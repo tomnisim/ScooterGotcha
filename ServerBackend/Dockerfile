@@ -6,7 +6,7 @@ COPY src ./src
 
 RUN mvn clean install -DskipTests
 
-FROM FROM openjdk:17-jdk
+FROM openjdk:17-jdk
 
 WORKDIR /app
 
