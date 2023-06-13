@@ -8,6 +8,13 @@
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
+  "proxy": {
+    "/": {
+      "target": "https://16.16.199.51:443",
+      "secure": false
+    }
+  }
+
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
     "@projectstorm/react-diagrams": "^7.0.2",
