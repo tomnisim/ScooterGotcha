@@ -1,4 +1,4 @@
-FROM adoptopenjdk:17-jdk-hotspot
+FROM openjdk:17-jdk
 
 # Set Java version
 ENV JAVA_HOME=/opt/java/openjdk
