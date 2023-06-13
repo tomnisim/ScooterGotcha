@@ -6,7 +6,8 @@ COPY src ./src
 
 RUN mvn clean install -DskipTests
 
-FROM adoptopenjdk:17-jdk-hotspot
+FROM FROM openjdk:17-jdk
+
 WORKDIR /app
 
 COPY --from=build /workspace/app/target/*.jar app.jar
