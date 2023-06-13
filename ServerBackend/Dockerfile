@@ -1,12 +1,4 @@
-FROM openjdk:17-jdk
-
-# Set Java version
-ENV JAVA_HOME=/opt/java/openjdk
-ENV PATH="$JAVA_HOME/bin:$PATH"
-
-# Install Maven
-RUN apt-get update && \
-    apt-get install -y maven
+FROM maven:3.8.4-openjdk-17-slim
 
 WORKDIR /app
 
