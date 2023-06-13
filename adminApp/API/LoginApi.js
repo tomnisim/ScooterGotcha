@@ -19,6 +19,7 @@ export class LoginApi {
                 return new Response(res.data);
             })
             .catch(res => {
+                console.log(res);
                 return new Response(1);
             });
     }
