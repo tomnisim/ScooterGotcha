@@ -6,10 +6,11 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
-# Build the project with Maven
-RUN mvn clean install
+# Build the project with Maven and create the executable JAR
+RUN mvn clean package
 
-# Copy the built JAR file to the container
-COPY target/*.jar app.jar
+# Set the location of the executable JAR
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
 
 ENTRYPOINT ["java","-jar","/app/app.jar"]
