@@ -8,12 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
-  "proxy": {
-    "/": {
-      "target": "https://16.16.199.51:443",
-      "secure": false
-    }
-  }
+  "proxy": "https://16.16.199.51:443",
 
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
