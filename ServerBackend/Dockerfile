@@ -1,4 +1,8 @@
-FROM adoptopenjdk:11-jdk-hotspot
+FROM adoptopenjdk:17-jdk-hotspot
+
+# Set Java version
+ENV JAVA_HOME=/opt/java/openjdk
+ENV PATH="$JAVA_HOME/bin:$PATH"
 
 # Install Maven
 RUN apt-get update && \
