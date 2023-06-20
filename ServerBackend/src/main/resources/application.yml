@@ -27,7 +27,7 @@ gotcha:
       "Netanya": "netanya@gmail.com"
   Server:
     default:
-      host: "16.16.199.51"
+      host: "serverbackend-udyb.onrender.com"
       port: "443"
       protocol: "https://"
 
