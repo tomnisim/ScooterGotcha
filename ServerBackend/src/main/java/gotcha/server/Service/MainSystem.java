@@ -92,7 +92,7 @@ public class MainSystem {
         //createSerials();
         try
         {
-            begin_instructions();
+//            begin_instructions();
         }
         catch (Exception e){
             errorLogger.add_log(e.getMessage());
