@@ -53,7 +53,7 @@ public class StationaryHazard {
         this.size = size;
         this.report = false;
         this.photoS3Key = "";
-        this.calculateRate();
+//        this.calculateRate();
     }
 
     // Default Constructor for deserialization
