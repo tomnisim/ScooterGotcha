@@ -72,11 +72,9 @@ public class PotholeWidthDetection {
             for (int i = 0; i < predictions.length(); i++) {
                 JSONObject prediction = predictions.getJSONObject(i);
                 double confidence = prediction.getDouble("confidence");
-                if (confidence > 0.75) {
-                    answer[0] = prediction.getDouble("width");
-                    answer[1] = prediction.getDouble("height");
-                    return answer;
-                }
+                answer[0] = prediction.getDouble("width");
+                answer[1] = prediction.getDouble("height");
+                return answer;
             }
         } catch (Exception e) {
 
