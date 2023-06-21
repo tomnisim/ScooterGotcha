@@ -21,7 +21,7 @@ import java.util.Scanner;
 
 public abstract class MapsAdapter {
     final String mode = "bicycling";
-    final String apiKey = "AIzaSyAlOyWPS8R9TY9lRqpejdUQvLKOPwDfwsE";
+    final String apiKey = "AIzaSyCdLPTlzovr68ax_Li7ehl5w2cuvsidCT8";
 
     public MapsAdapter(){}
 
