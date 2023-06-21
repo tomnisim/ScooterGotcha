@@ -14,7 +14,7 @@ gotcha:
   maximum_password_length: 14
   minimum_distance_alert: 20
   number_of_coordinates: 8
-  hazards_rate_threshold: 80.0
+  hazards_rate_threshold: 15.0
   hazards_time_to_report_in_minutes: 20
   statistics_time_to_update_in_minutes: 10
   alert: "vocal"
