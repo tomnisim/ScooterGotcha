@@ -43,10 +43,6 @@ class CommunicationController:
         system_logger.info("start send ride to")
         response = None
         url = self.get_url() + self.finish_ride_suffix
-        print(url)
-        #TODO: delete the line below - it for specific ip machine
-        # url = 'http://192.168.1.13:5050'+ self.finish_ride_suffix
-
         json_data = json.dumps(rideDTO)
         headers = {'Content-Type': 'application/json'}
         try:

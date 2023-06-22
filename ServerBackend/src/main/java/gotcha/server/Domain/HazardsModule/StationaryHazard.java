@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="hazards")
-public class StationaryHazard {
+public class StationaryHazard implements IHazard {
 
     @JsonIgnore
     @Id
@@ -60,74 +60,93 @@ public class StationaryHazard {
     public StationaryHazard() {}
 
 
+    @Override
     public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
 
+    @Override
     public byte[] getPhoto() {
         return photo;
     }
 
+    @Override
     public int getId() {
         return id;
     }
+    @Override
     public void setId(int id) {
         this.id = id;
     }
 
+    @Override
     public int getRide_id() {
         return ride_id;
     }
+    @Override
     public void setRide_id(int ride_id) {
         this.ride_id = ride_id;
     }
 
+    @Override
     public Location getLocation() {
         return location;
     }
+    @Override
     public void setLocation(Location location) {
         this.location = location;
     }
 
+    @Override
     public String getCity() {
         return city;
     }
+    @Override
     public void setCity(String city) {
         this.city = city;
     }
 
+    @Override
     public HazardType getType() {
         return type;
     }
+    @Override
     public void setType(HazardType type) {
         this.type = type;
     }
 
+    @Override
     public double getSize() {
         return size;
     }
+    @Override
     public void setSize(double size) {
         this.size = size;
     }
 
 
+    @Override
     public double getRate() {
         return rate;
     }
+    @Override
     public void calculateRate() {
         HazardRateCalculator hazardRateCalculator = HazardRateCalculator.get_instance();
         this.rate = hazardRateCalculator.rate_hazard(this);
 
     }
 
+    @Override
     public void setRate(double rate) {
         this.rate = rate;
     }
 
+    @Override
     public boolean isReport() {
         return report;
     }
 
+    @Override
     public void setReport(boolean report) {
         this.report = report;
     }
@@ -136,10 +155,12 @@ public class StationaryHazard {
         return new StationaryHazardDTO(this);
     }
 
+    @Override
     public String getPhotoS3Key() {
         return photoS3Key;
     }
 
+    @Override
     public void setPhotoS3Key(String photoS3Key) {
         this.photoS3Key = photoS3Key;
     }

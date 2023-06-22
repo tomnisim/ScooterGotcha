@@ -26,8 +26,8 @@ class Service:
 
         # Create Thread For Update Configuration.
         update_configuration_thread = UpdateConfigThread(self.persistence_controller)
-        # TODO: uncomment update_config_thread = threading.Thread(target=update_configuration_thread.task())
-        # TODO: uncomment update_config_thread.start()
+        update_config_thread = threading.Thread(target=update_configuration_thread.task())
+        update_config_thread.start()
 
         # create Alerter + GPS, Camera, ride, Persistence controllers:
 

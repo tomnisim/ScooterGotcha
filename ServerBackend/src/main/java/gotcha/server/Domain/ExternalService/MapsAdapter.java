@@ -99,37 +99,7 @@ public abstract class MapsAdapter {
         route.setDestinationAddress(destination_address);
     return route;
     }
-
-
-    public String locationToAddress1(Location location){
-        double lat = location.getLatitude().doubleValue();
-        double lng = location.getLongitude().doubleValue();
-        // Build the URL for the Geocoding API request
-        String url = String.format("https://maps.googleapis.com/maps/api/geocode/json?latlng=%f,%f&key=%s", lat, lng, apiKey);
-
-        // Send the Geocoding API request and read the response
-        String response = "";
-        try {
-            URL requestUrl = new URL(url);
-            Scanner scanner = new Scanner(requestUrl.openStream());
-            while (scanner.hasNext()) {
-                response += scanner.nextLine();
-            }
-            scanner.close();
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        // Parse the response as JSON and extract the formatted address
-        JSONObject jsonResponse = new JSONObject(response);
-        JSONArray results = jsonResponse.getJSONArray("results");
-        String address = results.getJSONObject(0).getString("formatted_address");
-
-        return address;
-    }
+    
 
     public String locationToAddress(Location location) throws IOException {
         double lat = location.getLatitude().doubleValue();

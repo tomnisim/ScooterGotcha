@@ -179,23 +179,7 @@ public class ApiController implements IAdminAPI, IUserAPI {
         Response response = facade.finish_ride(finishRideRequest);
         return response;
     }
-    @RequestMapping(value = "/send_ride_test")
-    public void send_ride_test(@RequestBody test t) throws IOException {
-        int a = 4;
-        byte[] byteArrayImage = t.getData(); // Replace with your method to get the Base64-encoded string
-        int b=byteArrayImage.length;
-// Decode the Base64 string to a byte array
-//        // Specify the file path and name to save the image
-        String filePath = "image_test2.jpg";
-//
-        try (FileOutputStream fos = new FileOutputStream(filePath)) {
-            // Save the byte array as an image file
-            fos.write(byteArrayImage);
-            System.out.println("Image saved successfully!");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
 
     /**

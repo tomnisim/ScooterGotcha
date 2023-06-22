@@ -20,8 +20,6 @@ class HazardDetector:
     def __init__(self):
         system_logger.info("HazardDetector build.")
         self.model_type = int(Constants.get_instance().get_model())
-        
-        
 
         load_yolo=load_roboflow = False
         try :
@@ -94,10 +92,7 @@ class HazardDetector:
 
     def detect_road_signs(self, frame , loc):
         detected_hazards = []
-        # plt.imshow(frame)
-        # plt.show()
-        # frame = np.random.rand(352, 640, 3)
-        # Reshape the ndarray to the desired shape
+
         new_shape = (-1, 30, 30, 3)
         frame = np.reshape(frame, new_shape)
 
@@ -110,11 +105,8 @@ class HazardDetector:
         return detected_hazards
     def detect_hazards_in_frame(self, frame, image_path, loc):
         detected_hazards = []
-        
         detected_hazards += self.detect_potholes(frame, image_path, loc)
-            
-        # detected_hazards += self.detect_road_signs(frame, loc)
-        # is_pole_tree = self.pole_tree_model.predict(frame)
+
         return detected_hazards
 
 
